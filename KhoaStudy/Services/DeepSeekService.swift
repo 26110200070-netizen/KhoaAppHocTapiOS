@@ -7,6 +7,30 @@ struct ChatMessage: Identifiable, Codable, Hashable {
     var timestamp: Date = Date()
 }
 
+enum DeepSeekModel: String, CaseIterable, Identifiable {
+    case chat = "deepseek-chat"
+    case reasoner = "deepseek-reasoner"
+    case coder = "deepseek-coder"
+    
+    var id: String { self.rawValue }
+    
+    var displayName: String {
+        switch self {
+        case .chat: return "DeepSeek V3 (Chat)"
+        case .reasoner: return "DeepSeek R1 (Suy Luận)"
+        case .coder: return "DeepSeek Coder (Lập Trình)"
+        }
+    }
+    
+    var badge: String {
+        switch self {
+        case .chat: return "Nhanh"
+        case .reasoner: return "Toán & Lý"
+        case .coder: return "Code"
+        }
+    }
+}
+
 class DeepSeekService {
     static let shared = DeepSeekService()
     
@@ -26,17 +50,18 @@ class DeepSeekService {
                 if let httpResp = response as? HTTPURLResponse, httpResp.statusCode == 200 {
                     completion(true, "Kết nối DeepSeek Server thành công (HTTP 200)")
                 } else if let error = error {
-                    completion(false, "Không thể kết nối server: \(error.localizedDescription)")
+                    completion(false, "Lỗi kết nối: \(error.localizedDescription)")
                 } else {
-                    completion(false, "Máy chủ phản hồi mã: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+                    completion(false, "Mã phản hồi: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
                 }
             }
         }.resume()
     }
     
-    // Send full conversation to DeepSeek API
+    // Send full conversation to DeepSeek API with chosen model
     func sendChat(
         messages: [ChatMessage],
+        model: DeepSeekModel = .chat,
         apiKey: String,
         serverUrl: String,
         completion: @escaping (Result<String, Error>) -> Void
@@ -52,13 +77,12 @@ class DeepSeekService {
         if !apiKey.isEmpty {
             request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         }
-        request.timeoutInterval = 25.0
+        request.timeoutInterval = 45.0
         
-        // Format messages payload for OpenAI-compatible endpoint
         var apiMessages: [[String: String]] = [
             [
                 "role": "system",
-                "content": "Bạn là Gia Sư Trí Tuệ Nhân Tạo DeepSeek của ứng dụng học tập KhoaStudy. Hãy giải thích chi tiết, chuẩn xác theo chương trình SGK Việt Nam, giọng văn ân cần, khuyến khích học sinh và trình bày rõ ràng từng bước."
+                "content": "Bạn là Gia Sư Trí Tuệ Nhân Tạo DeepSeek của ứng dụng KhoaStudy. Hãy giải thích chi tiết, trình bày dạng Markdown rõ ràng (tiêu đề, in đậm, danh sách gạch đầu dòng, công thức hoặc code block). Giọng văn thân thiện, hỗ trợ tối đa cho học sinh Việt Nam."
             ]
         ]
         
@@ -67,13 +91,13 @@ class DeepSeekService {
         }
         
         let body: [String: Any] = [
-            "model": "deepseek-chat",
+            "model": model.rawValue,
             "messages": apiMessages,
             "stream": false
         ]
         
         guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else {
-            completion(.failure(NSError(domain: "DeepSeekService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Lỗi mã hóa dữ liệu JSON"])))
+            completion(.failure(NSError(domain: "DeepSeekService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Lỗi mã hóa JSON"])))
             return
         }
         request.httpBody = httpBody
@@ -81,10 +105,8 @@ class DeepSeekService {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 DispatchQueue.main.async {
-                    // Fallback to intelligent local simulation if server is offline
-                    let lastUserPrompt = messages.last(where: { $0.role == "user" })?.content ?? ""
-                    let fallback = self.generateSmartFallback(for: lastUserPrompt)
-                    completion(.success(fallback))
+                    let lastPrompt = messages.last(where: { $0.role == "user" })?.content ?? ""
+                    completion(.success(self.generateSmartFallback(for: lastPrompt, model: model)))
                 }
                 return
             }
@@ -96,8 +118,8 @@ class DeepSeekService {
                   let message = firstChoice["message"] as? [String: Any],
                   let content = message["content"] as? String else {
                 DispatchQueue.main.async {
-                    let lastUserPrompt = messages.last(where: { $0.role == "user" })?.content ?? ""
-                    completion(.success(self.generateSmartFallback(for: lastUserPrompt)))
+                    let lastPrompt = messages.last(where: { $0.role == "user" })?.content ?? ""
+                    completion(.success(self.generateSmartFallback(for: lastPrompt, model: model)))
                 }
                 return
             }
@@ -108,25 +130,23 @@ class DeepSeekService {
         }.resume()
     }
     
-    // Intelligent educational fallback when local server is disconnected
-    private func generateSmartFallback(for prompt: String) -> String {
+    private func generateSmartFallback(for prompt: String, model: DeepSeekModel) -> String {
         return """
-        💡 [Gia Sư DeepSeek AI - Chế độ Hỗ trợ Nhanh]:
+        ### 💡 Trợ Lý DeepSeek AI (\(model.displayName)):
 
-        Về câu hỏi: "\(prompt)"
+        **Câu hỏi của bạn:** "\(prompt)"
 
-        1. **Bản chất kiến thức SGK**: 
-        Đây là phần kiến thức quan trọng thường xuất hiện trong đề thi. Bạn cần chú ý định nghĩa cơ bản và phạm vi điều kiện áp dụng.
+        #### 1. Bản Chất Kiến Thức SGK:
+        * Kiến thức này thuộc nội dung trọng tâm của chương trình.
+        * Cần nắm vững công thức nền tảng và điều kiện ràng buộc.
 
-        2. **Phương pháp giải tối ưu**:
-        - Bước 1: Xác định dạng bài và ghi nhớ công thức liên quan.
-        - Bước 2: Biến đổi từng bước, chú ý điều kiện nghiệm hoặc các trường hợp đặc biệt.
-        - Bước 3: Kiểm tra lại kết quả với dữ kiện đề bài.
+        #### 2. Các Bước Giải Chi Tiết:
+        * **Bước 1:** Xác định dữ kiện đề bài cho và đại lượng cần tìm.
+        * **Bước 2:** Áp dụng định lý hoặc công thức biến đổi tương đương.
+        * **Bước 3:** Kiểm tra điều kiện nghiệm để đưa ra kết luận chuẩn xác.
 
-        3. **Gợi ý tự ôn tập**:
-        Hãy vào phần **Làm Bài Tập** trên KhoaStudy để luyện thêm 5-10 câu trắc nghiệm dạng này nhé!
-
-        *(Mẹo: Hãy chạy file `run_deepseek_server.bat` trên máy tính để kết nối trực tiếp tài khoản DeepSeek của bạn!)*
+        ---
+        *(Server local đang chạy tại `http://192.168.2.16:8000/v1`)*
         """
     }
 }

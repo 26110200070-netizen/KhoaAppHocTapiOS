@@ -9,17 +9,26 @@ struct AccountView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                AppTheme.background.ignoresSafeArea()
+                Color(hex: "#F8FAF9").ignoresSafeArea()
                 
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: 22) {
+                    VStack(spacing: 18) {
+                        // Custom Header Title (Eliminates navigation bar overlap from Screenshot 1!)
+                        HStack {
+                            Text("Tài Khoản")
+                                .font(.system(size: 24, weight: .bold, design: .rounded))
+                                .foregroundColor(Color(hex: "#111827"))
+                            Spacer()
+                        }
+                        .padding(.top, 10)
+                        
                         // 1. User Profile Header Card
                         profileHeaderCard
                         
                         // 2. Study Achievements
                         studyAchievementsCard
                         
-                        // 3. Settings & Options (Language, Switch Account, DeepSeek Status)
+                        // 3. Settings & Options
                         settingsListCard
                         
                         // 4. Logout Button
@@ -28,14 +37,15 @@ struct AccountView: View {
                         // Spacing for floating bottom bar
                         Spacer().frame(height: 100)
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 14)
+                    .padding(.horizontal, 16)
                 }
             }
-            .navigationTitle("Tài Khoản")
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarHidden(true) // Prevents iOS navigation bar collision!
             .sheet(isPresented: $showingSwitchAccountSheet) {
                 switchAccountSheet
+            }
+            .onAppear {
+                testServer()
             }
         }
     }
@@ -46,18 +56,18 @@ struct AccountView: View {
             ZStack {
                 Circle()
                     .fill(LinearGradient(colors: [AppTheme.primaryMint, AppTheme.primaryDark], startPoint: .topLeading, endPoint: .bottomTrailing))
-                    .frame(width: 72, height: 72)
+                    .frame(width: 68, height: 68)
                     .shadow(color: AppTheme.primaryMint.opacity(0.3), radius: 8, x: 0, y: 4)
                 
                 Image(systemName: appState.currentUser.avatarName)
-                    .font(.system(size: 38))
+                    .font(.system(size: 34))
                     .foregroundColor(.white)
             }
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(appState.currentUser.username)
-                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                    .foregroundColor(AppTheme.textPrimary)
+                    .font(.system(size: 19, weight: .bold, design: .rounded))
+                    .foregroundColor(Color(hex: "#111827"))
                 Text(appState.currentUser.email)
                     .font(.subheadline)
                     .foregroundColor(AppTheme.textSecondary)
@@ -71,7 +81,7 @@ struct AccountView: View {
                         .background(Capsule().fill(AppTheme.primaryLight))
                         .foregroundColor(AppTheme.primary)
                     
-                    Text(appState.isDeepSeekConnected ? "DeepSeek: Sẵn sàng" : "DeepSeek: Chưa kết nối")
+                    Text(appState.isDeepSeekConnected ? "DeepSeek: Đã kết nối" : "DeepSeek: Chờ kết nối")
                         .font(.caption2)
                         .fontWeight(.semibold)
                         .padding(.horizontal, 8)
@@ -84,7 +94,12 @@ struct AccountView: View {
             
             Spacer()
         }
-        .cleanCard(cornerRadius: 24, padding: 20)
+        .padding(18)
+        .background(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
+        )
     }
     
     // MARK: - 2. Study Achievements
@@ -103,13 +118,18 @@ struct AccountView: View {
                 .font(.headline)
             Text(value)
                 .font(.system(size: 15, weight: .bold, design: .rounded))
-                .foregroundColor(AppTheme.textPrimary)
+                .foregroundColor(Color(hex: "#111827"))
             Text(title)
                 .font(.system(size: 10))
                 .foregroundColor(AppTheme.textSecondary)
         }
         .frame(maxWidth: .infinity)
-        .cleanCard(cornerRadius: 20, padding: 14)
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
+        )
     }
     
     // MARK: - 3. Settings List
@@ -119,7 +139,7 @@ struct AccountView: View {
             HStack {
                 Label("Ngôn ngữ hiển thị", systemImage: "globe")
                     .font(.system(size: 15, weight: .medium))
-                    .foregroundColor(AppTheme.textPrimary)
+                    .foregroundColor(Color(hex: "#111827"))
                 Spacer()
                 
                 Menu {
@@ -138,45 +158,45 @@ struct AccountView: View {
                 } label: {
                     HStack(spacing: 6) {
                         Text("\(appState.currentLanguage.flag) \(appState.currentLanguage.rawValue)")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.system(size: 13, weight: .semibold))
                             .foregroundColor(AppTheme.primary)
                         Image(systemName: "chevron.up.chevron.down")
                             .font(.caption2)
                             .foregroundColor(AppTheme.primary)
                     }
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, 10)
                     .padding(.vertical, 6)
                     .background(Capsule().fill(AppTheme.primaryLight))
                 }
             }
-            .padding(.vertical, 16)
-            .padding(.horizontal, 18)
+            .padding(.vertical, 14)
+            .padding(.horizontal, 16)
             
-            Divider().padding(.horizontal, 18)
+            Divider().padding(.horizontal, 16)
             
             // Switch Account Option
             Button(action: { showingSwitchAccountSheet = true }) {
                 HStack {
                     Label("Chuyển đổi tài khoản", systemImage: "person.2.badge.gearshape.fill")
                         .font(.system(size: 15, weight: .medium))
-                        .foregroundColor(AppTheme.textPrimary)
+                        .foregroundColor(Color(hex: "#111827"))
                     Spacer()
                     Image(systemName: "chevron.right")
                         .font(.caption)
                         .foregroundColor(AppTheme.textMuted)
                 }
-                .padding(.vertical, 16)
-                .padding(.horizontal, 18)
+                .padding(.vertical, 14)
+                .padding(.horizontal, 16)
             }
             
-            Divider().padding(.horizontal, 18)
+            Divider().padding(.horizontal, 16)
             
-            // DeepSeek Server Test
-            VStack(alignment: .leading, spacing: 8) {
+            // DeepSeek Server Diagnostic
+            VStack(alignment: .leading, spacing: 6) {
                 HStack {
                     Label("DeepSeek Server", systemImage: "network")
                         .font(.system(size: 15, weight: .medium))
-                        .foregroundColor(AppTheme.textPrimary)
+                        .foregroundColor(Color(hex: "#111827"))
                     Spacer()
                     Button(action: { testServer() }) {
                         if isTestingServer {
@@ -200,25 +220,29 @@ struct AccountView: View {
                         .foregroundColor(appState.isDeepSeekConnected ? .green : .orange)
                 }
             }
-            .padding(.vertical, 16)
-            .padding(.horizontal, 18)
+            .padding(.vertical, 14)
+            .padding(.horizontal, 16)
             
-            Divider().padding(.horizontal, 18)
+            Divider().padding(.horizontal, 16)
             
-            // About App & Author
+            // Version
             HStack {
                 Label("Phiên bản", systemImage: "info.circle.fill")
                     .font(.system(size: 15, weight: .medium))
-                    .foregroundColor(AppTheme.textPrimary)
+                    .foregroundColor(Color(hex: "#111827"))
                 Spacer()
-                Text("KhoaStudy v1.1.0 (Anh Khoa Dev)")
+                Text("KhoaStudy v1.1.0")
                     .font(.caption)
                     .foregroundColor(AppTheme.textSecondary)
             }
-            .padding(.vertical, 16)
-            .padding(.horizontal, 18)
+            .padding(.vertical, 14)
+            .padding(.horizontal, 16)
         }
-        .cleanCard(cornerRadius: 24, padding: 0)
+        .background(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
+        )
     }
     
     // MARK: - 4. Logout Button
@@ -233,15 +257,14 @@ struct AccountView: View {
             }
             .foregroundColor(.red)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 16)
+            .padding(.vertical, 14)
             .background(
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: 18)
                     .fill(Color.red.opacity(0.08))
             )
         }
     }
     
-    // MARK: - Actions
     private func testServer() {
         isTestingServer = true
         DeepSeekService.shared.checkConnection(serverUrl: appState.deepSeekServerUrl) { online, msg in
@@ -251,7 +274,6 @@ struct AccountView: View {
         }
     }
     
-    // MARK: - Switch Account Modal Sheet
     private var switchAccountSheet: some View {
         NavigationStack {
             List {
@@ -268,7 +290,7 @@ struct AccountView: View {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(user.username)
                                         .font(.headline)
-                                        .foregroundColor(AppTheme.textPrimary)
+                                        .foregroundColor(Color(hex: "#111827"))
                                     Text(user.email)
                                         .font(.caption)
                                         .foregroundColor(AppTheme.textSecondary)
