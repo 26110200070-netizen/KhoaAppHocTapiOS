@@ -3,6 +3,9 @@ import SwiftUI
 struct AccountView: View {
     @EnvironmentObject var appState: AppState
     @State private var showingSwitchAccountSheet: Bool = false
+    @State private var showingServerConfigSheet: Bool = false
+    @State private var editServerUrl: String = ""
+    @State private var editApiKey: String = ""
     @State private var serverTestResult: String = ""
     @State private var isTestingServer: Bool = false
     
@@ -44,6 +47,9 @@ struct AccountView: View {
         }
         .sheet(isPresented: $showingSwitchAccountSheet) {
             switchAccountSheet
+        }
+        .sheet(isPresented: $showingServerConfigSheet) {
+            serverConfigSheet
         }
         .onAppear {
             testServer()
@@ -191,13 +197,29 @@ struct AccountView: View {
             
             Divider().padding(.horizontal, 16)
             
-            // DeepSeek Server Diagnostic
+            // DeepSeek Server & API Key Diagnostic
             VStack(alignment: .leading, spacing: 6) {
                 HStack {
-                    Label("DeepSeek Server", systemImage: "network")
+                    Label("DeepSeek AI Server", systemImage: "network")
                         .font(.system(size: 15, weight: .medium))
                         .foregroundColor(Color(hex: "#111827"))
                     Spacer()
+                    
+                    Button(action: {
+                        editServerUrl = appState.deepSeekServerUrl
+                        editApiKey = appState.deepSeekApiKey
+                        showingServerConfigSheet = true
+                    }) {
+                        Text("Cấu hình")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(AppTheme.primaryMint)
+                    }
+                    
+                    Text("•")
+                        .font(.caption)
+                        .foregroundColor(AppTheme.textMuted)
+                    
                     Button(action: { testServer() }) {
                         if isTestingServer {
                             ProgressView().scaleEffect(0.7)
@@ -210,7 +232,7 @@ struct AccountView: View {
                     }
                 }
                 
-                Text(appState.deepSeekServerUrl)
+                Text(!appState.deepSeekApiKey.isEmpty ? "Đang dùng DeepSeek Cloud API (sk-...)" : appState.deepSeekServerUrl)
                     .font(.caption2)
                     .foregroundColor(AppTheme.textSecondary)
                 
@@ -267,7 +289,7 @@ struct AccountView: View {
     
     private func testServer() {
         isTestingServer = true
-        DeepSeekService.shared.checkConnection(serverUrl: appState.deepSeekServerUrl) { online, msg in
+        DeepSeekService.shared.checkConnection(serverUrl: appState.deepSeekServerUrl, apiKey: appState.deepSeekApiKey) { online, msg in
             isTestingServer = false
             appState.isDeepSeekConnected = online
             serverTestResult = msg
@@ -311,6 +333,58 @@ struct AccountView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Đóng") { showingSwitchAccountSheet = false }
+                }
+            }
+        }
+    }
+    
+    private var serverConfigSheet: some View {
+        NavigationStack {
+            Form {
+                Section(header: Text("Chế độ 1: Server máy tính (Miễn phí qua Web)")) {
+                    TextField("http://192.168.2.16:8000/v1", text: $editServerUrl)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                        .font(.system(size: 14, design: .monospaced))
+                    
+                    Text("💡 Mở file `run_deepseek_server.bat` trên máy tính cùng Wi-Fi.")
+                        .font(.caption2)
+                        .foregroundColor(AppTheme.textSecondary)
+                }
+                
+                Section(header: Text("Chế độ 2: DeepSeek API Key (Chính thức - Không bao giờ bị khóa)")) {
+                    SecureField("sk-xxxxxxxxxxxxxxxx", text: $editApiKey)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                        .font(.system(size: 14, design: .monospaced))
+                    
+                    Text("💡 Nhập API Key chính thức (bắt đầu bằng sk-), app sẽ gọi trực tiếp đến DeepSeek Cloud mà không cần mở máy tính và hoàn toàn không bao giờ bị khóa.")
+                        .font(.caption2)
+                        .foregroundColor(AppTheme.textSecondary)
+                }
+                
+                Section {
+                    Button(action: {
+                        appState.deepSeekServerUrl = editServerUrl.trimmingCharacters(in: .whitespacesAndNewlines)
+                        appState.deepSeekApiKey = editApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+                        testServer()
+                        showingServerConfigSheet = false
+                    }) {
+                        HStack {
+                            Spacer()
+                            Text("Lưu Cấu Hình & Kiểm Tra")
+                                .fontWeight(.bold)
+                                .foregroundColor(AppTheme.primaryMint)
+                            Spacer()
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Cấu Hình DeepSeek")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Hủy") { showingServerConfigSheet = false }
                 }
             }
         }

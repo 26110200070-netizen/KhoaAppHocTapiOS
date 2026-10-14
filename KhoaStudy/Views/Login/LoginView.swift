@@ -225,7 +225,7 @@ struct LoginView: View {
         isConnecting = true
         connectionMessage = "Đang kết nối DeepSeek Server..."
         
-        DeepSeekService.shared.checkConnection(serverUrl: serverUrlInput) { success, message in
+        DeepSeekService.shared.checkConnection(serverUrl: serverUrlInput, apiKey: apiKeyInput) { success, message in
             isConnecting = false
             isConnectionSuccess = success
             connectionMessage = message

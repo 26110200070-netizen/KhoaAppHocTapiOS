@@ -40,20 +40,32 @@ class DeepSeekService {
     private var activeDataTask: URLSessionDataTask?
     private var streamTimer: Timer?
     
-    func checkConnection(serverUrl: String, completion: @escaping (Bool, String) -> Void) {
-        guard let url = URL(string: "\(serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/")))/models") else {
+    func checkConnection(serverUrl: String, apiKey: String = "", completion: @escaping (Bool, String) -> Void) {
+        var targetUrlString = "\(serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/")))/models"
+        if apiKey.hasPrefix("sk-") {
+            targetUrlString = "https://api.deepseek.com/v1/models"
+        }
+        
+        guard let url = URL(string: targetUrlString) else {
             completion(false, "URL máy chủ không hợp lệ")
             return
         }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.timeoutInterval = 3.0
+        if apiKey.hasPrefix("sk-") {
+            request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        }
+        request.timeoutInterval = 4.0
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let httpResp = response as? HTTPURLResponse, httpResp.statusCode == 200 {
-                    completion(true, "Đã kết nối DeepSeek Server thành công (HTTP 200)")
+                    if apiKey.hasPrefix("sk-") {
+                        completion(true, "Đã kết nối DeepSeek Cloud API chính thức thành công!")
+                    } else {
+                        completion(true, "Đã kết nối DeepSeek Server thành công (HTTP 200)")
+                    }
                 } else if let error = error {
                     completion(false, "Không thể kết nối: \(error.localizedDescription)")
                 } else {
