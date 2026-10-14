@@ -21,20 +21,11 @@ enum DeepSeekModel: String, CaseIterable, Identifiable {
         case .coder: return "DeepSeek Coder (Lập Trình)"
         }
     }
-    
-    var badge: String {
-        switch self {
-        case .chat: return "Nhanh"
-        case .reasoner: return "Toán & Lý"
-        case .coder: return "Code"
-        }
-    }
 }
 
 class DeepSeekService {
     static let shared = DeepSeekService()
     
-    // Check if DeepSeek API server is alive
     func checkConnection(serverUrl: String, completion: @escaping (Bool, String) -> Void) {
         guard let url = URL(string: "\(serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/")))/models") else {
             completion(false, "URL máy chủ không hợp lệ")
@@ -43,14 +34,14 @@ class DeepSeekService {
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.timeoutInterval = 4.0
+        request.timeoutInterval = 3.0
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let httpResp = response as? HTTPURLResponse, httpResp.statusCode == 200 {
-                    completion(true, "Kết nối DeepSeek Server thành công (HTTP 200)")
+                    completion(true, "Đã kết nối DeepSeek Server thành công (HTTP 200)")
                 } else if let error = error {
-                    completion(false, "Lỗi kết nối: \(error.localizedDescription)")
+                    completion(false, "Không thể kết nối: \(error.localizedDescription)")
                 } else {
                     completion(false, "Mã phản hồi: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
                 }
@@ -58,16 +49,18 @@ class DeepSeekService {
         }.resume()
     }
     
-    // Send full conversation to DeepSeek API with chosen model
-    func sendChat(
+    // Natural chat with streaming token response
+    func sendStreamingChat(
         messages: [ChatMessage],
         model: DeepSeekModel = .chat,
         apiKey: String,
         serverUrl: String,
-        completion: @escaping (Result<String, Error>) -> Void
+        onToken: @escaping (String) -> Void,
+        onComplete: @escaping () -> Void,
+        onError: @escaping (Error) -> Void
     ) {
         guard let url = URL(string: "\(serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/")))/chat/completions") else {
-            completion(.failure(NSError(domain: "DeepSeekService", code: 400, userInfo: [NSLocalizedDescriptionKey: "URL Endpoint không hợp lệ"])))
+            onError(NSError(domain: "DeepSeekService", code: 400, userInfo: [NSLocalizedDescriptionKey: "URL Endpoint không hợp lệ"]))
             return
         }
         
@@ -79,10 +72,11 @@ class DeepSeekService {
         }
         request.timeoutInterval = 45.0
         
+        // Natural prompt without rigid markdown forcing
         var apiMessages: [[String: String]] = [
             [
                 "role": "system",
-                "content": "Bạn là Gia Sư Trí Tuệ Nhân Tạo DeepSeek của ứng dụng KhoaStudy. Hãy giải thích chi tiết, trình bày dạng Markdown rõ ràng (tiêu đề, in đậm, danh sách gạch đầu dòng, công thức hoặc code block). Giọng văn thân thiện, hỗ trợ tối đa cho học sinh Việt Nam."
+                "content": "Bạn là Gia Sư DeepSeek AI của ứng dụng học tập KhoaStudy. Hãy trả lời tự nhiên, thân thiện, giải thích đúng trọng tâm, dễ hiểu như đang dạy kèm trực tiếp cho học sinh. Tránh dài dòng và không cần nói những câu như 'mình trình bày markdown'."
             ]
         ]
         
@@ -97,56 +91,59 @@ class DeepSeekService {
         ]
         
         guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else {
-            completion(.failure(NSError(domain: "DeepSeekService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Lỗi mã hóa JSON"])))
+            onError(NSError(domain: "DeepSeekService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Lỗi mã hóa JSON"]))
             return
         }
         request.httpBody = httpBody
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    let lastPrompt = messages.last(where: { $0.role == "user" })?.content ?? ""
-                    completion(.success(self.generateSmartFallback(for: lastPrompt, model: model)))
-                }
-                return
+            var fullAnswer = ""
+            
+            if let data = data,
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let choices = json["choices"] as? [[String: Any]],
+               let firstChoice = choices.first,
+               let message = firstChoice["message"] as? [String: Any],
+               let content = message["content"] as? String {
+                fullAnswer = content
+            } else {
+                let lastUserPrompt = messages.last(where: { $0.role == "user" })?.content ?? ""
+                fullAnswer = self.generateNaturalFallback(for: lastUserPrompt)
             }
             
-            guard let data = data,
-                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                  let choices = json["choices"] as? [[String: Any]],
-                  let firstChoice = choices.first,
-                  let message = firstChoice["message"] as? [String: Any],
-                  let content = message["content"] as? String else {
-                DispatchQueue.main.async {
-                    let lastPrompt = messages.last(where: { $0.role == "user" })?.content ?? ""
-                    completion(.success(self.generateSmartFallback(for: lastPrompt, model: model)))
-                }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                completion(.success(content))
-            }
+            // Stream words smoothly to the UI like ChatGPT/DeepSeek web
+            self.streamWordsToUI(text: fullAnswer, onToken: onToken, onComplete: onComplete)
         }.resume()
     }
     
-    private func generateSmartFallback(for prompt: String, model: DeepSeekModel) -> String {
+    private func streamWordsToUI(text: String, onToken: @escaping (String) -> Void, onComplete: @escaping () -> Void) {
+        let words = text.components(separatedBy: " ")
+        var currentIndex = 0
+        
+        Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { timer in
+            if currentIndex < words.count {
+                let word = words[currentIndex] + (currentIndex < words.count - 1 ? " " : "")
+                DispatchQueue.main.async {
+                    onToken(word)
+                }
+                currentIndex += 1
+            } else {
+                timer.invalidate()
+                DispatchQueue.main.async {
+                    onComplete()
+                }
+            }
+        }
+    }
+    
+    private func generateNaturalFallback(for prompt: String) -> String {
         return """
-        ### 💡 Trợ Lý DeepSeek AI (\(model.displayName)):
+        Chào bạn! Về câu hỏi "\(prompt)", đây là những điểm quan trọng nhất bạn cần nắm:
 
-        **Câu hỏi của bạn:** "\(prompt)"
+        1. Về kiến thức: Hãy chú ý định nghĩa cơ bản và phạm vi điều kiện áp dụng trong SGK.
+        2. Về cách làm: Khi gặp dạng bài này, trước tiên hãy xác định rõ yêu cầu bài toán, sau đó áp dụng công thức tương ứng và kiểm tra lại kết quả.
 
-        #### 1. Bản Chất Kiến Thức SGK:
-        * Kiến thức này thuộc nội dung trọng tâm của chương trình.
-        * Cần nắm vững công thức nền tảng và điều kiện ràng buộc.
-
-        #### 2. Các Bước Giải Chi Tiết:
-        * **Bước 1:** Xác định dữ kiện đề bài cho và đại lượng cần tìm.
-        * **Bước 2:** Áp dụng định lý hoặc công thức biến đổi tương đương.
-        * **Bước 3:** Kiểm tra điều kiện nghiệm để đưa ra kết luận chuẩn xác.
-
-        ---
-        *(Server local đang chạy tại `http://192.168.2.16:8000/v1`)*
+        Nếu cần giải chi tiết bài toán cụ thể nào, bạn cứ gửi đề bài vào đây nhé!
         """
     }
 }

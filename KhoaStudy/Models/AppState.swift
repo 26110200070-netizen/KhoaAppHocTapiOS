@@ -29,7 +29,10 @@ struct UserProfile: Identifiable, Codable, Hashable {
 }
 
 class AppState: ObservableObject {
-    @Published var isLoggedIn: Bool = false
+    // Flow control: Intro -> Login -> Main App
+    @Published var hasSeenIntro: Bool = false
+    @Published var isLoggedIn: Bool = false // Must login first!
+    
     @Published var currentUser: UserProfile
     @Published var savedAccounts: [UserProfile] = []
     
@@ -44,8 +47,8 @@ class AppState: ObservableObject {
     
     // DeepSeek API Configuration
     @Published var deepSeekApiKey: String = ""
-    @Published var deepSeekServerUrl: String = "http://localhost:8000/v1"
-    @Published var isDeepSeekConnected: Bool = true
+    @Published var deepSeekServerUrl: String = "http://192.168.2.16:8000/v1"
+    @Published var isDeepSeekConnected: Bool = false
     
     init() {
         let defaultUser = UserProfile(
@@ -61,8 +64,9 @@ class AppState: ObservableObject {
             UserProfile(username: "Học Sinh THCS", email: "student.thcs@study.vn", grade: 9, avatarName: "backpack.circle.fill")
         ]
         
-        // Auto-login to default account
-        self.isLoggedIn = true
+        // Check saved login state
+        self.isLoggedIn = UserDefaults.standard.bool(forKey: "user_logged_in")
+        self.hasSeenIntro = UserDefaults.standard.bool(forKey: "has_seen_intro")
     }
     
     func switchAccount(to user: UserProfile) {
@@ -75,64 +79,24 @@ class AppState: ObservableObject {
     
     func logout() {
         self.isLoggedIn = false
+        UserDefaults.standard.set(false, forKey: "user_logged_in")
     }
     
     func login(username: String, apiKey: String? = nil) {
         self.currentUser.username = username
         if let key = apiKey, !key.isEmpty {
             self.deepSeekApiKey = key
-            self.isDeepSeekConnected = true
         }
         self.isLoggedIn = true
+        UserDefaults.standard.set(true, forKey: "user_logged_in")
     }
     
-    // Localization Helper
+    func completeIntro() {
+        self.hasSeenIntro = true
+        UserDefaults.standard.set(true, forKey: "has_seen_intro")
+    }
+    
     func t(_ key: String) -> String {
-        if currentLanguage == .english {
-            return AppState.enStrings[key] ?? key
-        }
-        return AppState.viStrings[key] ?? key
+        return key
     }
-    
-    private static let viStrings: [String: String] = [
-        "home": "Trang chủ",
-        "account": "Tài khoản",
-        "study_theory": "Học lí thuyết",
-        "do_exercise": "Làm bài tập",
-        "focus_timer": "Treo máy tự học",
-        "subjects": "Môn học",
-        "grade": "Khối lớp",
-        "chapters": "Chương bài",
-        "midterm_exam": "Ôn thi giữa kỳ",
-        "final_exam": "Ôn thi cuối kỳ",
-        "logout": "Đăng xuất",
-        "switch_account": "Chuyển tài khoản",
-        "language": "Ngôn ngữ",
-        "export_word": "Tải về Word (.docx)",
-        "score": "Điểm số",
-        "submit": "Nộp bài",
-        "next": "Câu tiếp theo",
-        "prev": "Câu trước"
-    ]
-    
-    private static let enStrings: [String: String] = [
-        "home": "Home",
-        "account": "Account",
-        "study_theory": "Theory Study",
-        "do_exercise": "Practice Exercises",
-        "focus_timer": "Focus Lock Mode",
-        "subjects": "Subjects",
-        "grade": "Grade",
-        "chapters": "Chapters & Lessons",
-        "midterm_exam": "Midterm Review",
-        "final_exam": "Final Exam Review",
-        "logout": "Log Out",
-        "switch_account": "Switch Account",
-        "language": "Language",
-        "export_word": "Download Word (.docx)",
-        "score": "Score",
-        "submit": "Submit Test",
-        "next": "Next Question",
-        "prev": "Previous Question"
-    ]
 }

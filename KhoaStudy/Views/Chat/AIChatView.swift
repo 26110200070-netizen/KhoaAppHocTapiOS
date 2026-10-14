@@ -9,10 +9,11 @@ struct AIChatView: View {
     @State private var isThinking: Bool = false
     @State private var selectedModel: DeepSeekModel = .chat
     @State private var showingModelInfo: Bool = false
+    @State private var streamingText: String = ""
     
     var body: some View {
         ZStack {
-            // Background Canvas with subtle watermark matching Screenshot 4
+            // Edge-to-edge white background filling all safe areas
             Color.white.ignoresSafeArea()
             
             // Decorative subtle 4-point stars watermark (Screenshot 4 style)
@@ -35,13 +36,13 @@ struct AIChatView: View {
                 customTopNavBar
                 
                 Divider()
-                    .opacity(0.4)
+                    .opacity(0.3)
                 
-                // 2. Chat Conversation (NO boxed card, edge-to-edge flow)
+                // 2. Chat Conversation (NO boxed card, unboxed AI text!)
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
-                        LazyVStack(spacing: 16) {
-                            if messages.isEmpty {
+                        LazyVStack(spacing: 18) {
+                            if messages.isEmpty && !isThinking {
                                 emptyStatePrompts
                                     .padding(.top, 40)
                             } else {
@@ -51,49 +52,50 @@ struct AIChatView: View {
                                 }
                             }
                             
+                            // Streaming / Typing in progress (Unboxed text)
                             if isThinking {
-                                thinkingBubble
-                                    .id("thinking_row")
+                                streamingMessageRow
+                                    .id("streaming_row")
                             }
                             
-                            Spacer().frame(height: 20)
+                            Spacer().frame(height: 10)
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 16)
+                        .padding(.horizontal, 18)
+                        .padding(.vertical, 14)
                     }
                     .onChange(of: messages.count) { _ in
                         if let lastId = messages.last?.id {
                             withAnimation { proxy.scrollTo(lastId, anchor: .bottom) }
                         }
                     }
-                    .onChange(of: isThinking) { thinking in
-                        if thinking {
-                            withAnimation { proxy.scrollTo("thinking_row", anchor: .bottom) }
-                        }
+                    .onChange(of: streamingText) { _ in
+                        withAnimation { proxy.scrollTo("streaming_row", anchor: .bottom) }
                     }
                 }
                 
-                // 3. Bottom Chat Input Bar (Exact Replica of Screenshot 4)
+                // 3. Bottom Chat Input Bar (Screenshot 4 Style - No floating menu obstruction!)
                 bottomChatInputBar
             }
         }
         .navigationBarHidden(true)
-        .alert("Thông tin mô hình DeepSeek", isPresented: $showingModelInfo) {
+        .alert("Mô Hình Trí Tuệ Nhân Tạo", isPresented: $showingModelInfo) {
             Button("Đóng", role: .cancel) {}
         } message: {
-            Text("Đang kết nối: \(appState.deepSeekServerUrl)\nModel đang chọn: \(selectedModel.displayName)\nServer được cấp phiên từ tài khoản Google của bạn!")
+            Text("Đang kết nối: \(appState.deepSeekServerUrl)\nModel: \(selectedModel.displayName)\nPhiên Google DeepSeek đang hoạt động trực tiếp!")
         }
     }
     
     // MARK: - 1. Custom Top Bar (Tammi Style - Screenshot 4)
     private var customTopNavBar: some View {
         HStack(spacing: 12) {
-            // Circular Back Button
-            Button(action: { dismiss() }) {
+            // Circular Back Button (Bấm vào thoát ngay về trang trước!)
+            Button(action: {
+                dismiss()
+            }) {
                 ZStack {
                     Circle()
                         .fill(Color(hex: "#1F2937"))
-                        .frame(width: 36, height: 36)
+                        .frame(width: 38, height: 38)
                     Image(systemName: "chevron.left")
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(.white)
@@ -117,20 +119,19 @@ struct AIChatView: View {
                         .font(.system(size: 17, weight: .bold, design: .rounded))
                         .foregroundColor(Color(hex: "#111827"))
                     
-                    // Green Verified Checkmark
                     Image(systemName: "checkmark.seal.fill")
                         .font(.system(size: 14))
                         .foregroundColor(.green)
                 }
                 
-                // Interactive Model Picker Dropdown
+                // Dropdown to switch model
                 Menu {
                     ForEach(DeepSeekModel.allCases) { model in
                         Button(action: {
                             withAnimation { selectedModel = model }
                         }) {
                             HStack {
-                                Text("\(model.displayName) (\(model.badge))")
+                                Text(model.displayName)
                                 if selectedModel == model {
                                     Image(systemName: "checkmark")
                                 }
@@ -151,12 +152,12 @@ struct AIChatView: View {
             
             Spacer()
             
-            // Info Button (Screenshot 4)
+            // Info Button
             Button(action: { showingModelInfo = true }) {
                 ZStack {
                     Circle()
                         .fill(Color(hex: "#1F2937"))
-                        .frame(width: 36, height: 36)
+                        .frame(width: 38, height: 38)
                     Image(systemName: "info")
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(.white)
@@ -168,7 +169,7 @@ struct AIChatView: View {
         .padding(.bottom, 10)
     }
     
-    // MARK: - Empty State with Quick Prompts
+    // MARK: - Empty State Prompts
     private var emptyStatePrompts: some View {
         VStack(spacing: 16) {
             Text("Bạn cần gia sư DeepSeek hỗ trợ phần nào hôm nay?")
@@ -211,9 +212,9 @@ struct AIChatView: View {
         }
     }
     
-    // MARK: - Chat Bubble Row (No enclosing boxing, Markdown support)
+    // MARK: - Chat Bubble Row (UNBOXED AI TEXT - KHÔNG KHUNG BAO BỌC!)
     private func chatBubbleRow(msg: ChatMessage) -> some View {
-        HStack(alignment: .bottom, spacing: 10) {
+        HStack(alignment: .top, spacing: 10) {
             if msg.role == "user" {
                 Spacer(minLength: 48)
                 
@@ -227,15 +228,13 @@ struct AIChatView: View {
                             .fill(AppTheme.primaryMint)
                     )
             } else {
-                // AI Message Bubble with Markdown rendering
+                // AI Response: UNBOXED! Directly on the clean background!
                 VStack(alignment: .leading, spacing: 8) {
-                    MarkdownMessageView(content: msg.content)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 14)
-                        .background(
-                            RoundedRectangle(cornerRadius: 22, style: .continuous)
-                                .fill(Color(hex: "#F3F4F6"))
-                        )
+                    Text(LocalizedStringKey(msg.content))
+                        .font(.system(size: 15))
+                        .foregroundColor(Color(hex: "#1F2937"))
+                        .lineSpacing(5)
+                        .padding(.vertical, 4)
                     
                     // Copy button
                     Button(action: {
@@ -243,34 +242,38 @@ struct AIChatView: View {
                     }) {
                         HStack(spacing: 4) {
                             Image(systemName: "doc.on.doc")
-                            Text("Sao chép lời giải")
+                            Text("Sao chép câu trả lời")
                         }
                         .font(.caption2)
                         .foregroundColor(AppTheme.primary)
-                        .padding(.leading, 6)
                     }
+                    .padding(.top, 2)
                 }
                 
-                Spacer(minLength: 32)
+                Spacer(minLength: 24)
             }
         }
     }
     
-    // MARK: - Thinking Bubble
-    private var thinkingBubble: some View {
-        HStack {
-            HStack(spacing: 8) {
-                Text("DeepSeek đang giải...")
-                    .font(.caption)
-                    .foregroundColor(AppTheme.textSecondary)
-                ProgressView().scaleEffect(0.7)
+    // MARK: - Streaming Message Row (Word-by-word typewriter - Unboxed)
+    private var streamingMessageRow: some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 6) {
+                if streamingText.isEmpty {
+                    HStack(spacing: 6) {
+                        Text("DeepSeek đang trả lời...")
+                            .font(.system(size: 14))
+                            .foregroundColor(AppTheme.textSecondary)
+                        ProgressView().scaleEffect(0.7)
+                    }
+                } else {
+                    Text(LocalizedStringKey(streamingText))
+                        .font(.system(size: 15))
+                        .foregroundColor(Color(hex: "#1F2937"))
+                        .lineSpacing(5)
+                }
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(
-                Capsule().fill(Color(hex: "#F3F4F6"))
-            )
-            Spacer()
+            Spacer(minLength: 24)
         }
     }
     
@@ -322,7 +325,7 @@ struct AIChatView: View {
                     .foregroundColor(Color(hex: "#1F2937"))
             }
             
-            // Microphone or Send Button
+            // Send / Mic Button
             if inputPrompt.trimmingCharacters(in: .whitespaces).isEmpty {
                 Button(action: {}) {
                     Image(systemName: "mic.fill")
@@ -346,11 +349,12 @@ struct AIChatView: View {
             }
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 10)
+        .padding(.top, 10)
+        .padding(.bottom, 14) // Clean padding above home indicator, no tab bar collision!
         .background(Color.white)
     }
     
-    // MARK: - Actions
+    // MARK: - Send Prompt with Streaming
     private func sendUserPrompt(_ prompt: String) {
         let trimmed = prompt.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
@@ -359,22 +363,28 @@ struct AIChatView: View {
         messages.append(userMessage)
         inputPrompt = ""
         isThinking = true
+        streamingText = ""
         
-        DeepSeekService.shared.sendChat(
+        DeepSeekService.shared.sendStreamingChat(
             messages: messages,
             model: selectedModel,
             apiKey: appState.deepSeekApiKey,
-            serverUrl: appState.deepSeekServerUrl
-        ) { result in
-            isThinking = false
-            switch result {
-            case .success(let answer):
-                let aiMsg = ChatMessage(role: "assistant", content: answer)
+            serverUrl: appState.deepSeekServerUrl,
+            onToken: { token in
+                streamingText += token
+            },
+            onComplete: {
+                let aiMsg = ChatMessage(role: "assistant", content: streamingText)
                 messages.append(aiMsg)
-            case .failure(let error):
+                streamingText = ""
+                isThinking = false
+            },
+            onError: { error in
                 let errorMsg = ChatMessage(role: "assistant", content: "Lỗi kết nối DeepSeek: \(error.localizedDescription)")
                 messages.append(errorMsg)
+                streamingText = ""
+                isThinking = false
             }
-        }
+        )
     }
 }
