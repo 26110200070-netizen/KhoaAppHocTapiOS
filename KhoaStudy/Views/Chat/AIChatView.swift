@@ -14,7 +14,11 @@ struct AIChatView: View {
     var body: some View {
         ZStack {
             // Edge-to-edge white background filling all safe areas
-            Color.white.ignoresSafeArea()
+            Color.white
+                .ignoresSafeArea()
+                .onTapGesture {
+                    hideKeyboard()
+                }
             
             // Decorative subtle 4-point stars watermark (Screenshot 4 style)
             GeometryReader { geo in
@@ -30,6 +34,7 @@ struct AIChatView: View {
                 }
             }
             .ignoresSafeArea()
+            .allowsHitTesting(false)
             
             VStack(spacing: 0) {
                 // 1. Custom Top Bar (Tammi Style - Screenshot 4)
@@ -38,7 +43,7 @@ struct AIChatView: View {
                 Divider()
                     .opacity(0.3)
                 
-                // 2. Chat Conversation (NO boxed card, unboxed AI text!)
+                // 2. Chat Conversation (UNBOXED AI text - tapping dismisses keyboard)
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         LazyVStack(spacing: 18) {
@@ -62,6 +67,11 @@ struct AIChatView: View {
                         }
                         .padding(.horizontal, 18)
                         .padding(.vertical, 14)
+                    }
+                    .scrollDismissesKeyboard(.immediately)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        hideKeyboard()
                     }
                     .onChange(of: messages.count) { _ in
                         if let lastId = messages.last?.id {
@@ -88,8 +98,9 @@ struct AIChatView: View {
     // MARK: - 1. Custom Top Bar (Tammi Style - Screenshot 4)
     private var customTopNavBar: some View {
         HStack(spacing: 12) {
-            // Circular Back Button (Bấm vào thoát ngay về trang trước!)
+            // Circular Back Button (Bấm vào lập tức hạ phím và thoát ngay!)
             Button(action: {
+                hideKeyboard()
                 dismiss()
             }) {
                 ZStack {
@@ -188,7 +199,9 @@ struct AIChatView: View {
     }
     
     private func promptButton(_ text: String) -> some View {
-        Button(action: { sendUserPrompt(text) }) {
+        Button(action: {
+            sendUserPrompt(text)
+        }) {
             HStack {
                 Text(text)
                     .font(.system(size: 13, weight: .medium))
@@ -228,7 +241,7 @@ struct AIChatView: View {
                             .fill(AppTheme.primaryMint)
                     )
             } else {
-                // AI Response: UNBOXED! Directly on the clean background!
+                // AI Response: UNBOXED! Directly on the clean white background
                 VStack(alignment: .leading, spacing: 8) {
                     Text(LocalizedStringKey(msg.content))
                         .font(.system(size: 15))
@@ -261,7 +274,7 @@ struct AIChatView: View {
             VStack(alignment: .leading, spacing: 6) {
                 if streamingText.isEmpty {
                     HStack(spacing: 6) {
-                        Text("DeepSeek đang trả lời...")
+                        Text("DeepSeek đang soạn câu trả lời...")
                             .font(.system(size: 14))
                             .foregroundColor(AppTheme.textSecondary)
                         ProgressView().scaleEffect(0.7)
@@ -350,7 +363,7 @@ struct AIChatView: View {
         }
         .padding(.horizontal, 16)
         .padding(.top, 10)
-        .padding(.bottom, 14) // Clean padding above home indicator, no tab bar collision!
+        .padding(.bottom, 14)
         .background(Color.white)
     }
     
@@ -358,6 +371,8 @@ struct AIChatView: View {
     private func sendUserPrompt(_ prompt: String) {
         let trimmed = prompt.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
+        
+        hideKeyboard()
         
         let userMessage = ChatMessage(role: "user", content: trimmed)
         messages.append(userMessage)
@@ -386,5 +401,9 @@ struct AIChatView: View {
                 isThinking = false
             }
         )
+    }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

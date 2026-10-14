@@ -27,13 +27,13 @@ struct MainRootView: View {
     var body: some View {
         Group {
             if !appState.hasSeenIntro {
-                // 1. First time / App Launch: Video Intro Animation
+                // 1. App Launch: 2-second "Shimy" Fade Intro
                 IntroVideoView()
             } else if !appState.isLoggedIn {
                 // 2. Mandatory Login Screen
                 LoginView()
             } else {
-                // 3. Main Application with Floating Bar + Fullscreen AI Chat
+                // 3. Main Application with Full-Width Bottom Bar + Fullscreen AI Chat
                 ZStack(alignment: .bottom) {
                     TabView(selection: $currentTab) {
                         HomeView(onOpenAIChat: {
@@ -45,12 +45,10 @@ struct MainRootView: View {
                             .tag(MainTab.account)
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
-                    .ignoresSafeArea(.keyboard)
+                    .ignoresSafeArea(.all, edges: .top)
                     
-                    // Floating Custom Tab Bar with Center AI Chat Trigger
-                    customFloatingTabBar
-                        .padding(.horizontal, 28)
-                        .padding(.bottom, 12)
+                    // Full-Width Bottom Bar across horizontal screen
+                    customFullWidthTabBar
                 }
                 .ignoresSafeArea(edges: .bottom)
                 .fullScreenCover(isPresented: $showingAIChatFullScreen) {
@@ -61,8 +59,8 @@ struct MainRootView: View {
         }
     }
     
-    // MARK: - Floating Tab Bar with Center Glowing AI Button
-    private var customFloatingTabBar: some View {
+    // MARK: - Full-Width Bottom Bar Menu (Full chiều ngang)
+    private var customFullWidthTabBar: some View {
         HStack(spacing: 0) {
             // Tab 1: Trang Chủ
             Button(action: {
@@ -72,7 +70,7 @@ struct MainRootView: View {
             }) {
                 VStack(spacing: 4) {
                     Image(systemName: "house.fill")
-                        .font(.system(size: currentTab == .home ? 22 : 20, weight: currentTab == .home ? .bold : .medium))
+                        .font(.system(size: 22, weight: currentTab == .home ? .bold : .medium))
                         .foregroundColor(currentTab == .home ? AppTheme.primaryDark : AppTheme.textMuted)
                     
                     Text("Trang Chủ")
@@ -84,10 +82,10 @@ struct MainRootView: View {
                         .frame(width: 4, height: 4)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
+                .padding(.top, 8)
             }
             
-            // Center Button: GIA SƯ AI (Opens Dedicated Fullscreen Chat!)
+            // Center Button: GIA SƯ AI (Mở Fullscreen Chat riêng biệt!)
             Button(action: {
                 showingAIChatFullScreen = true
             }) {
@@ -101,19 +99,19 @@ struct MainRootView: View {
                                     endPoint: .bottomTrailing
                                 )
                             )
-                            .frame(width: 44, height: 44)
+                            .frame(width: 48, height: 48)
                             .shadow(color: AppTheme.primaryMint.opacity(0.4), radius: 8, x: 0, y: 4)
                         
                         Image(systemName: "sparkles")
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.system(size: 22, weight: .bold))
                             .foregroundColor(.white)
                     }
-                    .offset(y: -8)
+                    .offset(y: -10)
                     
                     Text("Gia Sư AI")
                         .font(.system(size: 11, weight: .bold))
                         .foregroundColor(AppTheme.primaryDark)
-                        .offset(y: -6)
+                        .offset(y: -8)
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -126,7 +124,7 @@ struct MainRootView: View {
             }) {
                 VStack(spacing: 4) {
                     Image(systemName: "person.crop.circle.fill")
-                        .font(.system(size: currentTab == .account ? 22 : 20, weight: currentTab == .account ? .bold : .medium))
+                        .font(.system(size: 22, weight: currentTab == .account ? .bold : .medium))
                         .foregroundColor(currentTab == .account ? AppTheme.primaryDark : AppTheme.textMuted)
                     
                     Text("Tài Khoản")
@@ -138,15 +136,16 @@ struct MainRootView: View {
                         .frame(width: 4, height: 4)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
+                .padding(.top, 8)
             }
         }
+        .frame(maxWidth: .infinity)
         .padding(.horizontal, 16)
-        .padding(.vertical, 6)
+        .padding(.top, 4)
+        .padding(.bottom, 22) // Space for home indicator
         .background(
-            RoundedRectangle(cornerRadius: 32, style: .continuous)
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.08), radius: 20, x: 0, y: 8)
+            Color.white
+                .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: -4)
         )
     }
 }

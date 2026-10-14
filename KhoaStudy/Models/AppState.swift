@@ -64,9 +64,9 @@ class AppState: ObservableObject {
             UserProfile(username: "Học Sinh THCS", email: "student.thcs@study.vn", grade: 9, avatarName: "backpack.circle.fill")
         ]
         
-        // Check saved login state
-        self.isLoggedIn = UserDefaults.standard.bool(forKey: "user_logged_in")
-        self.hasSeenIntro = UserDefaults.standard.bool(forKey: "has_seen_intro")
+        // Always start with intro on launch, and require login
+        self.hasSeenIntro = false
+        self.isLoggedIn = false
     }
     
     func switchAccount(to user: UserProfile) {
