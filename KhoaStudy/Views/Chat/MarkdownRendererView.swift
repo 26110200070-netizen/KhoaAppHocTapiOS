@@ -276,31 +276,7 @@ struct MarkdownRendererView: View {
     
     // Convert common LaTeX formula notations into clean mathematical Unicode
     private func sanitizeInlineMath(_ text: String) -> String {
-        var str = text
-        str = str.replacingOccurrences(of: "\\times", with: "×")
-        str = str.replacingOccurrences(of: "\\div", with: "÷")
-        str = str.replacingOccurrences(of: "\\pm", with: "±")
-        str = str.replacingOccurrences(of: "\\Delta", with: "Δ")
-        str = str.replacingOccurrences(of: "\\pi", with: "π")
-        str = str.replacingOccurrences(of: "\\alpha", with: "α")
-        str = str.replacingOccurrences(of: "\\beta", with: "β")
-        str = str.replacingOccurrences(of: "\\theta", with: "θ")
-        str = str.replacingOccurrences(of: "\\lambda", with: "λ")
-        str = str.replacingOccurrences(of: "\\approx", with: "≈")
-        str = str.replacingOccurrences(of: "\\ne", with: "≠")
-        str = str.replacingOccurrences(of: "\\le", with: "≤")
-        str = str.replacingOccurrences(of: "\\ge", with: "≥")
-        str = str.replacingOccurrences(of: "\\rightarrow", with: "→")
-        str = str.replacingOccurrences(of: "\\infty", with: "∞")
-        str = str.replacingOccurrences(of: "\\sqrt", with: "√")
-        
-        // Remove raw single dollar signs for inline math: $x$ -> x
-        let regex = try? NSRegularExpression(pattern: "\\$([^\\$]+)\\$", options: [])
-        if let regex = regex {
-            let range = NSRange(str.startIndex..<str.endIndex, in: str)
-            str = regex.stringByReplacingMatches(in: str, options: [], range: range, withTemplate: "$1")
-        }
-        return str
+        return MathSanitizer.sanitize(text)
     }
     
     private func formatMathFormula(_ formula: String) -> String {
@@ -310,16 +286,215 @@ struct MarkdownRendererView: View {
         } else if f.hasPrefix("\\[") && f.hasSuffix("\\]") && f.count >= 4 {
             f = String(f.dropFirst(2).dropLast(2))
         }
+        return MathSanitizer.sanitize(f)
+    }
+}
+
+// MARK: - Mathematical Formula & LaTeX Sanitizer
+public struct MathSanitizer {
+    public static func sanitize(_ input: String) -> String {
+        var str = input
         
-        // Replace fractions: \frac{a}{b} -> (a) / (b)
-        let fracRegex = try? NSRegularExpression(pattern: "\\\\frac\\{([^\\}]+)\\}\\{([^\\}]+)\\}", options: [])
-        if let fracRegex = fracRegex {
-            let range = NSRange(f.startIndex..<f.endIndex, in: f)
-            f = fracRegex.stringByReplacingMatches(in: f, options: [], range: range, withTemplate: "($1) / ($2)")
+        // 1. Process nested fractions: \frac{num}{denom}
+        str = replaceFractions(str)
+        
+        // 2. Process square roots: \sqrt[n]{x} and \sqrt{x}
+        str = replaceRoots(str)
+        
+        // 3. Number set symbols
+        str = str.replacingOccurrences(of: "\\mathbb{R}", with: "ℝ")
+        str = str.replacingOccurrences(of: "\\mathbb{N}", with: "ℕ")
+        str = str.replacingOccurrences(of: "\\mathbb{Z}", with: "ℤ")
+        str = str.replacingOccurrences(of: "\\mathbb{Q}", with: "ℚ")
+        str = str.replacingOccurrences(of: "\\mathbb{C}", with: "ℂ")
+        
+        // 4. Set theory & logic operations
+        str = str.replacingOccurrences(of: "\\setminus", with: " \\ ")
+        str = str.replacingOccurrences(of: "\\subset", with: "⊂")
+        str = str.replacingOccurrences(of: "\\subseteq", with: "⊆")
+        str = str.replacingOccurrences(of: "\\supset", with: "⊃")
+        str = str.replacingOccurrences(of: "\\cap", with: "∩")
+        str = str.replacingOccurrences(of: "\\cup", with: "∪")
+        str = str.replacingOccurrences(of: "\\notin", with: "∉")
+        str = str.replacingOccurrences(of: "\\in", with: "∈")
+        str = str.replacingOccurrences(of: "\\emptyset", with: "∅")
+        str = str.replacingOccurrences(of: "\\forall", with: "∀")
+        str = str.replacingOccurrences(of: "\\exists", with: "∃")
+        
+        // 5. Inequalities & equivalences
+        str = str.replacingOccurrences(of: "\\leq", with: "≤")
+        str = str.replacingOccurrences(of: "\\le", with: "≤")
+        str = str.replacingOccurrences(of: "\\geq", with: "≥")
+        str = str.replacingOccurrences(of: "\\ge", with: "≥")
+        str = str.replacingOccurrences(of: "\\neq", with: "≠")
+        str = str.replacingOccurrences(of: "\\ne", with: "≠")
+        str = str.replacingOccurrences(of: "\\approx", with: "≈")
+        str = str.replacingOccurrences(of: "\\equiv", with: "≡")
+        
+        // 6. Arrows
+        str = str.replacingOccurrences(of: "\\Leftrightarrow", with: "⇔")
+        str = str.replacingOccurrences(of: "\\Rightarrow", with: "⇒")
+        str = str.replacingOccurrences(of: "\\rightarrow", with: "→")
+        str = str.replacingOccurrences(of: "\\to", with: "→")
+        
+        // 7. Operations & constants
+        str = str.replacingOccurrences(of: "\\times", with: "×")
+        str = str.replacingOccurrences(of: "\\div", with: "÷")
+        str = str.replacingOccurrences(of: "\\pm", with: "±")
+        str = str.replacingOccurrences(of: "\\mp", with: "∓")
+        str = str.replacingOccurrences(of: "\\cdot", with: "·")
+        str = str.replacingOccurrences(of: "\\infty", with: "∞")
+        str = str.replacingOccurrences(of: "\\int", with: "∫")
+        str = str.replacingOccurrences(of: "\\sum", with: "∑")
+        
+        // 8. Greek letters
+        str = str.replacingOccurrences(of: "\\Delta", with: "Δ")
+        str = str.replacingOccurrences(of: "\\delta", with: "δ")
+        str = str.replacingOccurrences(of: "\\pi", with: "π")
+        str = str.replacingOccurrences(of: "\\alpha", with: "α")
+        str = str.replacingOccurrences(of: "\\beta", with: "β")
+        str = str.replacingOccurrences(of: "\\gamma", with: "γ")
+        str = str.replacingOccurrences(of: "\\theta", with: "θ")
+        str = str.replacingOccurrences(of: "\\lambda", with: "λ")
+        str = str.replacingOccurrences(of: "\\sigma", with: "σ")
+        str = str.replacingOccurrences(of: "\\omega", with: "ω")
+        str = str.replacingOccurrences(of: "\\Omega", with: "Ω")
+        
+        // 9. Formatting wrappers: \text{...}, \mathbf{...}, \mathrm{...}
+        str = removeLatexWrappers(str)
+        
+        // 10. Superscripts & subscripts
+        str = replaceSuperscriptsAndSubscripts(str)
+        
+        // 11. Clean dollar signs $...$ and $$...$$
+        str = str.replacingOccurrences(of: "$$", with: "")
+        let dollarRegex = try? NSRegularExpression(pattern: "\\$([^\\$]+)\\$", options: [])
+        if let regex = dollarRegex {
+            let range = NSRange(str.startIndex..<str.endIndex, in: str)
+            str = regex.stringByReplacingMatches(in: str, options: [], range: range, withTemplate: "$1")
         }
         
-        f = sanitizeInlineMath(f)
-        return f.trimmingCharacters(in: .whitespacesAndNewlines)
+        // 12. Normalize multiple spaces
+        str = str.replacingOccurrences(of: "  +", with: " ", options: .regularExpression)
+        
+        return str
+    }
+    
+    // Balanced brace parser for fractions \frac{num}{denom}
+    private static func replaceFractions(_ text: String) -> String {
+        var result = text
+        var searchStart = result.startIndex
+        
+        while let range = result.range(of: "\\frac{", range: searchStart..<result.endIndex) {
+            let numStart = range.upperBound
+            guard let numEnd = findMatchingBrace(in: result, startingAt: numStart) else {
+                searchStart = range.upperBound
+                continue
+            }
+            let numerator = String(result[numStart..<numEnd])
+            
+            let afterNum = result.index(after: numEnd)
+            guard afterNum < result.endIndex, result[afterNum] == "{" else {
+                searchStart = range.upperBound
+                continue
+            }
+            let denomStart = result.index(after: afterNum)
+            guard let denomEnd = findMatchingBrace(in: result, startingAt: denomStart) else {
+                searchStart = range.upperBound
+                continue
+            }
+            let denominator = String(result[denomStart..<denomEnd])
+            
+            // Recursively sanitize numerator and denominator
+            let cleanNum = replaceFractions(numerator).trimmingCharacters(in: .whitespaces)
+            let cleanDenom = replaceFractions(denominator).trimmingCharacters(in: .whitespaces)
+            
+            let formatted = "(\(cleanNum)) / (\(cleanDenom))"
+            let replaceRange = range.lowerBound...denomEnd
+            result.replaceSubrange(replaceRange, with: formatted)
+            searchStart = result.index(range.lowerBound, offsetBy: formatted.count, limitedBy: result.endIndex) ?? result.endIndex
+        }
+        
+        return result
+    }
+    
+    // Balanced brace parser for \sqrt{expr} and \sqrt[n]{expr}
+    private static func replaceRoots(_ text: String) -> String {
+        var result = text
+        var searchStart = result.startIndex
+        
+        while let range = result.range(of: "\\sqrt{", range: searchStart..<result.endIndex) {
+            let innerStart = range.upperBound
+            guard let innerEnd = findMatchingBrace(in: result, startingAt: innerStart) else {
+                searchStart = range.upperBound
+                continue
+            }
+            let inner = String(result[innerStart..<innerEnd])
+            let formatted = "√(\(inner))"
+            result.replaceSubrange(range.lowerBound...innerEnd, with: formatted)
+            searchStart = result.index(range.lowerBound, offsetBy: formatted.count, limitedBy: result.endIndex) ?? result.endIndex
+        }
+        
+        result = result.replacingOccurrences(of: "\\sqrt", with: "√")
+        return result
+    }
+    
+    private static func findMatchingBrace(in text: String, startingAt: String.Index) -> String.Index? {
+        var depth = 1
+        var curr = startingAt
+        while curr < text.endIndex {
+            if text[curr] == "{" {
+                depth += 1
+            } else if text[curr] == "}" {
+                depth -= 1
+                if depth == 0 {
+                    return curr
+                }
+            }
+            curr = text.index(after: curr)
+        }
+        return nil
+    }
+    
+    private static func removeLatexWrappers(_ text: String) -> String {
+        var str = text
+        let wrappers = ["\\text{", "\\mathrm{", "\\mathbf{", "\\mathit{", "\\operatorname{"]
+        for w in wrappers {
+            var searchStart = str.startIndex
+            while let range = str.range(of: w, range: searchStart..<str.endIndex) {
+                let innerStart = range.upperBound
+                guard let innerEnd = findMatchingBrace(in: str, startingAt: innerStart) else {
+                    searchStart = range.upperBound
+                    continue
+                }
+                let inner = String(str[innerStart..<innerEnd])
+                str.replaceSubrange(range.lowerBound...innerEnd, with: inner)
+                searchStart = range.lowerBound
+            }
+        }
+        return str
+    }
+    
+    private static func replaceSuperscriptsAndSubscripts(_ text: String) -> String {
+        var str = text
+        let superscripts: [(String, String)] = [
+            ("^0", "⁰"), ("^1", "¹"), ("^2", "²"), ("^3", "³"), ("^4", "⁴"),
+            ("^5", "⁵"), ("^6", "⁶"), ("^7", "⁷"), ("^8", "⁸"), ("^9", "⁹"),
+            ("^+", "⁺"), ("^-", "⁻"), ("^n", "ⁿ"), ("^x", "ˣ"), ("^y", "ʸ")
+        ]
+        for (pattern, replacement) in superscripts {
+            str = str.replacingOccurrences(of: pattern, with: replacement)
+        }
+        
+        let subscripts: [(String, String)] = [
+            ("_0", "₀"), ("_1", "₁"), ("_2", "₂"), ("_3", "₃"), ("_4", "₄"),
+            ("_5", "₅"), ("_6", "₆"), ("_7", "₇"), ("_8", "₈"), ("_9", "₉"),
+            ("_n", "ₙ"), ("_i", "ᵢ"), ("_j", "ⱼ")
+        ]
+        for (pattern, replacement) in subscripts {
+            str = str.replacingOccurrences(of: pattern, with: replacement)
+        }
+        return str
     }
 }
 

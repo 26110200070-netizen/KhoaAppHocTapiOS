@@ -87,7 +87,7 @@ struct AccountView: View {
                         .background(Capsule().fill(AppTheme.primaryLight))
                         .foregroundColor(AppTheme.primary)
                     
-                    Text(appState.isDeepSeekConnected ? "DeepSeek: Đã kết nối" : "DeepSeek: Chờ kết nối")
+                    Text(appState.isDeepSeekConnected ? "Shimy: Đã kết nối" : "Shimy: Chờ kết nối")
                         .font(.caption2)
                         .fontWeight(.semibold)
                         .padding(.horizontal, 8)
@@ -200,7 +200,7 @@ struct AccountView: View {
             // DeepSeek Server & API Key Diagnostic
             VStack(alignment: .leading, spacing: 6) {
                 HStack {
-                    Label("DeepSeek AI Server", systemImage: "network")
+                    Label("Shimy Server", systemImage: "network")
                         .font(.system(size: 15, weight: .medium))
                         .foregroundColor(Color(hex: "#111827"))
                     Spacer()
@@ -380,7 +380,7 @@ struct AccountView: View {
                     }
                 }
             }
-            .navigationTitle("Cấu Hình DeepSeek")
+            .navigationTitle("Cấu Hình Shimy")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

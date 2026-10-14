@@ -126,7 +126,7 @@ public struct ExercisePracticeView: View {
                             Text("Tạo Đề Thi Theo Yêu Cầu")
                                 .font(.system(size: 17, weight: .bold, design: .rounded))
                                 .foregroundColor(Color(hex: "#111827"))
-                            Text("DeepSeek AI tra cứu toàn bộ SGK & tài liệu chuẩn để biên soạn đề thi riêng cho bạn.")
+                            Text("Shimy tra cứu toàn bộ SGK & tài liệu chuẩn để biên soạn đề thi riêng cho bạn.")
                                 .font(.caption)
                                 .foregroundColor(AppTheme.textSecondary)
                         }

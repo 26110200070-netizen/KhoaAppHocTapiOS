@@ -8,24 +8,24 @@ struct ChatMessage: Identifiable, Codable, Hashable {
 }
 
 enum DeepSeekModel: String, CaseIterable, Identifiable {
-    case chat = "deepseek-chat"
     case expert = "deepseek-expert"
+    case chat = "deepseek-chat"
     case reasoning = "deepseek-reasoning"
     
     var id: String { self.rawValue }
     
     var displayName: String {
         switch self {
-        case .chat: return "DeepSeek V3 (Chat Nhanh)"
-        case .expert: return "DeepSeek Expert (Chuyên Gia)"
-        case .reasoning: return "DeepSeek R1 (DeepThink)"
+        case .expert: return "Shimy Expert (Chuyên Gia - Mặc định)"
+        case .chat: return "Shimy Fast (Phản Hồi Nhanh)"
+        case .reasoning: return "Shimy Think (Suy Luận Sâu)"
         }
     }
     
     var wireModel: String {
         switch self {
-        case .chat, .reasoning: return "deepseek-chat"
         case .expert: return "deepseek-expert"
+        case .chat, .reasoning: return "deepseek-chat"
         }
     }
     
@@ -62,9 +62,9 @@ class DeepSeekService {
             DispatchQueue.main.async {
                 if let httpResp = response as? HTTPURLResponse, httpResp.statusCode == 200 {
                     if apiKey.hasPrefix("sk-") {
-                        completion(true, "Đã kết nối DeepSeek Cloud API chính thức thành công!")
+                        completion(true, "Đã kết nối Shimy Cloud API thành công!")
                     } else {
-                        completion(true, "Đã kết nối DeepSeek Server thành công (HTTP 200)")
+                        completion(true, "Đã kết nối Shimy Server thành công (HTTP 200)")
                     }
                 } else if let error = error {
                     completion(false, "Không thể kết nối: \(error.localizedDescription)")
@@ -86,9 +86,13 @@ class DeepSeekService {
     // Natural chat with streaming token response (Guaranteed main-thread delivery)
     func sendStreamingChat(
         messages: [ChatMessage],
-        model: DeepSeekModel = .chat,
+        model: DeepSeekModel = .expert,
         apiKey: String,
         serverUrl: String,
+        isWebSearch: Bool = false,
+        isDeepReasoning: Bool = false,
+        attachedImageBase64: String? = nil,
+        attachedFileContent: String? = nil,
         onToken: @escaping (String) -> Void,
         onComplete: @escaping () -> Void,
         onError: @escaping (Error) -> Void
@@ -115,24 +119,49 @@ class DeepSeekService {
         }
         request.timeoutInterval = 45.0
         
-        // Natural prompt without markdown meta-talk
+        // System Prompt: AI knows its name is Shimy and trained by Duy Nguyễn only!
+        var systemInstruction = "Bạn tên là Shimy, một trợ lý học tập AI thông minh và tận tâm, được phát triển và huấn luyện bởi Duy Nguyễn. Hãy giải thích chi tiết, ân cần, đầy đủ bảng biểu, công thức toán học và mã nguồn nếu cần để hỗ trợ học sinh học tập tốt nhất. Tuyệt đối không đề cập đến tên gọi hay nhà phát triển nào khác, tên duy nhất của bạn là Shimy do Duy Nguyễn huấn luyện."
+        
+        if isWebSearch {
+            systemInstruction += "\n[Chế độ Tìm Kiếm Web: Đang BẬT. Hãy tra cứu và sử dụng các thông tin, giáo trình SGK mới nhất của Bộ GD&ĐT Việt Nam để đưa ra đáp án chuẩn xác nhất]."
+        }
+        
         var apiMessages: [[String: String]] = [
             [
                 "role": "system",
-                "content": "Bạn là Gia Sư DeepSeek AI của ứng dụng học tập Shimy. Hãy giải thích chi tiết, đầy đủ bảng biểu, công thức toán học và mã nguồn (code) nếu cần để hỗ trợ học sinh học tập tốt nhất."
+                "content": systemInstruction
             ]
         ]
         
-        for msg in messages {
-            apiMessages.append(["role": msg.role, "content": msg.content])
+        for (idx, msg) in messages.enumerated() {
+            var content = msg.content
+            
+            // If this is the last user message, augment with attached files or images
+            if idx == messages.count - 1 && msg.role == "user" {
+                if let fileContent = attachedFileContent, !fileContent.isEmpty {
+                    content = "[Tệp tài liệu đính kèm]:\n\(fileContent)\n\n[Câu hỏi / Yêu cầu]:\n\(content)"
+                }
+                if let img = attachedImageBase64, !img.isEmpty {
+                    content = "[Ảnh học tập đính kèm]:\n\(content)"
+                }
+            }
+            
+            apiMessages.append(["role": msg.role, "content": content])
         }
         
-        let body: [String: Any] = [
-            "model": model.wireModel,
+        let effectiveWireModel = isDeepReasoning ? "deepseek-reasoning" : model.wireModel
+        let effectiveThinking = isDeepReasoning || model.isThinking
+        
+        var body: [String: Any] = [
+            "model": effectiveWireModel,
             "messages": apiMessages,
             "stream": false,
-            "thinking": model.isThinking
+            "thinking": effectiveThinking
         ]
+        
+        if isWebSearch {
+            body["web_search"] = true
+        }
         
         guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else {
             DispatchQueue.main.async {
@@ -173,10 +202,10 @@ class DeepSeekService {
                         Sau khi đăng nhập xong, bạn quay lại app bấm gửi lại câu hỏi là DeepSeek sẽ trả lời ngay nhé!
                         """
                     } else {
-                        fullAnswer = "⚠️ DeepSeek phản hồi: \(errMsg)"
+                        fullAnswer = "⚠️ Shimy phản hồi: \(errMsg)"
                     }
                 }
-                // 2. Real DeepSeek AI response
+                // 2. Real Shimy AI response
                 else if let choices = json["choices"] as? [[String: Any]],
                    let firstChoice = choices.first,
                    let message = firstChoice["message"] as? [String: Any],
@@ -190,16 +219,13 @@ class DeepSeekService {
                     fullAnswer = """
                     ⚠️ Không nhận được phản hồi cho câu hỏi '\(lastUserPrompt)'.
                     
-                    💡 Nguyên nhân:
-                    Tài khoản DeepSeek trên máy tính đang bị DeepSeek tạm khóa (Muted) hoặc chưa đăng nhập hợp lệ.
-                    
-                    👉 Bạn hãy mở file `run_deepseek_server.bat` trên máy tính để đăng nhập một tài khoản Google khác nhé!
+                    💡 Bạn hãy kiểm tra lại kết nối hoặc mở file `run_deepseek_server.bat` trên máy tính để đăng nhập tài khoản nhé!
                     """
                 }
             } else if let error = error {
                 fullAnswer = "⚠️ Lỗi kết nối mạng: \(error.localizedDescription)\n\nVui lòng kiểm tra xem máy tính và iPhone có đang chung mạng Wi-Fi và máy tính có đang bật server không."
             } else {
-                fullAnswer = "⚠️ Không thể kết nối tới DeepSeek Server tại \(serverUrl)."
+                fullAnswer = "⚠️ Không thể kết nối tới Shimy Server tại \(serverUrl)."
             }
             
             // Deliver smoothly to UI on the main thread (Never hangs!)

@@ -213,7 +213,7 @@ struct HomeView: View {
                             .font(.caption2)
                             .foregroundColor(.green)
                     }
-                    Text("Hỏi đáp bài tập, giải thích công thức với DeepSeek")
+                    Text("Hỏi đáp bài tập, giải thích công thức với Shimy")
                         .font(.caption)
                         .foregroundColor(AppTheme.textSecondary)
                 }
@@ -248,7 +248,7 @@ struct HomeView: View {
                 
                 HStack(alignment: .center, spacing: 14) {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("KHOASTUDY AI 🚀")
+                        Text("SHIMY AI 🚀")
                             .font(.system(size: 10, weight: .heavy))
                             .foregroundColor(Color(hex: "#FEF08A"))
                         

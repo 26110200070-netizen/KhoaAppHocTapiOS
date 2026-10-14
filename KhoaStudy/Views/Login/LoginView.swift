@@ -30,18 +30,18 @@ struct LoginView: View {
                                 .foregroundColor(.white)
                         }
                         
-                        Text("KhoaStudy")
+                        Text("Shimy")
                             .font(.system(size: 30, weight: .bold, design: .rounded))
                             .foregroundColor(AppTheme.primaryDark)
                         
-                        Text("Học tập thông minh cùng DeepSeek AI")
+                        Text("Học tập thông minh cùng Shimy")
                             .font(.subheadline)
                             .foregroundColor(AppTheme.textSecondary)
                     }
                     
                     // Login Form Card
                     VStack(alignment: .leading, spacing: 18) {
-                        Text("Đăng nhập với DeepSeek API")
+                        Text("Cấu hình kết nối Shimy")
                             .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
                         
@@ -155,7 +155,7 @@ struct LoginView: View {
                                     ProgressView().tint(.white)
                                 } else {
                                     Image(systemName: "checkmark.shield.fill")
-                                    Text("Đăng Nhập Với DeepSeek")
+                                    Text("Đăng Nhập Vào Shimy")
                                         .font(.system(size: 16, weight: .bold, design: .rounded))
                                 }
                                 Spacer()

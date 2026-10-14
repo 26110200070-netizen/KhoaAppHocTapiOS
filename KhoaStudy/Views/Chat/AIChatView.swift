@@ -1,4 +1,6 @@
 import SwiftUI
+import PhotosUI
+import UniformTypeIdentifiers
 
 struct AIChatView: View {
     @Environment(\.dismiss) var dismiss
@@ -7,9 +9,22 @@ struct AIChatView: View {
     @State private var messages: [ChatMessage] = []
     @State private var inputPrompt: String = ""
     @State private var isThinking: Bool = false
-    @State private var selectedModel: DeepSeekModel = .chat
+    @State private var selectedModel: DeepSeekModel = .expert // Default is Expert!
     @State private var streamingText: String = ""
     @State private var showingNewChatConfirmation: Bool = false
+    
+    // Popup & capability states
+    @State private var showingPlusPopup: Bool = false
+    @State private var isWebSearchActive: Bool = false
+    @State private var isDeepReasoningActive: Bool = false
+    
+    // Attachments
+    @State private var selectedPhotoItem: PhotosPickerItem? = nil
+    @State private var attachedImage: UIImage? = nil
+    @State private var attachedFileName: String? = nil
+    @State private var attachedFileContent: String? = nil
+    @State private var showingPhotoPicker: Bool = false
+    @State private var showingDocumentPicker: Bool = false
     
     var body: some View {
         ZStack {
@@ -18,9 +33,12 @@ struct AIChatView: View {
                 .ignoresSafeArea()
                 .onTapGesture {
                     hideKeyboard()
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        showingPlusPopup = false
+                    }
                 }
             
-            // Decorative subtle 4-point stars watermark (Screenshot 4 style)
+            // Decorative subtle 4-point stars watermark
             GeometryReader { geo in
                 ZStack {
                     Image(systemName: "sparkle")
@@ -37,13 +55,12 @@ struct AIChatView: View {
             .allowsHitTesting(false)
             
             VStack(spacing: 0) {
-                // 1. Custom Top Bar (Tammi Style - Screenshot 4)
+                // 1. Custom Top Bar
                 customTopNavBar
                 
-                Divider()
-                    .opacity(0.3)
+                Divider().opacity(0.3)
                 
-                // 2. Chat Conversation (Full-width AI response, no auto-scroll during streaming)
+                // 2. Chat Conversation
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         LazyVStack(spacing: 18) {
@@ -57,7 +74,7 @@ struct AIChatView: View {
                                 }
                             }
                             
-                            // Streaming / Typing in progress (Full width unboxed text)
+                            // Streaming / Typing in progress
                             if isThinking {
                                 streamingMessageRow
                                     .id("streaming_row")
@@ -72,8 +89,10 @@ struct AIChatView: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         hideKeyboard()
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            showingPlusPopup = false
+                        }
                     }
-                    // Only scroll when a new user or AI message is appended; NEVER on every streaming token!
                     .onChange(of: messages.count) { _ in
                         if let lastId = messages.last?.id {
                             withAnimation(.easeOut(duration: 0.3)) {
@@ -83,11 +102,54 @@ struct AIChatView: View {
                     }
                 }
                 
-                // 3. Bottom Chat Input Bar (With Stop Square Button during generation!)
+                // 3. Attachments & Active Badges Bar (if any active)
+                if hasActiveAttachmentsOrModes {
+                    activeBadgesAndAttachmentsBar
+                }
+                
+                // 4. Plus Pop-up Menu (Ascends right above the plus button)
+                if showingPlusPopup {
+                    plusFeaturesPopup
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+                
+                // 5. Bottom Chat Input Bar (Icon photo & emoji removed!)
                 bottomChatInputBar
             }
         }
         .navigationBarHidden(true)
+        .photosPicker(isPresented: $showingPhotoPicker, selection: $selectedPhotoItem, matching: .images)
+        .onChange(of: selectedPhotoItem) { newItem in
+            Task {
+                if let data = try? await newItem?.loadTransferable(type: Data.self),
+                   let image = UIImage(data: data) {
+                    await MainActor.run {
+                        self.attachedImage = image
+                    }
+                }
+            }
+        }
+        .fileImporter(
+            isPresented: $showingDocumentPicker,
+            allowedContentTypes: [.plainText, .text, .pdf, .data]
+        ) { result in
+            switch result {
+            case .success(let selectedUrl):
+                let accessing = selectedUrl.startAccessingSecurityScopedResource()
+                defer {
+                    if accessing { selectedUrl.stopAccessingSecurityScopedResource() }
+                }
+                
+                self.attachedFileName = selectedUrl.lastPathComponent
+                if let content = try? String(contentsOf: selectedUrl, encoding: .utf8) {
+                    self.attachedFileContent = content
+                } else if let data = try? Data(contentsOf: selectedUrl) {
+                    self.attachedFileContent = "Tệp đính kèm (\(data.count) bytes)."
+                }
+            case .failure(let error):
+                print("Lỗi chọn tệp: \(error.localizedDescription)")
+            }
+        }
         .confirmationDialog("Tạo cuộc trò chuyện mới?", isPresented: $showingNewChatConfirmation, titleVisibility: .visible) {
             Button("Xác nhận tạo chat mới", role: .destructive) {
                 startNewChat()
@@ -98,10 +160,10 @@ struct AIChatView: View {
         }
     }
     
-    // MARK: - 1. Custom Top Bar (Tammi Style - Screenshot 4)
+    // MARK: - 1. Custom Top Bar
     private var customTopNavBar: some View {
         HStack(spacing: 12) {
-            // Circular Back Button (Bấm vào lập tức hạ phím và thoát ngay!)
+            // Circular Back Button
             Button(action: {
                 hideKeyboard()
                 dismiss()
@@ -129,7 +191,7 @@ struct AIChatView: View {
             // Name & Model Selector
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
-                    Text("DeepSeek AI")
+                    Text("Shimy")
                         .font(.system(size: 17, weight: .bold, design: .rounded))
                         .foregroundColor(Color(hex: "#111827"))
                     
@@ -166,7 +228,7 @@ struct AIChatView: View {
             
             Spacer()
             
-            // New Chat / Switch Chat Button (Icon square.and.pencil thay cho dấu chấm than)
+            // New Chat / Switch Chat Button
             Menu {
                 Button(action: {
                     showingNewChatConfirmation = true
@@ -204,7 +266,7 @@ struct AIChatView: View {
     // MARK: - Empty State Prompts
     private var emptyStatePrompts: some View {
         VStack(spacing: 16) {
-            Text("Bạn cần gia sư DeepSeek hỗ trợ phần nào hôm nay?")
+            Text("Bạn cần Shimy hỗ trợ phần nào hôm nay?")
                 .font(.system(size: 15, weight: .medium))
                 .foregroundColor(AppTheme.textSecondary)
                 .multilineTextAlignment(.center)
@@ -246,7 +308,7 @@ struct AIChatView: View {
         }
     }
     
-    // MARK: - Chat Bubble Row (AI CHAT DÀI HẾT CHIỀU NGANG - KHÔNG BỊ BÓ HẸP!)
+    // MARK: - Chat Bubble Row
     private func chatBubbleRow(msg: ChatMessage) -> some View {
         HStack(alignment: .top, spacing: 10) {
             if msg.role == "user" {
@@ -262,7 +324,6 @@ struct AIChatView: View {
                             .fill(AppTheme.primaryMint)
                     )
             } else {
-                // AI Response: FULL MARKDOWN (Bảng, Code, Toán, Headers)
                 VStack(alignment: .leading, spacing: 8) {
                     MarkdownRendererView(content: msg.content)
                         .padding(.vertical, 4)
@@ -286,12 +347,12 @@ struct AIChatView: View {
         }
     }
     
-    // MARK: - Streaming Message Row (Full width unboxed)
+    // MARK: - Streaming Message Row
     private var streamingMessageRow: some View {
         VStack(alignment: .leading, spacing: 6) {
             if streamingText.isEmpty {
                 HStack(spacing: 6) {
-                    Text("DeepSeek đang soạn câu trả lời...")
+                    Text("Shimy đang suy nghĩ và soạn câu trả lời...")
                         .font(.system(size: 14))
                         .foregroundColor(AppTheme.textSecondary)
                     ProgressView().scaleEffect(0.7)
@@ -304,31 +365,269 @@ struct AIChatView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    // MARK: - 3. Bottom Chat Input Bar (Khi AI đang chat: Icon Ô Vuông để DỪNG CHAT!)
+    // MARK: - Attachments & Active Badges
+    private var hasActiveAttachmentsOrModes: Bool {
+        isWebSearchActive || isDeepReasoningActive || attachedImage != nil || attachedFileName != nil
+    }
+    
+    private var activeBadgesAndAttachmentsBar: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                if isWebSearchActive {
+                    HStack(spacing: 4) {
+                        Image(systemName: "globe")
+                        Text("Web Search: BẬT")
+                        Button(action: { isWebSearchActive = false }) {
+                            Image(systemName: "xmark.circle.fill").font(.caption2)
+                        }
+                    }
+                    .font(.caption)
+                    .foregroundColor(Color(hex: "#1D4ED8"))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Capsule().fill(Color(hex: "#DBEAFE")))
+                }
+                
+                if isDeepReasoningActive {
+                    HStack(spacing: 4) {
+                        Image(systemName: "brain.head.profile")
+                        Text("Suy luận sâu: BẬT")
+                        Button(action: { isDeepReasoningActive = false }) {
+                            Image(systemName: "xmark.circle.fill").font(.caption2)
+                        }
+                    }
+                    .font(.caption)
+                    .foregroundColor(Color(hex: "#7C3AED"))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Capsule().fill(Color(hex: "#EDE9FE")))
+                }
+                
+                if let img = attachedImage {
+                    HStack(spacing: 6) {
+                        Image(uiImage: img)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 24, height: 24)
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                        Text("Ảnh đính kèm")
+                        Button(action: { attachedImage = nil; selectedPhotoItem = nil }) {
+                            Image(systemName: "xmark.circle.fill").font(.caption2)
+                        }
+                    }
+                    .font(.caption)
+                    .foregroundColor(Color(hex: "#065F46"))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(Capsule().fill(Color(hex: "#D1FAE5")))
+                }
+                
+                if let fname = attachedFileName {
+                    HStack(spacing: 4) {
+                        Image(systemName: "doc.fill")
+                        Text(fname)
+                            .lineLimit(1)
+                        Button(action: { attachedFileName = nil; attachedFileContent = nil }) {
+                            Image(systemName: "xmark.circle.fill").font(.caption2)
+                        }
+                    }
+                    .font(.caption)
+                    .foregroundColor(Color(hex: "#92400E"))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Capsule().fill(Color(hex: "#FEF3C7")))
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 6)
+        }
+    }
+    
+    // MARK: - Plus Features Pop-up Card (Trồi lên ngay trên nút dấu cộng)
+    private var plusFeaturesPopup: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            // Web Search
+            Button(action: {
+                withAnimation {
+                    isWebSearchActive.toggle()
+                    showingPlusPopup = false
+                }
+            }) {
+                HStack(spacing: 12) {
+                    ZStack {
+                        Circle()
+                            .fill(isWebSearchActive ? Color(hex: "#2563EB") : Color(hex: "#F3F4F6"))
+                            .frame(width: 34, height: 34)
+                        Image(systemName: "globe")
+                            .font(.system(size: 15))
+                            .foregroundColor(isWebSearchActive ? .white : Color(hex: "#1F2937"))
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Tìm kiếm Web")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(Color(hex: "#111827"))
+                        Text("Cập nhật thông tin và giáo trình mới nhất")
+                            .font(.caption2)
+                            .foregroundColor(AppTheme.textSecondary)
+                    }
+                    
+                    Spacer()
+                    
+                    Text(isWebSearchActive ? "Đang bật" : "Bật")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(isWebSearchActive ? Color(hex: "#2563EB") : AppTheme.textMuted)
+                }
+                .padding(.vertical, 8)
+                .padding(.horizontal, 12)
+            }
+            
+            Divider()
+            
+            // Deep Reasoning
+            Button(action: {
+                withAnimation {
+                    isDeepReasoningActive.toggle()
+                    showingPlusPopup = false
+                }
+            }) {
+                HStack(spacing: 12) {
+                    ZStack {
+                        Circle()
+                            .fill(isDeepReasoningActive ? Color(hex: "#7C3AED") : Color(hex: "#F3F4F6"))
+                            .frame(width: 34, height: 34)
+                        Image(systemName: "brain.head.profile")
+                            .font(.system(size: 15))
+                            .foregroundColor(isDeepReasoningActive ? .white : Color(hex: "#1F2937"))
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Suy luận sâu (Think)")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(Color(hex: "#111827"))
+                        Text("Mô hình R1 phân tích logic từng bước")
+                            .font(.caption2)
+                            .foregroundColor(AppTheme.textSecondary)
+                    }
+                    
+                    Spacer()
+                    
+                    Text(isDeepReasoningActive ? "Đang bật" : "Bật")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(isDeepReasoningActive ? Color(hex: "#7C3AED") : AppTheme.textMuted)
+                }
+                .padding(.vertical, 8)
+                .padding(.horizontal, 12)
+            }
+            
+            Divider()
+            
+            // Upload Photo
+            Button(action: {
+                showingPlusPopup = false
+                showingPhotoPicker = true
+            }) {
+                HStack(spacing: 12) {
+                    ZStack {
+                        Circle()
+                            .fill(Color(hex: "#F3F4F6"))
+                            .frame(width: 34, height: 34)
+                        Image(systemName: "photo.on.rectangle.angled")
+                            .font(.system(size: 15))
+                            .foregroundColor(Color(hex: "#1F2937"))
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Tải ảnh lên")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(Color(hex: "#111827"))
+                        Text("Chọn hình ảnh bài tập từ thư viện ảnh")
+                            .font(.caption2)
+                            .foregroundColor(AppTheme.textSecondary)
+                    }
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.caption2)
+                        .foregroundColor(AppTheme.textMuted)
+                }
+                .padding(.vertical, 8)
+                .padding(.horizontal, 12)
+            }
+            
+            Divider()
+            
+            // Upload File
+            Button(action: {
+                showingPlusPopup = false
+                showingDocumentPicker = true
+            }) {
+                HStack(spacing: 12) {
+                    ZStack {
+                        Circle()
+                            .fill(Color(hex: "#F3F4F6"))
+                            .frame(width: 34, height: 34)
+                        Image(systemName: "doc.badge.plus")
+                            .font(.system(size: 15))
+                            .foregroundColor(Color(hex: "#1F2937"))
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Tải tệp tài liệu")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(Color(hex: "#111827"))
+                        Text("Đính kèm tệp PDF, TXT, DOC")
+                            .font(.caption2)
+                            .foregroundColor(AppTheme.textSecondary)
+                    }
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.caption2)
+                        .foregroundColor(AppTheme.textMuted)
+                }
+                .padding(.vertical, 8)
+                .padding(.horizontal, 12)
+            }
+        }
+        .padding(6)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.12), radius: 16, x: 0, y: -6)
+        )
+        .padding(.horizontal, 16)
+        .padding(.bottom, 6)
+    }
+    
+    // MARK: - 5. Bottom Chat Input Bar
     private var bottomChatInputBar: some View {
         HStack(spacing: 12) {
-            // Plus Button (Black circle)
-            Button(action: {}) {
+            // Plus Button (Black circle that triggers popup)
+            Button(action: {
+                hideKeyboard()
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.75)) {
+                    showingPlusPopup.toggle()
+                }
+            }) {
                 ZStack {
                     Circle()
-                        .fill(Color(hex: "#1F2937"))
-                        .frame(width: 36, height: 36)
-                    Image(systemName: "plus")
+                        .fill(showingPlusPopup ? AppTheme.primaryMint : Color(hex: "#1F2937"))
+                        .frame(width: 38, height: 38)
+                    Image(systemName: showingPlusPopup ? "xmark" : "plus")
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
                 }
             }
             
-            // Image Attachment Icon
-            Button(action: {}) {
-                Image(systemName: "photo.on.rectangle.angled")
-                    .font(.system(size: 20))
-                    .foregroundColor(Color(hex: "#1F2937"))
-            }
-            
             // Text Input Field (Capsule)
             HStack {
-                TextField("Nhập tin nhắn...", text: $inputPrompt)
+                TextField("Hỏi Shimy bất cứ điều gì...", text: $inputPrompt)
                     .font(.system(size: 15))
                 
                 if !inputPrompt.isEmpty {
@@ -345,14 +644,7 @@ struct AIChatView: View {
                     .fill(Color(hex: "#F3F4F6"))
             )
             
-            // Smile Emoji Button
-            Button(action: {}) {
-                Image(systemName: "face.smiling")
-                    .font(.system(size: 22))
-                    .foregroundColor(Color(hex: "#1F2937"))
-            }
-            
-            // ACTION BUTTON: Khi AI đang chat -> Nút Ô Vuông để DỪNG CHAT!
+            // ACTION BUTTON: Stop / Send / Mic
             if isThinking {
                 Button(action: {
                     stopChatGeneration()
@@ -360,31 +652,30 @@ struct AIChatView: View {
                     ZStack {
                         Circle()
                             .fill(Color(hex: "#1F2937"))
-                            .frame(width: 36, height: 36)
-                        // Biểu tượng ô vuông dừng chat
+                            .frame(width: 38, height: 38)
                         RoundedRectangle(cornerRadius: 3)
                             .fill(Color.white)
                             .frame(width: 13, height: 13)
                     }
                 }
-            } else if inputPrompt.trimmingCharacters(in: .whitespaces).isEmpty {
-                Button(action: {}) {
-                    Image(systemName: "mic.fill")
-                        .font(.system(size: 20))
-                        .foregroundColor(Color(hex: "#1F2937"))
-                }
-            } else {
+            } else if !inputPrompt.trimmingCharacters(in: .whitespaces).isEmpty || attachedImage != nil || attachedFileContent != nil {
                 Button(action: {
                     sendUserPrompt(inputPrompt)
                 }) {
                     ZStack {
                         Circle()
                             .fill(AppTheme.primaryMint)
-                            .frame(width: 36, height: 36)
+                            .frame(width: 38, height: 38)
                         Image(systemName: "arrow.up")
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
                     }
+                }
+            } else {
+                Button(action: {}) {
+                    Image(systemName: "mic.fill")
+                        .font(.system(size: 20))
+                        .foregroundColor(Color(hex: "#1F2937"))
                 }
             }
         }
@@ -397,21 +688,46 @@ struct AIChatView: View {
     // MARK: - Actions
     private func sendUserPrompt(_ prompt: String) {
         let trimmed = prompt.trimmingCharacters(in: .whitespaces)
-        guard !trimmed.isEmpty else { return }
+        guard !trimmed.isEmpty || attachedImage != nil || attachedFileContent != nil else { return }
         
         hideKeyboard()
+        showingPlusPopup = false
         
-        let userMessage = ChatMessage(role: "user", content: trimmed)
+        var displayPrompt = trimmed
+        if displayPrompt.isEmpty {
+            if attachedImage != nil {
+                displayPrompt = "Phân tích và giải giúp em bài tập trong ảnh này."
+            } else if let fname = attachedFileName {
+                displayPrompt = "Đọc và giải thích tệp \(fname) giúp em."
+            }
+        }
+        
+        let userMessage = ChatMessage(role: "user", content: displayPrompt)
         messages.append(userMessage)
         inputPrompt = ""
         isThinking = true
         streamingText = ""
+        
+        let imageBase64 = attachedImage?.jpegData(compressionQuality: 0.6)?.base64EncodedString()
+        let fileContent = attachedFileContent
+        let webSearch = isWebSearchActive
+        let deepReasoning = isDeepReasoningActive
+        
+        // Reset single-shot attachments
+        attachedImage = nil
+        selectedPhotoItem = nil
+        attachedFileName = nil
+        attachedFileContent = nil
         
         DeepSeekService.shared.sendStreamingChat(
             messages: messages,
             model: selectedModel,
             apiKey: appState.deepSeekApiKey,
             serverUrl: appState.deepSeekServerUrl,
+            isWebSearch: webSearch,
+            isDeepReasoning: deepReasoning,
+            attachedImageBase64: imageBase64,
+            attachedFileContent: fileContent,
             onToken: { token in
                 streamingText += token
             },
@@ -422,7 +738,7 @@ struct AIChatView: View {
                 isThinking = false
             },
             onError: { error in
-                let errorMsg = ChatMessage(role: "assistant", content: "Lỗi kết nối DeepSeek: \(error.localizedDescription)")
+                let errorMsg = ChatMessage(role: "assistant", content: "Lỗi kết nối Shimy: \(error.localizedDescription)")
                 messages.append(errorMsg)
                 streamingText = ""
                 isThinking = false
@@ -446,6 +762,10 @@ struct AIChatView: View {
         streamingText = ""
         isThinking = false
         inputPrompt = ""
+        attachedImage = nil
+        selectedPhotoItem = nil
+        attachedFileName = nil
+        attachedFileContent = nil
     }
     
     private func startPresetTopic(_ prompt: String) {
