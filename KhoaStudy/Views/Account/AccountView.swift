@@ -1,0 +1,265 @@
+import SwiftUI
+
+struct AccountView: View {
+    @EnvironmentObject var appState: AppState
+    @State private var showingSwitchAccountSheet: Bool = false
+    
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                AppTheme.background.ignoresSafeArea()
+                
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 22) {
+                        // 1. User Profile Header Card
+                        profileHeaderCard
+                        
+                        // 2. Study Achievements
+                        studyAchievementsCard
+                        
+                        // 3. Settings & Options (Language, Switch Account, DeepSeek Status)
+                        settingsListCard
+                        
+                        // 4. Logout Button
+                        logoutButton
+                        
+                        // Spacing for floating bottom bar
+                        Spacer().frame(height: 90)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 14)
+                }
+            }
+            .navigationTitle("Tài Khoản")
+            .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $showingSwitchAccountSheet) {
+                switchAccountSheet
+            }
+        }
+    }
+    
+    // MARK: - 1. Profile Header Card
+    private var profileHeaderCard: some View {
+        HStack(spacing: 16) {
+            ZStack {
+                Circle()
+                    .fill(LinearGradient(colors: [AppTheme.primaryMint, AppTheme.primaryDark], startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .frame(width: 72, height: 72)
+                    .shadow(color: AppTheme.primaryMint.opacity(0.3), radius: 8, x: 0, y: 4)
+                
+                Image(systemName: appState.currentUser.avatarName)
+                    .font(.system(size: 38))
+                    .foregroundColor(.white)
+            }
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(appState.currentUser.username)
+                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                    .foregroundColor(AppTheme.textPrimary)
+                Text(appState.currentUser.email)
+                    .font(.subheadline)
+                    .foregroundColor(AppTheme.textSecondary)
+                
+                HStack(spacing: 6) {
+                    Text("Lớp \(appState.currentUser.grade)")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(Capsule().fill(AppTheme.primaryLight))
+                        .foregroundColor(AppTheme.primary)
+                    
+                    Text("DeepSeek AI: Kết Nối")
+                        .font(.caption2)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(Capsule().fill(Color.green.opacity(0.12)))
+                        .foregroundColor(.green)
+                }
+                .padding(.top, 2)
+            }
+            
+            Spacer()
+        }
+        .cleanCard(cornerRadius: 24, padding: 20)
+    }
+    
+    // MARK: - 2. Study Achievements
+    private var studyAchievementsCard: some View {
+        HStack(spacing: 12) {
+            achievementTile(title: "Tổng Tự Học", value: "\(appState.totalStudyMinutes)p", icon: "clock.fill", color: AppTheme.primary)
+            achievementTile(title: "Phiên Khóa Máy", value: "\(appState.focusSessionCount) lần", icon: "lock.shield.fill", color: AppTheme.primaryMint)
+            achievementTile(title: "Khối Đang Học", value: "\(appState.selectedGrade.displayName)", icon: "book.closed.fill", color: AppTheme.accentOrange)
+        }
+    }
+    
+    private func achievementTile(title: String, value: String, icon: String, color: Color) -> some View {
+        VStack(spacing: 6) {
+            Image(systemName: icon)
+                .foregroundColor(color)
+                .font(.headline)
+            Text(value)
+                .font(.system(size: 15, weight: .bold, design: .rounded))
+                .foregroundColor(AppTheme.textPrimary)
+            Text(title)
+                .font(.system(size: 10))
+                .foregroundColor(AppTheme.textSecondary)
+        }
+        .frame(maxWidth: .infinity)
+        .cleanCard(cornerRadius: 20, padding: 14)
+    }
+    
+    // MARK: - 3. Settings List
+    private var settingsListCard: some View {
+        VStack(spacing: 0) {
+            // Language Option
+            HStack {
+                Label("Ngôn ngữ hiển thị", systemImage: "globe")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(AppTheme.textPrimary)
+                Spacer()
+                
+                Menu {
+                    ForEach(AppLanguage.allCases, id: \.self) { lang in
+                        Button(action: {
+                            withAnimation { appState.currentLanguage = lang }
+                        }) {
+                            HStack {
+                                Text("\(lang.flag) \(lang.rawValue)")
+                                if appState.currentLanguage == lang {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
+                    }
+                } label: {
+                    HStack(spacing: 6) {
+                        Text("\(appState.currentLanguage.flag) \(appState.currentLanguage.rawValue)")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(AppTheme.primary)
+                        Image(systemName: "chevron.up.chevron.down")
+                            .font(.caption2)
+                            .foregroundColor(AppTheme.primary)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Capsule().fill(AppTheme.primaryLight))
+                }
+            }
+            .padding(.vertical, 16)
+            .padding(.horizontal, 18)
+            
+            Divider().padding(.horizontal, 18)
+            
+            // Switch Account Option
+            Button(action: { showingSwitchAccountSheet = true }) {
+                HStack {
+                    Label("Chuyển đổi tài khoản", systemImage: "person.2.badge.gearshape.fill")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundColor(AppTheme.textPrimary)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                        .foregroundColor(AppTheme.textMuted)
+                }
+                .padding(.vertical, 16)
+                .padding(.horizontal, 18)
+            }
+            
+            Divider().padding(.horizontal, 18)
+            
+            // DeepSeek Server URL
+            HStack {
+                Label("DeepSeek Engine", systemImage: "cpu.fill")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(AppTheme.textPrimary)
+                Spacer()
+                Text(appState.deepSeekServerUrl)
+                    .font(.caption)
+                    .foregroundColor(AppTheme.textSecondary)
+            }
+            .padding(.vertical, 16)
+            .padding(.horizontal, 18)
+            
+            Divider().padding(.horizontal, 18)
+            
+            // About App & Author
+            HStack {
+                Label("Phiên bản", systemImage: "info.circle.fill")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(AppTheme.textPrimary)
+                Spacer()
+                Text("KhoaStudy v1.0.0 (Anh Khoa Dev)")
+                    .font(.caption)
+                    .foregroundColor(AppTheme.textSecondary)
+            }
+            .padding(.vertical, 16)
+            .padding(.horizontal, 18)
+        }
+        .cleanCard(cornerRadius: 24, padding: 0)
+    }
+    
+    // MARK: - 4. Logout Button
+    private var logoutButton: some View {
+        Button(action: {
+            withAnimation { appState.logout() }
+        }) {
+            HStack(spacing: 8) {
+                Image(systemName: "rectangle.portrait.and.arrow.right")
+                Text("Đăng Xuất Tài Khoản")
+                    .font(.system(size: 15, weight: .bold))
+            }
+            .foregroundColor(.red)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.red.opacity(0.08))
+            )
+        }
+    }
+    
+    // MARK: - Switch Account Modal Sheet
+    private var switchAccountSheet: some View {
+        NavigationStack {
+            List {
+                Section(header: Text("Tài khoản đã lưu")) {
+                    ForEach(appState.savedAccounts) { user in
+                        Button(action: {
+                            appState.switchAccount(to: user)
+                            showingSwitchAccountSheet = false
+                        }) {
+                            HStack(spacing: 12) {
+                                Image(systemName: user.avatarName)
+                                    .font(.title2)
+                                    .foregroundColor(AppTheme.primary)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(user.username)
+                                        .font(.headline)
+                                        .foregroundColor(AppTheme.textPrimary)
+                                    Text(user.email)
+                                        .font(.caption)
+                                        .foregroundColor(AppTheme.textSecondary)
+                                }
+                                Spacer()
+                                if appState.currentUser.id == user.id {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(AppTheme.primaryMint)
+                                }
+                            }
+                            .padding(.vertical, 4)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Chuyển Tài Khoản")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Đóng") { showingSwitchAccountSheet = false }
+                }
+            }
+        }
+    }
+}

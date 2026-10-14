@@ -1,0 +1,23 @@
+# Secrets & Personal Tokens
+tokengithub
+
+# External Tools & Submodules
+xtool/
+Deepseek-API/
+original-*.mp4
+appmuonlam
+
+# Xcode & Build Artifacts
+build/
+DerivedData/
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+Payload/
+*.ipa
+*.app
+.DS_Store
+
+# SwiftPM
+.build/
+.swiftpm/
