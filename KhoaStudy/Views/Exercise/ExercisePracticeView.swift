@@ -759,265 +759,316 @@ public struct ExercisePracticeView: View {
     // =====================================================================
     // MARK: - SCREEN 4: GRADING & STEP-BY-STEP EXPLANATION
     // =====================================================================
+    // =====================================================================
+    // MARK: - SCREEN 4: GRADING & STEP-BY-STEP EXPLANATION
+    // =====================================================================
     private var examGradingReviewView: some View {
         VStack(spacing: 0) {
-            // Header
-            HStack {
-                Button(action: {
-                    isSubmitted = false
-                    isExamActive = false
-                    activeExam = nil
-                }) {
-                    HStack(spacing: 6) {
-                        Image(systemName: "chevron.left")
-                        Text("Tạo đề khác")
-                    }
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundColor(AppTheme.primaryDark)
-                }
-                
-                Spacer()
-                
-                Text("Kết Quả & Lời Giải Chi Tiết")
-                    .font(.system(size: 16, weight: .bold, design: .rounded))
-                    .foregroundColor(Color(hex: "#111827"))
-                
-                Spacer()
-                
-                Button(action: { dismiss() }) {
-                    Text("Đóng")
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(AppTheme.textSecondary)
-                }
-            }
-            .padding(.horizontal, 16)
-            .padding(.top, 14)
-            .padding(.bottom, 10)
+            reviewHeader
             
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 18) {
-                    // Score Card
-                    VStack(spacing: 12) {
-                        ZStack {
-                            Circle()
-                                .stroke(Color(hex: "#E5E7EB"), lineWidth: 10)
-                                .frame(width: 110, height: 110)
-                            
-                            Circle()
-                                .trim(from: 0, to: CGFloat(calculatedScore / 10.0))
-                                .stroke(
-                                    calculatedScore >= 8.0 ? Color(hex: "#10B981") : (calculatedScore >= 5.0 ? Color(hex: "#F59E0B") : Color(hex: "#EF4444")),
-                                    style: StrokeStyle(lineWidth: 10, lineCap: .round)
-                                )
-                                .rotationEffect(.degrees(-90))
-                                .frame(width: 110, height: 110)
-                            
-                            VStack(spacing: 0) {
-                                Text(String(format: "%.1f", calculatedScore))
-                                    .font(.system(size: 28, weight: .bold, design: .rounded))
-                                    .foregroundColor(Color(hex: "#111827"))
-                                Text("/ 10.0")
-                                    .font(.caption2)
-                                    .foregroundColor(AppTheme.textSecondary)
-                            }
-                        }
-                        
-                        Text(calculatedScore >= 8.0 ? "🎉 Xuất Sắc! Nắm rất vững kiến thức." : (calculatedScore >= 5.0 ? "👍 Đạt yêu cầu! Cần ôn luyện thêm." : "⚠️ Cần xem kỹ lại lời giải chi tiết bên dưới."))
-                            .font(.system(size: 15, weight: .bold, design: .rounded))
-                            .foregroundColor(calculatedScore >= 8.0 ? Color(hex: "#059669") : (calculatedScore >= 5.0 ? Color(hex: "#D97706") : Color(hex: "#DC2626")))
-                        
-                        HStack(spacing: 20) {
-                            statBadge(label: "Đúng", val: "\(correctCount)", color: .green)
-                            statBadge(label: "Sai / Bỏ sót", val: "\(totalSubItems - correctCount)", color: .red)
-                            statBadge(label: "Môn", val: selectedSubject, color: .blue)
-                        }
-                    }
-                    .padding(20)
-                    .frame(maxWidth: .infinity)
-                    .background(
-                        RoundedRectangle(cornerRadius: 24, style: .continuous)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 4)
-                    )
+                    reviewScoreCard
                     
-                    // Detailed Solutions List
                     VStack(alignment: .leading, spacing: 14) {
                         Text("AI Sửa Từng Câu & Hướng Dẫn Giải:")
                             .font(.system(size: 17, weight: .bold, design: .rounded))
                             .foregroundColor(Color(hex: "#111827"))
                         
-                        // Part 1 Review
-                        ForEach(activeExam?.multipleChoice ?? []) { q in
-                            let studentAns = studentMCAnswers[q.id]
-                            let isCorrect = (studentAns == q.correctIndex)
-                            
-                            VStack(alignment: .leading, spacing: 10) {
-                                HStack {
-                                    Label("Câu \(q.id)", systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                        .font(.caption)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(isCorrect ? .green : .red)
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 3)
-                                        .background(Capsule().fill(isCorrect ? Color.green.opacity(0.12) : Color.red.opacity(0.12)))
-                                    
-                                    Spacer()
-                                    
-                                    Text(isCorrect ? "Đúng (+0.25đ)" : "Sai (0đ)")
-                                        .font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(isCorrect ? .green : .red)
-                                }
-                                
-                                MarkdownRendererView(content: q.question)
-                                    .font(.system(size: 14))
-                                
-                                HStack {
-                                    Text("Bạn chọn: \(studentAns != nil ? ["A", "B", "C", "D"][studentAns!] : "Chưa chọn")")
-                                        .font(.caption)
-                                        .foregroundColor(isCorrect ? .green : .red)
-                                    Spacer()
-                                    Text("Đáp án đúng: \("ABCD"[q.correctIndex])")
-                                        .font(.caption)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.green)
-                                }
-                                .padding(8)
-                                .background(Color(hex: "#F9FAFB"))
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
-                                
-                                // Explanation
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("💡 Lời giải chi tiết từ AI:")
-                                        .font(.caption)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(AppTheme.primaryMint)
-                                    MarkdownRendererView(content: q.explanation)
-                                        .font(.caption)
-                                        .foregroundColor(Color(hex: "#374151"))
-                                }
-                                .padding(10)
-                                .background(Color(hex: "#ECFDF5"))
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            }
-                            .padding(14)
-                            .background(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .fill(Color.white)
-                                    .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
-                            )
-                        }
-                        
-                        // Part 2 Review (True / False)
-                        ForEach(activeExam?.trueFalse ?? []) { q in
-                            VStack(alignment: .leading, spacing: 10) {
-                                Text("Câu \(q.id) (Đúng / Sai)")
-                                    .font(.caption)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color(hex: "#2563EB"))
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 3)
-                                    .background(Capsule().fill(Color(hex: "#DBEAFE")))
-                                
-                                MarkdownRendererView(content: q.context)
-                                    .font(.system(size: 14))
-                                
-                                ForEach(q.statements) { stmt in
-                                    let chosen = studentTFAnswers["\(q.id):\(stmt.id)"]
-                                    let isCorrect = (chosen == stmt.isCorrectTrue)
-                                    
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        HStack {
-                                            Image(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                                .foregroundColor(isCorrect ? .green : .red)
-                                                .font(.caption)
-                                            Text("Ý \(stmt.id)): \(stmt.statement)")
-                                                .font(.caption)
-                                                .fontWeight(.medium)
-                                            Spacer()
-                                            Text(stmt.isCorrectTrue ? "Đúng" : "Sai")
-                                                .font(.caption2)
-                                                .fontWeight(.bold)
-                                                .foregroundColor(.green)
-                                        }
-                                        
-                                        Text("Giải thích: \(stmt.explanation)")
-                                            .font(.caption2)
-                                            .foregroundColor(AppTheme.textSecondary)
-                                    }
-                                    .padding(8)
-                                    .background(isCorrect ? Color.green.opacity(0.05) : Color.red.opacity(0.05))
-                                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                                }
-                            }
-                            .padding(14)
-                            .background(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .fill(Color.white)
-                                    .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
-                            )
-                        }
-                        
-                        // Part 3 Review (Short Answer)
-                        ForEach(activeExam?.shortAnswer ?? []) { q in
-                            let studentAns = studentSAAnswers[q.id]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-                            let isCorrect = q.acceptedAnswers.contains(where: { $0.lowercased() == studentAns.lowercased() })
-                            
-                            VStack(alignment: .leading, spacing: 10) {
-                                HStack {
-                                    Label("Câu \(q.id) (Trả lời ngắn)", systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                        .font(.caption)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(isCorrect ? .green : .red)
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 3)
-                                        .background(Capsule().fill(isCorrect ? Color.green.opacity(0.12) : Color.red.opacity(0.12)))
-                                    Spacer()
-                                }
-                                
-                                MarkdownRendererView(content: q.question)
-                                    .font(.system(size: 14))
-                                
-                                HStack {
-                                    Text("Bạn điền: \"\(studentAns.isEmpty ? "Bỏ trống" : studentAns)\"")
-                                        .font(.caption)
-                                        .foregroundColor(isCorrect ? .green : .red)
-                                    Spacer()
-                                    Text("Đáp số: \(q.acceptedAnswers.first ?? "") \(q.unit ?? "")")
-                                        .font(.caption)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.green)
-                                }
-                                .padding(8)
-                                .background(Color(hex: "#F9FAFB"))
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
-                                
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("💡 Hướng dẫn giải chi tiết:")
-                                        .font(.caption)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(AppTheme.primaryMint)
-                                    MarkdownRendererView(content: q.explanation)
-                                        .font(.caption)
-                                        .foregroundColor(Color(hex: "#374151"))
-                                }
-                                .padding(10)
-                                .background(Color(hex: "#ECFDF5"))
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            }
-                            .padding(14)
-                            .background(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .fill(Color.white)
-                                    .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
-                            )
-                        }
+                        reviewMultipleChoiceSection
+                        reviewTrueFalseSection
+                        reviewShortAnswerSection
                     }
                     
                     Spacer().frame(height: 30)
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
+            }
+        }
+    }
+    
+    private var reviewHeader: some View {
+        HStack {
+            Button(action: {
+                isSubmitted = false
+                isExamActive = false
+                activeExam = nil
+            }) {
+                HStack(spacing: 6) {
+                    Image(systemName: "chevron.left")
+                    Text("Tạo đề khác")
+                }
+                .font(.system(size: 14, weight: .bold))
+                .foregroundColor(AppTheme.primaryDark)
+            }
+            
+            Spacer()
+            
+            Text("Kết Quả & Lời Giải Chi Tiết")
+                .font(.system(size: 16, weight: .bold, design: .rounded))
+                .foregroundColor(Color(hex: "#111827"))
+            
+            Spacer()
+            
+            Button(action: { dismiss() }) {
+                Text("Đóng")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(AppTheme.textSecondary)
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 14)
+        .padding(.bottom, 10)
+    }
+    
+    private var reviewScoreCard: some View {
+        VStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .stroke(Color(hex: "#E5E7EB"), lineWidth: 10)
+                    .frame(width: 110, height: 110)
+                
+                Circle()
+                    .trim(from: 0, to: CGFloat(calculatedScore / 10.0))
+                    .stroke(
+                        scoreColor,
+                        style: StrokeStyle(lineWidth: 10, lineCap: .round)
+                    )
+                    .rotationEffect(.degrees(-90))
+                    .frame(width: 110, height: 110)
+                
+                VStack(spacing: 0) {
+                    Text(String(format: "%.1f", calculatedScore))
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundColor(Color(hex: "#111827"))
+                    Text("/ 10.0")
+                        .font(.caption2)
+                        .foregroundColor(AppTheme.textSecondary)
+                }
+            }
+            
+            Text(scoreAssessmentText)
+                .font(.system(size: 15, weight: .bold, design: .rounded))
+                .foregroundColor(scoreColor)
+            
+            HStack(spacing: 20) {
+                statBadge(label: "Đúng", val: "\(correctCount)", color: .green)
+                statBadge(label: "Sai / Bỏ sót", val: "\(totalSubItems - correctCount)", color: .red)
+                statBadge(label: "Môn", val: selectedSubject, color: .blue)
+            }
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 4)
+        )
+    }
+    
+    private var scoreAssessmentText: String {
+        if calculatedScore >= 8.0 {
+            return "🎉 Xuất Sắc! Nắm rất vững kiến thức."
+        } else if calculatedScore >= 5.0 {
+            return "👍 Đạt yêu cầu! Cần ôn luyện thêm."
+        } else {
+            return "⚠️ Cần xem kỹ lại lời giải chi tiết bên dưới."
+        }
+    }
+    
+    private var scoreColor: Color {
+        if calculatedScore >= 8.0 {
+            return Color(hex: "#059669")
+        } else if calculatedScore >= 5.0 {
+            return Color(hex: "#D97706")
+        } else {
+            return Color(hex: "#DC2626")
+        }
+    }
+    
+    private func optionLetter(_ index: Int) -> String {
+        let letters = ["A", "B", "C", "D"]
+        guard index >= 0 && index < letters.count else { return "A" }
+        return letters[index]
+    }
+    
+    @ViewBuilder
+    private var reviewMultipleChoiceSection: some View {
+        if let questions = activeExam?.multipleChoice, !questions.isEmpty {
+            ForEach(questions) { q in
+                let studentAns = studentMCAnswers[q.id]
+                let isCorrect = (studentAns == q.correctIndex)
+                let studentLetter = (studentAns != nil && studentAns! >= 0 && studentAns! < 4) ? optionLetter(studentAns!) : "Chưa chọn"
+                let correctLetter = optionLetter(q.correctIndex)
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        Label("Câu \(q.id)", systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(isCorrect ? .green : .red)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(Capsule().fill(isCorrect ? Color.green.opacity(0.12) : Color.red.opacity(0.12)))
+                        
+                        Spacer()
+                        
+                        Text(isCorrect ? "Đúng" : "Sai")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                            .foregroundColor(isCorrect ? .green : .red)
+                    }
+                    
+                    MarkdownRendererView(content: q.question)
+                        .font(.system(size: 14))
+                    
+                    HStack {
+                        Text("Bạn chọn: \(studentLetter)")
+                            .font(.caption)
+                            .foregroundColor(isCorrect ? .green : .red)
+                        Spacer()
+                        Text("Đáp án đúng: \(correctLetter)")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(.green)
+                    }
+                    .padding(8)
+                    .background(Color(hex: "#F9FAFB"))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("💡 Lời giải chi tiết từ AI:")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(AppTheme.primaryMint)
+                        MarkdownRendererView(content: q.explanation)
+                            .font(.caption)
+                            .foregroundColor(Color(hex: "#374151"))
+                    }
+                    .padding(10)
+                    .background(Color(hex: "#ECFDF5"))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+                .padding(14)
+                .background(
+                    RoundedRectangle(cornerRadius: 18)
+                        .fill(Color.white)
+                        .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
+                )
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var reviewTrueFalseSection: some View {
+        if let tfQuestions = activeExam?.trueFalse, !tfQuestions.isEmpty {
+            ForEach(tfQuestions) { q in
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Câu \(q.id) (Đúng / Sai)")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(hex: "#2563EB"))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(Capsule().fill(Color(hex: "#DBEAFE")))
+                    
+                    MarkdownRendererView(content: q.context)
+                        .font(.system(size: 14))
+                    
+                    ForEach(q.statements) { stmt in
+                        let chosen = studentTFAnswers["\(q.id):\(stmt.id)"]
+                        let isCorrect = (chosen == stmt.isCorrectTrue)
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack {
+                                Image(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                    .foregroundColor(isCorrect ? .green : .red)
+                                    .font(.caption)
+                                Text("Ý \(stmt.id)): \(stmt.statement)")
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                                Spacer()
+                                Text(stmt.isCorrectTrue ? "Đúng" : "Sai")
+                                    .font(.caption2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.green)
+                            }
+                            
+                            Text("Giải thích: \(stmt.explanation)")
+                                .font(.caption2)
+                                .foregroundColor(AppTheme.textSecondary)
+                        }
+                        .padding(8)
+                        .background(isCorrect ? Color.green.opacity(0.05) : Color.red.opacity(0.05))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+                }
+                .padding(14)
+                .background(
+                    RoundedRectangle(cornerRadius: 18)
+                        .fill(Color.white)
+                        .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
+                )
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var reviewShortAnswerSection: some View {
+        if let saQuestions = activeExam?.shortAnswer, !saQuestions.isEmpty {
+            ForEach(saQuestions) { q in
+                let studentAns = studentSAAnswers[q.id]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                let isCorrect = q.acceptedAnswers.contains(where: { $0.lowercased() == studentAns.lowercased() })
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        Label("Câu \(q.id) (Trả lời ngắn)", systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(isCorrect ? .green : .red)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(Capsule().fill(isCorrect ? Color.green.opacity(0.12) : Color.red.opacity(0.12)))
+                        Spacer()
+                    }
+                    
+                    MarkdownRendererView(content: q.question)
+                        .font(.system(size: 14))
+                    
+                    HStack {
+                        Text("Bạn điền: \"\(studentAns.isEmpty ? "Bỏ trống" : studentAns)\"")
+                            .font(.caption)
+                            .foregroundColor(isCorrect ? .green : .red)
+                        Spacer()
+                        Text("Đáp số: \(q.acceptedAnswers.first ?? "") \(q.unit ?? "")")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(.green)
+                    }
+                    .padding(8)
+                    .background(Color(hex: "#F9FAFB"))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("💡 Hướng dẫn giải chi tiết:")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(AppTheme.primaryMint)
+                        MarkdownRendererView(content: q.explanation)
+                            .font(.caption)
+                            .foregroundColor(Color(hex: "#374151"))
+                    }
+                    .padding(10)
+                    .background(Color(hex: "#ECFDF5"))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+                .padding(14)
+                .background(
+                    RoundedRectangle(cornerRadius: 18)
+                        .fill(Color.white)
+                        .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
+                )
             }
         }
     }
