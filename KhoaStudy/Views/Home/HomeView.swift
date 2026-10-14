@@ -21,13 +21,13 @@ struct HomeView: View {
                     topHeaderSection
                         .padding(.top, 14)
                     
-                    // 2. Tammi Style 3 Full 3D Chibi Artwork Cards (Hình Chibi 3D Cực Đẹp!)
+                    // 2. Tammi Style 3D Cutout Mascot Cards (Không khung bao bọc, Không shadow!)
                     tammiChibiArtworkCardsSection
                     
                     // 3. AI Tutor Interactive Banner with 3D Mascot
                     aiTutorInteractiveBanner
                     
-                    // 4. Large Promo Exam Banner (Ôn Thi Bứt Phá with 3D Art)
+                    // 4. Large Promo Exam Banner (Ôn Thi Bứt Phá)
                     tammiPromoExamBanner
                     
                     // Spacing above bottom bar
@@ -86,10 +86,10 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - 2. Tammi Style 3D Chibi Artwork Cards (Chuẩn Tammi - Có Chibi 3D Đẹp Mắt!)
+    // MARK: - 2. Tammi Style 3D Mascot Cards (NHÂN VẬT TÁCH NỀN TRONG SUỐT - KHÔNG KHUNG - KHÔNG SHADOW)
     private var tammiChibiArtworkCardsSection: some View {
         HStack(alignment: .top, spacing: 12) {
-            // Left Hero Card: HỌC LÍ THUYẾT SGK (3D Chibi Mascot Cầm Sách Ma Thuật)
+            // Left Hero Card: HỌC LÍ THUYẾT SGK (3D Chibi Fox Mascot tách nền trong suốt)
             Button(action: { showingTheorySheet = true }) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Học Lí Thuyết\nChuẩn SGK")
@@ -111,15 +111,13 @@ struct HomeView: View {
                     
                     Spacer(minLength: 4)
                     
-                    // 3D Chibi Fox Mascot Image
+                    // Nhân vật tách nền tự do, không khung, không shadow!
                     HStack {
                         Spacer()
                         Image("ChibiTheory")
                             .resizable()
                             .scaledToFit()
-                            .frame(maxHeight: 140)
-                            .clipShape(RoundedRectangle(cornerRadius: 18))
-                            .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 4)
+                            .frame(height: 145)
                         Spacer()
                     }
                 }
@@ -128,15 +126,15 @@ struct HomeView: View {
                 .background(
                     RoundedRectangle(cornerRadius: 24, style: .continuous)
                         .fill(Color.white)
-                        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 4)
+                        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
                 )
             }
             
-            // Right 2 Stacked Cards (Có Nhân Vật Chibi 3D Thật!)
+            // Right 2 Stacked Cards (Nhân vật tách nền tự do!)
             VStack(spacing: 12) {
-                // Card Top Right: LUYỆN BÀI TẬP (3D Chibi Bear Cầm Bút Khổng Lồ)
+                // Card Top Right: LUYỆN BÀI TẬP (Chibi Bear Mascot tách nền)
                 Button(action: { showingExerciseSheet = true }) {
-                    HStack(spacing: 8) {
+                    HStack(alignment: .center, spacing: 8) {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Luyện Bài Tập")
                                 .font(.system(size: 15, weight: .bold, design: .rounded))
@@ -148,25 +146,24 @@ struct HomeView: View {
                         
                         Spacer()
                         
+                        // Nhân vật tách nền tự do, không khung, không shadow!
                         Image("ChibiPractice")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 68, height: 68)
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                            .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 3)
+                            .frame(width: 72, height: 72)
                     }
                     .padding(12)
                     .frame(maxWidth: .infinity, minHeight: 114)
                     .background(
                         RoundedRectangle(cornerRadius: 22, style: .continuous)
                             .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 3)
+                            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
                     )
                 }
                 
-                // Card Bottom Right: TREO MÁY TỰ HỌC (3D Chibi Bunny Đeo Tai Nghe Pomodoro)
+                // Card Bottom Right: TREO MÁY TỰ HỌC (Chibi Bunny Mascot tách nền)
                 Button(action: { showingFocusSheet = true }) {
-                    HStack(spacing: 8) {
+                    HStack(alignment: .center, spacing: 8) {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Treo Máy Tự Học")
                                 .font(.system(size: 15, weight: .bold, design: .rounded))
@@ -178,19 +175,18 @@ struct HomeView: View {
                         
                         Spacer()
                         
+                        // Nhân vật tách nền tự do, không khung, không shadow!
                         Image("ChibiFocus")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 68, height: 68)
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                            .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 3)
+                            .frame(width: 72, height: 72)
                     }
                     .padding(12)
                     .frame(maxWidth: .infinity, minHeight: 114)
                     .background(
                         RoundedRectangle(cornerRadius: 22, style: .continuous)
                             .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 3)
+                            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
                     )
                 }
             }
@@ -204,12 +200,11 @@ struct HomeView: View {
             onOpenAIChat?()
         }) {
             HStack(spacing: 14) {
+                // Avatar Mascot tách nền
                 Image("ChibiAITutor")
                     .resizable()
-                    .scaledToFill()
+                    .scaledToFit()
                     .frame(width: 52, height: 52)
-                    .clipShape(Circle())
-                    .shadow(color: AppTheme.primaryMint.opacity(0.35), radius: 8, x: 0, y: 4)
                 
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 6) {
@@ -240,7 +235,7 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - 4. Large Promo Exam Banner (Ôn Thi Bứt Phá with 3D Mascot)
+    // MARK: - 4. Large Promo Exam Banner (Ôn Thi Bứt Phá)
     private var tammiPromoExamBanner: some View {
         VStack(spacing: 8) {
             ZStack(alignment: .bottomTrailing) {
@@ -283,7 +278,6 @@ struct HomeView: View {
                         .scaledToFill()
                         .frame(width: 90, height: 90)
                         .clipShape(RoundedRectangle(cornerRadius: 18))
-                        .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
                         .padding(.trailing, 16)
                 }
             }

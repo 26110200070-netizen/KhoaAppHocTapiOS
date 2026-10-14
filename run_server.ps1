@@ -29,15 +29,37 @@ Write-Host "[2/4] Kiem tra thu vien dependencies..." -ForegroundColor Cyan
 & $venvPython -m pip install -q -r requirements.txt
 & $venvPython -m playwright install chromium
 
-# 2. Check Session Login
+# 2. Check Session Login & Validate Token
 $sessionFile = Join-Path $apiDir "session\session.json"
-if (-not (Test-Path $sessionFile)) {
+$needsLogin = $true
+
+if (Test-Path $sessionFile) {
+    Write-Host "[*] Kiem tra phien dang nhap DeepSeek hien tai..." -ForegroundColor Yellow
+    $testResult = & $venvPython -c "
+from deepseek.client import DeepSeekClient
+from deepseek.auth import get_session
+try:
+    c = DeepSeekClient(get_session(allow_interactive=False))
+    c.create_chat_session()
+    print('VALID')
+except Exception as e:
+    print('EXPIRED')
+"
+    if ($testResult -match "VALID") {
+        Write-Host "[OK] Phien DeepSeek hop le, san sang phuc vu!" -ForegroundColor Green
+        $needsLogin = $false
+    } else {
+        Write-Host "[!] Phien DeepSeek da het han token. Can dang nhap lai!" -ForegroundColor Yellow
+        Remove-Item $sessionFile -Force -ErrorAction SilentlyContinue
+    }
+}
+
+if ($needsLogin) {
     Write-Host ""
     Write-Host "=====================================================================" -ForegroundColor Yellow
-    Write-Host "[!] CHUA CO PHIEN DANG NHAP DEEPSEEK!" -ForegroundColor Yellow
-    Write-Host "[*] Dang mo trinh duyet Chromium..." -ForegroundColor Yellow
-    Write-Host "[*] VUI LONG BAM 'LOG IN WITH GOOGLE' HOAC EMAIL DE DANG NHAP TAI KHOAN CUA BAN." -ForegroundColor Yellow
-    Write-Host "[*] Sau khi dang nhap xong va vuot qua xac minh, phien se tu dong luu!" -ForegroundColor Yellow
+    Write-Host "[*] DANG MO TRINH DUYET CHROMIUM..." -ForegroundColor Yellow
+    Write-Host "[*] VUI LONG BAM 'LOG IN WITH GOOGLE' DE DANG NHAP TAI KHOAN DEEPSEEK." -ForegroundColor Yellow
+    Write-Host "[*] Sau khi dang nhap xong va vuot xac minh, phien se tu dong luu!" -ForegroundColor Yellow
     Write-Host "=====================================================================" -ForegroundColor Yellow
     Write-Host ""
     & $venvPython -m deepseek.auth

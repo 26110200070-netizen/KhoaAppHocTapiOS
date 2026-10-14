@@ -96,13 +96,13 @@ class DeepSeekService {
         if !apiKey.isEmpty {
             request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         }
-        request.timeoutInterval = 15.0
+        request.timeoutInterval = 45.0
         
         // Natural prompt without markdown meta-talk
         var apiMessages: [[String: String]] = [
             [
                 "role": "system",
-                "content": "Bạn là Gia Sư DeepSeek AI của ứng dụng học tập KhoaStudy. Hãy trả lời tự nhiên, thân thiện, súc tích, giải thích đúng trọng tâm như đang dạy kèm trực tiếp cho học sinh. Tuyệt đối không dùng các câu dẫn như 'tôi trình bày theo dạng markdown' hay 'sau đây là tóm tắt markdown'."
+                "content": "Bạn là Gia Sư DeepSeek AI của ứng dụng học tập KhoaStudy. Hãy giải thích chi tiết, đầy đủ bảng biểu, công thức toán học và mã nguồn (code) nếu cần để hỗ trợ học sinh học tập tốt nhất."
             ]
         ]
         
@@ -131,16 +131,41 @@ class DeepSeekService {
             var fullAnswer = ""
             
             if let data = data,
-               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let choices = json["choices"] as? [[String: Any]],
-               let firstChoice = choices.first,
-               let message = firstChoice["message"] as? [String: Any],
-               let content = message["content"] as? String,
-               !content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                fullAnswer = content
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                
+                // 1. Check for Server Error (e.g. Expired Token)
+                if let errorObj = json["error"] as? [String: Any],
+                   let errMsg = errorObj["message"] as? String {
+                    if errMsg.contains("Authorization Failed") || errMsg.contains("invalid token") {
+                        fullAnswer = """
+                        ⚠️ Phiên đăng nhập DeepSeek trên máy tính đã hết hạn.
+                        
+                        👉 Cách khắc phục đơn giản:
+                        Bạn hãy mở lại file `run_deepseek_server.bat` trên máy tính. Trình duyệt sẽ mở lên để bạn bấm 'Log in with Google' đăng nhập lại (mất 5 giây).
+                        
+                        Sau khi đăng nhập xong, bạn quay lại app bấm gửi lại câu hỏi là DeepSeek sẽ trả lời ngay nhé!
+                        """
+                    } else {
+                        fullAnswer = "⚠️ DeepSeek phản hồi lỗi: \(errMsg)"
+                    }
+                }
+                // 2. Real DeepSeek AI response
+                else if let choices = json["choices"] as? [[String: Any]],
+                   let firstChoice = choices.first,
+                   let message = firstChoice["message"] as? [String: Any],
+                   let content = message["content"] as? String,
+                   !content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    fullAnswer = content
+                }
+                // 3. Fallback only if payload empty
+                else {
+                    let lastUserPrompt = messages.last(where: { $0.role == "user" })?.content ?? ""
+                    fullAnswer = "⚠️ Không nhận được nội dung câu trả lời từ máy chủ DeepSeek cho câu hỏi '\(lastUserPrompt)'."
+                }
+            } else if let error = error {
+                fullAnswer = "⚠️ Lỗi kết nối mạng: \(error.localizedDescription)\n\nVui lòng kiểm tra xem máy tính và iPhone có đang chung mạng Wi-Fi và máy tính có đang bật server không."
             } else {
-                let lastUserPrompt = messages.last(where: { $0.role == "user" })?.content ?? ""
-                fullAnswer = self.generateNaturalFallback(for: lastUserPrompt)
+                fullAnswer = "⚠️ Không thể kết nối tới DeepSeek Server tại \(serverUrl)."
             }
             
             // Deliver smoothly to UI on the main thread (Never hangs!)
@@ -188,16 +213,5 @@ class DeepSeekService {
             // Run even when user scrolls or interacts with UI
             RunLoop.main.add(timer, forMode: .common)
         }
-    }
-    
-    private func generateNaturalFallback(for prompt: String) -> String {
-        return """
-        Chào bạn! Về nội dung "\(prompt)":
-        
-        1. Về kiến thức trọng tâm: Bạn hãy ôn lại định nghĩa cơ bản và các công thức liên quan trong sách giáo khoa để hiểu rõ bản chất.
-        2. Về phương pháp giải: Đọc kĩ giả thiết của đề bài, xác định rõ yêu cầu cần tìm, sau đó áp dụng đúng công thức và kiểm tra lại kết quả.
-        
-        Nếu bạn cần hướng dẫn chi tiết thêm phần nào, cứ gửi câu hỏi vào đây nhé!
-        """
     }
 }
