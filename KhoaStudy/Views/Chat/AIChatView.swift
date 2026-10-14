@@ -8,8 +8,8 @@ struct AIChatView: View {
     @State private var inputPrompt: String = ""
     @State private var isThinking: Bool = false
     @State private var selectedModel: DeepSeekModel = .chat
-    @State private var showingModelInfo: Bool = false
     @State private var streamingText: String = ""
+    @State private var showingNewChatConfirmation: Bool = false
     
     var body: some View {
         ZStack {
@@ -43,7 +43,7 @@ struct AIChatView: View {
                 Divider()
                     .opacity(0.3)
                 
-                // 2. Chat Conversation (UNBOXED AI text - tapping dismisses keyboard)
+                // 2. Chat Conversation (Full-width AI response, no auto-scroll during streaming)
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         LazyVStack(spacing: 18) {
@@ -57,7 +57,7 @@ struct AIChatView: View {
                                 }
                             }
                             
-                            // Streaming / Typing in progress (Unboxed text)
+                            // Streaming / Typing in progress (Full width unboxed text)
                             if isThinking {
                                 streamingMessageRow
                                     .id("streaming_row")
@@ -65,7 +65,7 @@ struct AIChatView: View {
                             
                             Spacer().frame(height: 10)
                         }
-                        .padding(.horizontal, 18)
+                        .padding(.horizontal, 16)
                         .padding(.vertical, 14)
                     }
                     .scrollDismissesKeyboard(.immediately)
@@ -73,25 +73,28 @@ struct AIChatView: View {
                     .onTapGesture {
                         hideKeyboard()
                     }
+                    // Only scroll when a new user or AI message is appended; NEVER on every streaming token!
                     .onChange(of: messages.count) { _ in
                         if let lastId = messages.last?.id {
-                            withAnimation { proxy.scrollTo(lastId, anchor: .bottom) }
+                            withAnimation(.easeOut(duration: 0.3)) {
+                                proxy.scrollTo(lastId, anchor: .bottom)
+                            }
                         }
-                    }
-                    .onChange(of: streamingText) { _ in
-                        withAnimation { proxy.scrollTo("streaming_row", anchor: .bottom) }
                     }
                 }
                 
-                // 3. Bottom Chat Input Bar (Screenshot 4 Style - No floating menu obstruction!)
+                // 3. Bottom Chat Input Bar (With Stop Square Button during generation!)
                 bottomChatInputBar
             }
         }
         .navigationBarHidden(true)
-        .alert("Mô Hình Trí Tuệ Nhân Tạo", isPresented: $showingModelInfo) {
-            Button("Đóng", role: .cancel) {}
+        .confirmationDialog("Tạo cuộc trò chuyện mới?", isPresented: $showingNewChatConfirmation, titleVisibility: .visible) {
+            Button("Xác nhận tạo chat mới", role: .destructive) {
+                startNewChat()
+            }
+            Button("Hủy", role: .cancel) {}
         } message: {
-            Text("Đang kết nối: \(appState.deepSeekServerUrl)\nModel: \(selectedModel.displayName)\nPhiên Google DeepSeek đang hoạt động trực tiếp!")
+            Text("Nội dung cuộc trò chuyện hiện tại sẽ được làm mới.")
         }
     }
     
@@ -163,14 +166,32 @@ struct AIChatView: View {
             
             Spacer()
             
-            // Info Button
-            Button(action: { showingModelInfo = true }) {
+            // New Chat / Switch Chat Button (Icon square.and.pencil thay cho dấu chấm than)
+            Menu {
+                Button(action: {
+                    showingNewChatConfirmation = true
+                }) {
+                    Label("Tạo đoạn chat mới", systemImage: "plus.bubble.fill")
+                }
+                
+                Section("Chủ đề học tập mẫu") {
+                    Button("📐 Đạo hàm & Khảo sát hàm số") {
+                        startPresetTopic("Giải thích bản chất định lý đạo hàm lớp 12 và phương pháp làm bài")
+                    }
+                    Button("🧪 Cân bằng phản ứng Oxi hóa - Khử") {
+                        startPresetTopic("Hướng dẫn các bước cân bằng phương trình oxi hóa - khử môn Hóa")
+                    }
+                    Button("📚 Tác phẩm Vợ Nhặt - Ngữ Văn") {
+                        startPresetTopic("Tóm tắt giá trị nhân đạo tác phẩm Vợ Nhặt - Kim Lân")
+                    }
+                }
+            } label: {
                 ZStack {
                     Circle()
                         .fill(Color(hex: "#1F2937"))
                         .frame(width: 38, height: 38)
-                    Image(systemName: "info")
-                        .font(.system(size: 14, weight: .bold))
+                    Image(systemName: "square.and.pencil")
+                        .font(.system(size: 15, weight: .bold))
                         .foregroundColor(.white)
                 }
             }
@@ -225,11 +246,11 @@ struct AIChatView: View {
         }
     }
     
-    // MARK: - Chat Bubble Row (UNBOXED AI TEXT - KHÔNG KHUNG BAO BỌC!)
+    // MARK: - Chat Bubble Row (AI CHAT DÀI HẾT CHIỀU NGANG - KHÔNG BỊ BÓ HẸP!)
     private func chatBubbleRow(msg: ChatMessage) -> some View {
         HStack(alignment: .top, spacing: 10) {
             if msg.role == "user" {
-                Spacer(minLength: 48)
+                Spacer(minLength: 40)
                 
                 Text(msg.content)
                     .font(.system(size: 15))
@@ -241,13 +262,14 @@ struct AIChatView: View {
                             .fill(AppTheme.primaryMint)
                     )
             } else {
-                // AI Response: UNBOXED! Directly on the clean white background
+                // AI Response: FULL WIDTH DÀI HẾT CHIỀU NGANG!
                 VStack(alignment: .leading, spacing: 8) {
                     Text(LocalizedStringKey(msg.content))
                         .font(.system(size: 15))
                         .foregroundColor(Color(hex: "#1F2937"))
                         .lineSpacing(5)
                         .padding(.vertical, 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     
                     // Copy button
                     Button(action: {
@@ -262,35 +284,33 @@ struct AIChatView: View {
                     }
                     .padding(.top, 2)
                 }
-                
-                Spacer(minLength: 24)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
     }
     
-    // MARK: - Streaming Message Row (Word-by-word typewriter - Unboxed)
+    // MARK: - Streaming Message Row (Full width unboxed)
     private var streamingMessageRow: some View {
-        HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 6) {
-                if streamingText.isEmpty {
-                    HStack(spacing: 6) {
-                        Text("DeepSeek đang soạn câu trả lời...")
-                            .font(.system(size: 14))
-                            .foregroundColor(AppTheme.textSecondary)
-                        ProgressView().scaleEffect(0.7)
-                    }
-                } else {
-                    Text(LocalizedStringKey(streamingText))
-                        .font(.system(size: 15))
-                        .foregroundColor(Color(hex: "#1F2937"))
-                        .lineSpacing(5)
+        VStack(alignment: .leading, spacing: 6) {
+            if streamingText.isEmpty {
+                HStack(spacing: 6) {
+                    Text("DeepSeek đang soạn câu trả lời...")
+                        .font(.system(size: 14))
+                        .foregroundColor(AppTheme.textSecondary)
+                    ProgressView().scaleEffect(0.7)
                 }
+            } else {
+                Text(LocalizedStringKey(streamingText))
+                    .font(.system(size: 15))
+                    .foregroundColor(Color(hex: "#1F2937"))
+                    .lineSpacing(5)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
-            Spacer(minLength: 24)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    // MARK: - 3. Bottom Chat Input Bar (Screenshot 4 Style)
+    // MARK: - 3. Bottom Chat Input Bar (Khi AI đang chat: Icon Ô Vuông để DỪNG CHAT!)
     private var bottomChatInputBar: some View {
         HStack(spacing: 12) {
             // Plus Button (Black circle)
@@ -338,8 +358,22 @@ struct AIChatView: View {
                     .foregroundColor(Color(hex: "#1F2937"))
             }
             
-            // Send / Mic Button
-            if inputPrompt.trimmingCharacters(in: .whitespaces).isEmpty {
+            // ACTION BUTTON: Khi AI đang chat -> Nút Ô Vuông để DỪNG CHAT!
+            if isThinking {
+                Button(action: {
+                    stopChatGeneration()
+                }) {
+                    ZStack {
+                        Circle()
+                            .fill(Color(hex: "#1F2937"))
+                            .frame(width: 36, height: 36)
+                        // Biểu tượng ô vuông dừng chat
+                        RoundedRectangle(cornerRadius: 3)
+                            .fill(Color.white)
+                            .frame(width: 13, height: 13)
+                    }
+                }
+            } else if inputPrompt.trimmingCharacters(in: .whitespaces).isEmpty {
                 Button(action: {}) {
                     Image(systemName: "mic.fill")
                         .font(.system(size: 20))
@@ -358,7 +392,6 @@ struct AIChatView: View {
                             .foregroundColor(.white)
                     }
                 }
-                .disabled(isThinking)
             }
         }
         .padding(.horizontal, 16)
@@ -367,7 +400,7 @@ struct AIChatView: View {
         .background(Color.white)
     }
     
-    // MARK: - Send Prompt with Streaming
+    // MARK: - Actions
     private func sendUserPrompt(_ prompt: String) {
         let trimmed = prompt.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
@@ -401,6 +434,29 @@ struct AIChatView: View {
                 isThinking = false
             }
         )
+    }
+    
+    private func stopChatGeneration() {
+        DeepSeekService.shared.stopStreaming()
+        if !streamingText.isEmpty {
+            let aiMsg = ChatMessage(role: "assistant", content: streamingText)
+            messages.append(aiMsg)
+            streamingText = ""
+        }
+        isThinking = false
+    }
+    
+    private func startNewChat() {
+        stopChatGeneration()
+        messages.removeAll()
+        streamingText = ""
+        isThinking = false
+        inputPrompt = ""
+    }
+    
+    private func startPresetTopic(_ prompt: String) {
+        startNewChat()
+        sendUserPrompt(prompt)
     }
     
     private func hideKeyboard() {

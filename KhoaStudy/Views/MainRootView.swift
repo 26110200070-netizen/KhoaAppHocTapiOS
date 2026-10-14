@@ -45,7 +45,7 @@ struct MainRootView: View {
                             .tag(MainTab.account)
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
-                    .ignoresSafeArea(.all, edges: .top)
+                    // Do NOT ignore top safe area! This preserves top space for battery & clock.
                     
                     // Full-Width Bottom Bar across horizontal screen
                     customFullWidthTabBar

@@ -7,46 +7,46 @@ struct AccountView: View {
     @State private var isTestingServer: Bool = false
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color(hex: "#F8FAF9").ignoresSafeArea()
-                
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 18) {
-                        // Custom Header Title (Eliminates navigation bar overlap from Screenshot 1!)
-                        HStack {
-                            Text("Tài Khoản")
-                                .font(.system(size: 24, weight: .bold, design: .rounded))
-                                .foregroundColor(Color(hex: "#111827"))
-                            Spacer()
-                        }
-                        .padding(.top, 10)
-                        
-                        // 1. User Profile Header Card
-                        profileHeaderCard
-                        
-                        // 2. Study Achievements
-                        studyAchievementsCard
-                        
-                        // 3. Settings & Options
-                        settingsListCard
-                        
-                        // 4. Logout Button
-                        logoutButton
-                        
-                        // Spacing for floating bottom bar
-                        Spacer().frame(height: 100)
+        ZStack {
+            // Background covers 100% behind battery & home indicator
+            Color(hex: "#F8FAF9")
+                .ignoresSafeArea()
+            
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 18) {
+                    // Custom Header Title (Clean breathing space below battery & clock)
+                    HStack {
+                        Text("Tài Khoản")
+                            .font(.system(size: 26, weight: .bold, design: .rounded))
+                            .foregroundColor(Color(hex: "#111827"))
+                        Spacer()
                     }
-                    .padding(.horizontal, 16)
+                    .padding(.top, 14)
+                    .padding(.horizontal, 4)
+                    
+                    // 1. User Profile Header Card
+                    profileHeaderCard
+                    
+                    // 2. Study Achievements
+                    studyAchievementsCard
+                    
+                    // 3. Settings & Options
+                    settingsListCard
+                    
+                    // 4. Logout Button
+                    logoutButton
+                    
+                    // Spacing for full-width bottom bar
+                    Spacer().frame(height: 90)
                 }
+                .padding(.horizontal, 16)
             }
-            .navigationBarHidden(true) // Prevents iOS navigation bar collision!
-            .sheet(isPresented: $showingSwitchAccountSheet) {
-                switchAccountSheet
-            }
-            .onAppear {
-                testServer()
-            }
+        }
+        .sheet(isPresented: $showingSwitchAccountSheet) {
+            switchAccountSheet
+        }
+        .onAppear {
+            testServer()
         }
     }
     

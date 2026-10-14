@@ -37,6 +37,9 @@ enum DeepSeekModel: String, CaseIterable, Identifiable {
 class DeepSeekService {
     static let shared = DeepSeekService()
     
+    private var activeDataTask: URLSessionDataTask?
+    private var streamTimer: Timer?
+    
     func checkConnection(serverUrl: String, completion: @escaping (Bool, String) -> Void) {
         guard let url = URL(string: "\(serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/")))/models") else {
             completion(false, "URL máy chủ không hợp lệ")
@@ -60,6 +63,14 @@ class DeepSeekService {
         }.resume()
     }
     
+    // Stop / cancel streaming immediately when user taps stop square button
+    func stopStreaming() {
+        activeDataTask?.cancel()
+        activeDataTask = nil
+        streamTimer?.invalidate()
+        streamTimer = nil
+    }
+    
     // Natural chat with streaming token response (Guaranteed main-thread delivery)
     func sendStreamingChat(
         messages: [ChatMessage],
@@ -70,6 +81,8 @@ class DeepSeekService {
         onComplete: @escaping () -> Void,
         onError: @escaping (Error) -> Void
     ) {
+        stopStreaming()
+        
         guard let url = URL(string: "\(serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/")))/chat/completions") else {
             DispatchQueue.main.async {
                 onError(NSError(domain: "DeepSeekService", code: 400, userInfo: [NSLocalizedDescriptionKey: "URL Endpoint không hợp lệ"]))
@@ -89,7 +102,7 @@ class DeepSeekService {
         var apiMessages: [[String: String]] = [
             [
                 "role": "system",
-                "content": "Bạn là Gia Sư DeepSeek AI của ứng dụng học tập KhoaStudy. Hãy trả lời tự nhiên, thân thiện, súc tích, giải thích đúng trọng tâm như đang dạy kèm trực tiếp cho học sinh. Không dùng các câu như 'tôi trình bày theo dạng markdown' hay 'sau đây là tóm tắt markdown'."
+                "content": "Bạn là Gia Sư DeepSeek AI của ứng dụng học tập KhoaStudy. Hãy trả lời tự nhiên, thân thiện, súc tích, giải thích đúng trọng tâm như đang dạy kèm trực tiếp cho học sinh. Tuyệt đối không dùng các câu dẫn như 'tôi trình bày theo dạng markdown' hay 'sau đây là tóm tắt markdown'."
             ]
         ]
         
@@ -112,7 +125,9 @@ class DeepSeekService {
         }
         request.httpBody = httpBody
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            guard let self = self else { return }
+            
             var fullAnswer = ""
             
             if let data = data,
@@ -130,7 +145,10 @@ class DeepSeekService {
             
             // Deliver smoothly to UI on the main thread (Never hangs!)
             self.streamWordsToUI(text: fullAnswer, onToken: onToken, onComplete: onComplete)
-        }.resume()
+        }
+        
+        self.activeDataTask = task
+        task.resume()
     }
     
     // Smooth typewriter animation guaranteed to run on the main runloop
@@ -145,17 +163,28 @@ class DeepSeekService {
         }
         
         DispatchQueue.main.async {
+            self.streamTimer?.invalidate()
             var currentIndex = 0
-            let timer = Timer.scheduledTimer(withTimeInterval: 0.025, repeats: true) { t in
+            
+            let timer = Timer.scheduledTimer(withTimeInterval: 0.025, repeats: true) { [weak self] t in
+                guard let self = self else {
+                    t.invalidate()
+                    return
+                }
+                
                 if currentIndex < words.count {
                     let word = words[currentIndex] + (currentIndex < words.count - 1 ? " " : "")
                     onToken(word)
                     currentIndex += 1
                 } else {
                     t.invalidate()
+                    self.streamTimer = nil
+                    self.activeDataTask = nil
                     onComplete()
                 }
             }
+            
+            self.streamTimer = timer
             // Run even when user scrolls or interacts with UI
             RunLoop.main.add(timer, forMode: .common)
         }

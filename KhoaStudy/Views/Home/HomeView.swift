@@ -19,7 +19,7 @@ struct HomeView: View {
                 VStack(spacing: 18) {
                     // 1. Top Header (Greeting + User Profile right under status bar)
                     topHeaderSection
-                        .padding(.top, 8)
+                        .padding(.top, 14)
                     
                     // 2. Tammi Style 3 Full Art Gradient Study Cards (Full hình nền như Ôn Thi Bứt Phá!)
                     tammiFullGradientStudyCardsSection
