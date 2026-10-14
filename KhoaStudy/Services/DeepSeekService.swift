@@ -83,7 +83,12 @@ class DeepSeekService {
     ) {
         stopStreaming()
         
-        guard let url = URL(string: "\(serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/")))/chat/completions") else {
+        var targetEndpoint = "\(serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/")))/chat/completions"
+        if apiKey.hasPrefix("sk-") && !serverUrl.contains("api.deepseek.com") {
+            targetEndpoint = "https://api.deepseek.com/v1/chat/completions"
+        }
+        
+        guard let url = URL(string: targetEndpoint) else {
             DispatchQueue.main.async {
                 onError(NSError(domain: "DeepSeekService", code: 400, userInfo: [NSLocalizedDescriptionKey: "URL Endpoint không hợp lệ"]))
             }
@@ -133,10 +138,20 @@ class DeepSeekService {
             if let data = data,
                let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
                 
-                // 1. Check for Server Error (e.g. Expired Token)
+                // 1. Check for Server Error (e.g. Muted Account or Expired Token)
                 if let errorObj = json["error"] as? [String: Any],
                    let errMsg = errorObj["message"] as? String {
-                    if errMsg.contains("Authorization Failed") || errMsg.contains("invalid token") {
+                    let lower = errMsg.lowercased()
+                    if lower.contains("muted") || lower.contains("tạm khóa") || lower.contains("giới hạn") {
+                        fullAnswer = """
+                        ⚠️ Tài khoản DeepSeek trên máy tính đang bị tạm khóa tính năng chat (User is muted).
+                        
+                        👉 Cách xử lý siêu nhanh:
+                        1. Trên máy tính, hãy đóng cửa sổ DeepSeek Server và mở lại file `run_deepseek_server.bat`.
+                        2. Cửa sổ Chromium sẽ mở lên, bạn bấm 'Log in with Google' và chọn một tài khoản Google khác (hoặc tạo tài khoản mới).
+                        3. Đăng nhập xong là bạn quay lại app gửi câu hỏi được ngay nhé!
+                        """
+                    } else if lower.contains("authorization failed") || lower.contains("invalid token") || lower.contains("hết hạn") {
                         fullAnswer = """
                         ⚠️ Phiên đăng nhập DeepSeek trên máy tính đã hết hạn.
                         
@@ -146,7 +161,7 @@ class DeepSeekService {
                         Sau khi đăng nhập xong, bạn quay lại app bấm gửi lại câu hỏi là DeepSeek sẽ trả lời ngay nhé!
                         """
                     } else {
-                        fullAnswer = "⚠️ DeepSeek phản hồi lỗi: \(errMsg)"
+                        fullAnswer = "⚠️ DeepSeek phản hồi: \(errMsg)"
                     }
                 }
                 // 2. Real DeepSeek AI response
@@ -157,10 +172,17 @@ class DeepSeekService {
                    !content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     fullAnswer = content
                 }
-                // 3. Fallback only if payload empty
+                // 3. Fallback when payload is empty
                 else {
                     let lastUserPrompt = messages.last(where: { $0.role == "user" })?.content ?? ""
-                    fullAnswer = "⚠️ Không nhận được nội dung câu trả lời từ máy chủ DeepSeek cho câu hỏi '\(lastUserPrompt)'."
+                    fullAnswer = """
+                    ⚠️ Không nhận được phản hồi cho câu hỏi '\(lastUserPrompt)'.
+                    
+                    💡 Nguyên nhân:
+                    Tài khoản DeepSeek trên máy tính đang bị DeepSeek tạm khóa (Muted) hoặc chưa đăng nhập hợp lệ.
+                    
+                    👉 Bạn hãy mở file `run_deepseek_server.bat` trên máy tính để đăng nhập một tài khoản Google khác nhé!
+                    """
                 }
             } else if let error = error {
                 fullAnswer = "⚠️ Lỗi kết nối mạng: \(error.localizedDescription)\n\nVui lòng kiểm tra xem máy tính và iPhone có đang chung mạng Wi-Fi và máy tính có đang bật server không."
