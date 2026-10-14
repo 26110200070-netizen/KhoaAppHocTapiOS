@@ -21,13 +21,13 @@ struct HomeView: View {
                     topHeaderSection
                         .padding(.top, 14)
                     
-                    // 2. Tammi Style 3 Full Art Gradient Study Cards (Full hình nền như Ôn Thi Bứt Phá!)
-                    tammiFullGradientStudyCardsSection
+                    // 2. Tammi Style 3 Full 3D Chibi Artwork Cards (Hình Chibi 3D Cực Đẹp!)
+                    tammiChibiArtworkCardsSection
                     
-                    // 3. AI Tutor Interactive Banner (Screenshot 3 Style)
+                    // 3. AI Tutor Interactive Banner with 3D Mascot
                     aiTutorInteractiveBanner
                     
-                    // 4. Large Promo Exam Banner (Ôn Thi Bứt Phá)
+                    // 4. Large Promo Exam Banner (Ôn Thi Bứt Phá with 3D Art)
                     tammiPromoExamBanner
                     
                     // Spacing above bottom bar
@@ -86,167 +86,130 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - 2. Tammi Style 3 Full Art Study Cards (HÌNH NỀN FULL GRADIENT NHƯ ÔN THI BỨT PHÁ!)
-    private var tammiFullGradientStudyCardsSection: some View {
+    // MARK: - 2. Tammi Style 3D Chibi Artwork Cards (Chuẩn Tammi - Có Chibi 3D Đẹp Mắt!)
+    private var tammiChibiArtworkCardsSection: some View {
         HStack(alignment: .top, spacing: 12) {
-            // Left Hero Card: HỌC LÍ THUYẾT SGK (Full Emerald/Teal Gradient)
+            // Left Hero Card: HỌC LÍ THUYẾT SGK (3D Chibi Mascot Cầm Sách Ma Thuật)
             Button(action: { showingTheorySheet = true }) {
-                ZStack(alignment: .topLeading) {
-                    // Full Card Background Gradient
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .fill(
-                            LinearGradient(
-                                colors: [Color(hex: "#059669"), Color(hex: "#047857")],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Học Lí Thuyết\nChuẩn SGK")
+                        .font(.system(size: 17, weight: .bold, design: .rounded))
+                        .foregroundColor(Color(hex: "#111827"))
+                        .lineSpacing(2)
+                        .multilineTextAlignment(.leading)
                     
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Học Lí Thuyết\nChuẩn SGK")
-                            .font(.system(size: 17, weight: .bold, design: .rounded))
-                            .foregroundColor(.white)
-                            .lineSpacing(2)
-                            .multilineTextAlignment(.leading)
-                        
-                        HStack(spacing: 4) {
-                            Text("Vào học ngay")
-                                .font(.system(size: 11, weight: .bold))
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 9, weight: .bold))
-                        }
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .background(Capsule().fill(Color.white.opacity(0.2)))
-                        
-                        Spacer(minLength: 10)
-                        
-                        // 3D Visual Center
-                        HStack {
-                            Spacer()
-                            VStack(spacing: 4) {
-                                Image(systemName: "book.pages.fill")
-                                    .font(.system(size: 52))
-                                    .foregroundColor(.white)
-                                    .shadow(color: Color.black.opacity(0.15), radius: 6, x: 0, y: 3)
-                                
-                                Text("Video AI & Lý Thuyết")
-                                    .font(.system(size: 10, weight: .bold))
-                                    .foregroundColor(Color.white.opacity(0.9))
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom, 6)
+                    HStack(spacing: 4) {
+                        Text("Vào học ngay")
+                            .font(.system(size: 11, weight: .bold))
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 9, weight: .bold))
                     }
-                    .padding(14)
+                    .foregroundColor(Color(hex: "#EF4444"))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(Capsule().fill(Color(hex: "#FEE2E2")))
+                    
+                    Spacer(minLength: 4)
+                    
+                    // 3D Chibi Fox Mascot Image
+                    HStack {
+                        Spacer()
+                        Image("ChibiTheory")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxHeight: 140)
+                            .clipShape(RoundedRectangle(cornerRadius: 18))
+                            .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 4)
+                        Spacer()
+                    }
                 }
-                .frame(maxWidth: .infinity, minHeight: 236)
-                .shadow(color: Color(hex: "#059669").opacity(0.25), radius: 8, x: 0, y: 4)
+                .padding(14)
+                .frame(maxWidth: .infinity, minHeight: 240)
+                .background(
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .fill(Color.white)
+                        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 4)
+                )
             }
             
-            // Right 2 Stacked Cards (FULL GRADIENTS)
+            // Right 2 Stacked Cards (Có Nhân Vật Chibi 3D Thật!)
             VStack(spacing: 12) {
-                // Card Top Right: LUYỆN BÀI TẬP (Full Amber Gradient)
+                // Card Top Right: LUYỆN BÀI TẬP (3D Chibi Bear Cầm Bút Khổng Lồ)
                 Button(action: { showingExerciseSheet = true }) {
-                    ZStack(alignment: .topLeading) {
-                        RoundedRectangle(cornerRadius: 22, style: .continuous)
-                            .fill(
-                                LinearGradient(
-                                    colors: [Color(hex: "#F59E0B"), Color(hex: "#D97706")],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                        
+                    HStack(spacing: 8) {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Luyện Bài Tập")
                                 .font(.system(size: 15, weight: .bold, design: .rounded))
-                                .foregroundColor(.white)
+                                .foregroundColor(Color(hex: "#111827"))
                             Text("5 - 40 câu có lời giải")
                                 .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(Color.white.opacity(0.9))
-                            
-                            Spacer()
-                            
-                            HStack {
-                                Spacer()
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.white.opacity(0.25))
-                                        .frame(width: 44, height: 44)
-                                    Image(systemName: "pencil.and.list.clipboard")
-                                        .font(.system(size: 22))
-                                        .foregroundColor(.white)
-                                }
-                            }
+                                .foregroundColor(AppTheme.textSecondary)
                         }
-                        .padding(12)
+                        
+                        Spacer()
+                        
+                        Image("ChibiPractice")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 68, height: 68)
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                            .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 3)
                     }
-                    .frame(maxWidth: .infinity, minHeight: 112)
-                    .shadow(color: Color(hex: "#D97706").opacity(0.22), radius: 8, x: 0, y: 3)
+                    .padding(12)
+                    .frame(maxWidth: .infinity, minHeight: 114)
+                    .background(
+                        RoundedRectangle(cornerRadius: 22, style: .continuous)
+                            .fill(Color.white)
+                            .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 3)
+                    )
                 }
                 
-                // Card Bottom Right: TREO MÁY TỰ HỌC (Full Indigo Gradient)
+                // Card Bottom Right: TREO MÁY TỰ HỌC (3D Chibi Bunny Đeo Tai Nghe Pomodoro)
                 Button(action: { showingFocusSheet = true }) {
-                    ZStack(alignment: .topLeading) {
-                        RoundedRectangle(cornerRadius: 22, style: .continuous)
-                            .fill(
-                                LinearGradient(
-                                    colors: [Color(hex: "#6366F1"), Color(hex: "#4338CA")],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                        
+                    HStack(spacing: 8) {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Treo Máy Tự Học")
                                 .font(.system(size: 15, weight: .bold, design: .rounded))
-                                .foregroundColor(.white)
-                            Text("Pomodoro không xao nhãng")
+                                .foregroundColor(Color(hex: "#111827"))
+                            Text("Pomodoro tập trung")
                                 .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(Color.white.opacity(0.9))
-                            
-                            Spacer()
-                            
-                            HStack {
-                                Spacer()
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.white.opacity(0.25))
-                                        .frame(width: 44, height: 44)
-                                    Image(systemName: "lock.shield.fill")
-                                        .font(.system(size: 22))
-                                        .foregroundColor(.white)
-                                }
-                            }
+                                .foregroundColor(AppTheme.textSecondary)
                         }
-                        .padding(12)
+                        
+                        Spacer()
+                        
+                        Image("ChibiFocus")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 68, height: 68)
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                            .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 3)
                     }
-                    .frame(maxWidth: .infinity, minHeight: 112)
-                    .shadow(color: Color(hex: "#4338CA").opacity(0.22), radius: 8, x: 0, y: 3)
+                    .padding(12)
+                    .frame(maxWidth: .infinity, minHeight: 114)
+                    .background(
+                        RoundedRectangle(cornerRadius: 22, style: .continuous)
+                            .fill(Color.white)
+                            .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 3)
+                    )
                 }
             }
             .frame(maxWidth: .infinity)
         }
     }
     
-    // MARK: - 3. AI Tutor Interactive Banner
+    // MARK: - 3. AI Tutor Interactive Banner with 3D Mascot
     private var aiTutorInteractiveBanner: some View {
         Button(action: {
             onOpenAIChat?()
         }) {
             HStack(spacing: 14) {
-                ZStack {
-                    Circle()
-                        .fill(LinearGradient(colors: [AppTheme.primaryMint, AppTheme.primaryDark], startPoint: .topLeading, endPoint: .bottomTrailing))
-                        .frame(width: 50, height: 50)
-                        .shadow(color: AppTheme.primaryMint.opacity(0.35), radius: 8, x: 0, y: 4)
-                    
-                    Image(systemName: "brain.head.profile")
-                        .font(.system(size: 24))
-                        .foregroundColor(.white)
-                }
+                Image("ChibiAITutor")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 52, height: 52)
+                    .clipShape(Circle())
+                    .shadow(color: AppTheme.primaryMint.opacity(0.35), radius: 8, x: 0, y: 4)
                 
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 6) {
@@ -277,7 +240,7 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - 4. Large Promo Exam Banner (Ôn Thi Bứt Phá)
+    // MARK: - 4. Large Promo Exam Banner (Ôn Thi Bứt Phá with 3D Mascot)
     private var tammiPromoExamBanner: some View {
         VStack(spacing: 8) {
             ZStack(alignment: .bottomTrailing) {
@@ -315,10 +278,13 @@ struct HomeView: View {
                     
                     Spacer()
                     
-                    Image(systemName: "sparkles.tv.fill")
-                        .font(.system(size: 64))
-                        .foregroundColor(Color.white.opacity(0.9))
-                        .padding(.trailing, 20)
+                    Image("ChibiExamBanner")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 90, height: 90)
+                        .clipShape(RoundedRectangle(cornerRadius: 18))
+                        .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
+                        .padding(.trailing, 16)
                 }
             }
             .frame(height: 140)

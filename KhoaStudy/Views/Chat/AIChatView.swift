@@ -262,12 +262,9 @@ struct AIChatView: View {
                             .fill(AppTheme.primaryMint)
                     )
             } else {
-                // AI Response: FULL WIDTH DÀI HẾT CHIỀU NGANG!
+                // AI Response: FULL MARKDOWN (Bảng, Code, Toán, Headers)
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(LocalizedStringKey(msg.content))
-                        .font(.system(size: 15))
-                        .foregroundColor(Color(hex: "#1F2937"))
-                        .lineSpacing(5)
+                    MarkdownRendererView(content: msg.content)
                         .padding(.vertical, 4)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
@@ -300,10 +297,7 @@ struct AIChatView: View {
                     ProgressView().scaleEffect(0.7)
                 }
             } else {
-                Text(LocalizedStringKey(streamingText))
-                    .font(.system(size: 15))
-                    .foregroundColor(Color(hex: "#1F2937"))
-                    .lineSpacing(5)
+                MarkdownRendererView(content: streamingText)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
