@@ -3,6 +3,8 @@ import SwiftUI
 struct AccountView: View {
     @EnvironmentObject var appState: AppState
     @State private var showingSwitchAccountSheet: Bool = false
+    @State private var serverTestResult: String = ""
+    @State private var isTestingServer: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -24,7 +26,7 @@ struct AccountView: View {
                         logoutButton
                         
                         // Spacing for floating bottom bar
-                        Spacer().frame(height: 90)
+                        Spacer().frame(height: 100)
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 14)
@@ -69,13 +71,13 @@ struct AccountView: View {
                         .background(Capsule().fill(AppTheme.primaryLight))
                         .foregroundColor(AppTheme.primary)
                     
-                    Text("DeepSeek AI: Kết Nối")
+                    Text(appState.isDeepSeekConnected ? "DeepSeek: Sẵn sàng" : "DeepSeek: Chưa kết nối")
                         .font(.caption2)
                         .fontWeight(.semibold)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3)
-                        .background(Capsule().fill(Color.green.opacity(0.12)))
-                        .foregroundColor(.green)
+                        .background(Capsule().fill(appState.isDeepSeekConnected ? Color.green.opacity(0.12) : Color.orange.opacity(0.12)))
+                        .foregroundColor(appState.isDeepSeekConnected ? .green : .orange)
                 }
                 .padding(.top, 2)
             }
@@ -169,15 +171,34 @@ struct AccountView: View {
             
             Divider().padding(.horizontal, 18)
             
-            // DeepSeek Server URL
-            HStack {
-                Label("DeepSeek Engine", systemImage: "cpu.fill")
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundColor(AppTheme.textPrimary)
-                Spacer()
+            // DeepSeek Server Test
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Label("DeepSeek Server", systemImage: "network")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundColor(AppTheme.textPrimary)
+                    Spacer()
+                    Button(action: { testServer() }) {
+                        if isTestingServer {
+                            ProgressView().scaleEffect(0.7)
+                        } else {
+                            Text("Kiểm tra")
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                .foregroundColor(AppTheme.primary)
+                        }
+                    }
+                }
+                
                 Text(appState.deepSeekServerUrl)
-                    .font(.caption)
+                    .font(.caption2)
                     .foregroundColor(AppTheme.textSecondary)
+                
+                if !serverTestResult.isEmpty {
+                    Text(serverTestResult)
+                        .font(.caption2)
+                        .foregroundColor(appState.isDeepSeekConnected ? .green : .orange)
+                }
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 18)
@@ -190,7 +211,7 @@ struct AccountView: View {
                     .font(.system(size: 15, weight: .medium))
                     .foregroundColor(AppTheme.textPrimary)
                 Spacer()
-                Text("KhoaStudy v1.0.0 (Anh Khoa Dev)")
+                Text("KhoaStudy v1.1.0 (Anh Khoa Dev)")
                     .font(.caption)
                     .foregroundColor(AppTheme.textSecondary)
             }
@@ -217,6 +238,16 @@ struct AccountView: View {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.red.opacity(0.08))
             )
+        }
+    }
+    
+    // MARK: - Actions
+    private func testServer() {
+        isTestingServer = true
+        DeepSeekService.shared.checkConnection(serverUrl: appState.deepSeekServerUrl) { online, msg in
+            isTestingServer = false
+            appState.isDeepSeekConnected = online
+            serverTestResult = msg
         }
     }
     

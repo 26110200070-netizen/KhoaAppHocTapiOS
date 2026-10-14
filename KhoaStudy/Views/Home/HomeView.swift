@@ -10,24 +10,21 @@ struct HomeView: View {
     @State private var selectedLesson: Lesson?
     @State private var selectedChapter: Chapter?
     
-    // Active banner pager
-    @State private var activeBannerIndex: Int = 0
-    
     var body: some View {
         NavigationStack {
             ZStack {
                 AppTheme.background.ignoresSafeArea()
                 
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: 22) {
+                    VStack(spacing: 24) {
                         // 1. Top Header (Greeting + User Profile)
                         topHeaderSection
                         
                         // 2. Promotional / AI Motivation Banner with Dot Pager
                         bannerSection
                         
-                        // 3. Three Major Study Mode Cards (Video & User Prompt)
-                        threeMainModesSection
+                        // 3. Three Major Study Modes (Vertical Stack - Không bị co chữ!)
+                        spaciousStudyModesSection
                         
                         // 4. Grade Selector Pills (Lớp 6 - 12, THCS & THPT)
                         gradeSelectorSection
@@ -39,7 +36,7 @@ struct HomeView: View {
                         curriculumExplorerSection
                         
                         // Bottom spacing for floating tab bar
-                        Spacer().frame(height: 90)
+                        Spacer().frame(height: 100)
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 12)
@@ -107,7 +104,6 @@ struct HomeView: View {
     private var bannerSection: some View {
         VStack(spacing: 12) {
             ZStack(alignment: .bottomTrailing) {
-                // Background Card
                 RoundedRectangle(cornerRadius: 26, style: .continuous)
                     .fill(
                         LinearGradient(
@@ -135,16 +131,13 @@ struct HomeView: View {
                                 .foregroundColor(AppTheme.primaryDark)
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 8)
-                                .background(
-                                    Capsule().fill(AppTheme.primaryMint)
-                                )
+                                .background(Capsule().fill(AppTheme.primaryMint))
                         }
                     }
                     .padding(20)
                     
                     Spacer()
                     
-                    // Banner Illustration
                     Image(systemName: "brain.head.profile")
                         .resizable()
                         .scaledToFit()
@@ -156,7 +149,7 @@ struct HomeView: View {
             .frame(height: 155)
             .shadow(color: AppTheme.primaryDark.opacity(0.2), radius: 12, x: 0, y: 6)
             
-            // Pager Dots Indicator (Pill active, dots inactive - exactly like video)
+            // Pager Dots Indicator
             HStack(spacing: 6) {
                 Capsule()
                     .fill(AppTheme.primaryMint)
@@ -171,43 +164,46 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - 3. Three Major Choices (3 Ô Lựa Chọn Cốt Lõi)
-    private var threeMainModesSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
+    // MARK: - 3. Spacious Study Modes (Sắp xếp dọc hiển thị đầy đủ, không co chữ)
+    private var spaciousStudyModesSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
             Text("Chế độ học tập")
                 .font(.system(size: 18, weight: .bold, design: .rounded))
                 .foregroundColor(AppTheme.textPrimary)
             
-            HStack(spacing: 12) {
-                // Ô 1: Học Lí Thuyết
-                modeCard(
-                    title: "Học Lí Thuyết",
-                    sub: "Video & Công thức",
+            VStack(spacing: 12) {
+                // Card 1: Học Lí Thuyết Chuẩn SGK
+                studyModeCard(
+                    title: "Học Lí Thuyết Chuẩn SGK",
+                    subtitle: "Video bài giảng AI trực quan, tài liệu tóm tắt kiến thức và công thức trọng tâm từng bài",
                     icon: "book.fill",
-                    bgGradient: [Color(hex: "#107B6E"), Color(hex: "#0A4E46")],
-                    badge: "SGK"
+                    gradient: [Color(hex: "#107B6E"), Color(hex: "#0A4E46")],
+                    badges: ["Chuẩn SGK", "Video 1080p"],
+                    buttonText: "Học ngay"
                 ) {
                     showingTheorySheet = true
                 }
                 
-                // Ô 2: Làm Bài Tập
-                modeCard(
-                    title: "Làm Bài Tập",
-                    sub: "Trắc nghiệm & Lời giải",
+                // Card 2: Làm Bài Tập & Luyện Đề
+                studyModeCard(
+                    title: "Làm Bài Tập & Luyện Đề",
+                    subtitle: "Hệ thống trắc nghiệm phân dạng 5-40 câu, chấm điểm tức thì và giải thích chi tiết từng câu",
                     icon: "pencil.and.outline",
-                    bgGradient: [Color(hex: "#2CC58A"), Color(hex: "#1EA873")],
-                    badge: "Có Điểm"
+                    gradient: [Color(hex: "#2CC58A"), Color(hex: "#1EA873")],
+                    badges: ["Thang Điểm 10", "Xuất File Word"],
+                    buttonText: "Luyện bài tập"
                 ) {
                     showingExerciseSheet = true
                 }
                 
-                // Ô 3: Treo Máy Tự Học
-                modeCard(
-                    title: "Treo Máy Tự Học",
-                    sub: "Khóa máy + Bấm giờ",
-                    icon: "lock.fill",
-                    bgGradient: [Color(hex: "#1E293B"), Color(hex: "#0F172A")],
-                    badge: "Tập Trung"
+                // Card 3: Treo Máy Tự Học (Khóa Máy Tập Trung)
+                studyModeCard(
+                    title: "Treo Máy Tự Học (Khóa Máy)",
+                    subtitle: "Bấm giờ Pomodoro, chặn thông báo xao nhãng và phát âm thanh thiên nhiên êm dịu",
+                    icon: "lock.shield.fill",
+                    gradient: [Color(hex: "#1E293B"), Color(hex: "#0F172A")],
+                    badges: ["Pomodoro 25p", "Âm Thanh Êm"],
+                    buttonText: "Bật khóa máy"
                 ) {
                     showingFocusSheet = true
                 }
@@ -215,45 +211,74 @@ struct HomeView: View {
         }
     }
     
-    private func modeCard(title: String, sub: String, icon: String, bgGradient: [Color], badge: String, action: @escaping () -> Void) -> some View {
+    private func studyModeCard(
+        title: String,
+        subtitle: String,
+        icon: String,
+        gradient: [Color],
+        badges: [String],
+        buttonText: String,
+        action: @escaping () -> Void
+    ) -> some View {
         Button(action: action) {
-            VStack(alignment: .leading, spacing: 10) {
-                HStack {
-                    ZStack {
-                        Circle()
-                            .fill(Color.white.opacity(0.2))
-                            .frame(width: 38, height: 38)
-                        Image(systemName: icon)
-                            .font(.system(size: 17, weight: .bold))
-                            .foregroundColor(.white)
-                    }
-                    Spacer()
-                    Text(badge)
-                        .font(.system(size: 10, weight: .bold))
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 3)
-                        .background(Capsule().fill(Color.white.opacity(0.25)))
+            HStack(alignment: .top, spacing: 16) {
+                // Large Round Icon
+                ZStack {
+                    Circle()
+                        .fill(LinearGradient(colors: gradient, startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .frame(width: 52, height: 52)
+                        .shadow(color: gradient.first?.opacity(0.3) ?? Color.clear, radius: 8, x: 0, y: 4)
+                    
+                    Image(systemName: icon)
+                        .font(.system(size: 22, weight: .bold))
                         .foregroundColor(.white)
                 }
                 
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(title)
-                        .font(.system(size: 14, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                        .lineLimit(1)
-                    Text(sub)
-                        .font(.system(size: 10))
-                        .foregroundColor(Color.white.opacity(0.8))
-                        .lineLimit(1)
+                // Content Description
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack {
+                        Text(title)
+                            .font(.system(size: 16, weight: .bold, design: .rounded))
+                            .foregroundColor(AppTheme.textPrimary)
+                        Spacer()
+                    }
+                    
+                    Text(subtitle)
+                        .font(.system(size: 12))
+                        .foregroundColor(AppTheme.textSecondary)
+                        .lineSpacing(3)
+                        .multilineTextAlignment(.leading)
+                    
+                    // Badges & Action Pill
+                    HStack(spacing: 8) {
+                        ForEach(badges, id: \.self) { badge in
+                            Text(badge)
+                                .font(.system(size: 10, weight: .semibold))
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(Capsule().fill(AppTheme.secondaryBg))
+                                .foregroundColor(AppTheme.textSecondary)
+                        }
+                        
+                        Spacer()
+                        
+                        HStack(spacing: 4) {
+                            Text(buttonText)
+                                .font(.system(size: 12, weight: .bold))
+                            Image(systemName: "arrow.right")
+                                .font(.system(size: 10, weight: .bold))
+                        }
+                        .foregroundColor(AppTheme.primary)
+                    }
+                    .padding(.top, 4)
                 }
             }
-            .padding(14)
-            .frame(maxWidth: .infinity, minHeight: 110)
+            .padding(18)
             .background(
-                RoundedRectangle(cornerRadius: 22, style: .continuous)
-                    .fill(LinearGradient(colors: bgGradient, startPoint: .topLeading, endPoint: .bottomTrailing))
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(Color.white)
             )
-            .shadow(color: bgGradient.first?.opacity(0.25) ?? Color.clear, radius: 8, x: 0, y: 4)
+            .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 4)
         }
     }
     
@@ -299,7 +324,7 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - 5. Subject Category Pills (Video Style Category Row)
+    // MARK: - 5. Subject Category Pills
     private var subjectCategoryPillsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -367,7 +392,6 @@ struct HomeView: View {
             if let curriculum = currentCurriculum, !curriculum.chapters.isEmpty {
                 ForEach(curriculum.chapters) { chapter in
                     VStack(alignment: .leading, spacing: 12) {
-                        // Chapter Title Header
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(chapter.title)
@@ -382,7 +406,6 @@ struct HomeView: View {
                         }
                         .padding(.bottom, 4)
                         
-                        // Lessons List in this Chapter
                         ForEach(chapter.lessons) { lesson in
                             lessonRowCard(lesson: lesson, chapter: chapter)
                         }
@@ -408,7 +431,6 @@ struct HomeView: View {
     private func lessonRowCard(lesson: Lesson, chapter: Chapter) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top, spacing: 12) {
-                // Lesson Order Circle
                 ZStack {
                     Circle()
                         .fill(AppTheme.primaryLight)
@@ -430,7 +452,6 @@ struct HomeView: View {
                 Spacer()
             }
             
-            // Action Pill Buttons (Học lí thuyết, Làm bài tập)
             HStack(spacing: 8) {
                 Button(action: {
                     selectedLesson = lesson
