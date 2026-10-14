@@ -69,8 +69,8 @@ struct TheoryDetailView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showingExercise) {
-                ExercisePracticeView(lesson: lesson, subjectCategory: subjectCategory)
+            .fullScreenCover(isPresented: $showingExercise) {
+                ExercisePracticeView()
             }
         }
     }

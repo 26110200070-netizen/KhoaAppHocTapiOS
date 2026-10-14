@@ -253,7 +253,7 @@ struct AccountView: View {
                     .font(.system(size: 15, weight: .medium))
                     .foregroundColor(Color(hex: "#111827"))
                 Spacer()
-                Text("KhoaStudy v1.1.0")
+                Text("Shimy v1.2.0")
                     .font(.caption)
                     .foregroundColor(AppTheme.textSecondary)
             }

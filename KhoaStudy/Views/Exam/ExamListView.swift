@@ -46,15 +46,20 @@ struct ExamListView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Đóng") { dismiss() }
-                        .foregroundColor(AppTheme.primary)
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { dismiss() }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 15, weight: .bold))
+                            Text("Quay về")
+                                .font(.system(size: 14, weight: .semibold))
+                        }
+                        .foregroundColor(AppTheme.primaryDark)
+                    }
                 }
             }
-            .sheet(isPresented: $showingExamPractice) {
-                if let curr = curriculum, let firstLesson = curr.chapters.first?.lessons.first {
-                    ExercisePracticeView(lesson: firstLesson, subjectCategory: curr.category)
-                }
+            .fullScreenCover(isPresented: $showingExamPractice) {
+                ExercisePracticeView()
             }
         }
     }

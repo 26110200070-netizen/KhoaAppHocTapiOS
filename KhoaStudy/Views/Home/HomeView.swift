@@ -36,20 +36,18 @@ struct HomeView: View {
                 .padding(.horizontal, 16)
             }
         }
-        .sheet(isPresented: $showingTheorySheet) {
+        .fullScreenCover(isPresented: $showingTheorySheet) {
             if let lesson = CurriculumStore.shared.allCurriculums.first?.chapters.first?.lessons.first {
                 TheoryDetailView(lesson: lesson, subjectCategory: .math)
             }
         }
-        .sheet(isPresented: $showingExerciseSheet) {
-            if let lesson = CurriculumStore.shared.allCurriculums.first?.chapters.first?.lessons.first {
-                ExercisePracticeView(lesson: lesson, subjectCategory: .math)
-            }
+        .fullScreenCover(isPresented: $showingExerciseSheet) {
+            ExercisePracticeView()
         }
         .fullScreenCover(isPresented: $showingFocusSheet) {
             FocusLockView()
         }
-        .sheet(isPresented: $showingExamSheet) {
+        .fullScreenCover(isPresented: $showingExamSheet) {
             ExamListView(curriculum: CurriculumStore.shared.allCurriculums.first)
         }
     }
@@ -62,7 +60,7 @@ struct HomeView: View {
                     Image(systemName: "sparkles")
                         .foregroundColor(AppTheme.primaryMint)
                         .font(.caption2)
-                    Text("KhoaStudy • Lớp \(appState.currentUser.grade)")
+                    Text("Shimy • Lớp \(appState.currentUser.grade)")
                         .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundColor(AppTheme.textSecondary)
