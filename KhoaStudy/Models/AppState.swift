@@ -74,13 +74,14 @@ class AppState: ObservableObject {
         if let savedUrl = UserDefaults.standard.string(forKey: "shimy_server_url"), !savedUrl.isEmpty {
             self.serverUrl = savedUrl
         }
-        if let savedGeminiKey = UserDefaults.standard.string(forKey: "shimy_gemini_key") {
+        if let savedGeminiKey = UserDefaults.standard.string(forKey: "shimy_gemini_key"), !savedGeminiKey.isEmpty {
             self.geminiApiKey = savedGeminiKey
+            self.isGeminiConnected = true
         }
         
-        // Always start with intro on launch, and require login
-        self.hasSeenIntro = false
-        self.isLoggedIn = false
+        let previouslyLoggedIn = UserDefaults.standard.bool(forKey: "user_logged_in")
+        self.isLoggedIn = previouslyLoggedIn && !self.geminiApiKey.isEmpty
+        self.hasSeenIntro = UserDefaults.standard.bool(forKey: "has_seen_intro")
     }
     
     func switchAccount(to user: UserProfile) {
@@ -93,8 +94,10 @@ class AppState: ObservableObject {
     
     func logout() {
         self.isLoggedIn = false
-        self.appAuthToken = ""
+        self.geminiApiKey = ""
+        self.isGeminiConnected = false
         UserDefaults.standard.set(false, forKey: "user_logged_in")
+        UserDefaults.standard.removeObject(forKey: "shimy_gemini_key")
         UserDefaults.standard.removeObject(forKey: "shimy_app_token")
     }
     
