@@ -239,6 +239,25 @@ class GeminiAIService {
     ) {
         stopStreaming()
         
+        // Priority 1: Direct Google Cloud Gemini API (100% Free, No server or PC required)
+        let trimmedKey = geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmedKey.isEmpty && (trimmedKey.hasPrefix("AIza") || trimmedKey.count >= 25) {
+            sendDirectGoogleGeminiChat(
+                messages: messages,
+                model: model,
+                apiKey: trimmedKey,
+                isWebSearch: isWebSearch,
+                isDeepReasoning: isDeepReasoning,
+                attachedImageBase64: attachedImageBase64,
+                attachedFileContent: attachedFileContent,
+                onToken: onToken,
+                onComplete: onComplete,
+                onError: onError
+            )
+            return
+        }
+        
+        // Priority 2: Fallback to local / remote server gateway if configured
         var cleanBase = serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         if !cleanBase.hasSuffix("/v1") {
             cleanBase = "\(cleanBase)/v1"
@@ -247,7 +266,7 @@ class GeminiAIService {
         
         guard let url = URL(string: targetEndpoint) else {
             DispatchQueue.main.async {
-                onError(NSError(domain: "GeminiAIService", code: 400, userInfo: [NSLocalizedDescriptionKey: "URL Endpoint không hợp lệ"]))
+                onError(NSError(domain: "GeminiAIService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Vui lòng nhập Google Gemini API Key hoặc địa chỉ máy chủ hợp lệ."]))
             }
             return
         }
@@ -402,6 +421,274 @@ class GeminiAIService {
         }
     }
     
+    // MARK: - Direct Google Cloud Gemini API (No PC Server Needed)
+    func sendDirectGoogleGeminiChat(
+        messages: [ChatMessage],
+        model: GeminiAIModel = .flash,
+        apiKey: String,
+        isWebSearch: Bool = false,
+        isDeepReasoning: Bool = false,
+        attachedImageBase64: String? = nil,
+        attachedFileContent: String? = nil,
+        onToken: @escaping (String) -> Void,
+        onComplete: @escaping () -> Void,
+        onError: @escaping (Error) -> Void
+    ) {
+        stopStreaming()
+        
+        var targetModel = "gemini-1.5-flash"
+        if isDeepReasoning || model == .thinking {
+            targetModel = "gemini-2.0-flash-thinking-exp"
+        } else if model == .pro {
+            targetModel = "gemini-1.5-pro"
+        }
+        
+        let endpoint = "https://generativelanguage.googleapis.com/v1beta/models/\(targetModel):generateContent?key=\(apiKey)"
+        guard let url = URL(string: endpoint) else {
+            DispatchQueue.main.async {
+                onError(NSError(domain: "GeminiAIService", code: 400, userInfo: [NSLocalizedDescriptionKey: "URL Google Gemini không hợp lệ"]))
+            }
+            return
+        }
+        
+        let systemInstruction = "Bạn tên là Shimy, một trợ lý học tập AI thông minh và tận tâm, được phát triển và huấn luyện bởi Duy Nguyễn. Hãy giải thích chi tiết, ân cần, đầy đủ bảng biểu, công thức toán học và mã nguồn nếu cần để hỗ trợ học sinh học tập tốt nhất. Tuyệt đối không đề cập đến tên gọi hay nhà phát triển nào khác, tên duy nhất của bạn là Shimy do Duy Nguyễn huấn luyện."
+        
+        var contents: [[String: Any]] = []
+        for (idx, msg) in messages.enumerated() {
+            if msg.role == "system" { continue }
+            let role = (msg.role == "user") ? "user" : "model"
+            var textContent = msg.content
+            
+            if idx == messages.count - 1 && msg.role == "user" {
+                if let fileContent = attachedFileContent, !fileContent.isEmpty {
+                    textContent = "[Tệp tài liệu đính kèm]:\n\(fileContent)\n\n[Câu hỏi / Yêu cầu]:\n\(textContent)"
+                }
+            }
+            
+            var parts: [[String: Any]] = [
+                ["text": textContent]
+            ]
+            
+            if idx == messages.count - 1 && msg.role == "user", let imgB64 = attachedImageBase64, !imgB64.isEmpty {
+                parts.append([
+                    "inline_data": [
+                        "mime_type": "image/jpeg",
+                        "data": imgB64
+                    ]
+                ])
+            }
+            
+            contents.append([
+                "role": role,
+                "parts": parts
+            ])
+        }
+        
+        var body: [String: Any] = [
+            "contents": contents,
+            "system_instruction": [
+                "parts": [
+                    ["text": systemInstruction]
+                ]
+            ],
+            "generationConfig": [
+                "temperature": 0.7,
+                "maxOutputTokens": 4096
+            ]
+        ]
+        
+        if isWebSearch {
+            body["tools"] = [
+                ["google_search": [:]]
+            ]
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 45.0
+        
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else {
+            DispatchQueue.main.async {
+                onError(NSError(domain: "GeminiAIService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Lỗi mã hóa JSON"]))
+            }
+            return
+        }
+        request.httpBody = httpBody
+        
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            guard let self = self else { return }
+            var fullAnswer = ""
+            
+            if let data = data,
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                if let errorObj = json["error"] as? [String: Any],
+                   let errMsg = errorObj["message"] as? String {
+                    if errMsg.contains("API key not valid") || errMsg.contains("API_KEY_INVALID") {
+                        fullAnswer = "⚠️ Google Gemini API Key không hợp lệ hoặc đã bị hết hạn. Vui lòng kiểm tra lại Key trên aistudio.google.com trong Cài Đặt nhé!"
+                    } else if errMsg.contains("quota") || errMsg.contains("rate") {
+                        fullAnswer = "⚠️ Google Gemini báo đã đạt giới hạn tần suất tạm thời. Bạn vui lòng đợi 10 giây rồi thử lại nhé!"
+                    } else {
+                        fullAnswer = "⚠️ Google Gemini phản hồi: \(errMsg)"
+                    }
+                } else if let candidates = json["candidates"] as? [[String: Any]],
+                          let firstCandidate = candidates.first,
+                          let contentObj = firstCandidate["content"] as? [String: Any],
+                          let parts = contentObj["parts"] as? [[String: Any]] {
+                    let textParts = parts.compactMap { $0["text"] as? String }
+                    fullAnswer = textParts.joined()
+                } else {
+                    fullAnswer = "⚠️ Không nhận được phản hồi từ Google Gemini Cloud. Vui lòng thử lại."
+                }
+            } else if let error = error {
+                fullAnswer = "⚠️ Lỗi kết nối Google: \(error.localizedDescription)"
+            } else {
+                fullAnswer = "⚠️ Không thể kết nối tới Google Gemini."
+            }
+            
+            self.streamWordsToUI(text: fullAnswer, onToken: onToken, onComplete: onComplete)
+        }
+        
+        self.activeDataTask = task
+        task.resume()
+    }
+    
+    // MARK: - Direct Google Cloud Exam Generator (Native JSON Mode)
+    func generateDirectGoogleGeminiExam(
+        grade: Int,
+        semester: Int,
+        subject: String,
+        focusTopic: String,
+        mcCount: Int,
+        tfCount: Int,
+        saCount: Int,
+        apiKey: String,
+        completion: @escaping (Result<GeneratedExam, Error>) -> Void
+    ) {
+        let endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\(apiKey)"
+        guard let url = URL(string: endpoint) else {
+            completion(.success(CuratedStandardExamProvider.getStandardExam(grade: grade, semester: semester, subject: subject, focusTopic: focusTopic, mcCount: mcCount, tfCount: tfCount, saCount: saCount)))
+            return
+        }
+        
+        let promptText = """
+        Bạn là Chuyên gia Khảo thí của Bộ Giáo Dục & Đào Tạo Việt Nam. Hãy soạn 1 Đề Thi Kiểm Tra chuẩn cho:
+        - Lớp: \(grade)
+        - Học kỳ: \(semester)
+        - Môn học: \(subject)
+        - Trọng tâm kiến thức: "\(focusTopic.isEmpty ? "Toàn bộ kiến thức trọng tâm học kỳ \(semester) lớp \(grade)" : focusTopic)"
+
+        Yêu cầu số lượng câu hỏi CHÍNH XÁC:
+        1. Đúng \(mcCount) câu hỏi Trắc nghiệm 4 lựa chọn (A, B, C, D, chỉ 1 đáp án đúng).
+        2. Đúng \(tfCount) câu hỏi Đúng/Sai (Mỗi câu gồm ngữ cảnh và 4 ý a, b, c, d; mỗi ý xác định đúng hay sai).
+        3. Đúng \(saCount) câu hỏi Trả lời ngắn (Điền số hoặc đáp số ngắn).
+
+        Yêu cầu kỹ thuật:
+        - Sử dụng công thức toán/lý/hóa bằng định dạng LaTeX chuẩn ($...$).
+        - Không được trùng lặp, bám sát SGK Kết Nối Tri Thức / Cánh Diều / Chân Trời Sáng Tạo.
+        - Lời giải thích (explanation) phải chi tiết, hướng dẫn từng bước.
+        - BẮT BUỘC trả về DUY NHẤT 1 đối tượng JSON thuần túy theo định dạng sau:
+        {
+          "title": "Đề Khảo Sát \(subject) Lớp \(grade) - Học Kỳ \(semester)",
+          "grade": \(grade),
+          "semester": \(semester),
+          "subject": "\(subject)",
+          "focusTopic": "\(focusTopic)",
+          "multipleChoice": [
+            {
+              "id": 1,
+              "question": "Nội dung câu hỏi",
+              "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
+              "correctIndex": 0,
+              "explanation": "Giải thích chi tiết"
+            }
+          ],
+          "trueFalse": [
+            {
+              "id": 1,
+              "context": "Ngữ cảnh đề bài",
+              "statements": [
+                {"id": "a", "statement": "Ý a", "isCorrectTrue": true, "explanation": "Giải thích"},
+                {"id": "b", "statement": "Ý b", "isCorrectTrue": false, "explanation": "Giải thích"},
+                {"id": "c", "statement": "Ý c", "isCorrectTrue": true, "explanation": "Giải thích"},
+                {"id": "d", "statement": "Ý d", "isCorrectTrue": false, "explanation": "Giải thích"}
+              ]
+            }
+          ],
+          "shortAnswer": [
+            {
+              "id": 1,
+              "question": "Nội dung câu hỏi tính toán ngắn",
+              "acceptedAnswers": ["12", "12.0"],
+              "unit": "cm",
+              "explanation": "Lời giải chi tiết"
+            }
+          ]
+        }
+        """
+        
+        let body: [String: Any] = [
+            "contents": [
+                [
+                    "role": "user",
+                    "parts": [
+                        ["text": promptText]
+                    ]
+                ]
+            ],
+            "generationConfig": [
+                "temperature": 0.4,
+                "response_mime_type": "application/json"
+            ]
+        ]
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 60.0
+        
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else {
+            completion(.success(CuratedStandardExamProvider.getStandardExam(grade: grade, semester: semester, subject: subject, focusTopic: focusTopic, mcCount: mcCount, tfCount: tfCount, saCount: saCount)))
+            return
+        }
+        request.httpBody = httpBody
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let data = data,
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let candidates = json["candidates"] as? [[String: Any]],
+               let firstCandidate = candidates.first,
+               let contentObj = firstCandidate["content"] as? [String: Any],
+               let parts = contentObj["parts"] as? [[String: Any]],
+               let text = parts.first?["text"] as? String {
+                
+                let cleaned = GeminiAIService.extractJsonBlock(from: text)
+                if let jsonData = cleaned.data(using: .utf8),
+                   let exam = try? JSONDecoder().decode(GeneratedExam.self, from: jsonData),
+                   !exam.multipleChoice.isEmpty {
+                    DispatchQueue.main.async {
+                        completion(.success(exam))
+                    }
+                    return
+                }
+            }
+            
+            // Fallback to rich curated standard exam
+            DispatchQueue.main.async {
+                let fallback = CuratedStandardExamProvider.getStandardExam(
+                    grade: grade,
+                    semester: semester,
+                    subject: subject,
+                    focusTopic: focusTopic,
+                    mcCount: mcCount,
+                    tfCount: tfCount,
+                    saCount: saCount
+                )
+                completion(.success(fallback))
+            }
+        }.resume()
+    }
+    
     // MARK: - AI Exam Generator
     func generateExamWithAI(
         grade: Int,
@@ -416,6 +703,22 @@ class GeminiAIService {
         geminiApiKey: String = "",
         completion: @escaping (Result<GeneratedExam, Error>) -> Void
     ) {
+        let trimmedKey = geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmedKey.isEmpty && (trimmedKey.hasPrefix("AIza") || trimmedKey.count >= 25) {
+            generateDirectGoogleGeminiExam(
+                grade: grade,
+                semester: semester,
+                subject: subject,
+                focusTopic: focusTopic,
+                mcCount: mcCount,
+                tfCount: tfCount,
+                saCount: saCount,
+                apiKey: trimmedKey,
+                completion: completion
+            )
+            return
+        }
+        
         var cleanBase = serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         if !cleanBase.hasSuffix("/v1") {
             cleanBase = "\(cleanBase)/v1"

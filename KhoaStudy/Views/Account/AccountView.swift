@@ -49,7 +49,7 @@ struct AccountView: View {
             switchAccountSheet
         }
         .sheet(isPresented: $showingServerConfigSheet) {
-            serverConfigSheet
+            GeminiConnectSheet()
         }
         .onAppear {
             testServer()

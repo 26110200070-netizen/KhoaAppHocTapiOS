@@ -18,6 +18,9 @@ struct AIChatView: View {
     @State private var isWebSearchActive: Bool = false
     @State private var isDeepReasoningActive: Bool = false
     
+    // Gemini Direct Connection Sheet
+    @State private var showingGeminiConnectSheet: Bool = false
+    
     // Attachments
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var attachedImage: UIImage? = nil
@@ -59,6 +62,31 @@ struct AIChatView: View {
                 customTopNavBar
                 
                 Divider().opacity(0.3)
+                
+                // Prompt banner if Gemini Cloud is not connected yet
+                if appState.geminiApiKey.isEmpty {
+                    Button(action: { showingGeminiConnectSheet = true }) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "sparkles")
+                                .foregroundColor(AppTheme.accentOrange)
+                                .font(.system(size: 13))
+                            Text("Chạm vào đây để đăng nhập Google lấy Key (Miễn phí 100%, không cần máy tính)")
+                                .font(.system(size: 12, weight: .semibold))
+                                .foregroundColor(Color(hex: "#92400E"))
+                                .lineLimit(1)
+                            Spacer()
+                            Text("Kết nối")
+                                .font(.system(size: 11, weight: .bold))
+                                .foregroundColor(Color(hex: "#B45309"))
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 10, weight: .bold))
+                                .foregroundColor(Color(hex: "#B45309"))
+                        }
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 8)
+                        .background(Color(hex: "#FEF3C7"))
+                    }
+                }
                 
                 // 2. Chat Conversation
                 ScrollViewReader { proxy in
@@ -158,6 +186,9 @@ struct AIChatView: View {
         } message: {
             Text("Nội dung cuộc trò chuyện hiện tại sẽ được làm mới.")
         }
+        .sheet(isPresented: $showingGeminiConnectSheet) {
+            GeminiConnectSheet()
+        }
     }
     
     // MARK: - 1. Custom Top Bar
@@ -224,6 +255,23 @@ struct AIChatView: View {
                             .foregroundColor(AppTheme.textSecondary)
                     }
                 }
+            }
+            
+            // Gemini Cloud Status Pill Button
+            Button(action: {
+                showingGeminiConnectSheet = true
+            }) {
+                HStack(spacing: 4) {
+                    Circle()
+                        .fill(!appState.geminiApiKey.isEmpty ? Color.green : Color.orange)
+                        .frame(width: 7, height: 7)
+                    Text(!appState.geminiApiKey.isEmpty ? "Cloud" : "Kết Nối")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundColor(!appState.geminiApiKey.isEmpty ? Color.green : Color.orange)
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Capsule().fill(!appState.geminiApiKey.isEmpty ? Color.green.opacity(0.12) : Color.orange.opacity(0.12)))
             }
             
             Spacer()
@@ -692,6 +740,12 @@ struct AIChatView: View {
         
         hideKeyboard()
         showingPlusPopup = false
+        
+        // If Gemini is not connected yet, guide user to connect Google in 1 tap
+        if appState.geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && appState.appAuthToken.isEmpty {
+            showingGeminiConnectSheet = true
+            return
+        }
         
         var displayPrompt = trimmed
         if displayPrompt.isEmpty {

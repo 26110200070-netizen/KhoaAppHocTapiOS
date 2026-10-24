@@ -200,25 +200,50 @@ struct LoginView: View {
                             .padding(.top, 2)
                         }
                         
-                        // Optional Google AI Studio Gemini API Key
+                        // Google Gemini API Key (Direct Cloud)
                         VStack(alignment: .leading, spacing: 6) {
                             HStack {
-                                Text("Google Gemini API Key (Tùy chọn)")
+                                Text("Google Gemini API Key (Khuyên Dùng)")
                                     .font(.caption)
-                                    .foregroundColor(AppTheme.textSecondary)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(AppTheme.primary)
                                 Spacer()
-                                Text("Cloud Trực Tiếp")
+                                Button(action: {
+                                    if let url = URL(string: "https://aistudio.google.com/app/apikey") {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }) {
+                                    HStack(spacing: 3) {
+                                        Image(systemName: "safari.fill")
+                                        Text("Lấy Key")
+                                    }
                                     .font(.caption2)
-                                    .foregroundColor(AppTheme.textSecondary)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color(hex: "#2563EB"))
+                                }
                             }
                             
                             HStack {
                                 Image(systemName: "key.fill")
                                     .foregroundColor(AppTheme.accentOrange)
-                                SecureField("Để trống nếu dùng Gemini Web qua máy chủ...", text: $geminiApiKeyInput)
+                                SecureField("Dán Key bắt đầu bằng AIzaSy...", text: $geminiApiKeyInput)
                                     .font(.system(size: 13, design: .monospaced))
                                     .textInputAutocapitalization(.never)
                                     .autocorrectionDisabled(true)
+                                
+                                Button(action: {
+                                    if let clip = UIPasteboard.general.string {
+                                        geminiApiKeyInput = clip.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    }
+                                }) {
+                                    Text("Dán")
+                                        .font(.caption2)
+                                        .fontWeight(.bold)
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 4)
+                                        .background(Capsule().fill(Color(hex: "#E5E7EB")))
+                                        .foregroundColor(Color(hex: "#1F2937"))
+                                }
                             }
                             .padding(14)
                             .background(RoundedRectangle(cornerRadius: 16).fill(AppTheme.secondaryBg))
@@ -241,7 +266,7 @@ struct LoginView: View {
                             )
                         }
                         
-                        // Action Button
+                        // Action Button 1: Main Login
                         Button(action: {
                             performAction()
                         }) {
@@ -250,7 +275,7 @@ struct LoginView: View {
                                 if isConnecting {
                                     ProgressView().tint(.white)
                                 } else {
-                                    Image(systemName: authMode == .login ? "checkmark.shield.fill" : "person.badge.plus")
+                                    Image(systemName: "checkmark.shield.fill")
                                     Text(authMode == .login ? "Đăng Nhập Vào Shimy AI" : "Tạo Tài Khoản & Bắt Đầu Học")
                                         .font(.system(size: 16, weight: .bold, design: .rounded))
                                 }
@@ -266,13 +291,34 @@ struct LoginView: View {
                         }
                         .disabled(isConnecting)
                         
-                        // Google Gemini Server Guide Note
+                        // Action Button 2: Direct Guest / Cloud Login
+                        Button(action: {
+                            appState.login(
+                                username: usernameInput.isEmpty ? "Học Sinh" : usernameInput,
+                                token: "",
+                                role: "student",
+                                remainingQuota: 9999,
+                                geminiKey: geminiApiKeyInput
+                            )
+                        }) {
+                            HStack(spacing: 6) {
+                                Image(systemName: "sparkles")
+                                    .foregroundColor(AppTheme.primary)
+                                Text("Vào Học Ngay Trực Tiếp (Không Cần Server)")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(AppTheme.primary)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                        }
+                        
+                        // Google Gemini Cloud Guide Note
                         VStack(alignment: .leading, spacing: 5) {
-                            Text("💡 Cách kết nối Shimy với Google Gemini:")
+                            Text("💡 Không cần mở máy tính chạy server:")
                                 .font(.caption)
                                 .fontWeight(.bold)
                                 .foregroundColor(AppTheme.primary)
-                            Text("1. Mở file `run_gemini_server.bat` trên máy tính.\n2. Cửa sổ Chromium mở lên, đăng nhập tài khoản Google để lưu session.\n3. Máy chủ Backend tự động bảo vệ chống Google chặn và cung cấp AI cho iPhone!")
+                            Text("1. Bấm 'Lấy Key' phía trên để đăng nhập tài khoản Google của bạn.\n2. Bấm 'Get API key' -> Sao chép và Dán vào ô trên.\n3. Chat AI trực tiếp từ điện thoại ở bất cứ đâu bằng 4G/Wi-Fi!")
                                 .font(.caption2)
                                 .foregroundColor(AppTheme.textSecondary)
                                 .lineSpacing(3)
@@ -321,6 +367,26 @@ struct LoginView: View {
         isConnecting = true
         appState.serverUrl = serverUrlInput.trimmingCharacters(in: .whitespacesAndNewlines)
         appState.geminiApiKey = geminiApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // Priority 1: If Google Gemini Key is entered, log in directly without server
+        if !appState.geminiApiKey.isEmpty && (appState.geminiApiKey.hasPrefix("AIza") || appState.geminiApiKey.count >= 25) {
+            connectionMessage = "Đang kiểm tra Google Gemini Cloud..."
+            GeminiAIService.shared.checkConnection(serverUrl: "", geminiApiKey: appState.geminiApiKey) { ok, msg in
+                isConnecting = false
+                isConnectionSuccess = ok
+                connectionMessage = msg
+                if ok {
+                    appState.login(
+                        username: usernameInput.isEmpty ? "Học Sinh" : usernameInput,
+                        token: "",
+                        role: "vip",
+                        remainingQuota: 9999,
+                        geminiKey: appState.geminiApiKey
+                    )
+                }
+            }
+            return
+        }
         
         if authMode == .register {
             connectionMessage = "Đang tạo tài khoản trên máy chủ..."
