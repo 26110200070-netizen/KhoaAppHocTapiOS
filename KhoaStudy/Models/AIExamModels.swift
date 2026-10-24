@@ -49,6 +49,15 @@ public struct MultipleChoiceQuestion: Identifiable, Codable, Hashable {
         
         self.explanation = (try? container.decode(String.self, forKey: .explanation)) ?? ""
     }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(question, forKey: .question)
+        try container.encode(options, forKey: .options)
+        try container.encode(correctIndex, forKey: .correctIndex)
+        try container.encode(explanation, forKey: .explanation)
+    }
 }
 
 public struct TrueFalseStatement: Identifiable, Codable, Hashable {
@@ -103,6 +112,14 @@ public struct TrueFalseStatement: Identifiable, Codable, Hashable {
         
         self.explanation = (try? container.decode(String.self, forKey: .explanation)) ?? ""
     }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(statement, forKey: .statement)
+        try container.encode(isCorrectTrue, forKey: .isCorrectTrue)
+        try container.encode(explanation, forKey: .explanation)
+    }
 }
 
 public struct TrueFalseQuestion: Identifiable, Codable, Hashable {
@@ -148,6 +165,13 @@ public struct TrueFalseQuestion: Identifiable, Codable, Hashable {
         } else {
             self.statements = []
         }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(context, forKey: .context)
+        try container.encode(statements, forKey: .statements)
     }
 }
 
@@ -199,6 +223,15 @@ public struct ShortAnswerQuestion: Identifiable, Codable, Hashable {
         
         self.unit = try? container.decode(String.self, forKey: .unit)
         self.explanation = (try? container.decode(String.self, forKey: .explanation)) ?? ""
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(question, forKey: .question)
+        try container.encode(acceptedAnswers, forKey: .acceptedAnswers)
+        try container.encodeIfPresent(unit, forKey: .unit)
+        try container.encode(explanation, forKey: .explanation)
     }
 }
 
@@ -257,6 +290,20 @@ public struct GeneratedExam: Identifiable, Codable {
         self.trueFalse = (try? container.decode([TrueFalseQuestion].self, forKey: .trueFalse)) ?? []
         self.shortAnswer = (try? container.decode([ShortAnswerQuestion].self, forKey: .shortAnswer)) ?? []
         self.createdAt = (try? container.decode(Date.self, forKey: .createdAt)) ?? Date()
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(title, forKey: .title)
+        try container.encode(grade, forKey: .grade)
+        try container.encode(semester, forKey: .semester)
+        try container.encode(subject, forKey: .subject)
+        try container.encode(focusTopic, forKey: .focusTopic)
+        try container.encode(multipleChoice, forKey: .multipleChoice)
+        try container.encode(trueFalse, forKey: .trueFalse)
+        try container.encode(shortAnswer, forKey: .shortAnswer)
+        try container.encode(createdAt, forKey: .createdAt)
     }
 }
 
@@ -513,9 +560,9 @@ public struct CuratedStandardExamProvider {
                     context: "Tiến hành thí nghiệm tráng bạc: Cho $1$ ml dung dịch $AgNO_3$ 1% vào ống nghiệm sạch, thêm từng giọt dung dịch $NH_3$ đến khi kết tủa tan hết. Sau đó thêm tiếp $1$ ml dung dịch glucozơ 1%, đun nóng nhẹ ống nghiệm.",
                     statements: [
                         TrueFalseStatement(id: "a", statement: "Sau thí nghiệm thấy một lớp kim loại màu sáng bóng bám vào thành ống nghiệm.", isCorrectTrue: true, explanation: "Bạc ($Ag$) kim loại sinh ra bám vào thành ống nghiệm."),
-                        TrueFalseStatement(id: "b", statement: "Trong phản ứng trên, glucozơ đóng vai trò là chất oxi hóa.", false, "Glucozơ bị oxi hóa thành axit gluconic nên nó đóng vai trò là chất khử."),
-                        TrueFalseStatement(id: "c", statement: "Phản ứng chứng minh trong phân tử glucozơ có nhóm chức anđehit (-CHO).", true, "Nhóm -CHO có tính chất khử tạo kết tủa Ag sáng gương."),
-                        TrueFalseStatement(id: "d", statement: "Nếu thay glucozơ bằng saccarozơ thì hiện tượng tráng bạc xảy ra tương tự.", false, "Saccarozơ không có nhóm -CHO tự do nên không tham gia phản ứng tráng bạc.")
+                        TrueFalseStatement(id: "b", statement: "Trong phản ứng trên, glucozơ đóng vai trò là chất oxi hóa.", isCorrectTrue: false, explanation: "Glucozơ bị oxi hóa thành axit gluconic nên nó đóng vai trò là chất khử."),
+                        TrueFalseStatement(id: "c", statement: "Phản ứng chứng minh trong phân tử glucozơ có nhóm chức anđehit (-CHO).", isCorrectTrue: true, explanation: "Nhóm -CHO có tính chất khử tạo kết tủa Ag sáng gương."),
+                        TrueFalseStatement(id: "d", statement: "Nếu thay glucozơ bằng saccarozơ thì hiện tượng tráng bạc xảy ra tương tự.", isCorrectTrue: false, explanation: "Saccarozơ không có nhóm -CHO tự do nên không tham gia phản ứng tráng bạc.")
                     ]
                 ))
             }
