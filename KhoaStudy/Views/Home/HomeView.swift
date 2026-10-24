@@ -37,9 +37,7 @@ struct HomeView: View {
             }
         }
         .fullScreenCover(isPresented: $showingTheorySheet) {
-            if let lesson = CurriculumStore.shared.allCurriculums.first?.chapters.first?.lessons.first {
-                TheoryDetailView(lesson: lesson, subjectCategory: .math)
-            }
+            TheoryStudyView()
         }
         .fullScreenCover(isPresented: $showingExerciseSheet) {
             ExercisePracticeView()

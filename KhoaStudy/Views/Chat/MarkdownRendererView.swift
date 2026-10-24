@@ -419,6 +419,11 @@ public struct MathSanitizer {
     public static func sanitize(_ input: String) -> String {
         var str = input
         
+        // -1. Normalize escaped backslashes (\\ to \) so JSON and raw LaTeX strings match uniformly
+        while str.contains("\\\\") {
+            str = str.replacingOccurrences(of: "\\\\", with: "\\")
+        }
+        
         // 0. Clean <br> variants into newlines
         str = str.replacingOccurrences(of: "<br>", with: "\n", options: .caseInsensitive)
         str = str.replacingOccurrences(of: "<br/>", with: "\n", options: .caseInsensitive)
@@ -552,12 +557,22 @@ public struct MathSanitizer {
         str = str.replacingOccurrences(of: "\\alpha", with: "α")
         str = str.replacingOccurrences(of: "\\beta", with: "β")
         str = str.replacingOccurrences(of: "\\gamma", with: "γ")
+        str = str.replacingOccurrences(of: "\\Gamma", with: "Γ")
         str = str.replacingOccurrences(of: "\\theta", with: "θ")
         str = str.replacingOccurrences(of: "\\lambda", with: "λ")
+        str = str.replacingOccurrences(of: "\\Lambda", with: "Λ")
         str = str.replacingOccurrences(of: "\\sigma", with: "σ")
+        str = str.replacingOccurrences(of: "\\Sigma", with: "Σ")
         str = str.replacingOccurrences(of: "\\omega", with: "ω")
         str = str.replacingOccurrences(of: "\\Omega", with: "Ω")
         str = str.replacingOccurrences(of: "\\mu", with: "μ")
+        str = str.replacingOccurrences(of: "\\tau", with: "τ")
+        str = str.replacingOccurrences(of: "\\phi", with: "φ")
+        str = str.replacingOccurrences(of: "\\varphi", with: "φ")
+        str = str.replacingOccurrences(of: "\\rho", with: "ρ")
+        str = str.replacingOccurrences(of: "\\epsilon", with: "ε")
+        str = str.replacingOccurrences(of: "\\eta", with: "η")
+        str = str.replacingOccurrences(of: "\\nu", with: "ν")
         
         // 14. Formatting wrappers: \text{...}, \mathbf{...}, etc.
         str = removeLatexWrappers(str)
@@ -617,6 +632,8 @@ public struct MathSanitizer {
         str = str.replacingOccurrences(of: "\\]", with: "")
         str = str.replacingOccurrences(of: "\\(", with: "")
         str = str.replacingOccurrences(of: "\\)", with: "")
+        // Ensure absolutely no stray $ character remains
+        str = str.replacingOccurrences(of: "$", with: "")
         
         return str
     }
@@ -696,8 +713,13 @@ public struct MathSanitizer {
                 searchStart = range.upperBound
                 continue
             }
-            let inner = String(result[innerStart..<innerEnd])
-            let formatted = "√(\(inner))"
+            let inner = String(result[innerStart..<innerEnd]).trimmingCharacters(in: .whitespaces)
+            let formatted: String
+            if inner.allSatisfy({ $0.isNumber || $0.isLetter }) {
+                formatted = "√\(inner)"
+            } else {
+                formatted = "√(\(inner))"
+            }
             result.replaceSubrange(range.lowerBound...innerEnd, with: formatted)
             searchStart = result.index(range.lowerBound, offsetBy: formatted.count, limitedBy: result.endIndex) ?? result.endIndex
         }

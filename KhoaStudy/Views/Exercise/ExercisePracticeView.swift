@@ -1031,24 +1031,28 @@ public struct ExercisePracticeView: View {
                         let chosen = studentTFAnswers["\(q.id):\(stmt.id)"]
                         let isCorrect = (chosen == stmt.isCorrectTrue)
                         
-                        VStack(alignment: .leading, spacing: 4) {
-                            HStack {
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack(alignment: .top, spacing: 6) {
                                 Image(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
                                     .foregroundColor(isCorrect ? .green : .red)
                                     .font(.caption)
-                                Text("Ý \(stmt.id)): \(stmt.statement)")
+                                    .padding(.top, 2)
+                                MarkdownRendererView(content: "**Ý \(stmt.id)):** " + stmt.statement)
                                     .font(.caption)
-                                    .fontWeight(.medium)
                                 Spacer()
                                 Text(stmt.isCorrectTrue ? "Đúng" : "Sai")
                                     .font(.caption2)
                                     .fontWeight(.bold)
-                                    .foregroundColor(.green)
+                                    .foregroundColor(stmt.isCorrectTrue ? Color(hex: "#059669") : Color(hex: "#DC2626"))
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 2)
+                                    .background(Capsule().fill(stmt.isCorrectTrue ? Color.green.opacity(0.12) : Color.red.opacity(0.12)))
                             }
                             
-                            Text("Giải thích: \(stmt.explanation)")
+                            MarkdownRendererView(content: "💡 **Giải thích:** " + stmt.explanation)
                                 .font(.caption2)
                                 .foregroundColor(AppTheme.textSecondary)
+                                .padding(.leading, 20)
                         }
                         .padding(8)
                         .background(isCorrect ? Color.green.opacity(0.05) : Color.red.opacity(0.05))
@@ -1092,10 +1096,8 @@ public struct ExercisePracticeView: View {
                             .font(.caption)
                             .foregroundColor(isCorrect ? .green : .red)
                         Spacer()
-                        Text("Đáp số: \(q.acceptedAnswers.first ?? "") \(q.unit ?? "")")
+                        MarkdownRendererView(content: "Đáp số: **\(q.acceptedAnswers.first ?? "")** \(q.unit ?? "")")
                             .font(.caption)
-                            .fontWeight(.bold)
-                            .foregroundColor(.green)
                     }
                     .padding(8)
                     .background(Color(hex: "#F9FAFB"))
