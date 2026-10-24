@@ -33,6 +33,46 @@ enum GeminiAIModel: String, CaseIterable, Identifiable {
     }
 }
 
+enum GroqModel: String, CaseIterable, Identifiable {
+    case llama33_70b = "llama-3.3-70b-versatile"
+    case deepseek_r1 = "deepseek-r1-distill-llama-70b"
+    case llama31_8b = "llama-3.1-8b-instant"
+    case mixtral_8x7b = "mixtral-8x7b-32768"
+    case gemma2_9b = "gemma2-9b-it"
+    
+    var id: String { self.rawValue }
+    
+    var displayName: String {
+        switch self {
+        case .llama33_70b: return "Llama 3.3 70B (Khuyên Dùng)"
+        case .deepseek_r1: return "DeepSeek R1 (Suy Luận Đỉnh Cao)"
+        case .llama31_8b: return "Llama 3.1 8B (Phản Hồi Siêu Tốc)"
+        case .mixtral_8x7b: return "Mixtral 8x7B (Đa Nhiệm)"
+        case .gemma2_9b: return "Google Gemma 2 9B"
+        }
+    }
+    
+    var shortName: String {
+        switch self {
+        case .llama33_70b: return "Llama 3.3 70B"
+        case .deepseek_r1: return "DeepSeek R1"
+        case .llama31_8b: return "Llama 3.1 8B"
+        case .mixtral_8x7b: return "Mixtral 8x7B"
+        case .gemma2_9b: return "Gemma 2 9B"
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .llama33_70b: return "Mô hình 70B thông minh nhất, giải toán, văn, lý, hóa cực chuẩn xác"
+        case .deepseek_r1: return "Mô hình suy luận từng bước chuyên sâu từ DeepSeek R1"
+        case .llama31_8b: return "Tốc độ chớp nhoáng 800 từ/giây, hạn mức dùng cực lớn"
+        case .mixtral_8x7b: return "Mô hình đa nhiệm MoE, ngữ cảnh 32k tokens"
+        case .gemma2_9b: return "Mô hình tối ưu từ Google chạy trên phần cứng Groq LPU"
+        }
+    }
+}
+
 class GeminiAIService {
     static let shared = GeminiAIService()
     
@@ -47,15 +87,59 @@ class GeminiAIService {
         streamTimer = nil
     }
     
+    // MARK: - Groq Cloud Connection Diagnostic
+    func checkGroqConnection(
+        apiKey: String,
+        completion: @escaping (Bool, String) -> Void
+    ) {
+        let cleanKey = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !cleanKey.isEmpty else {
+            completion(false, "Vui lòng nhập Groq API Key")
+            return
+        }
+        guard let url = URL(string: "https://api.groq.com/openai/v1/models") else {
+            completion(false, "URL Groq không hợp lệ")
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("Bearer \(cleanKey)", forHTTPHeaderField: "Authorization")
+        request.timeoutInterval = 6.0
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if let httpResp = response as? HTTPURLResponse, httpResp.statusCode == 200 {
+                    completion(true, "Đã kết nối Groq Cloud LPU thành công! Tốc độ phản hồi cực nhanh.")
+                } else if let data = data,
+                          let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                          let err = json["error"] as? [String: Any],
+                          let msg = err["message"] as? String {
+                    completion(false, "Lỗi Groq: \(msg)")
+                } else if let error = error {
+                    completion(false, "Lỗi kết nối Groq: \(error.localizedDescription)")
+                } else {
+                    completion(false, "Mã phản hồi từ Groq: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+                }
+            }
+        }.resume()
+    }
+    
     // MARK: - Backend Health & Connection Diagnostic
     func checkConnection(
         serverUrl: String,
         appToken: String = "",
         geminiApiKey: String = "",
+        groqApiKey: String = "",
+        provider: AIProvider = .groq,
         completion: @escaping (Bool, String) -> Void
     ) {
+        if provider == .groq && !groqApiKey.isEmpty {
+            checkGroqConnection(apiKey: groqApiKey, completion: completion)
+            return
+        }
+        
         // If user provided direct Google AI Studio API Key (AIza...)
-        if geminiApiKey.hasPrefix("AIza") {
+        if geminiApiKey.hasPrefix("AIza") || (!geminiApiKey.isEmpty && provider == .gemini) {
             let target = "https://generativelanguage.googleapis.com/v1beta/models?key=\(geminiApiKey)"
             guard let url = URL(string: target) else {
                 completion(false, "Google API Key không hợp lệ")
@@ -226,9 +310,12 @@ class GeminiAIService {
     func sendStreamingChat(
         messages: [ChatMessage],
         model: GeminiAIModel = .flash,
-        appToken: String,
-        serverUrl: String,
+        groqModel: String = "llama-3.3-70b-versatile",
+        provider: AIProvider = .groq,
+        appToken: String = "",
+        serverUrl: String = "",
         geminiApiKey: String = "",
+        groqApiKey: String = "",
         isWebSearch: Bool = false,
         isDeepReasoning: Bool = false,
         attachedImageBase64: String? = nil,
@@ -239,13 +326,15 @@ class GeminiAIService {
     ) {
         stopStreaming()
         
-        // Priority 1: Direct Google Cloud Gemini API (100% Free, No server or PC required)
-        let trimmedKey = geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !trimmedKey.isEmpty && (trimmedKey.hasPrefix("AIza") || trimmedKey.count >= 25) {
-            sendDirectGoogleGeminiChat(
+        let cleanGroqKey = groqApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanGeminiKey = geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // Priority 1: Groq Cloud (Ultra-fast LPU inference, no waiting, 100% free)
+        if provider == .groq && !cleanGroqKey.isEmpty {
+            sendGroqChat(
                 messages: messages,
-                model: model,
-                apiKey: trimmedKey,
+                model: groqModel,
+                apiKey: cleanGroqKey,
                 isWebSearch: isWebSearch,
                 isDeepReasoning: isDeepReasoning,
                 attachedImageBase64: attachedImageBase64,
@@ -257,16 +346,50 @@ class GeminiAIService {
             return
         }
         
-        // Priority 2: Fallback to local / remote server gateway if configured
+        // Priority 2: Direct Google Cloud Gemini API
+        if (provider == .gemini || cleanGroqKey.isEmpty) && !cleanGeminiKey.isEmpty && (cleanGeminiKey.hasPrefix("AIza") || cleanGeminiKey.count >= 25) {
+            sendDirectGoogleGeminiChat(
+                messages: messages,
+                model: model,
+                apiKey: cleanGeminiKey,
+                isWebSearch: isWebSearch,
+                isDeepReasoning: isDeepReasoning,
+                attachedImageBase64: attachedImageBase64,
+                attachedFileContent: attachedFileContent,
+                onToken: onToken,
+                onComplete: onComplete,
+                onError: onError
+            )
+            return
+        }
+        
+        // Priority 3: Fallback to Groq if key exists
+        if !cleanGroqKey.isEmpty {
+            sendGroqChat(
+                messages: messages,
+                model: groqModel,
+                apiKey: cleanGroqKey,
+                isWebSearch: isWebSearch,
+                isDeepReasoning: isDeepReasoning,
+                attachedImageBase64: attachedImageBase64,
+                attachedFileContent: attachedFileContent,
+                onToken: onToken,
+                onComplete: onComplete,
+                onError: onError
+            )
+            return
+        }
+        
+        // Priority 4: Fallback to local / remote server gateway if configured
         var cleanBase = serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-        if !cleanBase.hasSuffix("/v1") {
+        if !cleanBase.isEmpty && !cleanBase.hasSuffix("/v1") {
             cleanBase = "\(cleanBase)/v1"
         }
         let targetEndpoint = "\(cleanBase)/chat/completions"
         
-        guard let url = URL(string: targetEndpoint) else {
+        guard !cleanBase.isEmpty, let url = URL(string: targetEndpoint) else {
             DispatchQueue.main.async {
-                onError(NSError(domain: "GeminiAIService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Vui lòng nhập Google Gemini API Key hoặc địa chỉ máy chủ hợp lệ."]))
+                onError(NSError(domain: "GeminiAIService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Vui lòng nhập API Key cho Groq hoặc Google Gemini để bắt đầu trò chuyện."]))
             }
             return
         }
@@ -419,6 +542,131 @@ class GeminiAIService {
             self.streamTimer = timer
             RunLoop.main.add(timer, forMode: .common)
         }
+    }
+    
+    // MARK: - Direct Groq Cloud Chat API (Ultra-fast LPU, Free)
+    func sendGroqChat(
+        messages: [ChatMessage],
+        model: String = "llama-3.3-70b-versatile",
+        apiKey: String,
+        isWebSearch: Bool = false,
+        isDeepReasoning: Bool = false,
+        attachedImageBase64: String? = nil,
+        attachedFileContent: String? = nil,
+        onToken: @escaping (String) -> Void,
+        onComplete: @escaping () -> Void,
+        onError: @escaping (Error) -> Void
+    ) {
+        stopStreaming()
+        
+        let cleanKey = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !cleanKey.isEmpty else {
+            DispatchQueue.main.async {
+                onError(NSError(domain: "GeminiAIService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Chưa cấu hình Groq API Key."]))
+            }
+            return
+        }
+        
+        guard let url = URL(string: "https://api.groq.com/openai/v1/chat/completions") else {
+            DispatchQueue.main.async {
+                onError(NSError(domain: "GeminiAIService", code: 400, userInfo: [NSLocalizedDescriptionKey: "URL Groq không hợp lệ."]))
+            }
+            return
+        }
+        
+        var systemInstruction = "Bạn tên là Shimy, một trợ lý học tập AI thông minh và tận tâm, được phát triển và huấn luyện bởi Duy Nguyễn. Hãy giải thích chi tiết, ân cần, đầy đủ bảng biểu, công thức toán học và mã nguồn nếu cần để hỗ trợ học sinh học tập tốt nhất. Tuyệt đối không đề cập đến tên gọi hay nhà phát triển nào khác, tên duy nhất của bạn là Shimy do Duy Nguyễn huấn luyện."
+        if isWebSearch {
+            systemInstruction += "\n[Lưu ý: Hãy tham khảo và áp dụng kiến thức theo chuẩn sách giáo khoa mới nhất của Bộ Giáo Dục & Đào Tạo Việt Nam]."
+        }
+        
+        var apiMessages: [[String: Any]] = [
+            ["role": "system", "content": systemInstruction]
+        ]
+        
+        var effectiveModel = model
+        let hasImage = (attachedImageBase64 != nil && !attachedImageBase64!.isEmpty)
+        if hasImage {
+            // Groq vision model for image OCR and math solving
+            effectiveModel = "llama-3.2-11b-vision-preview"
+        } else if isDeepReasoning {
+            effectiveModel = "deepseek-r1-distill-llama-70b"
+        }
+        
+        for (idx, msg) in messages.enumerated() {
+            var textContent = msg.content
+            if idx == messages.count - 1 && msg.role == "user" {
+                if let fileContent = attachedFileContent, !fileContent.isEmpty {
+                    textContent = "[Tệp tài liệu đính kèm]:\n\(fileContent)\n\n[Câu hỏi / Yêu cầu]:\n\(textContent)"
+                }
+                
+                if let imgB64 = attachedImageBase64, !imgB64.isEmpty {
+                    let contentArray: [[String: Any]] = [
+                        ["type": "text", "text": textContent],
+                        ["type": "image_url", "image_url": ["url": "data:image/jpeg;base64,\(imgB64)"]]
+                    ]
+                    apiMessages.append(["role": "user", "content": contentArray])
+                    continue
+                }
+            }
+            apiMessages.append(["role": msg.role, "content": textContent])
+        }
+        
+        let body: [String: Any] = [
+            "model": effectiveModel,
+            "messages": apiMessages,
+            "temperature": 0.6,
+            "max_tokens": 4096,
+            "stream": false
+        ]
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Bearer \(cleanKey)", forHTTPHeaderField: "Authorization")
+        request.timeoutInterval = 45.0
+        
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else {
+            DispatchQueue.main.async {
+                onError(NSError(domain: "GeminiAIService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Lỗi mã hóa JSON Groq"]))
+            }
+            return
+        }
+        request.httpBody = httpBody
+        
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            guard let self = self else { return }
+            var fullAnswer = ""
+            
+            if let data = data,
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                if let errorObj = json["error"] as? [String: Any],
+                   let errMsg = errorObj["message"] as? String {
+                    if errMsg.contains("Invalid API Key") || errMsg.contains("invalid_api_key") {
+                        fullAnswer = "⚠️ Groq API Key không hợp lệ. Bạn vui lòng kiểm tra và cập nhật lại Key trên console.groq.com nhé!"
+                    } else if errMsg.contains("rate limit") || errMsg.contains("Rate limit") {
+                        fullAnswer = "⚠️ Groq báo đạt giới hạn tần suất tạm thời. Bạn vui lòng đợi 5-10 giây rồi thử lại nhé!"
+                    } else {
+                        fullAnswer = "⚠️ Groq phản hồi: \(errMsg)"
+                    }
+                } else if let choices = json["choices"] as? [[String: Any]],
+                          let firstChoice = choices.first,
+                          let msgObj = firstChoice["message"] as? [String: Any],
+                          let text = msgObj["content"] as? String {
+                    fullAnswer = text
+                } else {
+                    fullAnswer = "⚠️ Không nhận được câu trả lời từ Groq Cloud. Vui lòng thử lại."
+                }
+            } else if let error = error {
+                fullAnswer = "⚠️ Lỗi kết nối Groq: \(error.localizedDescription)"
+            } else {
+                fullAnswer = "⚠️ Không thể kết nối tới Groq Cloud."
+            }
+            
+            self.streamWordsToUI(text: fullAnswer, onToken: onToken, onComplete: onComplete)
+        }
+        
+        self.activeDataTask = task
+        task.resume()
     }
     
     // MARK: - Direct Google Cloud Gemini API (No PC Server Needed)
@@ -689,6 +937,135 @@ class GeminiAIService {
         }.resume()
     }
     
+    // MARK: - Direct Groq Cloud Exam Generator (Native JSON Mode)
+    func generateGroqExam(
+        grade: Int,
+        semester: Int,
+        subject: String,
+        focusTopic: String,
+        mcCount: Int,
+        tfCount: Int,
+        saCount: Int,
+        apiKey: String,
+        model: String = "llama-3.3-70b-versatile",
+        completion: @escaping (Result<GeneratedExam, Error>) -> Void
+    ) {
+        guard let url = URL(string: "https://api.groq.com/openai/v1/chat/completions") else {
+            completion(.success(CuratedStandardExamProvider.getStandardExam(grade: grade, semester: semester, subject: subject, focusTopic: focusTopic, mcCount: mcCount, tfCount: tfCount, saCount: saCount)))
+            return
+        }
+        
+        let promptText = """
+        Bạn là Chuyên gia Khảo thí của Bộ Giáo Dục & Đào Tạo Việt Nam. Hãy soạn 1 Đề Thi Kiểm Tra chuẩn theo chương trình SGK mới (Kết Nối Tri Thức, Cánh Diều, Chân Trời Sáng Tạo) cho:
+        - Lớp: \(grade)
+        - Học kỳ: \(semester)
+        - Môn học: \(subject)
+        - Trọng tâm kiến thức: "\(focusTopic.isEmpty ? "Toàn bộ kiến thức trọng tâm học kỳ \(semester) lớp \(grade)" : focusTopic)"
+
+        Yêu cầu số lượng câu hỏi CHÍNH XÁC:
+        1. PHẦN 1 - TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN: Đúng \(mcCount) câu. Mỗi câu có 4 phương án A, B, C, D (1 đáp án đúng).
+        2. PHẦN 2 - TRẮC NGHIỆM ĐÚNG/SAI: Đúng \(tfCount) câu. Mỗi câu gồm ngữ cảnh/nhận định và 4 ý a, b, c, d với giá trị true hoặc false.
+        3. PHẦN 3 - TRẢ LỜI NGẮN: Đúng \(saCount) câu. Học sinh tự điền đáp án ngắn gọn (số hoặc từ khóa).
+
+        YÊU CẦU ĐỊNH DẠNG BẮT BUỘC:
+        Trả về kết quả duy nhất là 1 đối tượng JSON thuần túy (không kèm markdown ```json hay giải thích thêm) theo đúng cấu trúc schema sau:
+        {
+          "title": "Đề Khảo Sát \(subject) Lớp \(grade) - Học Kỳ \(semester)",
+          "subject": "\(subject)",
+          "grade": \(grade),
+          "semester": \(semester),
+          "timeMinutes": 45,
+          "multipleChoice": [
+            {
+              "id": "mc_1",
+              "question": "Nội dung câu hỏi trắc nghiệm (hỗ trợ công thức LaTeX $...$ nếu là Toán/Lý/Hóa)",
+              "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
+              "correctIndex": 0,
+              "explanation": "Lời giải chi tiết từng bước cho câu hỏi"
+            }
+          ],
+          "trueFalse": [
+            {
+              "id": "tf_1",
+              "statement": "Nội dung nhận định hoặc bối cảnh",
+              "items": [
+                {"label": "a) ...", "isCorrect": true},
+                {"label": "b) ...", "isCorrect": false},
+                {"label": "c) ...", "isCorrect": true},
+                {"label": "d) ...", "isCorrect": false}
+              ],
+              "explanation": "Lời giải thích cặn kẽ từng ý a, b, c, d"
+            }
+          ],
+          "shortAnswer": [
+            {
+              "id": "sa_1",
+              "question": "Câu hỏi trả lời ngắn",
+              "correctAnswer": "Giá trị hoặc đáp số chính xác",
+              "explanation": "Hướng dẫn các bước tính toán hoặc lập luận"
+            }
+          ]
+        }
+        """
+        
+        let body: [String: Any] = [
+            "model": model,
+            "messages": [
+                ["role": "system", "content": "Bạn là chuyên gia ra đề thi học tập K-12 Việt Nam. Bạn luôn xuất dữ liệu ở định dạng JSON hợp lệ tuân thủ chính xác schema được yêu cầu."],
+                ["role": "user", "content": promptText]
+            ],
+            "response_format": ["type": "json_object"],
+            "temperature": 0.3,
+            "max_tokens": 4096
+        ]
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        request.timeoutInterval = 45.0
+        
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else {
+            completion(.success(CuratedStandardExamProvider.getStandardExam(grade: grade, semester: semester, subject: subject, focusTopic: focusTopic, mcCount: mcCount, tfCount: tfCount, saCount: saCount)))
+            return
+        }
+        request.httpBody = httpBody
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let data = data,
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let choices = json["choices"] as? [[String: Any]],
+               let firstChoice = choices.first,
+               let msg = firstChoice["message"] as? [String: Any],
+               let text = msg["content"] as? String {
+                
+                let cleaned = GeminiAIService.extractJsonBlock(from: text)
+                if let jsonData = cleaned.data(using: .utf8),
+                   let exam = try? JSONDecoder().decode(GeneratedExam.self, from: jsonData),
+                   !exam.multipleChoice.isEmpty {
+                    DispatchQueue.main.async {
+                        completion(.success(exam))
+                    }
+                    return
+                }
+            }
+            
+            // Fallback
+            DispatchQueue.main.async {
+                let fallback = CuratedStandardExamProvider.getStandardExam(
+                    grade: grade,
+                    semester: semester,
+                    subject: subject,
+                    focusTopic: focusTopic,
+                    mcCount: mcCount,
+                    tfCount: tfCount,
+                    saCount: saCount
+                )
+                completion(.success(fallback))
+            }
+        }.resume()
+    }
+    
     // MARK: - AI Exam Generator
     func generateExamWithAI(
         grade: Int,
@@ -698,13 +1075,36 @@ class GeminiAIService {
         mcCount: Int,
         tfCount: Int,
         saCount: Int,
-        appToken: String,
-        serverUrl: String,
+        appToken: String = "",
+        serverUrl: String = "",
+        provider: AIProvider = .groq,
         geminiApiKey: String = "",
+        groqApiKey: String = "",
+        groqModel: String = "llama-3.3-70b-versatile",
         completion: @escaping (Result<GeneratedExam, Error>) -> Void
     ) {
-        let trimmedKey = geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !trimmedKey.isEmpty && (trimmedKey.hasPrefix("AIza") || trimmedKey.count >= 25) {
+        let cleanGroqKey = groqApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanGeminiKey = geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // Priority 1: Groq Cloud Exam Generation
+        if (provider == .groq && !cleanGroqKey.isEmpty) || (!cleanGroqKey.isEmpty && cleanGeminiKey.isEmpty) {
+            generateGroqExam(
+                grade: grade,
+                semester: semester,
+                subject: subject,
+                focusTopic: focusTopic,
+                mcCount: mcCount,
+                tfCount: tfCount,
+                saCount: saCount,
+                apiKey: cleanGroqKey,
+                model: groqModel,
+                completion: completion
+            )
+            return
+        }
+        
+        // Priority 2: Direct Google Cloud Gemini Exam Generation
+        if !cleanGeminiKey.isEmpty && (cleanGeminiKey.hasPrefix("AIza") || cleanGeminiKey.count >= 25) {
             generateDirectGoogleGeminiExam(
                 grade: grade,
                 semester: semester,
@@ -713,7 +1113,7 @@ class GeminiAIService {
                 mcCount: mcCount,
                 tfCount: tfCount,
                 saCount: saCount,
-                apiKey: trimmedKey,
+                apiKey: cleanGeminiKey,
                 completion: completion
             )
             return

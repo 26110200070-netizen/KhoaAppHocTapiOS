@@ -4,38 +4,47 @@ import SafariServices
 struct LoginView: View {
     @EnvironmentObject var appState: AppState
     
-    // API Key input
+    // Active AI Provider selection on Login
+    @State private var selectedProvider: AIProvider = .groq
+    
+    // Groq configuration inputs
+    @State private var groqApiKeyInput: String = ""
+    @State private var selectedGroqModel: String = "llama-3.3-70b-versatile"
+    
+    // Gemini configuration inputs
     @State private var geminiApiKeyInput: String = ""
     
-    // Feedback states
+    // Feedback and Safari states
     @State private var connectionMessage: String = ""
     @State private var isConnecting: Bool = false
     @State private var isConnectionSuccess: Bool? = nil
+    
     @State private var showingSafari: Bool = false
+    @State private var safariTargetUrl: URL = URL(string: "https://console.groq.com/keys")!
     
     var body: some View {
         ZStack {
             AppTheme.background.ignoresSafeArea()
             
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
-                    Spacer(minLength: 30)
+                VStack(spacing: 20) {
+                    Spacer(minLength: 20)
                     
                     // App Logo & Header
-                    VStack(spacing: 12) {
+                    VStack(spacing: 10) {
                         ZStack {
                             Circle()
                                 .fill(LinearGradient(colors: [AppTheme.primaryMint, AppTheme.primaryDark], startPoint: .topLeading, endPoint: .bottomTrailing))
-                                .frame(width: 88, height: 88)
-                                .shadow(color: AppTheme.primaryMint.opacity(0.35), radius: 16, x: 0, y: 8)
+                                .frame(width: 82, height: 82)
+                                .shadow(color: AppTheme.primaryMint.opacity(0.35), radius: 14, x: 0, y: 7)
                             
                             Image(systemName: "sparkles")
-                                .font(.system(size: 40))
+                                .font(.system(size: 38))
                                 .foregroundColor(.white)
                         }
                         
                         Text("Shimy")
-                            .font(.system(size: 34, weight: .bold, design: .rounded))
+                            .font(.system(size: 32, weight: .bold, design: .rounded))
                             .foregroundColor(AppTheme.primaryDark)
                         
                         Text("Gia sư AI học tập thông minh & Luyện thi K-12")
@@ -45,94 +54,81 @@ struct LoginView: View {
                     
                     // Main Login Card
                     VStack(alignment: .leading, spacing: 18) {
-                        // Title
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Đăng Nhập Google Gemini")
-                                .font(.system(size: 19, weight: .bold, design: .rounded))
-                                .foregroundColor(Color(hex: "#111827"))
-                            Text("Chỉ cần dán Google Gemini API Key để kích hoạt AI trực tiếp trên điện thoại.")
-                                .font(.caption)
+                        // AI Provider Selection Tabs
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("CHỌN DỊCH VỤ AI:")
+                                .font(.system(size: 11, weight: .bold))
                                 .foregroundColor(AppTheme.textSecondary)
-                                .lineSpacing(2)
-                        }
-                        
-                        // Step 1: Open Google AI Studio to get key
-                        Button(action: {
-                            showingSafari = true
-                        }) {
-                            HStack(spacing: 12) {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.white.opacity(0.2))
-                                        .frame(width: 36, height: 36)
-                                    Image(systemName: "safari.fill")
-                                        .font(.system(size: 18))
-                                        .foregroundColor(.white)
-                                }
-                                
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text("Lấy Key miễn phí từ Google (1 chạm)")
-                                        .font(.system(size: 14, weight: .bold))
-                                        .foregroundColor(.white)
-                                    Text("Đăng nhập tài khoản Google -> Bấm Get API key")
-                                        .font(.caption2)
-                                        .foregroundColor(.white.opacity(0.85))
-                                }
-                                
-                                Spacer()
-                                
-                                Image(systemName: "arrow.up.right.square.fill")
-                                    .font(.system(size: 16))
-                                    .foregroundColor(.white)
-                            }
-                            .padding(.horizontal, 14)
-                            .padding(.vertical, 12)
-                            .background(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(LinearGradient(colors: [Color(hex: "#2563EB"), Color(hex: "#1D4ED8")], startPoint: .leading, endPoint: .trailing))
-                            )
-                            .shadow(color: Color(hex: "#2563EB").opacity(0.25), radius: 6, x: 0, y: 3)
-                        }
-                        
-                        // Step 2: API Key Input Box
-                        VStack(alignment: .leading, spacing: 6) {
-                            HStack {
-                                Text("Dán Gemini API Key của bạn:")
-                                    .font(.caption)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(AppTheme.primary)
-                                Spacer()
-                            }
                             
                             HStack(spacing: 8) {
-                                Image(systemName: "key.fill")
-                                    .foregroundColor(AppTheme.accentOrange)
-                                
-                                TextField("Dán Key bắt đầu bằng AIzaSy...", text: $geminiApiKeyInput)
-                                    .font(.system(size: 13, design: .monospaced))
-                                    .textInputAutocapitalization(.never)
-                                    .autocorrectionDisabled(true)
-                                
+                                // Groq Tab
                                 Button(action: {
-                                    if let clip = UIPasteboard.general.string {
-                                        geminiApiKeyInput = clip.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    withAnimation(.spring(response: 0.3)) {
+                                        selectedProvider = .groq
+                                        connectionMessage = ""
+                                        isConnectionSuccess = nil
                                     }
                                 }) {
-                                    HStack(spacing: 4) {
-                                        Image(systemName: "doc.on.clipboard")
-                                        Text("Dán")
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "bolt.fill")
+                                            .font(.system(size: 13))
+                                        VStack(alignment: .leading, spacing: 1) {
+                                            Text("Groq Cloud")
+                                                .font(.system(size: 13, weight: .bold))
+                                            Text("Siêu tốc • Không nghẽn")
+                                                .font(.system(size: 9))
+                                                .opacity(0.85)
+                                        }
                                     }
-                                    .font(.caption2)
-                                    .fontWeight(.bold)
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 6)
-                                    .background(Capsule().fill(Color(hex: "#E5E7EB")))
-                                    .foregroundColor(Color(hex: "#1F2937"))
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 8)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(selectedProvider == .groq ?
+                                                  LinearGradient(colors: [Color(hex: "#F97316"), Color(hex: "#EA580C")], startPoint: .leading, endPoint: .trailing) :
+                                                  LinearGradient(colors: [Color(hex: "#F3F4F6"), Color(hex: "#F3F4F6")], startPoint: .leading, endPoint: .trailing))
+                                    )
+                                    .foregroundColor(selectedProvider == .groq ? .white : Color(hex: "#4B5563"))
+                                }
+                                
+                                // Gemini Tab
+                                Button(action: {
+                                    withAnimation(.spring(response: 0.3)) {
+                                        selectedProvider = .gemini
+                                        connectionMessage = ""
+                                        isConnectionSuccess = nil
+                                    }
+                                }) {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "sparkles")
+                                            .font(.system(size: 13))
+                                        VStack(alignment: .leading, spacing: 1) {
+                                            Text("Google Gemini")
+                                                .font(.system(size: 13, weight: .bold))
+                                            Text("Chính hãng Google")
+                                                .font(.system(size: 9))
+                                                .opacity(0.85)
+                                        }
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 8)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(selectedProvider == .gemini ?
+                                                  LinearGradient(colors: [Color(hex: "#2563EB"), Color(hex: "#1D4ED8")], startPoint: .leading, endPoint: .trailing) :
+                                                  LinearGradient(colors: [Color(hex: "#F3F4F6"), Color(hex: "#F3F4F6")], startPoint: .leading, endPoint: .trailing))
+                                    )
+                                    .foregroundColor(selectedProvider == .gemini ? .white : Color(hex: "#4B5563"))
                                 }
                             }
-                            .padding(14)
-                            .background(RoundedRectangle(cornerRadius: 16).fill(AppTheme.secondaryBg))
-                            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E5E7EB"), lineWidth: 1))
+                        }
+                        
+                        Divider()
+                        
+                        if selectedProvider == .groq {
+                            groqLoginSection
+                        } else {
+                            geminiLoginSection
                         }
                         
                         // Status Message
@@ -162,20 +158,22 @@ struct LoginView: View {
                                     ProgressView().tint(.white)
                                 } else {
                                     Image(systemName: "arrow.right.circle.fill")
-                                    Text("Đăng Nhập & Bắt Đầu Học")
+                                    Text(selectedProvider == .groq ? "Đăng Nhập Với Groq" : "Đăng Nhập Với Gemini")
                                         .font(.system(size: 16, weight: .bold, design: .rounded))
                                 }
                                 Spacer()
                             }
                             .foregroundColor(.white)
-                            .padding(.vertical, 16)
+                            .padding(.vertical, 15)
                             .background(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .fill(LinearGradient(colors: [AppTheme.primaryMint, AppTheme.primary], startPoint: .leading, endPoint: .trailing))
+                                    .fill(selectedProvider == .groq ?
+                                          LinearGradient(colors: [Color(hex: "#F97316"), Color(hex: "#EA580C")], startPoint: .leading, endPoint: .trailing) :
+                                          LinearGradient(colors: [AppTheme.primaryMint, AppTheme.primary], startPoint: .leading, endPoint: .trailing))
                             )
-                            .shadow(color: AppTheme.primaryMint.opacity(0.35), radius: 8, x: 0, y: 4)
+                            .shadow(color: (selectedProvider == .groq ? Color(hex: "#F97316") : AppTheme.primaryMint).opacity(0.35), radius: 8, x: 0, y: 4)
                         }
-                        .disabled(geminiApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isConnecting)
+                        .disabled(isLoginDisabled || isConnecting)
                         
                         // Secondary Guest Button
                         Button(action: {
@@ -193,24 +191,28 @@ struct LoginView: View {
                         }
                         
                         // Helpful Note Box
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("💡 Hoàn toàn miễn phí & Tiện lợi:")
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundColor(AppTheme.primary)
-                            Text("• Không cần mở máy tính chạy server.\n• 1.500 câu hỏi/ngày từ Google, phản hồi siêu tốc dưới 1 giây.\n• Dùng được mọi lúc trên 4G, 5G hay Wi-Fi trường học.")
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack(spacing: 6) {
+                                Image(systemName: "lightbulb.fill")
+                                    .foregroundColor(Color(hex: "#D97706"))
+                                Text("Giải pháp cho lỗi giới hạn tần suất (Rate Limit):")
+                                    .font(.caption)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color(hex: "#92400E"))
+                            }
+                            Text("• Google Gemini Free giới hạn 15 câu/phút, vào giờ cao điểm rất dễ bị tạm ngừng phản hồi.\n• Groq Cloud chạy trên chip phần cứng LPU: tốc độ 500-800 từ/giây, hạn mức 14.400 câu/ngày, hoàn toàn không lo bị nghẽn tần suất!\n• Bạn có thể đổi qua lại giữa Groq và Gemini bất cứ lúc nào.")
                                 .font(.caption2)
-                                .foregroundColor(AppTheme.textSecondary)
+                                .foregroundColor(Color(hex: "#78350F"))
                                 .lineSpacing(3)
                         }
                         .padding(12)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(
                             RoundedRectangle(cornerRadius: 14)
-                                .fill(AppTheme.primaryLight)
+                                .fill(Color(hex: "#FEF3C7"))
                         )
                     }
-                    .cleanCard(cornerRadius: 24, padding: 22)
+                    .cleanCard(cornerRadius: 24, padding: 20)
                     
                     // Language Switcher Pills
                     HStack(spacing: 8) {
@@ -242,39 +244,306 @@ struct LoginView: View {
             }
         }
         .sheet(isPresented: $showingSafari) {
-            if let url = URL(string: "https://aistudio.google.com/app/apikey") {
-                SafariView(url: url)
-                    .ignoresSafeArea()
-            }
+            SafariView(url: safariTargetUrl)
+                .ignoresSafeArea()
         }
         .onAppear {
-            if !appState.geminiApiKey.isEmpty {
-                geminiApiKeyInput = appState.geminiApiKey
+            selectedProvider = appState.selectedProvider
+            groqApiKeyInput = appState.groqApiKey
+            selectedGroqModel = appState.selectedGroqModel
+            geminiApiKeyInput = appState.geminiApiKey
+        }
+    }
+    
+    // MARK: - Groq Login Section
+    private var groqLoginSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Đăng Nhập Groq Cloud")
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .foregroundColor(Color(hex: "#111827"))
+                Text("Tốc độ siêu nhanh, không lo quá tải, miễn phí 100%.")
+                    .font(.caption)
+                    .foregroundColor(AppTheme.textSecondary)
+            }
+            
+            // Step 1: Open Groq Console Button
+            Button(action: {
+                safariTargetUrl = URL(string: "https://console.groq.com/keys")!
+                showingSafari = true
+            }) {
+                HStack(spacing: 12) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.white.opacity(0.2))
+                            .frame(width: 36, height: 36)
+                        Image(systemName: "safari.fill")
+                            .font(.system(size: 18))
+                            .foregroundColor(.white)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Lấy Key miễn phí từ Groq (1 chạm)")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.white)
+                        Text("Đăng nhập -> Bấm Create API Key -> Dán vào app")
+                            .font(.caption2)
+                            .foregroundColor(.white.opacity(0.85))
+                    }
+                    
+                    Spacer()
+                    
+                    Image(systemName: "arrow.up.right.square.fill")
+                        .font(.system(size: 16))
+                        .foregroundColor(.white)
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(LinearGradient(colors: [Color(hex: "#F97316"), Color(hex: "#C2410C")], startPoint: .leading, endPoint: .trailing))
+                )
+                .shadow(color: Color(hex: "#F97316").opacity(0.25), radius: 6, x: 0, y: 3)
+            }
+            
+            // Step 2: Groq Model Picker
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Chọn Model Groq miễn phí:")
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(AppTheme.primary)
+                
+                Menu {
+                    ForEach(GroqModel.allCases) { model in
+                        Button(action: {
+                            selectedGroqModel = model.rawValue
+                        }) {
+                            HStack {
+                                Text(model.displayName)
+                                if selectedGroqModel == model.rawValue {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
+                    }
+                } label: {
+                    HStack {
+                        Image(systemName: "cpu")
+                            .foregroundColor(Color(hex: "#EA580C"))
+                        
+                        Text(GroqModel(rawValue: selectedGroqModel)?.displayName ?? selectedGroqModel)
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(Color(hex: "#111827"))
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.up.chevron.down")
+                            .font(.caption)
+                            .foregroundColor(AppTheme.textSecondary)
+                    }
+                    .padding(12)
+                    .background(RoundedRectangle(cornerRadius: 14).fill(AppTheme.secondaryBg))
+                    .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(hex: "#E5E7EB"), lineWidth: 1))
+                }
+                
+                if let modelObj = GroqModel(rawValue: selectedGroqModel) {
+                    Text(modelObj.description)
+                        .font(.caption2)
+                        .foregroundColor(AppTheme.textSecondary)
+                }
+            }
+            
+            // Step 3: API Key Input Box
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Dán Groq API Key của bạn:")
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(AppTheme.primary)
+                
+                HStack(spacing: 8) {
+                    Image(systemName: "key.fill")
+                        .foregroundColor(Color(hex: "#EA580C"))
+                    
+                    TextField("Dán Key bắt đầu bằng gsk_...", text: $groqApiKeyInput)
+                        .font(.system(size: 13, design: .monospaced))
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                    
+                    Button(action: {
+                        if let clip = UIPasteboard.general.string {
+                            groqApiKeyInput = clip.trimmingCharacters(in: .whitespacesAndNewlines)
+                        }
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "doc.on.clipboard")
+                            Text("Dán")
+                        }
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(Capsule().fill(Color(hex: "#E5E7EB")))
+                        .foregroundColor(Color(hex: "#1F2937"))
+                    }
+                }
+                .padding(14)
+                .background(RoundedRectangle(cornerRadius: 16).fill(AppTheme.secondaryBg))
+                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E5E7EB"), lineWidth: 1))
             }
         }
     }
     
-    private func performLogin() {
-        let cleanKey = geminiApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !cleanKey.isEmpty else { return }
-        
-        isConnecting = true
-        connectionMessage = "Đang kiểm tra kết nối tới Google Gemini..."
-        isConnectionSuccess = nil
-        
-        GeminiAIService.shared.checkConnection(serverUrl: "", geminiApiKey: cleanKey) { success, msg in
-            isConnecting = false
-            isConnectionSuccess = success
-            connectionMessage = msg
+    // MARK: - Gemini Login Section
+    private var geminiLoginSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Đăng Nhập Google Gemini")
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .foregroundColor(Color(hex: "#111827"))
+                Text("Trí tuệ học tập thế hệ mới từ chính Google.")
+                    .font(.caption)
+                    .foregroundColor(AppTheme.textSecondary)
+            }
             
-            if success {
-                appState.login(
-                    username: "Học Sinh Shimy",
-                    token: "",
-                    role: "student",
-                    remainingQuota: 9999,
-                    geminiKey: cleanKey
+            // Step 1: Open Google AI Studio to get key
+            Button(action: {
+                safariTargetUrl = URL(string: "https://aistudio.google.com/app/apikey")!
+                showingSafari = true
+            }) {
+                HStack(spacing: 12) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.white.opacity(0.2))
+                            .frame(width: 36, height: 36)
+                        Image(systemName: "safari.fill")
+                            .font(.system(size: 18))
+                            .foregroundColor(.white)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Lấy Key miễn phí từ Google (1 chạm)")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.white)
+                        Text("Đăng nhập Google -> Bấm Get API key -> Dán vào app")
+                            .font(.caption2)
+                            .foregroundColor(.white.opacity(0.85))
+                    }
+                    
+                    Spacer()
+                    
+                    Image(systemName: "arrow.up.right.square.fill")
+                        .font(.system(size: 16))
+                        .foregroundColor(.white)
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(LinearGradient(colors: [Color(hex: "#2563EB"), Color(hex: "#1D4ED8")], startPoint: .leading, endPoint: .trailing))
                 )
+                .shadow(color: Color(hex: "#2563EB").opacity(0.25), radius: 6, x: 0, y: 3)
+            }
+            
+            // Step 2: Gemini API Key Input Box
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Dán Gemini API Key của bạn:")
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(AppTheme.primary)
+                
+                HStack(spacing: 8) {
+                    Image(systemName: "key.fill")
+                        .foregroundColor(AppTheme.accentOrange)
+                    
+                    TextField("Dán Key bắt đầu bằng AIzaSy...", text: $geminiApiKeyInput)
+                        .font(.system(size: 13, design: .monospaced))
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                    
+                    Button(action: {
+                        if let clip = UIPasteboard.general.string {
+                            geminiApiKeyInput = clip.trimmingCharacters(in: .whitespacesAndNewlines)
+                        }
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "doc.on.clipboard")
+                            Text("Dán")
+                        }
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(Capsule().fill(Color(hex: "#E5E7EB")))
+                        .foregroundColor(Color(hex: "#1F2937"))
+                    }
+                }
+                .padding(14)
+                .background(RoundedRectangle(cornerRadius: 16).fill(AppTheme.secondaryBg))
+                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E5E7EB"), lineWidth: 1))
+            }
+        }
+    }
+    
+    private var isLoginDisabled: Bool {
+        if selectedProvider == .groq {
+            return groqApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        } else {
+            return geminiApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+    }
+    
+    private func performLogin() {
+        if selectedProvider == .groq {
+            let cleanKey = groqApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !cleanKey.isEmpty else { return }
+            
+            isConnecting = true
+            connectionMessage = "Đang kiểm tra kết nối tới Groq Cloud..."
+            isConnectionSuccess = nil
+            
+            GeminiAIService.shared.checkGroqConnection(apiKey: cleanKey) { success, msg in
+                isConnecting = false
+                isConnectionSuccess = success
+                connectionMessage = msg
+                
+                if success {
+                    appState.login(
+                        username: "Học Sinh Shimy",
+                        token: "",
+                        role: "student",
+                        remainingQuota: 9999,
+                        provider: .groq,
+                        geminiKey: geminiApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines),
+                        groqKey: cleanKey,
+                        groqModel: selectedGroqModel
+                    )
+                }
+            }
+        } else {
+            let cleanKey = geminiApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !cleanKey.isEmpty else { return }
+            
+            isConnecting = true
+            connectionMessage = "Đang kiểm tra kết nối tới Google Gemini..."
+            isConnectionSuccess = nil
+            
+            GeminiAIService.shared.checkConnection(serverUrl: "", geminiApiKey: cleanKey) { success, msg in
+                isConnecting = false
+                isConnectionSuccess = success
+                connectionMessage = msg
+                
+                if success {
+                    appState.login(
+                        username: "Học Sinh Shimy",
+                        token: "",
+                        role: "student",
+                        remainingQuota: 9999,
+                        provider: .gemini,
+                        geminiKey: cleanKey,
+                        groqKey: groqApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines),
+                        groqModel: selectedGroqModel
+                    )
+                }
             }
         }
     }
@@ -285,7 +554,10 @@ struct LoginView: View {
             token: "",
             role: "guest",
             remainingQuota: 150,
-            geminiKey: geminiApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines)
+            provider: selectedProvider,
+            geminiKey: geminiApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines),
+            groqKey: groqApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines),
+            groqModel: selectedGroqModel
         )
     }
 }

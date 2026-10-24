@@ -45,13 +45,31 @@ class AppState: ObservableObject {
     @Published var focusSessionCount: Int = 4
     @Published var isFocusLockActive: Bool = false
     
-    // Backend & Shimy Gemini AI Configuration
-    @Published var appAuthToken: String = ""
+    // AI Provider Configuration (Groq Cloud & Google Gemini)
+    @Published var selectedProvider: AIProvider = .groq
+    @Published var groqApiKey: String = ""
+    @Published var selectedGroqModel: String = "llama-3.3-70b-versatile"
     @Published var geminiApiKey: String = ""
+    @Published var appAuthToken: String = ""
     @Published var serverUrl: String = "http://192.168.2.16:8000/v1"
-    @Published var isGeminiConnected: Bool = false
+    @Published var isAIConnected: Bool = false
     @Published var userRole: String = "student"
-    @Published var remainingDailyQuota: Int = 150
+    @Published var remainingDailyQuota: Int = 9999
+    
+    // Backward compatibility alias
+    var isGeminiConnected: Bool {
+        get { isAIConnected }
+        set { isAIConnected = newValue }
+    }
+    
+    var hasActiveAI: Bool {
+        switch selectedProvider {
+        case .groq:
+            return !groqApiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        case .gemini:
+            return !geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+    }
     
     init() {
         let defaultUser = UserProfile(
@@ -67,6 +85,20 @@ class AppState: ObservableObject {
             UserProfile(username: "Học Sinh THCS", email: "student.thcs@study.vn", grade: 9, avatarName: "backpack.circle.fill")
         ]
         
+        // Restore saved provider
+        if let savedProviderStr = UserDefaults.standard.string(forKey: "shimy_ai_provider"),
+           let savedProv = AIProvider(rawValue: savedProviderStr) {
+            self.selectedProvider = savedProv
+        }
+        
+        // Restore Groq configuration
+        if let savedGroqKey = UserDefaults.standard.string(forKey: "shimy_groq_key"), !savedGroqKey.isEmpty {
+            self.groqApiKey = savedGroqKey
+        }
+        if let savedGroqModel = UserDefaults.standard.string(forKey: "shimy_groq_model"), !savedGroqModel.isEmpty {
+            self.selectedGroqModel = savedGroqModel
+        }
+        
         // Restore saved token & server url if available
         if let savedToken = UserDefaults.standard.string(forKey: "shimy_app_token") {
             self.appAuthToken = savedToken
@@ -76,11 +108,16 @@ class AppState: ObservableObject {
         }
         if let savedGeminiKey = UserDefaults.standard.string(forKey: "shimy_gemini_key"), !savedGeminiKey.isEmpty {
             self.geminiApiKey = savedGeminiKey
-            self.isGeminiConnected = true
         }
         
+        let hasValidAI = (self.selectedProvider == .groq && !self.groqApiKey.isEmpty) ||
+                         (self.selectedProvider == .gemini && !self.geminiApiKey.isEmpty) ||
+                         !self.groqApiKey.isEmpty ||
+                         !self.geminiApiKey.isEmpty
+        self.isAIConnected = hasValidAI
+        
         let previouslyLoggedIn = UserDefaults.standard.bool(forKey: "user_logged_in")
-        self.isLoggedIn = previouslyLoggedIn && !self.geminiApiKey.isEmpty
+        self.isLoggedIn = previouslyLoggedIn && hasValidAI
         self.hasSeenIntro = UserDefaults.standard.bool(forKey: "has_seen_intro")
     }
     
@@ -94,9 +131,11 @@ class AppState: ObservableObject {
     
     func logout() {
         self.isLoggedIn = false
+        self.groqApiKey = ""
         self.geminiApiKey = ""
-        self.isGeminiConnected = false
+        self.isAIConnected = false
         UserDefaults.standard.set(false, forKey: "user_logged_in")
+        UserDefaults.standard.removeObject(forKey: "shimy_groq_key")
         UserDefaults.standard.removeObject(forKey: "shimy_gemini_key")
         UserDefaults.standard.removeObject(forKey: "shimy_app_token")
     }
@@ -105,18 +144,35 @@ class AppState: ObservableObject {
         username: String,
         token: String? = nil,
         role: String = "student",
-        remainingQuota: Int = 150,
-        geminiKey: String? = nil
+        remainingQuota: Int = 9999,
+        provider: AIProvider = .groq,
+        geminiKey: String? = nil,
+        groqKey: String? = nil,
+        groqModel: String? = nil
     ) {
         self.currentUser.username = username
+        self.selectedProvider = provider
+        UserDefaults.standard.set(provider.rawValue, forKey: "shimy_ai_provider")
+        
         if let t = token, !t.isEmpty {
             self.appAuthToken = t
             UserDefaults.standard.set(t, forKey: "shimy_app_token")
+        }
+        if let gk = groqKey, !gk.isEmpty {
+            self.groqApiKey = gk
+            UserDefaults.standard.set(gk, forKey: "shimy_groq_key")
+        }
+        if let gm = groqModel, !gm.isEmpty {
+            self.selectedGroqModel = gm
+            UserDefaults.standard.set(gm, forKey: "shimy_groq_model")
         }
         if let k = geminiKey, !k.isEmpty {
             self.geminiApiKey = k
             UserDefaults.standard.set(k, forKey: "shimy_gemini_key")
         }
+        self.isAIConnected = (!self.groqApiKey.isEmpty && self.selectedProvider == .groq) ||
+                             (!self.geminiApiKey.isEmpty && self.selectedProvider == .gemini) ||
+                             !self.groqApiKey.isEmpty || !self.geminiApiKey.isEmpty
         self.userRole = role
         self.remainingDailyQuota = remainingQuota
         self.isLoggedIn = true
@@ -131,5 +187,26 @@ class AppState: ObservableObject {
     
     func t(_ key: String) -> String {
         return key
+    }
+}
+
+enum AIProvider: String, CaseIterable, Codable, Identifiable {
+    case groq = "Groq"
+    case gemini = "Gemini"
+    
+    var id: String { self.rawValue }
+    
+    var displayName: String {
+        switch self {
+        case .groq: return "⚡ Groq Cloud (Siêu Tốc)"
+        case .gemini: return "🌟 Google Gemini"
+        }
+    }
+    
+    var shortName: String {
+        switch self {
+        case .groq: return "Groq"
+        case .gemini: return "Gemini"
+        }
     }
 }

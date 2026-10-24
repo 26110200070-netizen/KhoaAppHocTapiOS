@@ -232,7 +232,7 @@ struct AccountView: View {
                     }
                 }
                 
-                Text(!appState.geminiApiKey.isEmpty ? "Google Cloud Direct (AIza...)" : appState.serverUrl)
+                Text(appState.selectedProvider == .groq ? "Groq Cloud LPU (\(GroqModel(rawValue: appState.selectedGroqModel)?.shortName ?? appState.selectedGroqModel))" : (!appState.geminiApiKey.isEmpty ? "Google Cloud Direct (AIza...)" : appState.serverUrl))
                     .font(.caption2)
                     .foregroundColor(AppTheme.textSecondary)
                 
@@ -300,9 +300,15 @@ struct AccountView: View {
     
     private func testServer() {
         isTestingServer = true
-        GeminiAIService.shared.checkConnection(serverUrl: appState.serverUrl, appToken: appState.appAuthToken, geminiApiKey: appState.geminiApiKey) { online, msg in
+        GeminiAIService.shared.checkConnection(
+            serverUrl: appState.serverUrl,
+            appToken: appState.appAuthToken,
+            geminiApiKey: appState.geminiApiKey,
+            groqApiKey: appState.groqApiKey,
+            provider: appState.selectedProvider
+        ) { online, msg in
             isTestingServer = false
-            appState.isGeminiConnected = online
+            appState.isAIConnected = online
             serverTestResult = msg
         }
     }

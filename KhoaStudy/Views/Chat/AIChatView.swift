@@ -63,14 +63,14 @@ struct AIChatView: View {
                 
                 Divider().opacity(0.3)
                 
-                // Prompt banner if Gemini Cloud is not connected yet
-                if appState.geminiApiKey.isEmpty {
+                // Prompt banner if AI service is not connected yet
+                if !appState.hasActiveAI {
                     Button(action: { showingGeminiConnectSheet = true }) {
                         HStack(spacing: 8) {
                             Image(systemName: "sparkles")
                                 .foregroundColor(AppTheme.accentOrange)
                                 .font(.system(size: 13))
-                            Text("Chạm vào đây để đăng nhập Google lấy Key (Miễn phí 100%, không cần máy tính)")
+                            Text("Chạm vào đây để kết nối Groq Cloud hoặc Google Gemini (Miễn phí 100%)")
                                 .font(.system(size: 12, weight: .semibold))
                                 .foregroundColor(Color(hex: "#92400E"))
                                 .lineLimit(1)
@@ -231,25 +231,49 @@ struct AIChatView: View {
                         .foregroundColor(.green)
                 }
                 
-                // Dropdown to switch model
+                // Dropdown to switch model based on active provider
                 Menu {
-                    ForEach(GeminiAIModel.allCases) { model in
-                        Button(action: {
-                            withAnimation { selectedModel = model }
-                        }) {
-                            HStack {
-                                Text(model.displayName)
-                                if selectedModel == model {
-                                    Image(systemName: "checkmark")
+                    if appState.selectedProvider == .groq {
+                        ForEach(GroqModel.allCases) { model in
+                            Button(action: {
+                                withAnimation {
+                                    appState.selectedGroqModel = model.rawValue
+                                    UserDefaults.standard.set(model.rawValue, forKey: "shimy_groq_model")
+                                }
+                            }) {
+                                HStack {
+                                    Text(model.displayName)
+                                    if appState.selectedGroqModel == model.rawValue {
+                                        Image(systemName: "checkmark")
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        ForEach(GeminiAIModel.allCases) { model in
+                            Button(action: {
+                                withAnimation { selectedModel = model }
+                            }) {
+                                HStack {
+                                    Text(model.displayName)
+                                    if selectedModel == model {
+                                        Image(systemName: "checkmark")
+                                    }
                                 }
                             }
                         }
                     }
                 } label: {
                     HStack(spacing: 4) {
-                        Text(selectedModel.displayName)
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(AppTheme.textSecondary)
+                        if appState.selectedProvider == .groq {
+                            Text(GroqModel(rawValue: appState.selectedGroqModel)?.shortName ?? "Llama 3.3 70B")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(AppTheme.textSecondary)
+                        } else {
+                            Text(selectedModel.displayName)
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(AppTheme.textSecondary)
+                        }
                         Image(systemName: "chevron.down")
                             .font(.system(size: 9, weight: .bold))
                             .foregroundColor(AppTheme.textSecondary)
@@ -257,21 +281,21 @@ struct AIChatView: View {
                 }
             }
             
-            // Gemini Cloud Status Pill Button
+            // AI Provider Status Pill Button
             Button(action: {
                 showingGeminiConnectSheet = true
             }) {
                 HStack(spacing: 4) {
                     Circle()
-                        .fill(!appState.geminiApiKey.isEmpty ? Color.green : Color.orange)
+                        .fill(appState.hasActiveAI ? Color.green : Color.orange)
                         .frame(width: 7, height: 7)
-                    Text(!appState.geminiApiKey.isEmpty ? "Cloud" : "Kết Nối")
+                    Text(appState.selectedProvider == .groq ? "⚡ Groq" : "🌟 Gemini")
                         .font(.system(size: 11, weight: .bold))
-                        .foregroundColor(!appState.geminiApiKey.isEmpty ? Color.green : Color.orange)
+                        .foregroundColor(appState.hasActiveAI ? (appState.selectedProvider == .groq ? Color(hex: "#EA580C") : Color.green) : Color.orange)
                 }
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
-                .background(Capsule().fill(!appState.geminiApiKey.isEmpty ? Color.green.opacity(0.12) : Color.orange.opacity(0.12)))
+                .background(Capsule().fill(appState.hasActiveAI ? (appState.selectedProvider == .groq ? Color(hex: "#FFEDD5") : Color.green.opacity(0.12)) : Color.orange.opacity(0.12)))
             }
             
             Spacer()
@@ -741,8 +765,8 @@ struct AIChatView: View {
         hideKeyboard()
         showingPlusPopup = false
         
-        // If Gemini is not connected yet, guide user to connect Google in 1 tap
-        if appState.geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && appState.appAuthToken.isEmpty {
+        // If no active AI key configured, guide user to connect in 1 tap
+        if !appState.hasActiveAI && appState.appAuthToken.isEmpty {
             showingGeminiConnectSheet = true
             return
         }
@@ -776,9 +800,12 @@ struct AIChatView: View {
         GeminiAIService.shared.sendStreamingChat(
             messages: messages,
             model: selectedModel,
+            groqModel: appState.selectedGroqModel,
+            provider: appState.selectedProvider,
             appToken: appState.appAuthToken,
             serverUrl: appState.serverUrl,
             geminiApiKey: appState.geminiApiKey,
+            groqApiKey: appState.groqApiKey,
             isWebSearch: webSearch,
             isDeepReasoning: deepReasoning,
             attachedImageBase64: imageBase64,

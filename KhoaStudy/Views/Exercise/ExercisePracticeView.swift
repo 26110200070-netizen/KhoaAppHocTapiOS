@@ -1113,7 +1113,10 @@ public struct ExercisePracticeView: View {
             saCount: saCount,
             appToken: appState.appAuthToken,
             serverUrl: appState.serverUrl,
-            geminiApiKey: appState.geminiApiKey
+            provider: appState.selectedProvider,
+            geminiApiKey: appState.geminiApiKey,
+            groqApiKey: appState.groqApiKey,
+            groqModel: appState.selectedGroqModel
         ) { result in
             isGenerating = false
             switch result {
