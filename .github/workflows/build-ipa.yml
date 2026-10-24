@@ -75,7 +75,7 @@ jobs:
                - **ESign** hoặc **Scarlet** (Ký và cài trực tiếp ngay trên iPhone không cần máy tính).
                - **Sideloadly** (Ký từ máy tính Windows và cài vào iPhone qua cáp Lightning/Type-C).
                - **TrollStore** (Cài vĩnh viễn không cần ký nếu máy hỗ trợ TrollStore).
-            3. Mở ứng dụng Shimy và bắt đầu học tập cùng DeepSeek AI!
+            3. Mở ứng dụng Shimy và bắt đầu học tập cùng Google Gemini AI!
           files: |
             Shimy_Unsigned.ipa
             KhoaStudy_Unsigned.ipa

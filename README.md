@@ -1,35 +1,73 @@
-# 📱 KhoaStudy - Ứng Dụng Học Tập Thông Minh iOS
+# 📱 Shimy (KhoaStudy) - Ứng Dụng Học Tập & Luyện Thi AI iOS
 
-> **KhoaStudy** là ứng dụng học tập toàn diện dành cho học sinh THCS (Lớp 6 - 9) và THPT (Lớp 10 - 12) theo chuẩn chương trình Sách Giáo Khoa (SGK) Bộ GD&ĐT, tích hợp trí tuệ nhân tạo **DeepSeek AI** cùng giao diện người dùng **Light UI bo tròn mượt mà** đẳng cấp.
+> **Shimy** là ứng dụng học tập toàn diện dành cho học sinh THCS (Lớp 6 - 9) và THPT (Lớp 10 - 12) theo chuẩn chương trình Sách Giáo Khoa mới của Bộ GD&ĐT, tích hợp trí tuệ nhân tạo **Google Gemini AI** (thông qua Gateway trung gian bảo vệ chống chặn) cùng giao diện **Light UI bo tròn mượt mà** đẳng cấp iOS.
+
+---
+
+## 🏛️ Kiến Trúc Hệ Thống (Architecture)
+
+```
+iOS App — SwiftUI
+(Đăng ký · Đăng nhập · Chat AI · Lịch sử chat · Cài đặt)
+        │
+        │ HTTPS · Token xác thực của app (Bearer Token)
+        ▼
+Backend API của bạn (FastAPI - Port 8000)
+(Xác thực · Phân quyền · Giới hạn lượt dùng · Kiểm tra yêu cầu)
+        │
+        │ Anti-Google Block (Jitter delay, Concurrency queue, Cookie rotation)
+        ▼
+Gemini Web To API (Port 4981) / Direct Gemini Web
+(Lớp chuyển tiếp yêu cầu tới Gemini Web)
+        │
+        ▼
+Google Gemini
+(Sinh nội dung AI: Gemini 2.5 Flash, Gemini 2.5 Pro, Gemini Thinking)
+```
 
 ---
 
 ## ✨ Tính Năng Nổi Bật
 
-### 1. 📖 Học Lí Thuyết Chuẩn SGK
-- Video bài giảng trực quan mô phỏng bài giảng AI.
-- Tài liệu tóm tắt kiến thức trọng tâm từng bài / từng chương.
-- Khung công thức nổi bật với họa tiết bắt mắt và ghi chú các bẫy thường gặp trong đề thi.
-- Ví dụ mẫu có lời giải từng bước rõ ràng.
+### 1. 🤖 Chat Trợ Lý Gia Sư Shimy (Google Gemini)
+- Lựa chọn linh hoạt giữa 4 mô hình:
+  * **Shimy Flash (Gemini 2.5 Flash)**: Phản hồi siêu tốc, trả lời nhanh các câu hỏi lý thuyết.
+  * **Shimy Pro (Gemini 2.5 Pro)**: Chuyên gia giải toán, lý, hóa chuyên sâu.
+  * **Shimy Think (Gemini Thinking)**: Suy luận sâu từng bước, diễn giải logic chi tiết.
+  * **Shimy Auto**: Tự động chọn mô hình tối ưu theo độ khó của câu hỏi.
+- **Giải toán qua ảnh (Multimodal Vision)**: Chụp hoặc tải ảnh đề bài từ thư viện ảnh iPhone để AI phân tích và giải chi tiết.
+- **Google Search Grounding (Tìm kiếm Web)**: Tra cứu kiến thức SGK mới nhất của Bộ GD&ĐT (Kết Nối Tri Thức, Cánh Diều, Chân Trời Sáng Tạo).
+- **Hỗ trợ công thức Toán LaTeX**: Hiển thị bảng biểu, phân số, căn thức toán học đẹp mắt.
 
-### 2. ✍️ Làm Bài Tập & Luyện Đề
-- Tùy chọn linh hoạt số lượng câu hỏi: **5, 10, 20 hoặc 40 câu**.
-- Làm trắc nghiệm trực tiếp trên app với giao diện bo tròn hiện đại.
-- Chấm điểm tức thì (thang điểm 10).
-- Lời giải chi tiết cho **tất cả các câu** (dù làm đúng hay sai).
-- Kèm dòng ghi chú xuất xứ: `Bài tập thuộc bài [A] chương [B]`.
-- Hỗ trợ xuất đề và lời giải ra file Word (.docx).
+### 2. 📝 Sinh Đề Thi Chuẩn SGK Bằng AI
+- Tự động sinh đề kiểm tra theo khối lớp (6-12), học kỳ (1-2) và chủ đề trọng tâm do học sinh nhập.
+- Đúng cấu trúc đề mới của Bộ GD&ĐT:
+  * Phần 1: Trắc nghiệm 4 lựa chọn (A, B, C, D).
+  * Phần 2: Câu hỏi Đúng / Sai (ngữ cảnh + 4 ý a, b, c, d).
+  * Phần 3: Trả lời ngắn điền số hoặc đơn vị.
+- Tự động chấm điểm và xem lại lời giải chi tiết cho từng câu.
 
-### 3. ⏱️ Treo Máy Tự Học (Khóa Máy Tập Trung)
-- Chế độ Pomodoro tự học 25 phút / 50 phút.
+### 3. 🛡️ Cơ Chế Bảo Vệ Chống Google Chặn (Anti-Google Block)
+- **Jitter Delay**: Giả lập độ trễ tự nhiên giữa các thao tác (300ms - 700ms), loại bỏ dấu hiệu bot quét dồn dập.
+- **Kiểm soát đồng thời (Concurrency Lock)**: Giới hạn tối đa 2 request song song tới Gemini Web, xếp hàng thông minh.
+- **Hạn mức sử dụng (Daily Quotas & Rate Limits)**: 25 requests/phút, 150 câu hỏi/ngày cho học sinh.
+- **Phiên làm việc tự động (Session Cookie Refresh)**: Chu kỳ làm mới 24h (1440 phút) an toàn.
+- **Dự phòng đám mây (Smart Fallback)**: Tự động dự phòng sang Google AI Studio API (`AIza...`) nếu cookie web cần đăng nhập lại.
+
+### 4. ⏱️ Treo Máy Tự Học (Khóa Máy Tập Trung Pomodoro)
+- Chế độ tự học 25 phút / 50 phút.
 - Giao diện Dark Emerald sang trọng mô phỏng theo dõi tập trung.
 - Tích hợp âm thanh tự nhiên (tiếng mưa, sóng biển, thư viện).
-- Chặn xao nhãng và ghi nhận tổng số phút học trong ngày.
 
-### 4. 👤 Quản Lý Tài Khoản & Song Ngữ
-- Đăng nhập và kết nối với **DeepSeek API** (Local server hoặc API Key).
-- Chuyển đổi nhanh giữa các tài khoản học sinh.
-- Chuyển đổi song ngữ **Tiếng Việt 🇻🇳** và **English 🇺🇸**.
+---
+
+## 🖥️ Hướng Dẫn Chạy Máy Chủ Trên Máy Tính
+
+1. Nhấp đúp vào file **`run_gemini_server.bat`** trên máy tính.
+2. Trình duyệt Chromium sẽ tự động mở lên trang **`https://gemini.google.com`**.
+3. Bạn đăng nhập tài khoản Google của mình một lần duy nhất.
+4. Cửa sổ trình duyệt tự động đóng và máy chủ khởi chạy trên cổng **`8000`** (`http://192.168.2.16:8000/v1`).
+5. Mở ứng dụng Shimy trên iPhone (cùng mạng Wi-Fi) và bắt đầu học tập!
 
 ---
 
@@ -38,8 +76,8 @@
 Mỗi khi có code mới đẩy lên nhánh `main`, **GitHub Actions (máy chủ macOS)** sẽ tự động:
 1. Tạo dự án Xcode với `xcodegen`.
 2. Biên dịch mã nguồn Swift bằng `xcodebuild`.
-3. Đóng gói thành file `KhoaStudy_Unsigned.ipa`.
-4. Xuất bản lên tab **Releases** và **Artifacts** để tải về cài đặt.
+3. Đóng gói thành file **`Shimy_Unsigned.ipa`** và **`KhoaStudy_Unsigned.ipa`**.
+4. Xuất bản lên tab **Releases** và **Artifacts** để cài qua **ESign**, **Scarlet**, **Sideloadly** hoặc **TrollStore**.
 
 ---
 Bản quyền ứng dụng © **Anh Khoa Dev**.

@@ -9,7 +9,7 @@ struct AIChatView: View {
     @State private var messages: [ChatMessage] = []
     @State private var inputPrompt: String = ""
     @State private var isThinking: Bool = false
-    @State private var selectedModel: DeepSeekModel = .expert // Default is Expert!
+    @State private var selectedModel: GeminiAIModel = .flash // Default is Flash!
     @State private var streamingText: String = ""
     @State private var showingNewChatConfirmation: Bool = false
     
@@ -202,7 +202,7 @@ struct AIChatView: View {
                 
                 // Dropdown to switch model
                 Menu {
-                    ForEach(DeepSeekModel.allCases) { model in
+                    ForEach(GeminiAIModel.allCases) { model in
                         Button(action: {
                             withAnimation { selectedModel = model }
                         }) {
@@ -719,11 +719,12 @@ struct AIChatView: View {
         attachedFileName = nil
         attachedFileContent = nil
         
-        DeepSeekService.shared.sendStreamingChat(
+        GeminiAIService.shared.sendStreamingChat(
             messages: messages,
             model: selectedModel,
-            apiKey: appState.deepSeekApiKey,
-            serverUrl: appState.deepSeekServerUrl,
+            appToken: appState.appAuthToken,
+            serverUrl: appState.serverUrl,
+            geminiApiKey: appState.geminiApiKey,
             isWebSearch: webSearch,
             isDeepReasoning: deepReasoning,
             attachedImageBase64: imageBase64,
@@ -747,7 +748,7 @@ struct AIChatView: View {
     }
     
     private func stopChatGeneration() {
-        DeepSeekService.shared.stopStreaming()
+        GeminiAIService.shared.stopStreaming()
         if !streamingText.isEmpty {
             let aiMsg = ChatMessage(role: "assistant", content: streamingText)
             messages.append(aiMsg)

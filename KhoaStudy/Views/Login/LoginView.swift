@@ -1,10 +1,27 @@
 import SwiftUI
 
+enum AuthMode {
+    case login
+    case register
+}
+
 struct LoginView: View {
     @EnvironmentObject var appState: AppState
-    @State private var usernameInput: String = "Anh Khoa Dev"
+    @State private var authMode: AuthMode = .login
+    
+    // Login fields
+    @State private var usernameInput: String = "khoadev"
+    @State private var passwordInput: String = "123456"
+    
+    // Register fields
+    @State private var registerFullName: String = "Anh Khoa Dev"
+    @State private var registerGrade: Int = 12
+    
+    // Server & Key fields
     @State private var serverUrlInput: String = "http://192.168.2.16:8000/v1"
-    @State private var apiKeyInput: String = ""
+    @State private var geminiApiKeyInput: String = ""
+    
+    // Feedback states
     @State private var connectionMessage: String = ""
     @State private var isConnecting: Bool = false
     @State private var isConnectionSuccess: Bool? = nil
@@ -14,62 +31,134 @@ struct LoginView: View {
             AppTheme.background.ignoresSafeArea()
             
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
-                    Spacer(minLength: 30)
+                VStack(spacing: 22) {
+                    Spacer(minLength: 20)
                     
-                    // App Logo & Mascot
+                    // App Logo & Header
                     VStack(spacing: 12) {
                         ZStack {
                             Circle()
                                 .fill(LinearGradient(colors: [AppTheme.primaryMint, AppTheme.primaryDark], startPoint: .topLeading, endPoint: .bottomTrailing))
-                                .frame(width: 88, height: 88)
+                                .frame(width: 86, height: 86)
                                 .shadow(color: AppTheme.primaryMint.opacity(0.3), radius: 15, x: 0, y: 8)
                             
                             Image(systemName: "graduationcap.fill")
-                                .font(.system(size: 40))
+                                .font(.system(size: 38))
                                 .foregroundColor(.white)
                         }
                         
                         Text("Shimy")
-                            .font(.system(size: 30, weight: .bold, design: .rounded))
+                            .font(.system(size: 32, weight: .bold, design: .rounded))
                             .foregroundColor(AppTheme.primaryDark)
                         
-                        Text("Học tập thông minh cùng Shimy")
+                        Text("Gia sư AI học tập thông minh & Luyện thi K-12")
                             .font(.subheadline)
                             .foregroundColor(AppTheme.textSecondary)
                     }
                     
-                    // Login Form Card
+                    // Main Card Form
                     VStack(alignment: .leading, spacing: 18) {
-                        Text("Cấu hình kết nối Shimy")
-                            .font(.headline)
-                            .foregroundColor(AppTheme.textPrimary)
+                        // Auth Mode Toggle (Đăng nhập / Đăng ký)
+                        HStack(spacing: 0) {
+                            Button(action: {
+                                withAnimation(.easeInOut(duration: 0.2)) { authMode = .login }
+                            }) {
+                                Text("Đăng Nhập")
+                                    .font(.system(size: 14, weight: authMode == .login ? .bold : .medium))
+                                    .foregroundColor(authMode == .login ? .white : AppTheme.textSecondary)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 10)
+                                    .background(
+                                        Capsule()
+                                            .fill(authMode == .login ? AppTheme.primary : Color.clear)
+                                    )
+                            }
+                            
+                            Button(action: {
+                                withAnimation(.easeInOut(duration: 0.2)) { authMode = .register }
+                            }) {
+                                Text("Đăng Ký Tài Khoản")
+                                    .font(.system(size: 14, weight: authMode == .register ? .bold : .medium))
+                                    .foregroundColor(authMode == .register ? .white : AppTheme.textSecondary)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 10)
+                                    .background(
+                                        Capsule()
+                                            .fill(authMode == .register ? AppTheme.primary : Color.clear)
+                                    )
+                            }
+                        }
+                        .padding(4)
+                        .background(
+                            Capsule().fill(AppTheme.secondaryBg)
+                        )
+                        
+                        // Register extra fields
+                        if authMode == .register {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Họ và tên của bạn")
+                                    .font(.caption)
+                                    .foregroundColor(AppTheme.textSecondary)
+                                HStack {
+                                    Image(systemName: "person.text.rectangle")
+                                        .foregroundColor(AppTheme.primaryMint)
+                                    TextField("Ví dụ: Nguyễn Văn A...", text: $registerFullName)
+                                }
+                                .padding(14)
+                                .background(RoundedRectangle(cornerRadius: 16).fill(AppTheme.secondaryBg))
+                            }
+                            
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Khối lớp đang học")
+                                    .font(.caption)
+                                    .foregroundColor(AppTheme.textSecondary)
+                                Picker("Lớp", selection: $registerGrade) {
+                                    ForEach(6...12, id: \.self) { g in
+                                        Text("Lớp \(g)").tag(g)
+                                    }
+                                }
+                                .pickerStyle(.segmented)
+                            }
+                        }
                         
                         // Username Field
                         VStack(alignment: .leading, spacing: 6) {
-                            Text("Tên đăng nhập của bạn")
+                            Text("Tên đăng nhập")
                                 .font(.caption)
                                 .foregroundColor(AppTheme.textSecondary)
                             HStack {
                                 Image(systemName: "person.fill")
                                     .foregroundColor(AppTheme.primaryMint)
                                 TextField("Nhập tên đăng nhập...", text: $usernameInput)
+                                    .textInputAutocapitalization(.never)
+                                    .autocorrectionDisabled(true)
                             }
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(AppTheme.secondaryBg)
-                            )
+                            .padding(14)
+                            .background(RoundedRectangle(cornerRadius: 16).fill(AppTheme.secondaryBg))
+                        }
+                        
+                        // Password Field
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Mật khẩu")
+                                .font(.caption)
+                                .foregroundColor(AppTheme.textSecondary)
+                            HStack {
+                                Image(systemName: "lock.fill")
+                                    .foregroundColor(AppTheme.accentOrange)
+                                SecureField("Nhập mật khẩu...", text: $passwordInput)
+                            }
+                            .padding(14)
+                            .background(RoundedRectangle(cornerRadius: 16).fill(AppTheme.secondaryBg))
                         }
                         
                         // Server Endpoint URL
                         VStack(alignment: .leading, spacing: 6) {
                             HStack {
-                                Text("Endpoint DeepSeek-API Server")
+                                Text("Máy chủ Backend Shimy")
                                     .font(.caption)
                                     .foregroundColor(AppTheme.textSecondary)
                                 Spacer()
-                                Text("Deepseek-API (Local)")
+                                Text("Gemini Web Gateway")
                                     .font(.caption2)
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
@@ -81,12 +170,12 @@ struct LoginView: View {
                                 Image(systemName: "network")
                                     .foregroundColor(AppTheme.primary)
                                 TextField("http://192.168.2.16:8000/v1", text: $serverUrlInput)
+                                    .font(.system(size: 14, design: .monospaced))
+                                    .textInputAutocapitalization(.never)
+                                    .autocorrectionDisabled(true)
                             }
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(AppTheme.secondaryBg)
-                            )
+                            .padding(14)
+                            .background(RoundedRectangle(cornerRadius: 16).fill(AppTheme.secondaryBg))
                             
                             // Quick IP Presets
                             HStack(spacing: 8) {
@@ -111,24 +200,31 @@ struct LoginView: View {
                             .padding(.top, 2)
                         }
                         
-                        // DeepSeek API Key (Optional)
+                        // Optional Google AI Studio Gemini API Key
                         VStack(alignment: .leading, spacing: 6) {
-                            Text("API Token / Bearer Token (Tùy chọn)")
-                                .font(.caption)
-                                .foregroundColor(AppTheme.textSecondary)
+                            HStack {
+                                Text("Google Gemini API Key (Tùy chọn)")
+                                    .font(.caption)
+                                    .foregroundColor(AppTheme.textSecondary)
+                                Spacer()
+                                Text("Cloud Trực Tiếp")
+                                    .font(.caption2)
+                                    .foregroundColor(AppTheme.textSecondary)
+                            }
+                            
                             HStack {
                                 Image(systemName: "key.fill")
                                     .foregroundColor(AppTheme.accentOrange)
-                                SecureField("Để trống nếu dùng session server tự động...", text: $apiKeyInput)
+                                SecureField("Để trống nếu dùng Gemini Web qua máy chủ...", text: $geminiApiKeyInput)
+                                    .font(.system(size: 13, design: .monospaced))
+                                    .textInputAutocapitalization(.never)
+                                    .autocorrectionDisabled(true)
                             }
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(AppTheme.secondaryBg)
-                            )
+                            .padding(14)
+                            .background(RoundedRectangle(cornerRadius: 16).fill(AppTheme.secondaryBg))
                         }
                         
-                        // Connection Check Feedback
+                        // Connection / Login Result Message
                         if !connectionMessage.isEmpty {
                             HStack(spacing: 8) {
                                 Image(systemName: (isConnectionSuccess == true) ? "checkmark.circle.fill" : "exclamationmark.circle.fill")
@@ -145,17 +241,17 @@ struct LoginView: View {
                             )
                         }
                         
-                        // Button Check Connection & Login
+                        // Action Button
                         Button(action: {
-                            performServerLogin()
+                            performAction()
                         }) {
                             HStack {
                                 Spacer()
                                 if isConnecting {
                                     ProgressView().tint(.white)
                                 } else {
-                                    Image(systemName: "checkmark.shield.fill")
-                                    Text("Đăng Nhập Vào Shimy")
+                                    Image(systemName: authMode == .login ? "checkmark.shield.fill" : "person.badge.plus")
+                                    Text(authMode == .login ? "Đăng Nhập Vào Shimy AI" : "Tạo Tài Khoản & Bắt Đầu Học")
                                         .font(.system(size: 16, weight: .bold, design: .rounded))
                                 }
                                 Spacer()
@@ -170,13 +266,13 @@ struct LoginView: View {
                         }
                         .disabled(isConnecting)
                         
-                        // Google Account Note
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("💡 Cách đăng nhập tài khoản Google:")
+                        // Google Gemini Server Guide Note
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("💡 Cách kết nối Shimy với Google Gemini:")
                                 .font(.caption)
                                 .fontWeight(.bold)
                                 .foregroundColor(AppTheme.primary)
-                            Text("1. Chạy file run_deepseek_server.bat trên máy tính.\n2. Trình duyệt mở lên, đăng nhập tài khoản Google của bạn tại DeepSeek.\n3. Máy chủ sẽ tự động nhận session và đồng bộ với app!")
+                            Text("1. Mở file `run_gemini_server.bat` trên máy tính.\n2. Cửa sổ Chromium mở lên, đăng nhập tài khoản Google để lưu session.\n3. Máy chủ Backend tự động bảo vệ chống Google chặn và cung cấp AI cho iPhone!")
                                 .font(.caption2)
                                 .foregroundColor(AppTheme.textSecondary)
                                 .lineSpacing(3)
@@ -221,23 +317,60 @@ struct LoginView: View {
         }
     }
     
-    private func performServerLogin() {
+    private func performAction() {
         isConnecting = true
-        connectionMessage = "Đang kết nối DeepSeek Server..."
+        appState.serverUrl = serverUrlInput.trimmingCharacters(in: .whitespacesAndNewlines)
+        appState.geminiApiKey = geminiApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        DeepSeekService.shared.checkConnection(serverUrl: serverUrlInput, apiKey: apiKeyInput) { success, message in
-            isConnecting = false
-            isConnectionSuccess = success
-            connectionMessage = message
-            
-            // Save state and proceed
-            appState.deepSeekServerUrl = serverUrlInput
-            appState.deepSeekApiKey = apiKeyInput
-            appState.isDeepSeekConnected = success
-            
-            // Allow login (either server verified or offline mode with credentials)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                appState.login(username: usernameInput, apiKey: apiKeyInput)
+        if authMode == .register {
+            connectionMessage = "Đang tạo tài khoản trên máy chủ..."
+            GeminiAIService.shared.registerToBackend(
+                serverUrl: appState.serverUrl,
+                username: usernameInput,
+                password: passwordInput,
+                fullName: registerFullName,
+                grade: registerGrade
+            ) { success, msg, data in
+                isConnecting = false
+                isConnectionSuccess = success
+                connectionMessage = msg
+                
+                if success, let d = data {
+                    let token = d["token"] as? String ?? ""
+                    let role = d["role"] as? String ?? "student"
+                    let quota = d["remaining_quota"] as? Int ?? 150
+                    appState.login(username: registerFullName, token: token, role: role, remainingQuota: quota, geminiKey: geminiApiKeyInput)
+                }
+            }
+        } else {
+            connectionMessage = "Đang xác thực tài khoản & kiểm tra kết nối..."
+            GeminiAIService.shared.loginToBackend(
+                serverUrl: appState.serverUrl,
+                username: usernameInput,
+                password: passwordInput
+            ) { success, msg, data in
+                isConnecting = false
+                isConnectionSuccess = success
+                connectionMessage = msg
+                
+                if success, let d = data {
+                    let token = d["token"] as? String ?? ""
+                    let role = d["role"] as? String ?? "student"
+                    let quota = d["remaining_quota"] as? Int ?? 150
+                    let name = d["username"] as? String ?? usernameInput
+                    appState.login(username: name, token: token, role: role, remainingQuota: quota, geminiKey: geminiApiKeyInput)
+                } else {
+                    // Fallback: If offline or custom server without auth, verify connection directly
+                    GeminiAIService.shared.checkConnection(
+                        serverUrl: appState.serverUrl,
+                        appToken: "",
+                        geminiApiKey: geminiApiKeyInput
+                    ) { connOk, connMsg in
+                        if connOk {
+                            appState.login(username: usernameInput, token: "", role: "student", remainingQuota: 150, geminiKey: geminiApiKeyInput)
+                        }
+                    }
+                }
             }
         }
     }

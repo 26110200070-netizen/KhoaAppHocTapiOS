@@ -87,13 +87,13 @@ struct AccountView: View {
                         .background(Capsule().fill(AppTheme.primaryLight))
                         .foregroundColor(AppTheme.primary)
                     
-                    Text(appState.isDeepSeekConnected ? "Shimy: Đã kết nối" : "Shimy: Chờ kết nối")
+                    Text(appState.isGeminiConnected ? "Shimy Gemini: Đã kết nối" : "Shimy: Chờ kết nối")
                         .font(.caption2)
                         .fontWeight(.semibold)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3)
-                        .background(Capsule().fill(appState.isDeepSeekConnected ? Color.green.opacity(0.12) : Color.orange.opacity(0.12)))
-                        .foregroundColor(appState.isDeepSeekConnected ? .green : .orange)
+                        .background(Capsule().fill(appState.isGeminiConnected ? Color.green.opacity(0.12) : Color.orange.opacity(0.12)))
+                        .foregroundColor(appState.isGeminiConnected ? .green : .orange)
                 }
                 .padding(.top, 2)
             }
@@ -197,17 +197,17 @@ struct AccountView: View {
             
             Divider().padding(.horizontal, 16)
             
-            // DeepSeek Server & API Key Diagnostic
+            // Shimy Server & Gemini Diagnostic
             VStack(alignment: .leading, spacing: 6) {
                 HStack {
-                    Label("Shimy Server", systemImage: "network")
+                    Label("Shimy Gemini Gateway", systemImage: "network")
                         .font(.system(size: 15, weight: .medium))
                         .foregroundColor(Color(hex: "#111827"))
                     Spacer()
                     
                     Button(action: {
-                        editServerUrl = appState.deepSeekServerUrl
-                        editApiKey = appState.deepSeekApiKey
+                        editServerUrl = appState.serverUrl
+                        editApiKey = appState.appAuthToken
                         showingServerConfigSheet = true
                     }) {
                         Text("Cấu hình")
@@ -232,14 +232,25 @@ struct AccountView: View {
                     }
                 }
                 
-                Text(!appState.deepSeekApiKey.isEmpty ? "Đang dùng DeepSeek Cloud API (sk-...)" : appState.deepSeekServerUrl)
+                Text(!appState.geminiApiKey.isEmpty ? "Google Cloud Direct (AIza...)" : appState.serverUrl)
                     .font(.caption2)
                     .foregroundColor(AppTheme.textSecondary)
                 
-                if !serverTestResult.isEmpty {
-                    Text(serverTestResult)
+                HStack(spacing: 8) {
+                    Text("Lượt học còn: \(appState.remainingDailyQuota) câu/ngày")
                         .font(.caption2)
-                        .foregroundColor(appState.isDeepSeekConnected ? .green : .orange)
+                        .fontWeight(.medium)
+                        .foregroundColor(AppTheme.primary)
+                    
+                    if !serverTestResult.isEmpty {
+                        Text("•")
+                            .font(.caption2)
+                            .foregroundColor(AppTheme.textMuted)
+                        Text(serverTestResult)
+                            .font(.caption2)
+                            .foregroundColor(appState.isGeminiConnected ? .green : .orange)
+                            .lineLimit(1)
+                    }
                 }
             }
             .padding(.vertical, 14)
@@ -289,9 +300,9 @@ struct AccountView: View {
     
     private func testServer() {
         isTestingServer = true
-        DeepSeekService.shared.checkConnection(serverUrl: appState.deepSeekServerUrl, apiKey: appState.deepSeekApiKey) { online, msg in
+        GeminiAIService.shared.checkConnection(serverUrl: appState.serverUrl, appToken: appState.appAuthToken, geminiApiKey: appState.geminiApiKey) { online, msg in
             isTestingServer = false
-            appState.isDeepSeekConnected = online
+            appState.isGeminiConnected = online
             serverTestResult = msg
         }
     }
@@ -341,32 +352,32 @@ struct AccountView: View {
     private var serverConfigSheet: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Chế độ 1: Server máy tính (Miễn phí qua Web)")) {
+                Section(header: Text("Chế độ 1: Máy chủ Backend Shimy (Gemini Web Gateway)")) {
                     TextField("http://192.168.2.16:8000/v1", text: $editServerUrl)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled(true)
                         .font(.system(size: 14, design: .monospaced))
                     
-                    Text("💡 Mở file `run_deepseek_server.bat` trên máy tính cùng Wi-Fi.")
+                    Text("💡 Mở file `run_gemini_server.bat` trên máy tính cùng Wi-Fi.")
                         .font(.caption2)
                         .foregroundColor(AppTheme.textSecondary)
                 }
                 
-                Section(header: Text("Chế độ 2: DeepSeek API Key (Chính thức - Không bao giờ bị khóa)")) {
-                    SecureField("sk-xxxxxxxxxxxxxxxx", text: $editApiKey)
+                Section(header: Text("Token xác thực của App (Bearer Token)")) {
+                    SecureField("shimy_xxxxxxxxxxxxxxxx", text: $editApiKey)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled(true)
                         .font(.system(size: 14, design: .monospaced))
                     
-                    Text("💡 Nhập API Key chính thức (bắt đầu bằng sk-), app sẽ gọi trực tiếp đến DeepSeek Cloud mà không cần mở máy tính và hoàn toàn không bao giờ bị khóa.")
+                    Text("💡 Nhận tự động khi đăng nhập hoặc do quản trị viên cấp để bảo vệ hạn mức.")
                         .font(.caption2)
                         .foregroundColor(AppTheme.textSecondary)
                 }
                 
                 Section {
                     Button(action: {
-                        appState.deepSeekServerUrl = editServerUrl.trimmingCharacters(in: .whitespacesAndNewlines)
-                        appState.deepSeekApiKey = editApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+                        appState.serverUrl = editServerUrl.trimmingCharacters(in: .whitespacesAndNewlines)
+                        appState.appAuthToken = editApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
                         testServer()
                         showingServerConfigSheet = false
                     }) {

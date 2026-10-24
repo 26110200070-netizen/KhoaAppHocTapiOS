@@ -45,10 +45,13 @@ class AppState: ObservableObject {
     @Published var focusSessionCount: Int = 4
     @Published var isFocusLockActive: Bool = false
     
-    // DeepSeek API Configuration
-    @Published var deepSeekApiKey: String = ""
-    @Published var deepSeekServerUrl: String = "http://192.168.2.16:8000/v1"
-    @Published var isDeepSeekConnected: Bool = false
+    // Backend & Shimy Gemini AI Configuration
+    @Published var appAuthToken: String = ""
+    @Published var geminiApiKey: String = ""
+    @Published var serverUrl: String = "http://192.168.2.16:8000/v1"
+    @Published var isGeminiConnected: Bool = false
+    @Published var userRole: String = "student"
+    @Published var remainingDailyQuota: Int = 150
     
     init() {
         let defaultUser = UserProfile(
@@ -63,6 +66,17 @@ class AppState: ObservableObject {
             UserProfile(username: "Học Sinh THPT", email: "student.thpt@study.vn", grade: 12, avatarName: "graduationcap.circle.fill"),
             UserProfile(username: "Học Sinh THCS", email: "student.thcs@study.vn", grade: 9, avatarName: "backpack.circle.fill")
         ]
+        
+        // Restore saved token & server url if available
+        if let savedToken = UserDefaults.standard.string(forKey: "shimy_app_token") {
+            self.appAuthToken = savedToken
+        }
+        if let savedUrl = UserDefaults.standard.string(forKey: "shimy_server_url"), !savedUrl.isEmpty {
+            self.serverUrl = savedUrl
+        }
+        if let savedGeminiKey = UserDefaults.standard.string(forKey: "shimy_gemini_key") {
+            self.geminiApiKey = savedGeminiKey
+        }
         
         // Always start with intro on launch, and require login
         self.hasSeenIntro = false
@@ -79,16 +93,32 @@ class AppState: ObservableObject {
     
     func logout() {
         self.isLoggedIn = false
+        self.appAuthToken = ""
         UserDefaults.standard.set(false, forKey: "user_logged_in")
+        UserDefaults.standard.removeObject(forKey: "shimy_app_token")
     }
     
-    func login(username: String, apiKey: String? = nil) {
+    func login(
+        username: String,
+        token: String? = nil,
+        role: String = "student",
+        remainingQuota: Int = 150,
+        geminiKey: String? = nil
+    ) {
         self.currentUser.username = username
-        if let key = apiKey, !key.isEmpty {
-            self.deepSeekApiKey = key
+        if let t = token, !t.isEmpty {
+            self.appAuthToken = t
+            UserDefaults.standard.set(t, forKey: "shimy_app_token")
         }
+        if let k = geminiKey, !k.isEmpty {
+            self.geminiApiKey = k
+            UserDefaults.standard.set(k, forKey: "shimy_gemini_key")
+        }
+        self.userRole = role
+        self.remainingDailyQuota = remainingQuota
         self.isLoggedIn = true
         UserDefaults.standard.set(true, forKey: "user_logged_in")
+        UserDefaults.standard.set(self.serverUrl, forKey: "shimy_server_url")
     }
     
     func completeIntro() {

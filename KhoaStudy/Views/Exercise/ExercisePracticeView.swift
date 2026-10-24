@@ -1103,7 +1103,7 @@ public struct ExercisePracticeView: View {
     private func startAIGeneration() {
         isGenerating = true
         
-        DeepSeekService.shared.generateExamWithAI(
+        GeminiAIService.shared.generateExamWithAI(
             grade: selectedGrade,
             semester: selectedSemester,
             subject: selectedSubject,
@@ -1111,8 +1111,9 @@ public struct ExercisePracticeView: View {
             mcCount: mcCount,
             tfCount: tfCount,
             saCount: saCount,
-            apiKey: appState.deepSeekApiKey,
-            serverUrl: appState.deepSeekServerUrl
+            appToken: appState.appAuthToken,
+            serverUrl: appState.serverUrl,
+            geminiApiKey: appState.geminiApiKey
         ) { result in
             isGenerating = false
             switch result {

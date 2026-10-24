@@ -1,11 +1,19 @@
 # Secrets & Personal Tokens
 tokengithub
+*.env
 
 # External Tools & Submodules
 xtool/
 Deepseek-API/
 original-*.mp4
 appmuonlam
+ECC/
+
+# Backend Session & Local Data
+backend/session/
+backend/data/
+backend/venv/
+backend/__pycache__/
 
 # Xcode & Build Artifacts
 build/
