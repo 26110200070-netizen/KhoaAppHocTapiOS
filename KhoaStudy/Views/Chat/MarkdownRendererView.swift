@@ -121,16 +121,42 @@ struct MarkdownRendererView: View {
         }
     }
     
-    // MARK: - Headers
+    // MARK: - Headers (Hỗ trợ toàn diện H1 đến H6)
     private func renderHeader(text: String, level: Int) -> some View {
-        let size: CGFloat = level == 1 ? 20 : (level == 2 ? 17 : 15)
-        let weight: Font.Weight = level == 1 ? .heavy : .bold
+        let size: CGFloat = {
+            switch level {
+            case 1: return 20
+            case 2: return 18
+            case 3: return 16
+            case 4: return 15
+            case 5: return 14
+            default: return 13.5
+            }
+        }()
+        
+        let weight: Font.Weight = {
+            switch level {
+            case 1: return .heavy
+            case 2: return .bold
+            case 3: return .bold
+            case 4: return .bold
+            default: return .semibold
+            }
+        }()
+        
+        let color: Color = {
+            switch level {
+            case 1, 2: return Color(hex: "#111827")
+            case 3, 4: return Color(hex: "#1F2937")
+            default: return Color(hex: "#374151")
+            }
+        }()
         
         return VStack(alignment: .leading, spacing: 4) {
-            Text(LocalizedStringKey(text))
+            Text(LocalizedStringKey(sanitizeInlineMath(text)))
                 .font(.system(size: size, weight: weight, design: .rounded))
-                .foregroundColor(Color(hex: "#111827"))
-                .padding(.top, level == 1 ? 8 : 4)
+                .foregroundColor(color)
+                .padding(.top, level <= 2 ? 8 : (level <= 4 ? 6 : 3))
             
             if level <= 2 {
                 Rectangle()
@@ -242,104 +268,123 @@ struct MarkdownRendererView: View {
         .padding(.vertical, 4)
     }
     
-    // MARK: - Tables (KẺ BẢNG MARKDOWN CHUẨN GIAO DIỆN HIỆN ĐẠI, THẲNG HÀNG 100%)
+    // MARK: - Tables (Phong cách tối giản, hiện đại như ChatGPT iOS - Ảnh 2)
     private func renderTableBlock(headers: [String], rows: [[String]]) -> some View {
         let colWidths = calculateColumnWidths(headers: headers, rows: rows)
         
-        return VStack(alignment: .leading, spacing: 6) {
-            // Hint for wide tables
-            if headers.count > 2 {
-                HStack(spacing: 4) {
-                    Image(systemName: "arrow.left.and.right")
-                        .font(.system(size: 10, weight: .bold))
-                    Text("Vuốt ngang để xem toàn bộ bảng")
-                        .font(.system(size: 11, weight: .medium))
-                }
-                .foregroundColor(AppTheme.primaryMint)
-                .padding(.horizontal, 4)
-            }
-            
-            ScrollView(.horizontal, showsIndicators: true) {
-                VStack(alignment: .leading, spacing: 0) {
-                    // Table Header
-                    HStack(spacing: 0) {
-                        ForEach(Array(headers.enumerated()), id: \.offset) { idx, header in
-                            let cleanHeader = sanitizeInlineMath(header.trimmingCharacters(in: .whitespaces))
-                            Text(LocalizedStringKey(cleanHeader))
-                                .font(.system(size: 13, weight: .bold))
-                                .foregroundColor(Color(hex: "#065F46"))
-                                .padding(.vertical, 10)
-                                .padding(.horizontal, 12)
-                                .frame(width: colWidths[idx], alignment: .leading)
-                            
-                            if idx < headers.count - 1 {
-                                Divider().frame(height: 24)
-                            }
-                        }
+        return ScrollView(.horizontal, showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 0) {
+                // 1. Table Header (Tiêu đề in đậm, không viền khung bao quanh, không phân cách cột dọc)
+                HStack(alignment: .top, spacing: 0) {
+                    ForEach(Array(headers.enumerated()), id: \.offset) { idx, header in
+                        let cleanHeader = sanitizeInlineMath(header.trimmingCharacters(in: .whitespaces))
+                        Text(LocalizedStringKey(cleanHeader))
+                            .font(.system(size: 13.5, weight: .bold))
+                            .foregroundColor(Color(hex: "#111827"))
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 8)
+                            .frame(width: colWidths[idx], alignment: .topLeading)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
-                    .background(
-                        LinearGradient(
-                            colors: [Color(hex: "#ECFDF5"), Color(hex: "#E0F2FE")],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    
-                    Divider()
-                    
-                    // Table Rows
-                    ForEach(Array(rows.enumerated()), id: \.offset) { rowIdx, row in
-                        HStack(spacing: 0) {
+                }
+                
+                // 2. Đường kẻ ngang thanh mảnh ngăn cách Header (Chuẩn Ảnh 2)
+                Rectangle()
+                    .fill(Color(hex: "#E5E7EB"))
+                    .frame(height: 1)
+                
+                // 3. Table Data Rows (Mỗi hàng có đường kẻ ngang mờ ngăn cách)
+                ForEach(Array(rows.enumerated()), id: \.offset) { rowIdx, row in
+                    VStack(alignment: .leading, spacing: 0) {
+                        HStack(alignment: .top, spacing: 0) {
                             ForEach(Array(headers.indices), id: \.self) { colIdx in
-                                let cellText = colIdx < row.count ? row[colIdx].trimmingCharacters(in: .whitespaces) : ""
-                                Text(LocalizedStringKey(sanitizeInlineMath(cellText)))
+                                let rawCell = colIdx < row.count ? row[colIdx].trimmingCharacters(in: .whitespaces) : ""
+                                let cellText = sanitizeInlineMath(rawCell)
+                                
+                                Text(LocalizedStringKey(cellText))
                                     .font(.system(size: 13))
                                     .foregroundColor(Color(hex: "#1F2937"))
-                                    .lineSpacing(4)
-                                    .padding(.vertical, 10)
-                                    .padding(.horizontal, 12)
+                                    .lineSpacing(3)
+                                    .padding(.vertical, 9)
+                                    .padding(.horizontal, 8)
                                     .frame(width: colWidths[colIdx], alignment: .topLeading)
                                     .fixedSize(horizontal: false, vertical: true)
-                                
-                                if colIdx < headers.count - 1 {
-                                    Divider()
-                                }
                             }
                         }
-                        .background(rowIdx % 2 == 0 ? Color.white : Color(hex: "#F9FAFB"))
                         
-                        if rowIdx < rows.count - 1 {
-                            Divider()
-                        }
+                        // Đường kẻ ngang mảnh giữa các hàng
+                        Rectangle()
+                            .fill(Color(hex: "#F1F5F9"))
+                            .frame(height: 0.8)
                     }
                 }
-                .background(Color.white)
-                .cornerRadius(12)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color(hex: "#CBD5E1"), lineWidth: 1)
-                )
-                .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
             }
+            .padding(.vertical, 4)
         }
-        .padding(.vertical, 4)
     }
     
+    // Tính toán độ rộng cột thông minh, linh hoạt theo nội dung, không gò bó cố định quá lớn (Chuẩn Ảnh 2)
     private func calculateColumnWidths(headers: [String], rows: [[String]]) -> [CGFloat] {
+        let totalCols = max(1, headers.count)
+        
         return headers.indices.map { colIdx in
-            var maxLen = headers[colIdx].count
+            let headerText = headers[colIdx].trimmingCharacters(in: .whitespaces)
+            var maxWordLen = 0
+            for word in headerText.components(separatedBy: .whitespacesAndNewlines) {
+                maxWordLen = max(maxWordLen, word.count)
+            }
+            var maxLineLen = headerText.count
+            var totalChars = headerText.count
+            var cellCount = 1
+            
             for row in rows {
                 if colIdx < row.count {
-                    let lines = row[colIdx].components(separatedBy: "\n")
-                    for l in lines {
-                        maxLen = max(maxLen, l.trimmingCharacters(in: .whitespaces).count)
+                    let cell = row[colIdx].trimmingCharacters(in: .whitespaces)
+                    for word in cell.components(separatedBy: .whitespacesAndNewlines) {
+                        maxWordLen = max(maxWordLen, word.count)
                     }
+                    let lines = cell.components(separatedBy: "\n")
+                    for l in lines {
+                        maxLineLen = max(maxLineLen, l.trimmingCharacters(in: .whitespaces).count)
+                    }
+                    totalChars += cell.count
+                    cellCount += 1
                 }
             }
-            if colIdx == 0 {
-                return max(110, min(150, CGFloat(maxLen * 7)))
+            
+            let avgChars = totalChars / max(1, cellCount)
+            let contentWidth: CGFloat = CGFloat(max(maxWordLen * 9 + 16, min(maxLineLen * 8 + 16, avgChars * 8 + 24)))
+            
+            if totalCols == 1 {
+                return max(180, min(320, contentWidth))
+            } else if totalCols == 2 {
+                if colIdx == 0 {
+                    return max(80, min(140, contentWidth))
+                } else {
+                    return max(140, min(230, contentWidth))
+                }
+            } else if totalCols == 3 {
+                if colIdx == 0 {
+                    return max(70, min(110, contentWidth))
+                } else if colIdx == 1 {
+                    return max(110, min(170, contentWidth))
+                } else {
+                    return max(80, min(130, contentWidth))
+                }
+            } else if totalCols == 4 {
+                // Tối ưu tỉ lệ hiển thị cho bảng 4 cột như Ảnh 2 (Ngày: ~70pt, Công việc: ~130pt, Thời gian: ~90pt, Trạng thái: ~75pt)
+                if colIdx == 0 {
+                    return max(60, min(80, contentWidth))
+                } else if colIdx == 1 {
+                    return max(110, min(145, contentWidth))
+                } else if colIdx == 2 {
+                    return max(80, min(105, contentWidth))
+                } else {
+                    return max(65, min(90, contentWidth))
+                }
             } else {
-                return max(180, min(280, CGFloat(maxLen * 7)))
+                // Bảng từ 5 cột trở lên: tự động cuộn ngang mượt mà
+                return max(70, min(140, contentWidth))
             }
         }
     }
@@ -515,7 +560,19 @@ public struct MathSanitizer {
         // 16. Clean inline LaTeX delimiters \( and \) or $ and $$
         str = cleanInlineDelimiters(str)
         
-        // 17. Clean redundant spaces
+        // 17. Convert task checkboxes [ ] and [x] (Chuẩn checklist như Ảnh 2)
+        str = str.replacingOccurrences(of: "[ ]", with: "⬜")
+        str = str.replacingOccurrences(of: "[x]", with: "✅")
+        str = str.replacingOccurrences(of: "[X]", with: "✅")
+        
+        // 18. Clean stray markdown header hashes in inline strings
+        let rogueHashRegex = try? NSRegularExpression(pattern: "(?m)^#{1,6}\\s*(.+)$", options: [])
+        if let rhr = rogueHashRegex {
+            let nsRange = NSRange(str.startIndex..<str.endIndex, in: str)
+            str = rhr.stringByReplacingMatches(in: str, options: [], range: nsRange, withTemplate: "**$1**")
+        }
+        
+        // 19. Clean redundant spaces
         str = str.replacingOccurrences(of: "  +", with: " ", options: .regularExpression)
         
         return str.trimmingCharacters(in: .whitespaces)
@@ -791,7 +848,16 @@ public struct MathSanitizer {
 class MarkdownParser {
     static func parse(_ raw: String) -> [MarkdownBlock] {
         var blocks: [MarkdownBlock] = []
-        let lines = raw.components(separatedBy: "\n")
+        var text = raw.replacingOccurrences(of: "\r\n", with: "\n").replacingOccurrences(of: "\r", with: "\n")
+        
+        // Tách header viết liền sau câu văn trên cùng một dòng thành dòng riêng
+        let headerBreakRegex = try? NSRegularExpression(pattern: "([^\n])\\s+(#{1,6}\\s+)", options: [])
+        if let regex = headerBreakRegex {
+            let range = NSRange(text.startIndex..<text.endIndex, in: text)
+            text = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "$1\n\n$2")
+        }
+        
+        let lines = text.components(separatedBy: "\n")
         var i = 0
         var blockId = 0
         
@@ -838,44 +904,52 @@ class MarkdownParser {
                 continue
             }
             
-            // 3. Table Block (| ... |)
-            if trimmed.hasPrefix("|") && i + 1 < lines.count && lines[i + 1].contains("---") {
+            // 3. Table Block (| ... | hoặc col 1 | col 2)
+            if trimmed.contains("|") && i + 1 < lines.count && (lines[i + 1].contains("---") || lines[i + 1].contains("-|-")) {
                 let headerCells = parseTableRow(trimmed)
                 i += 2 // skip header and separator line (|---|---|)
                 var rows: [[String]] = []
                 while i < lines.count {
                     let tableLine = lines[i].trimmingCharacters(in: .whitespaces)
-                    if tableLine.hasPrefix("|") {
+                    if tableLine.contains("|") && !tableLine.isEmpty {
                         rows.append(parseTableRow(tableLine))
                         i += 1
                     } else {
                         break
                     }
                 }
-                blocks.append(.table(headers: headerCells, rows: rows, id: "table_\(blockId)"))
-                blockId += 1
-                continue
+                if !headerCells.isEmpty && !rows.isEmpty {
+                    blocks.append(.table(headers: headerCells, rows: rows, id: "table_\(blockId)"))
+                    blockId += 1
+                    continue
+                }
             }
             
-            // 4. Header (#, ##, ###)
-            if trimmed.hasPrefix("# ") {
-                blocks.append(.header(text: String(trimmed.dropFirst(2)), level: 1, id: "h1_\(blockId)"))
-                blockId += 1
-                i += 1
-                continue
-            } else if trimmed.hasPrefix("## ") {
-                blocks.append(.header(text: String(trimmed.dropFirst(3)), level: 2, id: "h2_\(blockId)"))
-                blockId += 1
-                i += 1
-                continue
-            } else if trimmed.hasPrefix("### ") {
-                blocks.append(.header(text: String(trimmed.dropFirst(4)), level: 3, id: "h3_\(blockId)"))
-                blockId += 1
-                i += 1
-                continue
+            // 4. Header (#, ##, ###, ####, #####, ######) - Hỗ trợ đầy đủ mọi cấp độ markdown header
+            if trimmed.hasPrefix("#") {
+                let hashCount = trimmed.prefix(while: { $0 == "#" }).count
+                if hashCount >= 1 {
+                    let level = min(hashCount, 6)
+                    var headerText = String(trimmed.dropFirst(hashCount)).trimmingCharacters(in: .whitespaces)
+                    // Bỏ dấu thăng cuối câu nếu có (vd: "### Tiêu đề ###")
+                    while headerText.hasSuffix("#") {
+                        headerText.removeLast()
+                    }
+                    headerText = headerText.trimmingCharacters(in: .whitespaces)
+                    if !headerText.isEmpty {
+                        blocks.append(.header(text: headerText, level: level, id: "h\(level)_\(blockId)"))
+                        blockId += 1
+                        i += 1
+                        continue
+                    } else {
+                        // Dòng chỉ toàn dấu thăng không có chữ, bỏ qua
+                        i += 1
+                        continue
+                    }
+                }
             }
             
-            // 5. Divider (--- or ***)
+            // 5. Divider (--- or *** or ___)
             if trimmed == "---" || trimmed == "***" || trimmed == "___" {
                 blocks.append(.divider(id: "div_\(blockId)"))
                 blockId += 1
@@ -896,12 +970,12 @@ class MarkdownParser {
                 continue
             }
             
-            // 7. Bullet List (- , * , • )
-            if trimmed.hasPrefix("- ") || trimmed.hasPrefix("* ") || trimmed.hasPrefix("• ") {
+            // 7. Bullet List (- , * , • , + )
+            if trimmed.hasPrefix("- ") || trimmed.hasPrefix("* ") || trimmed.hasPrefix("• ") || trimmed.hasPrefix("+ ") {
                 var items: [String] = []
                 while i < lines.count {
                     let cur = lines[i].trimmingCharacters(in: .whitespaces)
-                    if cur.hasPrefix("- ") || cur.hasPrefix("* ") || cur.hasPrefix("• ") {
+                    if cur.hasPrefix("- ") || cur.hasPrefix("* ") || cur.hasPrefix("• ") || cur.hasPrefix("+ ") {
                         items.append(String(cur.dropFirst(2)).trimmingCharacters(in: .whitespaces))
                         i += 1
                     } else {
@@ -939,7 +1013,7 @@ class MarkdownParser {
                 i += 1
                 while i < lines.count {
                     let next = lines[i].trimmingCharacters(in: .whitespaces)
-                    if next.isEmpty || next.hasPrefix("#") || next.hasPrefix("```") || next.hasPrefix("|") || next.hasPrefix("- ") || next.hasPrefix("* ") || next.hasPrefix(">") || (next.first?.isNumber == true && next.contains(". ")) {
+                    if next.isEmpty || next.hasPrefix("#") || next.hasPrefix("```") || (next.contains("|") && i + 1 < lines.count && lines[i+1].contains("---")) || next.hasPrefix("- ") || next.hasPrefix("* ") || next.hasPrefix("• ") || next.hasPrefix("+ ") || next.hasPrefix(">") || (next.first?.isNumber == true && next.contains(". ")) {
                         break
                     }
                     paraLines.append(next)
