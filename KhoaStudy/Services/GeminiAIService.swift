@@ -81,7 +81,8 @@ class GeminiAIService {
         
         // Otherwise check local/remote Backend Gateway
         let cleanBase = serverUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-        let targetUrlString = "\(cleanBase)/health"
+        let baseWithoutV1 = cleanBase.hasSuffix("/v1") ? String(cleanBase.dropLast(3)) : cleanBase
+        let targetUrlString = "\(baseWithoutV1)/health"
         
         guard let url = URL(string: targetUrlString) else {
             completion(false, "URL máy chủ không hợp lệ")

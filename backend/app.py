@@ -142,6 +142,8 @@ def get_me(user: Optional[Dict[str, Any]] = Depends(get_current_user_token)):
 
 @app.get("/health")
 @app.get("/healthz")
+@app.get("/v1/health")
+@app.get("/v1/healthz")
 async def health_check():
     upstream_up = await gemini_bridge.check_upstream_server()
     has_session = gemini_bridge.is_session_available()
@@ -159,6 +161,7 @@ async def health_check():
 # -----------------------------------------------------------------------------
 
 @app.get("/v1/models")
+@app.get("/models")
 def list_models():
     """List available Gemini AI models for Shimy iOS app."""
     return {
@@ -197,6 +200,7 @@ def list_models():
 
 
 @app.post("/v1/chat/completions", summary="Gửi tin nhắn trò chuyện hoặc sinh đề thi")
+@app.post("/chat/completions", summary="Gửi tin nhắn trò chuyện hoặc sinh đề thi (alias)")
 async def chat_completions(
     req: ChatCompletionRequest,
     request: Request,
