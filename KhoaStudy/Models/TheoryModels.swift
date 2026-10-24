@@ -1,18 +1,18 @@
 import Foundation
 
 /// Đại diện cho 1 chủ đề / bài học kiến thức trong danh mục lý thuyết
-public struct TheoryTopicItem: Identifiable, Codable, Hashable {
-    public var id: String
-    public var title: String
-    public var summary: String
-    public var subject: String
-    public var grade: Int
-    public var semester: Int
-    public var videoId: String
-    public var channelName: String
-    public var estimatedTime: String
+struct TheoryTopicItem: Identifiable, Codable, Hashable {
+    var id: String
+    var title: String
+    var summary: String
+    var subject: String
+    var grade: Int
+    var semester: Int
+    var videoId: String
+    var channelName: String
+    var estimatedTime: String
     
-    public init(
+    init(
         id: String = UUID().uuidString,
         title: String,
         summary: String,
@@ -36,18 +36,18 @@ public struct TheoryTopicItem: Identifiable, Codable, Hashable {
 }
 
 /// Chi tiết toàn bộ bài giảng lý thuyết do AI biên soạn kết hợp Web Search 2026
-public struct DetailedTheoryLesson: Identifiable, Codable {
-    public var id: String = UUID().uuidString
-    public var topicTitle: String
-    public var subject: String
-    public var grade: Int
-    public var semester: Int
-    public var videoId: String
-    public var channelName: String
-    public var markdownContent: String
-    public var createdAt: Date = Date()
+struct DetailedTheoryLesson: Identifiable, Codable {
+    var id: String = UUID().uuidString
+    var topicTitle: String
+    var subject: String
+    var grade: Int
+    var semester: Int
+    var videoId: String
+    var channelName: String
+    var markdownContent: String
+    var createdAt: Date = Date()
     
-    public init(
+    init(
         id: String = UUID().uuidString,
         topicTitle: String,
         subject: String,

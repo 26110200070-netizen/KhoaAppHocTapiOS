@@ -1,13 +1,13 @@
 import Foundation
 
 /// Dịch vụ tra cứu chuyên đề lý thuyết & video bài giảng YouTube chuẩn 2026
-public class TheoryKnowledgeService {
-    public static let shared = TheoryKnowledgeService()
+class TheoryKnowledgeService {
+    static let shared = TheoryKnowledgeService()
     
     private init() {}
     
     // MARK: - 1. Tra Cứu Danh Sách Kiến Thức Đầy Đủ
-    public func fetchCurriculumTopics(
+    func fetchCurriculumTopics(
         subject: String,
         grade: Int,
         semester: Int,
@@ -49,7 +49,7 @@ public class TheoryKnowledgeService {
     }
     
     // MARK: - 2. Biên Soạn Nội Dung Bài Giảng Chi Tiết Qua Web Search & AI
-    public func generateDetailedLesson(
+    func generateDetailedLesson(
         topic: String,
         subject: String,
         grade: Int,

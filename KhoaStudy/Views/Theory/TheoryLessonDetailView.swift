@@ -1,17 +1,17 @@
 import SwiftUI
 
 /// Màn hình học lí thuyết chi tiết: Khung trên là Video YouTube bài giảng, Khung dưới là AI hướng dẫn toàn diện
-public struct TheoryLessonDetailView: View {
+struct TheoryLessonDetailView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appState: AppState
     
-    public let topicItem: TheoryTopicItem
+    let topicItem: TheoryTopicItem
     
     @State private var detailedLesson: DetailedTheoryLesson? = nil
     @State private var isLoading: Bool = true
     @State private var showingPractice: Bool = false
     
-    public init(topicItem: TheoryTopicItem) {
+    init(topicItem: TheoryTopicItem) {
         self.topicItem = topicItem
     }
     

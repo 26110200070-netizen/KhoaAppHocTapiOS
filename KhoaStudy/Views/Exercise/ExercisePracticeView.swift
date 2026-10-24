@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct ExercisePracticeView: View {
+struct ExercisePracticeView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appState: AppState
     

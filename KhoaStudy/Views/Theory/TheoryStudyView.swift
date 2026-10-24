@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Màn hình chọn Lớp, Học kỳ, Môn học và danh sách chuyên đề lý thuyết được AI Web Search chuẩn 2026
-public struct TheoryStudyView: View {
+struct TheoryStudyView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appState: AppState
     

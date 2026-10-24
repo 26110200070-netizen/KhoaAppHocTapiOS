@@ -1,13 +1,13 @@
 import Foundation
 
 /// Dịch vụ tra cứu kiến thức thực tế & khung đề thi chuẩn Bộ GD&ĐT năm 2026
-public class WebKnowledgeService {
-    public static let shared = WebKnowledgeService()
+class WebKnowledgeService {
+    static let shared = WebKnowledgeService()
     
     private init() {}
     
     /// Tra cứu kiến thức trực tuyến từ Web Search & Bách khoa Việt Nam cho chủ đề người dùng chọn
-    public func searchLatest2026Curriculum(
+    func searchLatest2026Curriculum(
         subject: String,
         grade: Int,
         semester: Int,

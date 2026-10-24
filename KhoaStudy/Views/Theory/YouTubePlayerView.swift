@@ -2,14 +2,14 @@ import SwiftUI
 import WebKit
 
 /// Trình phát video YouTube không cần khung viền bao bọc cồng kềnh, nhúng iframe chuẩn 16:9
-public struct YouTubePlayerView: UIViewRepresentable {
-    public let videoId: String
+struct YouTubePlayerView: UIViewRepresentable {
+    let videoId: String
     
-    public init(videoId: String) {
+    init(videoId: String) {
         self.videoId = videoId
     }
     
-    public func makeUIView(context: Context) -> WKWebView {
+    func makeUIView(context: Context) -> WKWebView {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
         configuration.mediaTypesRequiringUserActionForPlayback = []
@@ -24,7 +24,7 @@ public struct YouTubePlayerView: UIViewRepresentable {
         return webView
     }
     
-    public func updateUIView(_ uiView: WKWebView, context: Context) {
+    func updateUIView(_ uiView: WKWebView, context: Context) {
         // Only reload if needed
     }
     
