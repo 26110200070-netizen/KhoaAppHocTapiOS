@@ -44,12 +44,33 @@ Write-Host "[2/4] Kiem tra thu vien dependencies..." -ForegroundColor Cyan
 $sessionFile = Join-Path $backendDir "session\session.json"
 $needsLogin = $true
 
-if (Test-Path $sessionFile) {
+# Check if official GEMINI_API_KEY is configured in environment or .env
+$envFile = Join-Path $backendDir ".env"
+$hasApiKey = $false
+if (Test-Path $envFile) {
+    $envContent = Get-Content $envFile -Raw
+    if ($envContent -match "GEMINI_API_KEY=AIza") {
+        $hasApiKey = $true
+    }
+}
+if ($env:GEMINI_API_KEY -and $env:GEMINI_API_KEY.StartsWith("AIza")) {
+    $hasApiKey = $true
+}
+
+if ($hasApiKey) {
+    Write-Host "[OK] Phat hien Google Gemini API Key hop le!" -ForegroundColor Green
+    $needsLogin = $false
+} elseif (Test-Path $sessionFile) {
     try {
         $sessionContent = Get-Content $sessionFile -Raw | ConvertFrom-Json
-        if ($sessionContent.cookies -and $sessionContent.cookies.Length -gt 20) {
-            Write-Host "[OK] Tim thay phien Google Gemini da luu san!" -ForegroundColor Green
+        $psid = $sessionContent.'__Secure-1PSID'
+        $cookies = $sessionContent.cookies
+        if ($psid -and $psid.Length -ge 15 -and $cookies -and ($cookies -like "*__Secure-1PSID*")) {
+            Write-Host "[OK] Tim thay phien Google Gemini da luu san (hop le)!" -ForegroundColor Green
             $needsLogin = $false
+        } else {
+            Write-Host "[!] Phien Google Gemini cu khong hop le hoac chua co __Secure-1PSID." -ForegroundColor Yellow
+            $needsLogin = $true
         }
     } catch {
         $needsLogin = $true

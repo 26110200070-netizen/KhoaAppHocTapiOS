@@ -96,6 +96,9 @@ GEMINI_TEMPORARY=false
         return self.session_data.get("cookies", "")
 
     def is_session_available(self) -> bool:
+        api_key = os.getenv("GEMINI_API_KEY", "") or self.session_data.get("api_key", "")
+        if api_key and api_key.startswith("AIza"):
+            return True
         cookies = self.get_cookie_header()
         return bool(cookies and ("__Secure-1PSID" in cookies or "__Secure-1PSIDTS" in cookies))
 
@@ -124,7 +127,7 @@ GEMINI_TEMPORARY=false
     ) -> Dict[str, Any]:
         """
         Main completion method with multi-layer resilience:
-        1. If Gemini Official API Key is provided, use Google AI Studio directly.
+        1. If Gemini Official API Key is provided (or in GEMINI_API_KEY env), use Google AI Studio directly.
         2. If gemini-web-to-api service is running (port 4981), forward request to it.
         3. Built-in direct Gemini Web client.
         4. Intelligent fallback with friendly Vietnamese guidance.
@@ -133,11 +136,12 @@ GEMINI_TEMPORARY=false
             await self._apply_anti_block_jitter()
 
             # Layer A: Official Google AI Studio Gemini API (if key starting with AIza is given)
-            if gemini_api_key and gemini_api_key.startswith("AIza"):
+            effective_api_key = gemini_api_key or os.getenv("GEMINI_API_KEY", "") or self.session_data.get("api_key", "")
+            if effective_api_key and effective_api_key.startswith("AIza"):
                 return await self._call_official_gemini_api(
                     messages=messages,
                     model=model,
-                    api_key=gemini_api_key,
+                    api_key=effective_api_key,
                     web_search=web_search,
                     attached_image_base64=attached_image_base64
                 )
