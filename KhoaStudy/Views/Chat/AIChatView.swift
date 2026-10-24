@@ -266,7 +266,7 @@ struct AIChatView: View {
                 } label: {
                     HStack(spacing: 4) {
                         if appState.selectedProvider == .groq {
-                            Text(GroqModel(rawValue: appState.selectedGroqModel)?.shortName ?? "Llama 3.3 70B")
+                            Text(GroqModel(rawValue: appState.selectedGroqModel)?.shortName ?? "GPT-OSS 120B")
                                 .font(.system(size: 12, weight: .medium))
                                 .foregroundColor(AppTheme.textSecondary)
                         } else {

@@ -24,7 +24,7 @@ struct GeminiConnectSheet: View {
     
     // Groq fields
     @State private var inputGroqKey: String = ""
-    @State private var selectedGroqModel: String = "llama-3.3-70b-versatile"
+    @State private var selectedGroqModel: String = "openai/gpt-oss-120b"
     
     // Gemini fields
     @State private var inputGeminiKey: String = ""

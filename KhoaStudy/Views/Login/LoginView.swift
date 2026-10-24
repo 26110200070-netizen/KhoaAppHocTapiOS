@@ -9,7 +9,7 @@ struct LoginView: View {
     
     // Groq configuration inputs
     @State private var groqApiKeyInput: String = ""
-    @State private var selectedGroqModel: String = "llama-3.3-70b-versatile"
+    @State private var selectedGroqModel: String = "openai/gpt-oss-120b"
     
     // Gemini configuration inputs
     @State private var geminiApiKeyInput: String = ""

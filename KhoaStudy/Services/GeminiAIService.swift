@@ -34,41 +34,41 @@ enum GeminiAIModel: String, CaseIterable, Identifiable {
 }
 
 enum GroqModel: String, CaseIterable, Identifiable {
+    case gpt_oss_120b = "openai/gpt-oss-120b"
+    case gpt_oss_20b = "openai/gpt-oss-20b"
     case llama33_70b = "llama-3.3-70b-versatile"
-    case deepseek_r1 = "deepseek-r1-distill-llama-70b"
-    case llama31_8b = "llama-3.1-8b-instant"
-    case mixtral_8x7b = "mixtral-8x7b-32768"
-    case gemma2_9b = "gemma2-9b-it"
+    case qwen38_27b = "qwen/qwen3.8-27b"
+    case gpt_oss_safeguard_20b = "openai/gpt-oss-safeguard-20b"
     
     var id: String { self.rawValue }
     
     var displayName: String {
         switch self {
-        case .llama33_70b: return "Llama 3.3 70B (Khuyên Dùng)"
-        case .deepseek_r1: return "DeepSeek R1 (Suy Luận Đỉnh Cao)"
-        case .llama31_8b: return "Llama 3.1 8B (Phản Hồi Siêu Tốc)"
-        case .mixtral_8x7b: return "Mixtral 8x7B (Đa Nhiệm)"
-        case .gemma2_9b: return "Google Gemma 2 9B"
+        case .gpt_oss_120b: return "OpenAI GPT-OSS 120B (Khuyên Dùng)"
+        case .gpt_oss_20b: return "OpenAI GPT-OSS 20B (Siêu Tốc 1000 t/s)"
+        case .llama33_70b: return "Meta Llama 3.3 70B (Đa Năng)"
+        case .qwen38_27b: return "Alibaba Qwen 3.8 27B"
+        case .gpt_oss_safeguard_20b: return "OpenAI GPT-OSS Safeguard 20B"
         }
     }
     
     var shortName: String {
         switch self {
+        case .gpt_oss_120b: return "GPT-OSS 120B"
+        case .gpt_oss_20b: return "GPT-OSS 20B"
         case .llama33_70b: return "Llama 3.3 70B"
-        case .deepseek_r1: return "DeepSeek R1"
-        case .llama31_8b: return "Llama 3.1 8B"
-        case .mixtral_8x7b: return "Mixtral 8x7B"
-        case .gemma2_9b: return "Gemma 2 9B"
+        case .qwen38_27b: return "Qwen 3.8 27B"
+        case .gpt_oss_safeguard_20b: return "GPT Safeguard 20B"
         }
     }
     
     var description: String {
         switch self {
-        case .llama33_70b: return "Mô hình 70B thông minh nhất, giải toán, văn, lý, hóa cực chuẩn xác"
-        case .deepseek_r1: return "Mô hình suy luận từng bước chuyên sâu từ DeepSeek R1"
-        case .llama31_8b: return "Tốc độ chớp nhoáng 800 từ/giây, hạn mức dùng cực lớn"
-        case .mixtral_8x7b: return "Mô hình đa nhiệm MoE, ngữ cảnh 32k tokens"
-        case .gemma2_9b: return "Mô hình tối ưu từ Google chạy trên phần cứng Groq LPU"
+        case .gpt_oss_120b: return "Mô hình 120B mạnh nhất của OpenAI trên Groq, tốc độ 500 từ/giây, suy luận toán & văn chuyên sâu"
+        case .gpt_oss_20b: return "Mô hình OpenAI siêu tốc độ 1000 từ/giây, phản hồi tức thì"
+        case .llama33_70b: return "Mô hình 70B của Meta, bối cảnh 131k tokens"
+        case .qwen38_27b: return "Mô hình Qwen 27B tối ưu suy luận đa nhiệm"
+        case .gpt_oss_safeguard_20b: return "Mô hình OpenAI 20B tích hợp bảo vệ an toàn"
         }
     }
 }
@@ -310,7 +310,7 @@ class GeminiAIService {
     func sendStreamingChat(
         messages: [ChatMessage],
         model: GeminiAIModel = .flash,
-        groqModel: String = "llama-3.3-70b-versatile",
+        groqModel: String = "openai/gpt-oss-120b",
         provider: AIProvider = .groq,
         appToken: String = "",
         serverUrl: String = "",
@@ -585,11 +585,8 @@ class GeminiAIService {
         
         var effectiveModel = model
         let hasImage = (attachedImageBase64 != nil && !attachedImageBase64!.isEmpty)
-        if hasImage {
-            // Groq vision model for image OCR and math solving
-            effectiveModel = "llama-3.2-11b-vision-preview"
-        } else if isDeepReasoning {
-            effectiveModel = "deepseek-r1-distill-llama-70b"
+        if isDeepReasoning {
+            effectiveModel = "openai/gpt-oss-120b"
         }
         
         for (idx, msg) in messages.enumerated() {
@@ -652,6 +649,14 @@ class GeminiAIService {
                           let firstChoice = choices.first,
                           let msgObj = firstChoice["message"] as? [String: Any],
                           let text = msgObj["content"] as? String {
+                    fullAnswer = text
+                } else if let output = json["output"] as? String {
+                    fullAnswer = output
+                } else if let outputList = json["output"] as? [[String: Any]],
+                          let firstOut = outputList.first,
+                          let content = firstOut["content"] as? String {
+                    fullAnswer = content
+                } else if let text = json["response"] as? String {
                     fullAnswer = text
                 } else {
                     fullAnswer = "⚠️ Không nhận được câu trả lời từ Groq Cloud. Vui lòng thử lại."
@@ -947,7 +952,7 @@ class GeminiAIService {
         tfCount: Int,
         saCount: Int,
         apiKey: String,
-        model: String = "llama-3.3-70b-versatile",
+        model: String = "openai/gpt-oss-120b",
         completion: @escaping (Result<GeneratedExam, Error>) -> Void
     ) {
         guard let url = URL(string: "https://api.groq.com/openai/v1/chat/completions") else {
@@ -1080,7 +1085,7 @@ class GeminiAIService {
         provider: AIProvider = .groq,
         geminiApiKey: String = "",
         groqApiKey: String = "",
-        groqModel: String = "llama-3.3-70b-versatile",
+        groqModel: String = "openai/gpt-oss-120b",
         completion: @escaping (Result<GeneratedExam, Error>) -> Void
     ) {
         let cleanGroqKey = groqApiKey.trimmingCharacters(in: .whitespacesAndNewlines)

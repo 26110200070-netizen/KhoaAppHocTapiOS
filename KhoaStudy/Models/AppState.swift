@@ -48,7 +48,7 @@ class AppState: ObservableObject {
     // AI Provider Configuration (Groq Cloud & Google Gemini)
     @Published var selectedProvider: AIProvider = .groq
     @Published var groqApiKey: String = ""
-    @Published var selectedGroqModel: String = "llama-3.3-70b-versatile"
+    @Published var selectedGroqModel: String = "openai/gpt-oss-120b"
     @Published var geminiApiKey: String = ""
     @Published var appAuthToken: String = ""
     @Published var serverUrl: String = "http://192.168.2.16:8000/v1"
@@ -91,12 +91,25 @@ class AppState: ObservableObject {
             self.selectedProvider = savedProv
         }
         
-        // Restore Groq configuration
+        // Restore Groq configuration with automatic migration for decommissioned models
         if let savedGroqKey = UserDefaults.standard.string(forKey: "shimy_groq_key"), !savedGroqKey.isEmpty {
             self.groqApiKey = savedGroqKey
         }
         if let savedGroqModel = UserDefaults.standard.string(forKey: "shimy_groq_model"), !savedGroqModel.isEmpty {
-            self.selectedGroqModel = savedGroqModel
+            let decommissioned = [
+                "llama-3.1-8b-instant",
+                "mixtral-8x7b-32768",
+                "gemma2-9b-it",
+                "deepseek-r1-distill-llama-70b"
+            ]
+            if decommissioned.contains(savedGroqModel) {
+                self.selectedGroqModel = "openai/gpt-oss-120b"
+                UserDefaults.standard.set("openai/gpt-oss-120b", forKey: "shimy_groq_model")
+            } else {
+                self.selectedGroqModel = savedGroqModel
+            }
+        } else {
+            self.selectedGroqModel = "openai/gpt-oss-120b"
         }
         
         // Restore saved token & server url if available
