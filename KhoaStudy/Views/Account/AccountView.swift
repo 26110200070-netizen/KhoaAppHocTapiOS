@@ -40,7 +40,7 @@ struct AccountView: View {
                     logoutButton
                     
                     // Spacing for full-width bottom bar
-                    Spacer().frame(height: 90)
+                    Spacer().frame(height: 110)
                 }
                 .padding(.horizontal, 16)
             }

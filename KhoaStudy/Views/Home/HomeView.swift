@@ -31,7 +31,7 @@ struct HomeView: View {
                     tammiPromoExamBanner
                     
                     // Spacing above bottom bar
-                    Spacer().frame(height: 90)
+                    Spacer().frame(height: 110)
                 }
                 .padding(.horizontal, 16)
             }

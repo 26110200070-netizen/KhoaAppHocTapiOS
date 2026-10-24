@@ -186,92 +186,158 @@ struct MarkdownRendererView: View {
     
     // MARK: - Math Block (Toán Học & Công Thức)
     private func renderMathBlock(formula: String) -> some View {
-        HStack {
-            Spacer()
-            VStack(spacing: 6) {
+        let clean = formatMathFormula(formula)
+        return VStack(alignment: .leading, spacing: 8) {
+            // Header with badge and copy button
+            HStack {
                 HStack(spacing: 6) {
                     Image(systemName: "function")
-                        .font(.caption2)
-                        .foregroundColor(AppTheme.primary)
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(AppTheme.primaryDark)
                     Text("CÔNG THỨC TOÁN HỌC")
-                        .font(.system(size: 10, weight: .bold))
-                        .foregroundColor(AppTheme.primary)
+                        .font(.system(size: 11, weight: .heavy, design: .rounded))
+                        .foregroundColor(AppTheme.primaryDark)
                 }
                 
-                Text(formatMathFormula(formula))
-                    .font(.system(size: 16, weight: .semibold, design: .serif))
-                    .foregroundColor(Color(hex: "#0F172A"))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 12)
+                Spacer()
+                
+                Button(action: {
+                    UIPasteboard.general.string = clean
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "doc.on.doc")
+                        Text("Sao chép")
+                    }
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundColor(AppTheme.primaryMint)
+                }
             }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 16)
-            .background(
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(Color(hex: "#F0FDF4"))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(AppTheme.primaryMint.opacity(0.3), lineWidth: 1)
-            )
-            Spacer()
+            .padding(.bottom, 2)
+            
+            // Formula rendering
+            ScrollView(.horizontal, showsIndicators: false) {
+                Text(clean)
+                    .font(.system(size: 17, weight: .bold, design: .serif))
+                    .foregroundColor(Color(hex: "#0F172A"))
+                    .lineSpacing(4)
+                    .padding(.vertical, 4)
+                    .padding(.horizontal, 2)
+            }
         }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            LinearGradient(
+                colors: [Color(hex: "#F0FDF4"), Color(hex: "#ECFDF5")],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        )
+        .cornerRadius(14)
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(AppTheme.primaryMint.opacity(0.35), lineWidth: 1.2)
+        )
+        .shadow(color: AppTheme.primaryMint.opacity(0.08), radius: 6, x: 0, y: 2)
+        .padding(.vertical, 4)
     }
     
-    // MARK: - Tables (KẺ BẢNG MARKDOWN)
+    // MARK: - Tables (KẺ BẢNG MARKDOWN CHUẨN GIAO DIỆN HIỆN ĐẠI)
     private func renderTableBlock(headers: [String], rows: [[String]]) -> some View {
-        ScrollView(.horizontal, showsIndicators: true) {
-            VStack(alignment: .leading, spacing: 0) {
-                // Table Header
-                HStack(spacing: 0) {
-                    ForEach(Array(headers.enumerated()), id: \.offset) { idx, header in
-                        Text(header.trimmingCharacters(in: .whitespaces))
-                            .font(.system(size: 13, weight: .bold))
-                            .foregroundColor(Color(hex: "#111827"))
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 12)
-                            .frame(minWidth: 100, alignment: .leading)
-                        
-                        if idx < headers.count - 1 {
-                            Divider().frame(height: 24)
-                        }
-                    }
+        VStack(alignment: .leading, spacing: 6) {
+            // Hint for wide tables
+            if headers.count > 2 {
+                HStack(spacing: 4) {
+                    Image(systemName: "arrow.left.and.right")
+                        .font(.system(size: 10, weight: .bold))
+                    Text("Vuốt ngang để xem toàn bộ bảng")
+                        .font(.system(size: 11, weight: .medium))
                 }
-                .background(Color(hex: "#E0F2FE"))
-                
-                Divider()
-                
-                // Table Rows
-                ForEach(Array(rows.enumerated()), id: \.offset) { rowIdx, row in
+                .foregroundColor(AppTheme.primaryMint)
+                .padding(.horizontal, 4)
+            }
+            
+            ScrollView(.horizontal, showsIndicators: true) {
+                VStack(alignment: .leading, spacing: 0) {
+                    // Table Header
                     HStack(spacing: 0) {
-                        ForEach(Array(headers.indices), id: \.self) { colIdx in
-                            let cellText = colIdx < row.count ? row[colIdx].trimmingCharacters(in: .whitespaces) : ""
-                            Text(LocalizedStringKey(sanitizeInlineMath(cellText)))
-                                .font(.system(size: 13))
-                                .foregroundColor(Color(hex: "#374151"))
-                                .padding(.vertical, 8)
+                        ForEach(Array(headers.enumerated()), id: \.offset) { idx, header in
+                            let cleanHeader = header.trimmingCharacters(in: .whitespaces)
+                            Text(LocalizedStringKey(cleanHeader))
+                                .font(.system(size: 13, weight: .bold))
+                                .foregroundColor(Color(hex: "#065F46"))
+                                .padding(.vertical, 10)
                                 .padding(.horizontal, 12)
-                                .frame(minWidth: 100, alignment: .leading)
+                                .frame(minWidth: columnWidth(colIdx: idx, header: header, rows: rows), alignment: .leading)
                             
-                            if colIdx < headers.count - 1 {
-                                Divider().frame(height: 20)
+                            if idx < headers.count - 1 {
+                                Divider().frame(height: 24)
                             }
                         }
                     }
-                    .background(rowIdx % 2 == 0 ? Color.white : Color(hex: "#F8FAFC"))
+                    .background(
+                        LinearGradient(
+                            colors: [Color(hex: "#ECFDF5"), Color(hex: "#E0F2FE")],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
                     
-                    if rowIdx < rows.count - 1 {
-                        Divider()
+                    Divider()
+                    
+                    // Table Rows
+                    ForEach(Array(rows.enumerated()), id: \.offset) { rowIdx, row in
+                        HStack(spacing: 0) {
+                            ForEach(Array(headers.indices), id: \.self) { colIdx in
+                                let cellText = colIdx < row.count ? row[colIdx].trimmingCharacters(in: .whitespaces) : ""
+                                Text(LocalizedStringKey(sanitizeInlineMath(cellText)))
+                                    .font(.system(size: 13))
+                                    .foregroundColor(Color(hex: "#1F2937"))
+                                    .lineSpacing(4)
+                                    .padding(.vertical, 10)
+                                    .padding(.horizontal, 12)
+                                    .frame(minWidth: columnWidth(colIdx: colIdx, header: headers[colIdx], rows: rows), alignment: .topLeading)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                
+                                if colIdx < headers.count - 1 {
+                                    Divider()
+                                }
+                            }
+                        }
+                        .background(rowIdx % 2 == 0 ? Color.white : Color(hex: "#F9FAFB"))
+                        
+                        if rowIdx < rows.count - 1 {
+                            Divider()
+                        }
                     }
                 }
+                .background(Color.white)
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color(hex: "#CBD5E1"), lineWidth: 1)
+                )
+                .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
             }
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color(hex: "#CBD5E1"), lineWidth: 1)
-            )
         }
         .padding(.vertical, 4)
+    }
+    
+    private func columnWidth(colIdx: Int, header: String, rows: [[String]]) -> CGFloat {
+        var maxLen = header.count
+        for row in rows {
+            if colIdx < row.count {
+                let lines = row[colIdx].components(separatedBy: "\n")
+                for l in lines {
+                    maxLen = max(maxLen, l.trimmingCharacters(in: .whitespaces).count)
+                }
+            }
+        }
+        if colIdx == 0 {
+            return max(110, min(150, CGFloat(maxLen * 7)))
+        } else {
+            return max(170, min(260, CGFloat(maxLen * 7)))
+        }
     }
     
     // Convert common LaTeX formula notations into clean mathematical Unicode
@@ -286,6 +352,7 @@ struct MarkdownRendererView: View {
         } else if f.hasPrefix("\\[") && f.hasSuffix("\\]") && f.count >= 4 {
             f = String(f.dropFirst(2).dropLast(2))
         }
+        f = f.replacingOccurrences(of: "\\[", with: "").replacingOccurrences(of: "\\]", with: "")
         return MathSanitizer.sanitize(f)
     }
 }
@@ -295,33 +362,98 @@ public struct MathSanitizer {
     public static func sanitize(_ input: String) -> String {
         var str = input
         
-        // 1. Process nested fractions: \frac{num}{denom}
+        // 0. Clean <br> variants into newlines
+        str = str.replacingOccurrences(of: "<br>", with: "\n", options: .caseInsensitive)
+        str = str.replacingOccurrences(of: "<br/>", with: "\n", options: .caseInsensitive)
+        str = str.replacingOccurrences(of: "<br />", with: "\n", options: .caseInsensitive)
+        
+        // 1. Unpack \boxed{...}
+        str = unpackBoxed(str)
+        
+        // 2. Remove LaTeX display / spacing macros
+        str = str.replacingOccurrences(of: "\\displaystyle", with: "")
+        str = str.replacingOccurrences(of: "\\qquad", with: "   ")
+        str = str.replacingOccurrences(of: "\\quad", with: "  ")
+        str = str.replacingOccurrences(of: "\\enspace", with: " ")
+        str = str.replacingOccurrences(of: "\\!", with: "")
+        str = str.replacingOccurrences(of: "\\,", with: " ")
+        str = str.replacingOccurrences(of: "\\:", with: " ")
+        str = str.replacingOccurrences(of: "\\;", with: " ")
+        
+        // 3. Process brackets & parentheses modifiers
+        str = str.replacingOccurrences(of: "\\bigl[", with: "[")
+        str = str.replacingOccurrences(of: "\\bigr]", with: "]")
+        str = str.replacingOccurrences(of: "\\Bigl[", with: "[")
+        str = str.replacingOccurrences(of: "\\Bigr]", with: "]")
+        str = str.replacingOccurrences(of: "\\left[", with: "[")
+        str = str.replacingOccurrences(of: "\\right]", with: "]")
+        
+        str = str.replacingOccurrences(of: "\\bigl(", with: "(")
+        str = str.replacingOccurrences(of: "\\bigr)", with: ")")
+        str = str.replacingOccurrences(of: "\\Bigl(", with: "(")
+        str = str.replacingOccurrences(of: "\\Bigr)", with: ")")
+        str = str.replacingOccurrences(of: "\\left(", with: "(")
+        str = str.replacingOccurrences(of: "\\right)", with: ")")
+        
+        str = str.replacingOccurrences(of: "\\bigl\\{", with: "{")
+        str = str.replacingOccurrences(of: "\\bigr\\}", with: "}")
+        str = str.replacingOccurrences(of: "\\left\\{", with: "{")
+        str = str.replacingOccurrences(of: "\\right\\}", with: "}")
+        
+        str = str.replacingOccurrences(of: "\\bigl|", with: "|")
+        str = str.replacingOccurrences(of: "\\bigr|", with: "|")
+        str = str.replacingOccurrences(of: "\\left|", with: "|")
+        str = str.replacingOccurrences(of: "\\right|", with: "|")
+        str = str.replacingOccurrences(of: "\\left.", with: "")
+        str = str.replacingOccurrences(of: "\\right.", with: "")
+        
+        // 4. Derivatives notation: \frac{d}{dx} -> d/dx, (d) / (dx) -> d/dx
+        str = str.replacingOccurrences(of: "(d) / (dx)", with: "d/dx")
+        str = str.replacingOccurrences(of: "(d)/(dx)", with: "d/dx")
+        str = str.replacingOccurrences(of: "\\frac{d}{dx}", with: "d/dx")
+        str = str.replacingOccurrences(of: "\\frac{df}{dx}", with: "df/dx")
+        str = str.replacingOccurrences(of: "\\frac{dy}{dx}", with: "dy/dx")
+        str = str.replacingOccurrences(of: "\\frac{du}{dx}", with: "du/dx")
+        str = str.replacingOccurrences(of: "\\frac{d}{dt}", with: "d/dt")
+        
+        // 5. Nested fractions: \frac{num}{denom}
         str = replaceFractions(str)
         
-        // 2. Process square roots: \sqrt[n]{x} and \sqrt{x}
+        // 6. Square roots: \sqrt[n]{x} and \sqrt{x}
         str = replaceRoots(str)
         
-        // 3. Number set symbols
+        // 7. Standard Functions
+        let functions = ["\\sin", "\\cos", "\\tan", "\\cot", "\\sec", "\\csc",
+                         "\\arcsin", "\\arccos", "\\arctan", "\\ln", "\\log", "\\exp",
+                         "\\lim", "\\min", "\\max", "\\det"]
+        for fn in functions {
+            let bareName = String(fn.dropFirst())
+            str = str.replacingOccurrences(of: fn + "(", with: bareName + "(")
+            str = str.replacingOccurrences(of: fn + " ", with: bareName + " ")
+            str = str.replacingOccurrences(of: fn, with: bareName)
+        }
+        
+        // 8. Number sets
         str = str.replacingOccurrences(of: "\\mathbb{R}", with: "ℝ")
         str = str.replacingOccurrences(of: "\\mathbb{N}", with: "ℕ")
         str = str.replacingOccurrences(of: "\\mathbb{Z}", with: "ℤ")
         str = str.replacingOccurrences(of: "\\mathbb{Q}", with: "ℚ")
         str = str.replacingOccurrences(of: "\\mathbb{C}", with: "ℂ")
         
-        // 4. Set theory & logic operations
+        // 9. Set theory & logic
         str = str.replacingOccurrences(of: "\\setminus", with: " \\ ")
         str = str.replacingOccurrences(of: "\\subset", with: "⊂")
         str = str.replacingOccurrences(of: "\\subseteq", with: "⊆")
         str = str.replacingOccurrences(of: "\\supset", with: "⊃")
         str = str.replacingOccurrences(of: "\\cap", with: "∩")
         str = str.replacingOccurrences(of: "\\cup", with: "∪")
-        str = str.replacingOccurrences(of: "\\notin", with: "∉")
-        str = str.replacingOccurrences(of: "\\in", with: "∈")
+        str = str.replacingOccurrences(of: "\\notin", with: " ∉ ")
+        str = str.replacingOccurrences(of: "\\in", with: " ∈ ")
         str = str.replacingOccurrences(of: "\\emptyset", with: "∅")
         str = str.replacingOccurrences(of: "\\forall", with: "∀")
         str = str.replacingOccurrences(of: "\\exists", with: "∃")
         
-        // 5. Inequalities & equivalences
+        // 10. Inequalities & relations
         str = str.replacingOccurrences(of: "\\leq", with: "≤")
         str = str.replacingOccurrences(of: "\\le", with: "≤")
         str = str.replacingOccurrences(of: "\\geq", with: "≥")
@@ -331,13 +463,13 @@ public struct MathSanitizer {
         str = str.replacingOccurrences(of: "\\approx", with: "≈")
         str = str.replacingOccurrences(of: "\\equiv", with: "≡")
         
-        // 6. Arrows
+        // 11. Arrows
         str = str.replacingOccurrences(of: "\\Leftrightarrow", with: "⇔")
         str = str.replacingOccurrences(of: "\\Rightarrow", with: "⇒")
         str = str.replacingOccurrences(of: "\\rightarrow", with: "→")
         str = str.replacingOccurrences(of: "\\to", with: "→")
         
-        // 7. Operations & constants
+        // 12. Operations & symbols
         str = str.replacingOccurrences(of: "\\times", with: "×")
         str = str.replacingOccurrences(of: "\\div", with: "÷")
         str = str.replacingOccurrences(of: "\\pm", with: "±")
@@ -346,8 +478,11 @@ public struct MathSanitizer {
         str = str.replacingOccurrences(of: "\\infty", with: "∞")
         str = str.replacingOccurrences(of: "\\int", with: "∫")
         str = str.replacingOccurrences(of: "\\sum", with: "∑")
+        str = str.replacingOccurrences(of: "\\prod", with: "∏")
+        str = str.replacingOccurrences(of: "\\partial", with: "∂")
+        str = str.replacingOccurrences(of: "\\nabla", with: "∇")
         
-        // 8. Greek letters
+        // 13. Greek letters
         str = str.replacingOccurrences(of: "\\Delta", with: "Δ")
         str = str.replacingOccurrences(of: "\\delta", with: "δ")
         str = str.replacingOccurrences(of: "\\pi", with: "π")
@@ -359,14 +494,42 @@ public struct MathSanitizer {
         str = str.replacingOccurrences(of: "\\sigma", with: "σ")
         str = str.replacingOccurrences(of: "\\omega", with: "ω")
         str = str.replacingOccurrences(of: "\\Omega", with: "Ω")
+        str = str.replacingOccurrences(of: "\\mu", with: "μ")
         
-        // 9. Formatting wrappers: \text{...}, \mathbf{...}, \mathrm{...}
+        // 14. Formatting wrappers: \text{...}, \mathbf{...}, etc.
         str = removeLatexWrappers(str)
         
-        // 10. Superscripts & subscripts
+        // 15. Superscripts & Subscripts: handles both ^{...} and ^x, _{...} and _x
         str = replaceSuperscriptsAndSubscripts(str)
         
-        // 11. Clean dollar signs $...$ and $$...$$
+        // 16. Clean inline LaTeX delimiters \( and \) or $ and $$
+        str = cleanInlineDelimiters(str)
+        
+        // 17. Clean redundant spaces
+        str = str.replacingOccurrences(of: "  +", with: " ", options: .regularExpression)
+        
+        return str.trimmingCharacters(in: .whitespaces)
+    }
+    
+    private static func cleanInlineDelimiters(_ text: String) -> String {
+        var str = text
+        // Handle \( ... \)
+        while let openRange = str.range(of: "\\(") {
+            guard let closeRange = str.range(of: "\\)", range: openRange.upperBound..<str.endIndex) else {
+                str.removeSubrange(openRange)
+                break
+            }
+            let inner = String(str[openRange.upperBound..<closeRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+            let replacement: String
+            if inner.count == 1, let ch = inner.first, ch.isLetter {
+                replacement = "*\(inner)*"
+            } else {
+                replacement = inner
+            }
+            str.replaceSubrange(openRange.lowerBound..<closeRange.upperBound, with: replacement)
+        }
+        
+        // Handle $ ... $
         str = str.replacingOccurrences(of: "$$", with: "")
         let dollarRegex = try? NSRegularExpression(pattern: "\\$([^\\$]+)\\$", options: [])
         if let regex = dollarRegex {
@@ -374,9 +537,25 @@ public struct MathSanitizer {
             str = regex.stringByReplacingMatches(in: str, options: [], range: range, withTemplate: "$1")
         }
         
-        // 12. Normalize multiple spaces
-        str = str.replacingOccurrences(of: "  +", with: " ", options: .regularExpression)
+        // Remove stray \[ and \]
+        str = str.replacingOccurrences(of: "\\[", with: "")
+        str = str.replacingOccurrences(of: "\\]", with: "")
+        str = str.replacingOccurrences(of: "\\(", with: "")
+        str = str.replacingOccurrences(of: "\\)", with: "")
         
+        return str
+    }
+    
+    private static func unpackBoxed(_ text: String) -> String {
+        var str = text
+        while let range = str.range(of: "\\boxed{") {
+            let innerStart = range.upperBound
+            guard let innerEnd = findMatchingBrace(in: str, startingAt: innerStart) else {
+                break
+            }
+            let inner = String(str[innerStart..<innerEnd])
+            str.replaceSubrange(range.lowerBound...innerEnd, with: inner)
+        }
         return str
     }
     
@@ -409,7 +588,20 @@ public struct MathSanitizer {
             let cleanNum = replaceFractions(numerator).trimmingCharacters(in: .whitespaces)
             let cleanDenom = replaceFractions(denominator).trimmingCharacters(in: .whitespaces)
             
-            let formatted = "(\(cleanNum)) / (\(cleanDenom))"
+            let formatted: String
+            if cleanNum == "d" && cleanDenom == "dx" {
+                formatted = "d/dx"
+            } else if cleanNum == "df" && cleanDenom == "dx" {
+                formatted = "df/dx"
+            } else if cleanNum == "du" && cleanDenom == "dx" {
+                formatted = "du/dx"
+            } else if cleanNum == "dy" && cleanDenom == "dx" {
+                formatted = "dy/dx"
+            } else if cleanNum.count <= 2 && cleanDenom.count <= 2 {
+                formatted = "\(cleanNum)/\(cleanDenom)"
+            } else {
+                formatted = "(\(cleanNum)) / (\(cleanDenom))"
+            }
             let replaceRange = range.lowerBound...denomEnd
             result.replaceSubrange(replaceRange, with: formatted)
             searchStart = result.index(range.lowerBound, offsetBy: formatted.count, limitedBy: result.endIndex) ?? result.endIndex
@@ -477,23 +669,89 @@ public struct MathSanitizer {
     
     private static func replaceSuperscriptsAndSubscripts(_ text: String) -> String {
         var str = text
-        let superscripts: [(String, String)] = [
-            ("^0", "⁰"), ("^1", "¹"), ("^2", "²"), ("^3", "³"), ("^4", "⁴"),
-            ("^5", "⁵"), ("^6", "⁶"), ("^7", "⁷"), ("^8", "⁸"), ("^9", "⁹"),
-            ("^+", "⁺"), ("^-", "⁻"), ("^n", "ⁿ"), ("^x", "ˣ"), ("^y", "ʸ")
+        
+        // 1. First handle braces: ^{content}
+        let supCharMap: [Character: Character] = [
+            "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴",
+            "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹",
+            "+": "⁺", "-": "⁻", "=": "⁼", "(": "⁽", ")": "⁾",
+            "n": "ⁿ", "i": "ⁱ", "x": "ˣ", "y": "ʸ", "a": "ᵃ",
+            "b": "ᵇ", "c": "ᶜ", "k": "ᵏ", "m": "ᵐ", "p": "ᵖ", "t": "ᵗ"
         ]
-        for (pattern, replacement) in superscripts {
-            str = str.replacingOccurrences(of: pattern, with: replacement)
+        
+        while let range = str.range(of: "^{") {
+            let innerStart = range.upperBound
+            guard let innerEnd = findMatchingBrace(in: str, startingAt: innerStart) else {
+                break
+            }
+            let inner = String(str[innerStart..<innerEnd]).trimmingCharacters(in: .whitespaces)
+            var converted = ""
+            var allConvertible = true
+            for ch in inner {
+                if let sup = supCharMap[ch] {
+                    converted.append(sup)
+                } else if ch == " " {
+                    // skip
+                } else {
+                    allConvertible = false
+                    break
+                }
+            }
+            let replacement = allConvertible ? converted : "^(\(inner))"
+            str.replaceSubrange(range.lowerBound...innerEnd, with: replacement)
         }
         
-        let subscripts: [(String, String)] = [
+        // 2. Handle simple single-character superscripts
+        let simpleSuperscripts: [(String, String)] = [
+            ("^0", "⁰"), ("^1", "¹"), ("^2", "²"), ("^3", "³"), ("^4", "⁴"),
+            ("^5", "⁵"), ("^6", "⁶"), ("^7", "⁷"), ("^8", "⁸"), ("^9", "⁹"),
+            ("^+", "⁺"), ("^-", "⁻"), ("^n", "ⁿ"), ("^x", "ˣ"), ("^y", "ʸ"), ("^i", "ⁱ")
+        ]
+        for (pattern, rep) in simpleSuperscripts {
+            str = str.replacingOccurrences(of: pattern, with: rep)
+        }
+        
+        // 3. Handle subscripts with braces: _{content}
+        let subCharMap: [Character: Character] = [
+            "0": "₀", "1": "₁", "2": "₂", "3": "₃", "4": "₄",
+            "5": "₅", "6": "₆", "7": "₇", "8": "₈", "9": "₉",
+            "+": "₊", "-": "₋", "=": "₌", "(": "₍", ")": "₎",
+            "a": "ₐ", "e": "ₑ", "h": "ₕ", "i": "ᵢ", "j": "ⱼ",
+            "k": "ₖ", "l": "ₗ", "m": "ₘ", "n": "ₙ", "o": "ₒ",
+            "p": "ₚ", "r": "ᵣ", "s": "ₛ", "t": "ₜ", "u": "ᵤ", "v": "ᵥ", "x": "ₓ"
+        ]
+        while let range = str.range(of: "_{") {
+            let innerStart = range.upperBound
+            guard let innerEnd = findMatchingBrace(in: str, startingAt: innerStart) else {
+                break
+            }
+            let inner = String(str[innerStart..<innerEnd]).trimmingCharacters(in: .whitespaces)
+            var converted = ""
+            var allConvertible = true
+            for ch in inner {
+                if let sub = subCharMap[ch] {
+                    converted.append(sub)
+                } else if ch == " " {
+                    // skip
+                } else {
+                    allConvertible = false
+                    break
+                }
+            }
+            let replacement = allConvertible ? converted : "_(\(inner))"
+            str.replaceSubrange(range.lowerBound...innerEnd, with: replacement)
+        }
+        
+        // 4. Handle simple single-character subscripts
+        let simpleSubscripts: [(String, String)] = [
             ("_0", "₀"), ("_1", "₁"), ("_2", "₂"), ("_3", "₃"), ("_4", "₄"),
             ("_5", "₅"), ("_6", "₆"), ("_7", "₇"), ("_8", "₈"), ("_9", "₉"),
-            ("_n", "ₙ"), ("_i", "ᵢ"), ("_j", "ⱼ")
+            ("_n", "ₙ"), ("_i", "ᵢ"), ("_j", "ⱼ"), ("_k", "ₖ"), ("_m", "ₘ"), ("_x", "ₓ")
         ]
-        for (pattern, replacement) in subscripts {
-            str = str.replacingOccurrences(of: pattern, with: replacement)
+        for (pattern, rep) in simpleSubscripts {
+            str = str.replacingOccurrences(of: pattern, with: rep)
         }
+        
         return str
     }
 }
@@ -528,8 +786,8 @@ class MarkdownParser {
                 continue
             }
             
-            // 2. Math Block ($$ ... $$)
-            if trimmed.hasPrefix("$$") || trimmed.hasPrefix("\\[") {
+            // 2. Math Block ($$ ... $$, \[ ... \], or standalone \boxed{...})
+            if trimmed.hasPrefix("$$") || trimmed.hasPrefix("\\[") || trimmed.hasPrefix("\\boxed{") {
                 var mathLines: [String] = [trimmed]
                 if !trimmed.hasSuffix("$$") && !trimmed.hasSuffix("\\]") || trimmed == "$$" || trimmed == "\\[" {
                     i += 1
@@ -537,7 +795,7 @@ class MarkdownParser {
                         let cur = lines[i].trimmingCharacters(in: .whitespaces)
                         mathLines.append(cur)
                         i += 1
-                        if cur.hasSuffix("$$") || cur.hasSuffix("\\]") {
+                        if cur.hasSuffix("$$") || cur.hasSuffix("\\]") || cur.isEmpty {
                             break
                         }
                     }
@@ -550,13 +808,13 @@ class MarkdownParser {
             }
             
             // 3. Table Block (| ... |)
-            if trimmed.hasPrefix("|") && trimmed.hasSuffix("|") && i + 1 < lines.count && lines[i + 1].contains("---") {
+            if trimmed.hasPrefix("|") && i + 1 < lines.count && lines[i + 1].contains("---") {
                 let headerCells = parseTableRow(trimmed)
                 i += 2 // skip header and separator line (|---|---|)
                 var rows: [[String]] = []
                 while i < lines.count {
                     let tableLine = lines[i].trimmingCharacters(in: .whitespaces)
-                    if tableLine.hasPrefix("|") && tableLine.hasSuffix("|") {
+                    if tableLine.hasPrefix("|") {
                         rows.append(parseTableRow(tableLine))
                         i += 1
                     } else {
@@ -671,6 +929,13 @@ class MarkdownParser {
         var trimmed = line.trimmingCharacters(in: .whitespaces)
         if trimmed.hasPrefix("|") { trimmed.removeFirst() }
         if trimmed.hasSuffix("|") { trimmed.removeLast() }
-        return trimmed.components(separatedBy: "|").map { $0.trimmingCharacters(in: .whitespaces) }
+        return trimmed.components(separatedBy: "|").map { rawCell in
+            var text = rawCell.trimmingCharacters(in: .whitespaces)
+            text = text.replacingOccurrences(of: "<br>", with: "\n", options: .caseInsensitive)
+            text = text.replacingOccurrences(of: "<br/>", with: "\n", options: .caseInsensitive)
+            text = text.replacingOccurrences(of: "<br />", with: "\n", options: .caseInsensitive)
+            text = text.replacingOccurrences(of: "&nbsp;", with: " ")
+            return text
+        }
     }
 }

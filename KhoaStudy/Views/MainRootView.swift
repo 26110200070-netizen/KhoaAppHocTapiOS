@@ -59,14 +59,14 @@ struct MainRootView: View {
         }
     }
     
-    // MARK: - Full-Width Bottom Bar Menu with Raised Center Dome (Khung trồi tròn lên như bản vẽ)
+    // MARK: - Full-Width Bottom Bar Menu with Raised Center Dome (Khung trồi tròn chuẩn icon Shimy)
     private var customFullWidthTabBar: some View {
         ZStack(alignment: .top) {
             // Background with Raised Center Dome Shape
             RaisedDomeTabBarShape()
                 .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.08), radius: 10, x: 0, y: -4)
-                .frame(height: 84)
+                .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: -4)
+                .frame(height: 94)
             
             HStack(spacing: 0) {
                 // Tab 1: Trang Chủ
@@ -89,15 +89,22 @@ struct MainRootView: View {
                             .frame(width: 4, height: 4)
                     }
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 26)
+                    .padding(.top, 30)
                 }
                 
-                // Center Button: Shimy (Nằm vừa vặn bên trong phần khung trồi tròn!)
+                // Center Button: Shimy (Nằm vừa vặn, bo tròn ôm khít icon Shimy!)
                 Button(action: {
                     showingAIChatFullScreen = true
                 }) {
                     VStack(spacing: 3) {
                         ZStack {
+                            // Viền trắng bảo vệ ôm tròn
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 58, height: 58)
+                                .shadow(color: AppTheme.primaryMint.opacity(0.3), radius: 8, x: 0, y: 3)
+                            
+                            // Shimy Avatar Circle
                             Circle()
                                 .fill(
                                     LinearGradient(
@@ -106,11 +113,11 @@ struct MainRootView: View {
                                         endPoint: .bottomTrailing
                                     )
                                 )
-                                .frame(width: 50, height: 50)
-                                .shadow(color: AppTheme.primaryMint.opacity(0.35), radius: 8, x: 0, y: 4)
+                                .frame(width: 52, height: 52)
                             
+                            // Sparkles Icon
                             Image(systemName: "sparkles")
-                                .font(.system(size: 22, weight: .bold))
+                                .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.white)
                         }
                         
@@ -119,7 +126,7 @@ struct MainRootView: View {
                             .foregroundColor(AppTheme.primaryDark)
                     }
                     .frame(maxWidth: .infinity)
-                    .offset(y: 4) // Nằm trọn vẹn trong phần khung trồi tròn
+                    .offset(y: 4) // Nằm trọn vẹn, cân đối bên trong khung trồi tròn
                 }
                 
                 // Tab 2: Tài Khoản
@@ -142,7 +149,7 @@ struct MainRootView: View {
                             .frame(width: 4, height: 4)
                     }
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 26)
+                    .padding(.top, 30)
                 }
             }
             .padding(.horizontal, 16)
@@ -151,11 +158,11 @@ struct MainRootView: View {
     }
 }
 
-// MARK: - Custom Shape with Raised Dome in Center (Khung trồi tròn lên bao bọc)
+// MARK: - Custom Shape with Raised Dome in Center (Khung trồi tròn chuẩn icon Shimy)
 struct RaisedDomeTabBarShape: Shape {
-    var domeHeight: CGFloat = 22
-    var domeWidth: CGFloat = 86
-    var cornerRadius: CGFloat = 20
+    var domeHeight: CGFloat = 26
+    var domeWidth: CGFloat = 92
+    var cornerRadius: CGFloat = 22
     
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -176,21 +183,21 @@ struct RaisedDomeTabBarShape: Shape {
         // 2. Flat wing towards center dome
         path.addLine(to: CGPoint(x: centerX - halfDome, y: topY))
         
-        // 3. Smooth Raised Dome (Arching up around center button)
+        // 3. Smooth, perfectly rounded Raised Dome contour cradling the Shimy icon
         path.addCurve(
-            to: CGPoint(x: centerX - 26, y: 6),
-            control1: CGPoint(x: centerX - halfDome + 10, y: topY),
-            control2: CGPoint(x: centerX - 36, y: 12)
+            to: CGPoint(x: centerX - 28, y: 3),
+            control1: CGPoint(x: centerX - halfDome + 18, y: topY),
+            control2: CGPoint(x: centerX - 38, y: 10)
         )
         path.addCurve(
-            to: CGPoint(x: centerX + 26, y: 6),
-            control1: CGPoint(x: centerX - 16, y: 0),
-            control2: CGPoint(x: centerX + 16, y: 0)
+            to: CGPoint(x: centerX + 28, y: 3),
+            control1: CGPoint(x: centerX - 14, y: 0),
+            control2: CGPoint(x: centerX + 14, y: 0)
         )
         path.addCurve(
             to: CGPoint(x: centerX + halfDome, y: topY),
-            control1: CGPoint(x: centerX + 36, y: 12),
-            control2: CGPoint(x: centerX + halfDome - 10, y: topY)
+            control1: CGPoint(x: centerX + 38, y: 10),
+            control2: CGPoint(x: centerX + halfDome - 18, y: topY)
         )
         
         // 4. Flat wing to Top Right corner
