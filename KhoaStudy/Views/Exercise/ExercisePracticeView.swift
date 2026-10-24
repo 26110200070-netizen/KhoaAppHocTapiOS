@@ -115,21 +115,39 @@ public struct ExercisePracticeView: View {
             
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 18) {
-                    // Header Banner with Mascot Art
-                    HStack(spacing: 12) {
-                        Image("ChibiPractice")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 74, height: 74)
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Tạo Đề Thi Theo Yêu Cầu")
-                                .font(.system(size: 17, weight: .bold, design: .rounded))
-                                .foregroundColor(Color(hex: "#111827"))
-                            Text("Shimy tra cứu toàn bộ SGK & tài liệu chuẩn để biên soạn đề thi riêng cho bạn.")
-                                .font(.caption)
-                                .foregroundColor(AppTheme.textSecondary)
+                    // Header Banner with Mascot Art & 2026 Web Search Badge
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack(spacing: 12) {
+                            Image("ChibiPractice")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 72, height: 72)
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Tạo Đề Thi Theo Yêu Cầu")
+                                    .font(.system(size: 17, weight: .bold, design: .rounded))
+                                    .foregroundColor(Color(hex: "#111827"))
+                                Text("Shimy tra cứu dữ liệu mới nhất 2026 của Bộ GD&ĐT để biên soạn đề chuẩn xác, không trùng lặp.")
+                                    .font(.caption)
+                                    .foregroundColor(AppTheme.textSecondary)
+                            }
                         }
+                        
+                        // 2026 Web Search Grounding Status Pill
+                        HStack(spacing: 6) {
+                            Image(systemName: "globe.asia.australia.fill")
+                                .font(.system(size: 11, weight: .bold))
+                                .foregroundColor(Color(hex: "#059669"))
+                            Text("Web Search 2026: Bám sát đề minh họa & GDPT mới (KNTT, Cánh Diều, CTST)")
+                                .font(.system(size: 11, weight: .semibold))
+                                .foregroundColor(Color(hex: "#065F46"))
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color(hex: "#D1FAE5"))
+                        )
                     }
                     .padding(14)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -399,13 +417,13 @@ public struct ExercisePracticeView: View {
     // MARK: - SCREEN 2: LOADING / AI GENERATING
     // =====================================================================
     private var generatingAILoadingView: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: 20) {
             Spacer()
             
             Image("ChibiPractice")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 120, height: 120)
+                .frame(width: 110, height: 110)
                 .scaleEffect(1.05)
                 .animation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true), value: isGenerating)
             
@@ -414,7 +432,7 @@ public struct ExercisePracticeView: View {
                     .font(.system(size: 20, weight: .bold, design: .rounded))
                     .foregroundColor(Color(hex: "#111827"))
                 
-                Text("Tra cứu giáo trình chuẩn Lớp \(selectedGrade) • Môn \(selectedSubject)\nKiến thức: \"\(focusTopicInput.isEmpty ? "Toàn bộ chương trình Học kỳ \(selectedSemester)" : focusTopicInput)\"")
+                Text("Tra cứu chuẩn 2026 • Lớp \(selectedGrade) • Môn \(selectedSubject)\nChuyên đề: \"\(focusTopicInput.isEmpty ? "Toàn bộ chương trình Học kỳ \(selectedSemester)" : focusTopicInput)\"")
                     .font(.caption)
                     .multilineTextAlignment(.center)
                     .foregroundColor(AppTheme.textSecondary)
@@ -424,8 +442,41 @@ public struct ExercisePracticeView: View {
             ProgressView()
                 .scaleEffect(1.2)
                 .tint(AppTheme.primaryMint)
+                .padding(.vertical, 4)
             
-            Text("Đang tạo \(mcCount) câu trắc nghiệm • \(tfCount) câu đúng/sai • \(saCount) câu ngắn")
+            // Steps indicator
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 8) {
+                    Image(systemName: "globe")
+                        .foregroundColor(Color(hex: "#059669"))
+                    Text("Web Search 2026: Tra cứu kiến thức SGK Bộ GD&ĐT mới nhất")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(Color(hex: "#374151"))
+                }
+                HStack(spacing: 8) {
+                    Image(systemName: "shuffle")
+                        .foregroundColor(Color(hex: "#2563EB"))
+                    Text("Đa dạng hóa câu hỏi: Phân bố cấp độ, tuyệt đối không lặp dạng")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(Color(hex: "#374151"))
+                }
+                HStack(spacing: 8) {
+                    Image(systemName: "function")
+                        .foregroundColor(Color(hex: "#D97706"))
+                    Text("Chuẩn hóa công thức Toán / Lý / Hóa và lời giải chi tiết")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(Color(hex: "#374151"))
+                }
+            }
+            .padding(14)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white)
+                    .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
+            )
+            .padding(.horizontal, 24)
+            
+            Text("Quy mô: \(mcCount) câu trắc nghiệm • \(tfCount) câu đúng/sai • \(saCount) câu ngắn")
                 .font(.caption2)
                 .foregroundColor(AppTheme.textMuted)
             
