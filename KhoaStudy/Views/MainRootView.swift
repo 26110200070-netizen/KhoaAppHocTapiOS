@@ -158,7 +158,7 @@ struct MainRootView: View {
     }
 }
 
-// MARK: - Custom Shape with Raised Dome in Center (Khung trồi tròn chuẩn icon Shimy)
+// MARK: - Custom Shape with Raised Dome in Center (Khung trồi tròn mềm mại chuẩn icon Shimy)
 struct RaisedDomeTabBarShape: Shape {
     var domeHeight: CGFloat = 26
     var domeWidth: CGFloat = 92
@@ -183,21 +183,18 @@ struct RaisedDomeTabBarShape: Shape {
         // 2. Flat wing towards center dome
         path.addLine(to: CGPoint(x: centerX - halfDome, y: topY))
         
-        // 3. Smooth, perfectly rounded Raised Dome contour cradling the Shimy icon
+        // 3. Smooth, organic, continuous Rounded Dome (bo tròn mềm mại, không có cạnh vuông)
+        // Left rise: smooth horizontal tangent at start, curving organically up to apex (centerX, 0)
         path.addCurve(
-            to: CGPoint(x: centerX - 28, y: 3),
-            control1: CGPoint(x: centerX - halfDome + 18, y: topY),
-            control2: CGPoint(x: centerX - 38, y: 10)
+            to: CGPoint(x: centerX, y: 0),
+            control1: CGPoint(x: centerX - halfDome + 22, y: topY),
+            control2: CGPoint(x: centerX - 18, y: 0)
         )
-        path.addCurve(
-            to: CGPoint(x: centerX + 28, y: 3),
-            control1: CGPoint(x: centerX - 14, y: 0),
-            control2: CGPoint(x: centerX + 14, y: 0)
-        )
+        // Right descent: smooth horizontal tangent at apex, descending symmetrically to right wing
         path.addCurve(
             to: CGPoint(x: centerX + halfDome, y: topY),
-            control1: CGPoint(x: centerX + 38, y: 10),
-            control2: CGPoint(x: centerX + halfDome - 18, y: topY)
+            control1: CGPoint(x: centerX + 18, y: 0),
+            control2: CGPoint(x: centerX + halfDome - 22, y: topY)
         )
         
         // 4. Flat wing to Top Right corner

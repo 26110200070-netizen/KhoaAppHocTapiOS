@@ -281,23 +281,6 @@ struct AIChatView: View {
                 }
             }
             
-            // AI Provider Status Pill Button
-            Button(action: {
-                showingGeminiConnectSheet = true
-            }) {
-                HStack(spacing: 4) {
-                    Circle()
-                        .fill(appState.hasActiveAI ? Color.green : Color.orange)
-                        .frame(width: 7, height: 7)
-                    Text(appState.selectedProvider == .groq ? "⚡ Groq" : "🌟 Gemini")
-                        .font(.system(size: 11, weight: .bold))
-                        .foregroundColor(appState.hasActiveAI ? (appState.selectedProvider == .groq ? Color(hex: "#EA580C") : Color.green) : Color.orange)
-                }
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(Capsule().fill(appState.hasActiveAI ? (appState.selectedProvider == .groq ? Color(hex: "#FFEDD5") : Color.green.opacity(0.12)) : Color.orange.opacity(0.12)))
-            }
-            
             Spacer()
             
             // New Chat / Switch Chat Button

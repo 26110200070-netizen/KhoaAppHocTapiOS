@@ -242,9 +242,11 @@ struct MarkdownRendererView: View {
         .padding(.vertical, 4)
     }
     
-    // MARK: - Tables (KẺ BẢNG MARKDOWN CHUẨN GIAO DIỆN HIỆN ĐẠI)
+    // MARK: - Tables (KẺ BẢNG MARKDOWN CHUẨN GIAO DIỆN HIỆN ĐẠI, THẲNG HÀNG 100%)
     private func renderTableBlock(headers: [String], rows: [[String]]) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+        let colWidths = calculateColumnWidths(headers: headers, rows: rows)
+        
+        return VStack(alignment: .leading, spacing: 6) {
             // Hint for wide tables
             if headers.count > 2 {
                 HStack(spacing: 4) {
@@ -262,13 +264,13 @@ struct MarkdownRendererView: View {
                     // Table Header
                     HStack(spacing: 0) {
                         ForEach(Array(headers.enumerated()), id: \.offset) { idx, header in
-                            let cleanHeader = header.trimmingCharacters(in: .whitespaces)
+                            let cleanHeader = sanitizeInlineMath(header.trimmingCharacters(in: .whitespaces))
                             Text(LocalizedStringKey(cleanHeader))
                                 .font(.system(size: 13, weight: .bold))
                                 .foregroundColor(Color(hex: "#065F46"))
                                 .padding(.vertical, 10)
                                 .padding(.horizontal, 12)
-                                .frame(minWidth: columnWidth(colIdx: idx, header: header, rows: rows), alignment: .leading)
+                                .frame(width: colWidths[idx], alignment: .leading)
                             
                             if idx < headers.count - 1 {
                                 Divider().frame(height: 24)
@@ -296,7 +298,7 @@ struct MarkdownRendererView: View {
                                     .lineSpacing(4)
                                     .padding(.vertical, 10)
                                     .padding(.horizontal, 12)
-                                    .frame(minWidth: columnWidth(colIdx: colIdx, header: headers[colIdx], rows: rows), alignment: .topLeading)
+                                    .frame(width: colWidths[colIdx], alignment: .topLeading)
                                     .fixedSize(horizontal: false, vertical: true)
                                 
                                 if colIdx < headers.count - 1 {
@@ -323,20 +325,22 @@ struct MarkdownRendererView: View {
         .padding(.vertical, 4)
     }
     
-    private func columnWidth(colIdx: Int, header: String, rows: [[String]]) -> CGFloat {
-        var maxLen = header.count
-        for row in rows {
-            if colIdx < row.count {
-                let lines = row[colIdx].components(separatedBy: "\n")
-                for l in lines {
-                    maxLen = max(maxLen, l.trimmingCharacters(in: .whitespaces).count)
+    private func calculateColumnWidths(headers: [String], rows: [[String]]) -> [CGFloat] {
+        return headers.indices.map { colIdx in
+            var maxLen = headers[colIdx].count
+            for row in rows {
+                if colIdx < row.count {
+                    let lines = row[colIdx].components(separatedBy: "\n")
+                    for l in lines {
+                        maxLen = max(maxLen, l.trimmingCharacters(in: .whitespaces).count)
+                    }
                 }
             }
-        }
-        if colIdx == 0 {
-            return max(110, min(150, CGFloat(maxLen * 7)))
-        } else {
-            return max(170, min(260, CGFloat(maxLen * 7)))
+            if colIdx == 0 {
+                return max(110, min(150, CGFloat(maxLen * 7)))
+            } else {
+                return max(180, min(280, CGFloat(maxLen * 7)))
+            }
         }
     }
     
@@ -440,20 +444,28 @@ public struct MathSanitizer {
         str = str.replacingOccurrences(of: "\\mathbb{Q}", with: "ℚ")
         str = str.replacingOccurrences(of: "\\mathbb{C}", with: "ℂ")
         
-        // 9. Set theory & logic
+        // 9. Calculus & multi-letter commands (MUST BE BEFORE \\in!)
+        str = str.replacingOccurrences(of: "\\iint", with: "∬")
+        str = str.replacingOccurrences(of: "\\iiint", with: "∭")
+        str = str.replacingOccurrences(of: "\\oint", with: "∮")
+        str = str.replacingOccurrences(of: "\\int", with: "∫")
+        str = str.replacingOccurrences(of: "\\infty", with: "∞")
+        str = str.replacingOccurrences(of: "\\inf", with: "inf")
+        str = str.replacingOccurrences(of: "\\notin", with: " ∉ ")
+        str = str.replacingOccurrences(of: "\\\\in(?![a-zA-Z])", with: " ∈ ", options: .regularExpression)
+        
+        // 10. Set theory & logic
         str = str.replacingOccurrences(of: "\\setminus", with: " \\ ")
         str = str.replacingOccurrences(of: "\\subset", with: "⊂")
         str = str.replacingOccurrences(of: "\\subseteq", with: "⊆")
         str = str.replacingOccurrences(of: "\\supset", with: "⊃")
         str = str.replacingOccurrences(of: "\\cap", with: "∩")
         str = str.replacingOccurrences(of: "\\cup", with: "∪")
-        str = str.replacingOccurrences(of: "\\notin", with: " ∉ ")
-        str = str.replacingOccurrences(of: "\\in", with: " ∈ ")
         str = str.replacingOccurrences(of: "\\emptyset", with: "∅")
         str = str.replacingOccurrences(of: "\\forall", with: "∀")
         str = str.replacingOccurrences(of: "\\exists", with: "∃")
         
-        // 10. Inequalities & relations
+        // 11. Inequalities & relations
         str = str.replacingOccurrences(of: "\\leq", with: "≤")
         str = str.replacingOccurrences(of: "\\le", with: "≤")
         str = str.replacingOccurrences(of: "\\geq", with: "≥")
@@ -463,20 +475,18 @@ public struct MathSanitizer {
         str = str.replacingOccurrences(of: "\\approx", with: "≈")
         str = str.replacingOccurrences(of: "\\equiv", with: "≡")
         
-        // 11. Arrows
+        // 12. Arrows
         str = str.replacingOccurrences(of: "\\Leftrightarrow", with: "⇔")
         str = str.replacingOccurrences(of: "\\Rightarrow", with: "⇒")
         str = str.replacingOccurrences(of: "\\rightarrow", with: "→")
         str = str.replacingOccurrences(of: "\\to", with: "→")
         
-        // 12. Operations & symbols
+        // 13. Operations & symbols
         str = str.replacingOccurrences(of: "\\times", with: "×")
         str = str.replacingOccurrences(of: "\\div", with: "÷")
         str = str.replacingOccurrences(of: "\\pm", with: "±")
         str = str.replacingOccurrences(of: "\\mp", with: "∓")
         str = str.replacingOccurrences(of: "\\cdot", with: "·")
-        str = str.replacingOccurrences(of: "\\infty", with: "∞")
-        str = str.replacingOccurrences(of: "\\int", with: "∫")
         str = str.replacingOccurrences(of: "\\sum", with: "∑")
         str = str.replacingOccurrences(of: "\\prod", with: "∏")
         str = str.replacingOccurrences(of: "\\partial", with: "∂")
@@ -670,48 +680,74 @@ public struct MathSanitizer {
     private static func replaceSuperscriptsAndSubscripts(_ text: String) -> String {
         var str = text
         
-        // 1. First handle braces: ^{content}
         let supCharMap: [Character: Character] = [
             "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴",
             "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹",
-            "+": "⁺", "-": "⁻", "=": "⁼", "(": "⁽", ")": "⁾",
-            "n": "ⁿ", "i": "ⁱ", "x": "ˣ", "y": "ʸ", "a": "ᵃ",
-            "b": "ᵇ", "c": "ᶜ", "k": "ᵏ", "m": "ᵐ", "p": "ᵖ", "t": "ᵗ"
+            "+": "⁺", "-": "⁻", "=": "⁼", "(": "⁽", ")": "⁾", "/": "ᐟ",
+            "a": "ᵃ", "b": "ᵇ", "c": "ᶜ", "d": "ᵈ", "e": "ᵉ",
+            "f": "ᶠ", "g": "ᵍ", "h": "ʰ", "i": "ⁱ", "j": "ʲ",
+            "k": "ᵏ", "l": "ˡ", "m": "ᵐ", "n": "ⁿ", "o": "ᵒ",
+            "p": "ᵖ", "r": "ʳ", "s": "ˢ", "t": "ᵗ", "u": "ᵘ",
+            "v": "ᵛ", "w": "ʷ", "x": "ˣ", "y": "ʸ", "z": "ᶻ"
         ]
         
+        func convertSup(_ raw: String) -> String {
+            let inner = raw.trimmingCharacters(in: .whitespaces)
+            if inner == "1/2" { return "½" }
+            if inner == "-1/2" { return "⁻½" }
+            if inner == "1/3" { return "⅓" }
+            if inner == "1/4" { return "¼" }
+            if inner == "3/4" { return "¾" }
+            
+            var converted = ""
+            var allOk = true
+            for ch in inner {
+                if let s = supCharMap[ch] {
+                    converted.append(s)
+                } else if ch == " " {
+                    // skip
+                } else {
+                    allOk = false
+                    break
+                }
+            }
+            return allOk ? converted : "^(\(inner))"
+        }
+        
+        // 1. First handle braces: ^{content}
         while let range = str.range(of: "^{") {
             let innerStart = range.upperBound
             guard let innerEnd = findMatchingBrace(in: str, startingAt: innerStart) else {
                 break
             }
-            let inner = String(str[innerStart..<innerEnd]).trimmingCharacters(in: .whitespaces)
-            var converted = ""
-            var allConvertible = true
-            for ch in inner {
-                if let sup = supCharMap[ch] {
-                    converted.append(sup)
-                } else if ch == " " {
-                    // skip
-                } else {
-                    allConvertible = false
-                    break
-                }
-            }
-            let replacement = allConvertible ? converted : "^(\(inner))"
+            let inner = String(str[innerStart..<innerEnd])
+            let replacement = convertSup(inner)
             str.replaceSubrange(range.lowerBound...innerEnd, with: replacement)
         }
         
-        // 2. Handle simple single-character superscripts
-        let simpleSuperscripts: [(String, String)] = [
-            ("^0", "⁰"), ("^1", "¹"), ("^2", "²"), ("^3", "³"), ("^4", "⁴"),
-            ("^5", "⁵"), ("^6", "⁶"), ("^7", "⁷"), ("^8", "⁸"), ("^9", "⁹"),
-            ("^+", "⁺"), ("^-", "⁻"), ("^n", "ⁿ"), ("^x", "ˣ"), ("^y", "ʸ"), ("^i", "ⁱ")
-        ]
-        for (pattern, rep) in simpleSuperscripts {
-            str = str.replacingOccurrences(of: pattern, with: rep)
+        // 2. Handle parentheses: ^(...)
+        let parenRegex = try? NSRegularExpression(pattern: "\\^\\(([^\\(\\)]+)\\)", options: [])
+        if let regex = parenRegex {
+            var searchRange = NSRange(str.startIndex..<str.endIndex, in: str)
+            while let match = regex.firstMatch(in: str, options: [], range: searchRange) {
+                if let r = Range(match.range(at: 1), in: str), let fullR = Range(match.range, in: str) {
+                    let inner = String(str[r])
+                    let replacement = convertSup(inner)
+                    str.replaceSubrange(fullR, with: replacement)
+                    let newEnd = str.index(fullR.lowerBound, offsetBy: replacement.count)
+                    searchRange = NSRange(newEnd..<str.endIndex, in: str)
+                } else {
+                    break
+                }
+            }
         }
         
-        // 3. Handle subscripts with braces: _{content}
+        // 3. Handle simple single-character superscripts ^x, ^u, ^2
+        for (ch, sup) in supCharMap {
+            str = str.replacingOccurrences(of: "^\(ch)", with: String(sup))
+        }
+        
+        // 4. Handle subscripts with braces: _{content}
         let subCharMap: [Character: Character] = [
             "0": "₀", "1": "₁", "2": "₂", "3": "₃", "4": "₄",
             "5": "₅", "6": "₆", "7": "₇", "8": "₈", "9": "₉",
@@ -742,14 +778,9 @@ public struct MathSanitizer {
             str.replaceSubrange(range.lowerBound...innerEnd, with: replacement)
         }
         
-        // 4. Handle simple single-character subscripts
-        let simpleSubscripts: [(String, String)] = [
-            ("_0", "₀"), ("_1", "₁"), ("_2", "₂"), ("_3", "₃"), ("_4", "₄"),
-            ("_5", "₅"), ("_6", "₆"), ("_7", "₇"), ("_8", "₈"), ("_9", "₉"),
-            ("_n", "ₙ"), ("_i", "ᵢ"), ("_j", "ⱼ"), ("_k", "ₖ"), ("_m", "ₘ"), ("_x", "ₓ")
-        ]
-        for (pattern, rep) in simpleSubscripts {
-            str = str.replacingOccurrences(of: pattern, with: rep)
+        // 5. Handle simple single-character subscripts
+        for (ch, sub) in subCharMap {
+            str = str.replacingOccurrences(of: "_\(ch)", with: String(sub))
         }
         
         return str
