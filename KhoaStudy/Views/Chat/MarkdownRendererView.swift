@@ -326,66 +326,74 @@ struct MarkdownRendererView: View {
     // Tính toán độ rộng cột thông minh, linh hoạt theo nội dung, không gò bó cố định quá lớn (Chuẩn Ảnh 2)
     private func calculateColumnWidths(headers: [String], rows: [[String]]) -> [CGFloat] {
         let totalCols = max(1, headers.count)
+        var result: [CGFloat] = []
+        for colIdx in headers.indices {
+            let width = computeSingleColumnWidth(colIdx: colIdx, totalCols: totalCols, headers: headers, rows: rows)
+            result.append(width)
+        }
+        return result
+    }
+    
+    private func computeSingleColumnWidth(colIdx: Int, totalCols: Int, headers: [String], rows: [[String]]) -> CGFloat {
+        let headerText = headers[colIdx].trimmingCharacters(in: .whitespaces)
+        var maxWordLen = 0
+        for word in headerText.components(separatedBy: .whitespacesAndNewlines) {
+            maxWordLen = max(maxWordLen, word.count)
+        }
+        var maxLineLen = headerText.count
+        var totalChars = headerText.count
+        var cellCount = 1
         
-        return headers.indices.map { colIdx in
-            let headerText = headers[colIdx].trimmingCharacters(in: .whitespaces)
-            var maxWordLen = 0
-            for word in headerText.components(separatedBy: .whitespacesAndNewlines) {
-                maxWordLen = max(maxWordLen, word.count)
+        for row in rows {
+            if colIdx < row.count {
+                let cell = row[colIdx].trimmingCharacters(in: .whitespaces)
+                for word in cell.components(separatedBy: .whitespacesAndNewlines) {
+                    maxWordLen = max(maxWordLen, word.count)
+                }
+                let lines = cell.components(separatedBy: "\n")
+                for l in lines {
+                    maxLineLen = max(maxLineLen, l.trimmingCharacters(in: .whitespaces).count)
+                }
+                totalChars += cell.count
+                cellCount += 1
             }
-            var maxLineLen = headerText.count
-            var totalChars = headerText.count
-            var cellCount = 1
-            
-            for row in rows {
-                if colIdx < row.count {
-                    let cell = row[colIdx].trimmingCharacters(in: .whitespaces)
-                    for word in cell.components(separatedBy: .whitespacesAndNewlines) {
-                        maxWordLen = max(maxWordLen, word.count)
-                    }
-                    let lines = cell.components(separatedBy: "\n")
-                    for l in lines {
-                        maxLineLen = max(maxLineLen, l.trimmingCharacters(in: .whitespaces).count)
-                    }
-                    totalChars += cell.count
-                    cellCount += 1
-                }
-            }
-            
-            let avgChars = totalChars / max(1, cellCount)
-            let contentWidth: CGFloat = CGFloat(max(maxWordLen * 9 + 16, min(maxLineLen * 8 + 16, avgChars * 8 + 24)))
-            
-            if totalCols == 1 {
-                return max(180, min(320, contentWidth))
-            } else if totalCols == 2 {
-                if colIdx == 0 {
-                    return max(80, min(140, contentWidth))
-                } else {
-                    return max(140, min(230, contentWidth))
-                }
-            } else if totalCols == 3 {
-                if colIdx == 0 {
-                    return max(70, min(110, contentWidth))
-                } else if colIdx == 1 {
-                    return max(110, min(170, contentWidth))
-                } else {
-                    return max(80, min(130, contentWidth))
-                }
-            } else if totalCols == 4 {
-                // Tối ưu tỉ lệ hiển thị cho bảng 4 cột như Ảnh 2 (Ngày: ~70pt, Công việc: ~130pt, Thời gian: ~90pt, Trạng thái: ~75pt)
-                if colIdx == 0 {
-                    return max(60, min(80, contentWidth))
-                } else if colIdx == 1 {
-                    return max(110, min(145, contentWidth))
-                } else if colIdx == 2 {
-                    return max(80, min(105, contentWidth))
-                } else {
-                    return max(65, min(90, contentWidth))
-                }
+        }
+        
+        let avgChars = totalChars / max(1, cellCount)
+        let calc1: CGFloat = CGFloat(maxWordLen * 9 + 16)
+        let calc2: CGFloat = CGFloat(min(maxLineLen * 8 + 16, avgChars * 8 + 24))
+        let contentWidth: CGFloat = max(calc1, calc2)
+        
+        if totalCols == 1 {
+            return max(180, min(320, contentWidth))
+        } else if totalCols == 2 {
+            if colIdx == 0 {
+                return max(80, min(140, contentWidth))
             } else {
-                // Bảng từ 5 cột trở lên: tự động cuộn ngang mượt mà
-                return max(70, min(140, contentWidth))
+                return max(140, min(230, contentWidth))
             }
+        } else if totalCols == 3 {
+            if colIdx == 0 {
+                return max(70, min(110, contentWidth))
+            } else if colIdx == 1 {
+                return max(110, min(170, contentWidth))
+            } else {
+                return max(80, min(130, contentWidth))
+            }
+        } else if totalCols == 4 {
+            // Tối ưu tỉ lệ hiển thị cho bảng 4 cột như Ảnh 2 (Ngày: ~70pt, Công việc: ~130pt, Thời gian: ~90pt, Trạng thái: ~75pt)
+            if colIdx == 0 {
+                return max(60, min(80, contentWidth))
+            } else if colIdx == 1 {
+                return max(110, min(145, contentWidth))
+            } else if colIdx == 2 {
+                return max(80, min(105, contentWidth))
+            } else {
+                return max(65, min(90, contentWidth))
+            }
+        } else {
+            // Bảng từ 5 cột trở lên: tự động cuộn ngang mượt mà
+            return max(70, min(140, contentWidth))
         }
     }
     
