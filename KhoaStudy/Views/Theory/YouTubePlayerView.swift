@@ -1,7 +1,7 @@
 import SwiftUI
 import WebKit
 
-/// Trình phát video YouTube chuẩn 16:9, nhúng iframe tối ưu cho iOS WKWebView
+/// Trình phát video YouTube chuẩn 16:9, nhúng tối ưu cho iOS WKWebView
 struct YouTubePlayerView: UIViewRepresentable {
     let videoId: String
     
@@ -13,6 +13,10 @@ struct YouTubePlayerView: UIViewRepresentable {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
         configuration.mediaTypesRequiringUserActionForPlayback = []
+        configuration.allowsAirPlayForMediaPlayback = true
+        if #available(iOS 14.5, *) {
+            configuration.preferences.isTextInteractionEnabled = false
+        }
         if #available(iOS 14.0, *) {
             configuration.defaultWebpagePreferences.allowsContentJavaScript = true
         }
@@ -22,31 +26,33 @@ struct YouTubePlayerView: UIViewRepresentable {
         webView.backgroundColor = .black
         webView.scrollView.isScrollEnabled = false
         webView.scrollView.bounces = false
-        // User Agent chuẩn iOS Safari Mobile để YouTube chấp nhận nhúng iframe
-        webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"
         
-        loadEmbedHTML(into: webView, with: videoId)
+        loadVideo(into: webView, videoId: videoId)
         return webView
     }
     
     func updateUIView(_ uiView: WKWebView, context: Context) {
-        // Kiểm tra nếu videoId thay đổi thì tải lại
         let cleanId = videoId.trimmingCharacters(in: .whitespacesAndNewlines)
         if uiView.accessibilityIdentifier != cleanId {
             uiView.accessibilityIdentifier = cleanId
-            loadEmbedHTML(into: uiView, with: cleanId)
+            loadVideo(into: uiView, videoId: cleanId)
         }
     }
     
-    private func loadEmbedHTML(into webView: WKWebView, with id: String) {
-        let cleanId = id.trimmingCharacters(in: .whitespacesAndNewlines)
-        let embedUrl = "https://www.youtube.com/embed/\(cleanId)?playsinline=1&enablejsapi=1&rel=0&modestbranding=1"
+    private func loadVideo(into webView: WKWebView, videoId: String) {
+        let cleanId = videoId.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !cleanId.isEmpty else { return }
+        
+        // Nhúng HTML chuẩn với meta referrer và origin để tránh lỗi YouTube Error 152-4
+        let embedUrl = "https://www.youtube.com/embed/\(cleanId)?playsinline=1&enablejsapi=1&rel=0&modestbranding=1&origin=https://www.youtube.com"
         
         let html = """
         <!DOCTYPE html>
         <html>
         <head>
+            <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+            <meta name="referrer" content="strict-origin-when-cross-origin">
             <style>
                 * { margin: 0; padding: 0; box-sizing: border-box; }
                 html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
@@ -57,7 +63,7 @@ struct YouTubePlayerView: UIViewRepresentable {
         <body>
             <div class="player-box">
                 <iframe src="\(embedUrl)"
-                        title="YouTube video player"
+                        title="YouTube Video Player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowfullscreen>
@@ -69,3 +75,4 @@ struct YouTubePlayerView: UIViewRepresentable {
         webView.loadHTMLString(html, baseURL: URL(string: "https://www.youtube.com"))
     }
 }
+

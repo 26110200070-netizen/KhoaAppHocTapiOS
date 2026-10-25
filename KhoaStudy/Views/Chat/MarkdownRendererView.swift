@@ -139,11 +139,12 @@ struct KaTeXMarkdownWebView: UIViewRepresentable {
                     p { margin-bottom: 8px; }
                     ul, ol { padding-left: 22px; margin-bottom: 8px; }
                     li { margin-bottom: 4px; }
-                    .table-wrapper { width: 100%; overflow-x: auto; margin: 10px 0; -webkit-overflow-scrolling: touch; }
-                    table { border-collapse: collapse; width: 100%; min-width: 260px; font-size: \(fontSize - 1)px; }
-                    th, td { border: 1px solid #E5E7EB; padding: 8px 10px; text-align: left; }
-                    th { background-color: #F9FAFB; font-weight: 600; color: #374151; }
-                    tr:nth-child(even) { background-color: #F9FAFB; }
+                    .table-wrapper { width: 100%; overflow-x: auto; margin: 12px 0; -webkit-overflow-scrolling: touch; }
+                    table { border-collapse: collapse; width: 100%; min-width: 260px; font-size: \(fontSize - 1)px; margin: 0; }
+                    th, td { border-bottom: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB; padding: 9px 12px; text-align: left; vertical-align: middle; }
+                    th:last-child, td:last-child { border-right: none; }
+                    th { font-weight: 700; color: #111827; background-color: #F9FAFB; border-top: 1px solid #E5E7EB; border-bottom: 2px solid #D1D5DB; }
+                    tr:last-child td { border-bottom: 1px solid #E5E7EB; }
                     code { background-color: #F3F4F6; padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: ui-monospace, SFMono-Regular, monospace; }
                     pre { background-color: #1F2937; color: #F9FAFB; padding: 12px; border-radius: 8px; overflow-x: auto; margin: 10px 0; }
                     pre code { background-color: transparent; padding: 0; }

@@ -52,8 +52,10 @@ struct TheoryLessonDetailView: View {
                                     
                                     HStack(spacing: 6) {
                                         Button(action: {
-                                            let cleanTopic = topicItem.title.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-                                            if let sUrl = URL(string: "https://www.youtube.com/results?search_query=\(topicItem.subject)+\(topicItem.grade)+\(cleanTopic)+sgk+mới") {
+                                            var comp = URLComponents(string: "https://www.youtube.com/results")
+                                            let query = "\(topicItem.title) \(topicItem.subject) lớp \(topicItem.grade) sgk mới"
+                                            comp?.queryItems = [URLQueryItem(name: "search_query", value: query)]
+                                            if let sUrl = comp?.url {
                                                 UIApplication.shared.open(sUrl)
                                             }
                                         }) {
@@ -70,11 +72,14 @@ struct TheoryLessonDetailView: View {
                                         }
                                         
                                         Button(action: {
-                                            if !lesson.videoId.isEmpty, let directUrl = URL(string: "https://www.youtube.com/watch?v=\(lesson.videoId)") {
+                                            let cleanId = lesson.videoId.trimmingCharacters(in: .whitespacesAndNewlines)
+                                            if !cleanId.isEmpty, let directUrl = URL(string: "https://www.youtube.com/watch?v=\(cleanId)") {
                                                 UIApplication.shared.open(directUrl)
                                             } else {
-                                                let cleanTopic = topicItem.title.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-                                                if let sUrl = URL(string: "https://www.youtube.com/results?search_query=\(topicItem.subject)+\(topicItem.grade)+\(cleanTopic)+sgk+mới") {
+                                                var comp = URLComponents(string: "https://www.youtube.com/results")
+                                                let query = "\(topicItem.title) \(topicItem.subject) lớp \(topicItem.grade) sgk mới"
+                                                comp?.queryItems = [URLQueryItem(name: "search_query", value: query)]
+                                                if let sUrl = comp?.url {
                                                     UIApplication.shared.open(sUrl)
                                                 }
                                             }
