@@ -161,8 +161,7 @@ struct TheoryLessonDetailView: View {
             }
         }
         .onAppear {
-            StudyHistoryStore.shared.recordStudy(topic: topicItem)
-            loadLessonContent()
+            loadLessonContent(forceRefresh: false)
         }
         .sheet(isPresented: $showingPracticeConfigSheet) {
             practiceConfigSheetView
@@ -405,7 +404,7 @@ struct TheoryLessonDetailView: View {
             Spacer()
             
             Button(action: {
-                loadLessonContent()
+                loadLessonContent(forceRefresh: true)
             }) {
                 Image(systemName: "arrow.clockwise")
                     .font(.system(size: 15, weight: .semibold))
@@ -453,7 +452,21 @@ struct TheoryLessonDetailView: View {
     }
     
     // MARK: - Actions
-    private func loadLessonContent() {
+    private func loadLessonContent(forceRefresh: Bool = false) {
+        // 1. Kiểm tra nếu có sẵn bài giảng cũ đã lưu trong lịch sử và không bị ép làm mới: hiển thị ngay lập tức!
+        if !forceRefresh, let saved = StudyHistoryStore.shared.getSavedLesson(for: topicItem) {
+            self.detailedLesson = saved
+            self.isLoading = false
+            StudyHistoryStore.shared.recordStudy(
+                topic: topicItem,
+                content: saved.markdownContent,
+                videoId: saved.videoId,
+                channelName: saved.channelName
+            )
+            return
+        }
+        
+        // 2. Nếu chưa có trong lịch sử hoặc người dùng chủ động bấm làm mới: Mới gọi AI tạo bài giảng
         isLoading = true
         TheoryKnowledgeService.shared.generateDetailedLesson(
             topic: topicItem.title,
@@ -472,6 +485,13 @@ struct TheoryLessonDetailView: View {
             DispatchQueue.main.async {
                 self.detailedLesson = lesson
                 self.isLoading = false
+                // Lưu nội dung bài học vào lịch sử để lần sau mở lại ngay lập tức
+                StudyHistoryStore.shared.recordStudy(
+                    topic: self.topicItem,
+                    content: lesson.markdownContent,
+                    videoId: lesson.videoId,
+                    channelName: lesson.channelName
+                )
             }
         }
     }

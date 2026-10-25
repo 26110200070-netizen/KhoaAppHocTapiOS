@@ -1,9 +1,12 @@
 import Foundation
 
-/// Đại diện cho 1 bản ghi lịch sử bài học mà người dùng đã từng mở học
+/// Đại diện cho 1 bản ghi lịch sử bài học mà người dùng đã từng mở học kèm nội dung bài giảng đã tạo
 struct StudyHistoryItem: Identifiable, Codable, Hashable {
     var id: String = UUID().uuidString
     var topicItem: TheoryTopicItem
+    var savedContent: String? = nil
+    var savedVideoId: String? = nil
+    var savedChannelName: String? = nil
     var timestamp: Date = Date()
     
     var sectionHeader: String {
@@ -36,22 +39,31 @@ final class StudyHistoryStore: ObservableObject {
         loadHistory()
     }
     
-    /// Ghi nhận 1 bài học vào lịch sử khi người dùng học
-    func recordStudy(topic: TheoryTopicItem) {
-        // Xóa bản ghi cũ cùng bài học & khối lớp nếu đã tồn tại để đẩy lên đầu
-        historyList.removeAll {
+    /// Ghi nhận hoặc cập nhật bài học kèm nội dung vào lịch sử
+    func recordStudy(topic: TheoryTopicItem, content: String? = nil, videoId: String? = nil, channelName: String? = nil) {
+        // Tìm xem bài học đã có trong lịch sử chưa
+        if let idx = historyList.firstIndex(where: {
             $0.topicItem.title == topic.title &&
             $0.topicItem.grade == topic.grade &&
             $0.topicItem.semester == topic.semester
+        }) {
+            var existing = historyList.remove(at: idx)
+            existing.timestamp = Date()
+            if let c = content, !c.isEmpty { existing.savedContent = c }
+            if let v = videoId, !v.isEmpty { existing.savedVideoId = v }
+            if let ch = channelName, !ch.isEmpty { existing.savedChannelName = ch }
+            historyList.insert(existing, at: 0)
+        } else {
+            let newItem = StudyHistoryItem(
+                id: UUID().uuidString,
+                topicItem: topic,
+                savedContent: content,
+                savedVideoId: videoId,
+                savedChannelName: channelName,
+                timestamp: Date()
+            )
+            historyList.insert(newItem, at: 0)
         }
-        
-        let newItem = StudyHistoryItem(
-            id: UUID().uuidString,
-            topicItem: topic,
-            timestamp: Date()
-        )
-        
-        historyList.insert(newItem, at: 0)
         
         // Giới hạn tối đa 50 bài gần nhất
         if historyList.count > 50 {
@@ -59,6 +71,27 @@ final class StudyHistoryStore: ObservableObject {
         }
         
         saveHistory()
+    }
+    
+    /// Lấy bài học đã lưu kèm toàn bộ nội dung cũ để mở ngay lập tức không cần loading lại
+    func getSavedLesson(for topic: TheoryTopicItem) -> DetailedTheoryLesson? {
+        guard let item = historyList.first(where: {
+            $0.topicItem.title == topic.title &&
+            $0.topicItem.grade == topic.grade &&
+            $0.topicItem.semester == topic.semester
+        }), let content = item.savedContent, !content.isEmpty else {
+            return nil
+        }
+        
+        return DetailedTheoryLesson(
+            topicTitle: topic.title,
+            subject: topic.subject,
+            grade: topic.grade,
+            semester: topic.semester,
+            videoId: item.savedVideoId ?? topic.videoId,
+            channelName: item.savedChannelName ?? topic.channelName,
+            markdownContent: content
+        )
     }
     
     /// Xóa 1 bản ghi theo ID (Vuốt sang trái để xóa)

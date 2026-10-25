@@ -122,6 +122,7 @@ struct AIChatView: View {
                         }
                     }
                     .onChange(of: messages.count) { _ in
+                        saveChatMessages()
                         if let lastId = messages.last?.id {
                             withAnimation(.easeOut(duration: 0.3)) {
                                 proxy.scrollTo(lastId, anchor: .bottom)
@@ -188,6 +189,9 @@ struct AIChatView: View {
         }
         .sheet(isPresented: $showingGeminiConnectSheet) {
             GeminiConnectSheet()
+        }
+        .onAppear {
+            loadChatMessages()
         }
     }
     
@@ -824,6 +828,7 @@ struct AIChatView: View {
     private func startNewChat() {
         stopChatGeneration()
         messages.removeAll()
+        clearChatMessages()
         streamingText = ""
         isThinking = false
         inputPrompt = ""
@@ -831,6 +836,23 @@ struct AIChatView: View {
         selectedPhotoItem = nil
         attachedFileName = nil
         attachedFileContent = nil
+    }
+    
+    private func saveChatMessages() {
+        if let data = try? JSONEncoder().encode(messages) {
+            UserDefaults.standard.set(data, forKey: "shimy_chat_messages_v1")
+        }
+    }
+    
+    private func loadChatMessages() {
+        if let data = UserDefaults.standard.data(forKey: "shimy_chat_messages_v1"),
+           let saved = try? JSONDecoder().decode([ChatMessage].self, from: data) {
+            self.messages = saved
+        }
+    }
+    
+    private func clearChatMessages() {
+        UserDefaults.standard.removeObject(forKey: "shimy_chat_messages_v1")
     }
     
     private func startPresetTopic(_ prompt: String) {
