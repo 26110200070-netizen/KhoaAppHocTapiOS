@@ -115,10 +115,18 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - 2. Banner Cards (Bọc khối thống nhất bo tròn, màu trắng xám nhẹ)
+    // MARK: - 2. Banner Cards (Bọc khối thống nhất bo tròn: Ảnh Học Lí Thuyết 9:16 + 2 thẻ bên phải cân đối)
     private var tammiChibiArtworkCardsSection: some View {
-        HStack(alignment: .top, spacing: 10) {
-            // Left Hero Card: HỌC LÍ THUYẾT SGK (Ảnh có sẵn chữ)
+        let screenW = UIScreen.main.bounds.width
+        let availableW = max(screenW - 32 - 24 - 10, 280) // màn hình - padding(16*2) - container(12*2) - spacing(10)
+        let leftW = availableW * 0.408
+        let rightW = availableW * 0.592
+        let totalH = leftW * (16.0 / 9.0)
+        let topH = (totalH - 10) * 0.565
+        let bottomH = totalH - 10 - topH
+        
+        return HStack(alignment: .top, spacing: 10) {
+            // Left Hero Card: HỌC LÍ THUYẾT SGK (Chuẩn tỉ lệ 9:16)
             Button(action: {
                 if let onNavigateToTheory = onNavigateToTheory {
                     onNavigateToTheory()
@@ -130,7 +138,8 @@ struct HomeView: View {
             }) {
                 Image("BannerTheory")
                     .resizable()
-                    .scaledToFit()
+                    .scaledToFill()
+                    .frame(width: leftW, height: totalH)
                     .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
             }
             .buttonStyle(.plain)
@@ -149,7 +158,8 @@ struct HomeView: View {
                 }) {
                     Image("BannerPractice")
                         .resizable()
-                        .scaledToFit()
+                        .scaledToFill()
+                        .frame(width: rightW, height: topH)
                         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                 }
                 .buttonStyle(.plain)
@@ -158,12 +168,13 @@ struct HomeView: View {
                 Button(action: { showingFocusSheet = true }) {
                     Image("BannerFocus")
                         .resizable()
-                        .scaledToFit()
+                        .scaledToFill()
+                        .frame(width: rightW, height: bottomH)
                         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                 }
                 .buttonStyle(.plain)
             }
-            .frame(maxWidth: .infinity)
+            .frame(width: rightW, height: totalH)
         }
         .padding(12)
         .background(
