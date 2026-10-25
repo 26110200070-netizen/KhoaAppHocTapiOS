@@ -476,14 +476,25 @@ struct TheoryLessonDetailView: View {
             appToken: appState.appAuthToken
         ) { lesson in
             DispatchQueue.main.async {
-                self.detailedLesson = lesson
+                let finalVideoId = !self.topicItem.videoId.isEmpty ? self.topicItem.videoId : lesson.videoId
+                let finalChannel = !self.topicItem.channelName.isEmpty ? self.topicItem.channelName : lesson.channelName
+                let verifiedLesson = DetailedTheoryLesson(
+                    topicTitle: lesson.topicTitle,
+                    subject: lesson.subject,
+                    grade: lesson.grade,
+                    semester: lesson.semester,
+                    videoId: finalVideoId,
+                    channelName: finalChannel,
+                    markdownContent: lesson.markdownContent
+                )
+                self.detailedLesson = verifiedLesson
                 self.isLoading = false
                 // Lưu nội dung bài học vào lịch sử để lần sau mở lại ngay lập tức
                 StudyHistoryStore.shared.recordStudy(
                     topic: self.topicItem,
-                    content: lesson.markdownContent,
-                    videoId: lesson.videoId,
-                    channelName: lesson.channelName
+                    content: verifiedLesson.markdownContent,
+                    videoId: verifiedLesson.videoId,
+                    channelName: verifiedLesson.channelName
                 )
             }
         }

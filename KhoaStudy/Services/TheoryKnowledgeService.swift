@@ -137,26 +137,20 @@ class TheoryKnowledgeService {
                # Các Lỗi Sai Học Sinh Thường Mắc Phải
                (Cảnh báo các bẫy đề thi và cách phòng tránh)
             
-            6. VIDEO BÀI GIẢNG CHUẨN XÁC:
-               Ở dòng cuối cùng của bài viết, hãy ghi mã video YouTube (11 ký tự) cho bài giảng Lớp \(grade) Môn \(subject) này (từ các kênh uy tín như Thầy Đỗ Văn Đức, Tuyensinh247, VietJack, Hocmai):
-               [VIDEO_ID: xxxxxxxxxxx]
-            
             Chỉ trả về nội dung Markdown bài giảng hoàn chỉnh, không thêm lời chào mở đầu hay kết thúc thừa.
             """
             
             func parseLessonOutput(_ rawText: String) -> (content: String, videoId: String, channel: String) {
                 var cleanContent = rawText.isEmpty ? self.getFallbackTheoryLesson(topic: topic, subject: subject, grade: grade, semester: semester) : rawText
-                var finalVid = resolvedVideoId
-                var finalChan = resolvedChannel
+                let finalVid = resolvedVideoId
+                let finalChan = resolvedChannel
                 
-                if let range = cleanContent.range(of: "(?:\\[VIDEO_ID:\\s*([a-zA-Z0-9_-]{11})\\])", options: .regularExpression) {
-                    let tag = String(cleanContent[range])
-                    let vid = tag.replacingOccurrences(of: "[VIDEO_ID:", with: "").replacingOccurrences(of: "]", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
-                    if vid.count == 11 && !(grade > 7 && vid == "IGp-J96BbTU") {
-                        finalVid = vid
-                    }
+                // Loại bỏ tag [VIDEO_ID: ...] nếu AI có tự ý sinh ra để không ảnh hưởng bài giảng
+                if let range = cleanContent.range(of: "(?:\\[VIDEO_ID:[^\\]]+\\])", options: .regularExpression) {
                     cleanContent.removeSubrange(range)
                 }
+                
+                // Video ID luôn được bảo toàn tuyệt đối từ tài nguyên trithucAI chuẩn hóa
                 return (cleanContent.trimmingCharacters(in: .whitespacesAndNewlines), finalVid, finalChan)
             }
             
