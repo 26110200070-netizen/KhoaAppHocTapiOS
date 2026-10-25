@@ -5,6 +5,8 @@ struct ChatMessage: Identifiable, Codable, Hashable {
     var role: String // "user", "assistant", "system"
     var content: String
     var timestamp: Date = Date()
+    var attachedImageBase64: String? = nil
+    var attachedFileName: String? = nil
 }
 
 enum GeminiAIModel: String, CaseIterable, Identifiable {
@@ -593,7 +595,10 @@ class GeminiAIService {
         
         var effectiveModel = model
         let hasImage = (attachedImageBase64 != nil && !attachedImageBase64!.isEmpty)
-        if isDeepReasoning {
+        if hasImage {
+            // Groq's official multimodal vision model for reading images, math, and documents
+            effectiveModel = "qwen/qwen3.8-27b"
+        } else if isDeepReasoning {
             effectiveModel = "openai/gpt-oss-120b"
         }
         

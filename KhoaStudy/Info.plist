@@ -39,5 +39,9 @@
         <key>NSAllowsLocalNetworking</key>
         <true/>
     </dict>
+    <key>NSCameraUsageDescription</key>
+    <string>Shimy cần quyền truy cập máy ảnh để chụp đề thi, bài tập và tài liệu học tập.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Shimy cần quyền truy cập thư viện ảnh để tải ảnh bài tập lên cho AI giải đáp.</string>
 </dict>
 </plist>
