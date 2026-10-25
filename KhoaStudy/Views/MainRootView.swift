@@ -2,11 +2,15 @@ import SwiftUI
 
 enum MainTab: Int, CaseIterable {
     case home = 0
-    case account = 1
+    case theory = 1
+    case practice = 2
+    case account = 3
     
     var title: String {
         switch self {
         case .home: return "Trang Chủ"
+        case .theory: return "Lý Thuyết"
+        case .practice: return "Luyện Tập"
         case .account: return "Tài Khoản"
         }
     }
@@ -14,6 +18,8 @@ enum MainTab: Int, CaseIterable {
     var iconName: String {
         switch self {
         case .home: return "house.fill"
+        case .theory: return "book.fill"
+        case .practice: return "pencil.and.list.clipboard"
         case .account: return "person.crop.circle.fill"
         }
     }
@@ -36,10 +42,32 @@ struct MainRootView: View {
                 // 3. Main Application with Full-Width Bottom Bar + Fullscreen AI Chat
                 ZStack(alignment: .bottom) {
                     TabView(selection: $currentTab) {
-                        HomeView(onOpenAIChat: {
-                            showingAIChatFullScreen = true
-                        })
+                        HomeView(
+                            onNavigateToTheory: {
+                                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                                    currentTab = .theory
+                                }
+                            },
+                            onNavigateToPractice: {
+                                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                                    currentTab = .practice
+                                }
+                            },
+                            onOpenAIChat: {
+                                showingAIChatFullScreen = true
+                            }
+                        )
                         .tag(MainTab.home)
+                        
+                        TheoryStudyView(onBackToHome: {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                                currentTab = .home
+                            }
+                        })
+                        .tag(MainTab.theory)
+                        
+                        ExercisePracticeView()
+                            .tag(MainTab.practice)
                         
                         AccountView()
                             .tag(MainTab.account)
@@ -70,27 +98,10 @@ struct MainRootView: View {
             
             HStack(spacing: 0) {
                 // Tab 1: Trang Chủ
-                Button(action: {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                        currentTab = .home
-                    }
-                }) {
-                    VStack(spacing: 4) {
-                        Image(systemName: "house.fill")
-                            .font(.system(size: 22, weight: currentTab == .home ? .bold : .medium))
-                            .foregroundColor(currentTab == .home ? AppTheme.primaryDark : AppTheme.textMuted)
-                        
-                        Text("Trang Chủ")
-                            .font(.system(size: 11, weight: currentTab == .home ? .semibold : .regular))
-                            .foregroundColor(currentTab == .home ? AppTheme.primaryDark : AppTheme.textMuted)
-                        
-                        Circle()
-                            .fill(currentTab == .home ? AppTheme.primaryMint : Color.clear)
-                            .frame(width: 4, height: 4)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 30)
-                }
+                tabBarItem(tab: .home)
+                
+                // Tab 2: Lý Thuyết
+                tabBarItem(tab: .theory)
                 
                 // Center Button: Shimy (Nằm vừa vặn, bo tròn ôm khít icon Shimy!)
                 Button(action: {
@@ -129,32 +140,39 @@ struct MainRootView: View {
                     .offset(y: 4) // Nằm trọn vẹn, cân đối bên trong khung trồi tròn
                 }
                 
-                // Tab 2: Tài Khoản
-                Button(action: {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                        currentTab = .account
-                    }
-                }) {
-                    VStack(spacing: 4) {
-                        Image(systemName: "person.crop.circle.fill")
-                            .font(.system(size: 22, weight: currentTab == .account ? .bold : .medium))
-                            .foregroundColor(currentTab == .account ? AppTheme.primaryDark : AppTheme.textMuted)
-                        
-                        Text("Tài Khoản")
-                            .font(.system(size: 11, weight: currentTab == .account ? .semibold : .regular))
-                            .foregroundColor(currentTab == .account ? AppTheme.primaryDark : AppTheme.textMuted)
-                        
-                        Circle()
-                            .fill(currentTab == .account ? AppTheme.primaryMint : Color.clear)
-                            .frame(width: 4, height: 4)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 30)
-                }
+                // Tab 3: Luyện Tập
+                tabBarItem(tab: .practice)
+                
+                // Tab 4: Tài Khoản
+                tabBarItem(tab: .account)
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 8)
         }
         .frame(maxWidth: .infinity)
+    }
+    
+    private func tabBarItem(tab: MainTab) -> some View {
+        Button(action: {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                currentTab = tab
+            }
+        }) {
+            VStack(spacing: 4) {
+                Image(systemName: tab.iconName)
+                    .font(.system(size: 20, weight: currentTab == tab ? .bold : .medium))
+                    .foregroundColor(currentTab == tab ? AppTheme.primaryDark : AppTheme.textMuted)
+                
+                Text(tab.title)
+                    .font(.system(size: 10, weight: currentTab == tab ? .bold : .regular))
+                    .foregroundColor(currentTab == tab ? AppTheme.primaryDark : AppTheme.textMuted)
+                
+                Circle()
+                    .fill(currentTab == tab ? AppTheme.primaryMint : Color.clear)
+                    .frame(width: 4, height: 4)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.top, 28)
+        }
     }
 }
 
@@ -168,44 +186,33 @@ struct RaisedDomeTabBarShape: Shape {
         var path = Path()
         let w = rect.width
         let h = rect.height
-        let topY = domeHeight
-        let centerX = w / 2.0
-        let halfDome = domeWidth / 2.0
+        let cx = w / 2
+        let hw = domeWidth / 2
         
-        // 1. Bottom Left -> Top Left corner
-        path.move(to: CGPoint(x: 0, y: h))
-        path.addLine(to: CGPoint(x: 0, y: topY + cornerRadius))
-        path.addQuadCurve(
-            to: CGPoint(x: cornerRadius, y: topY),
-            control: CGPoint(x: 0, y: topY)
-        )
+        path.move(to: CGPoint(x: 0, y: cornerRadius))
+        path.addQuadCurve(to: CGPoint(x: cornerRadius, y: 0),
+                          control: CGPoint(x: 0, y: 0))
         
-        // 2. Flat wing towards center dome
-        path.addLine(to: CGPoint(x: centerX - halfDome, y: topY))
+        path.addLine(to: CGPoint(x: cx - hw - 8, y: 0))
         
-        // 3. Smooth, organic, continuous Rounded Dome (bo tròn mềm mại, không có cạnh vuông)
-        // Left rise: smooth horizontal tangent at start, curving organically up to apex (centerX, 0)
         path.addCurve(
-            to: CGPoint(x: centerX, y: 0),
-            control1: CGPoint(x: centerX - halfDome + 22, y: topY),
-            control2: CGPoint(x: centerX - 18, y: 0)
+            to: CGPoint(x: cx, y: -domeHeight),
+            control1: CGPoint(x: cx - hw + 10, y: 0),
+            control2: CGPoint(x: cx - 26, y: -domeHeight)
         )
-        // Right descent: smooth horizontal tangent at apex, descending symmetrically to right wing
+        
         path.addCurve(
-            to: CGPoint(x: centerX + halfDome, y: topY),
-            control1: CGPoint(x: centerX + 18, y: 0),
-            control2: CGPoint(x: centerX + halfDome - 22, y: topY)
+            to: CGPoint(x: cx + hw + 8, y: 0),
+            control1: CGPoint(x: cx + 26, y: -domeHeight),
+            control2: CGPoint(x: cx + hw - 10, y: 0)
         )
         
-        // 4. Flat wing to Top Right corner
-        path.addLine(to: CGPoint(x: w - cornerRadius, y: topY))
-        path.addQuadCurve(
-            to: CGPoint(x: w, y: topY + cornerRadius),
-            control: CGPoint(x: w, y: topY)
-        )
+        path.addLine(to: CGPoint(x: w - cornerRadius, y: 0))
+        path.addQuadCurve(to: CGPoint(x: w, y: cornerRadius),
+                          control: CGPoint(x: w, y: 0))
         
-        // 5. Right edge down & close
         path.addLine(to: CGPoint(x: w, y: h))
+        path.addLine(to: CGPoint(x: 0, y: h))
         path.closeSubpath()
         
         return path

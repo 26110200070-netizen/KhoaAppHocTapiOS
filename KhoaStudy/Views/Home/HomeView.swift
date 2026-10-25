@@ -2,6 +2,8 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var appState: AppState
+    var onNavigateToTheory: (() -> Void)? = nil
+    var onNavigateToPractice: (() -> Void)? = nil
     var onOpenAIChat: (() -> Void)? = nil
     
     @State private var showingTheorySheet: Bool = false
@@ -86,7 +88,13 @@ struct HomeView: View {
     private var tammiChibiArtworkCardsSection: some View {
         HStack(alignment: .top, spacing: 12) {
             // Left Hero Card: HỌC LÍ THUYẾT SGK (3D Chibi Fox Mascot tách nền trong suốt)
-            Button(action: { showingTheorySheet = true }) {
+            Button(action: {
+                if let onNavigateToTheory = onNavigateToTheory {
+                    onNavigateToTheory()
+                } else {
+                    showingTheorySheet = true
+                }
+            }) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Học Lí Thuyết\nChuẩn SGK")
                         .font(.system(size: 17, weight: .bold, design: .rounded))
@@ -129,7 +137,13 @@ struct HomeView: View {
             // Right 2 Stacked Cards (Nhân vật tách nền tự do!)
             VStack(spacing: 12) {
                 // Card Top Right: LUYỆN BÀI TẬP (Chibi Bear Mascot tách nền)
-                Button(action: { showingExerciseSheet = true }) {
+                Button(action: {
+                    if let onNavigateToPractice = onNavigateToPractice {
+                        onNavigateToPractice()
+                    } else {
+                        showingExerciseSheet = true
+                    }
+                }) {
                     HStack(alignment: .center, spacing: 8) {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Luyện Bài Tập")
