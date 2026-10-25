@@ -110,22 +110,22 @@ class TheoryKnowledgeService {
                  | Dữ liệu 1 | Dữ liệu 2 | Dữ liệu 3 |
                - Trình bày thông thoáng, rõ ràng, sư phạm.
             5. CẤU TRÚC BÀI GIẢNG PHẢI ĐẦY ĐỦ 5 PHẦN:
-               # 🎯 Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
+               # Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
                (Nêu rõ học sinh sẽ hiểu được gì và vận dụng được gì theo chuẩn GDPT mới)
                
-               # 📖 Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
+               # Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
                (Giải thích chi tiết định nghĩa, hiện tượng, bản chất khoa học)
                
-               # 📐 Bảng Công Thức & Quy Tắc Ghi Nhớ
+               # Bảng Công Thức & Quy Tắc Ghi Nhớ
                (Tổng hợp đầy đủ các công thức, đơn vị, điều kiện áp dụng dưới dạng bảng Markdown)
                
-               # 💡 Phương Pháp Giải Các Dạng Bài Tập Điển Hình
+               # Phương Pháp Giải Các Dạng Bài Tập Điển Hình
                (Chia thành Dạng 1, Dạng 2... hướng dẫn từng bước tư duy)
                
-               # 📝 Ví Dụ Minh Họa Có Lời Giải Mẫu Từng Bước
+               # Ví Dụ Minh Họa Có Lời Giải Mẫu Từng Bước
                (Đưa ra ít nhất 2 ví dụ cụ thể kèm lời giải chi tiết, không bỏ bước, có kết luận rõ ràng)
                
-               # ⚠️ Các Lỗi Sai Học Sinh Thường Mắc Phải
+               # Các Lỗi Sai Học Sinh Thường Mắc Phải
                (Cảnh báo các bẫy đề thi và cách phòng tránh)
             
             Chỉ trả về nội dung Markdown bài giảng hoàn chỉnh, không thêm lời chào mở đầu hay kết thúc thừa.
@@ -544,7 +544,7 @@ class TheoryKnowledgeService {
         // 1. MÔN TOÁN 12: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số
         if t.contains("đạo hàm") || t.contains("khảo sát") || t.contains("đơn điệu") || t.contains("cực trị") || t.contains("tiệm cận") || t.contains("đồ thị hàm số") {
             return """
-            # 🎯 Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
+            # Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
             - Nắm vững mối liên hệ giữa dấu của đạo hàm bậc nhất $f'(x)$ và tính đồng biến, nghịch biến của hàm số trên một khoảng.
             - Nắm vững điều kiện cần và đủ để hàm số có điểm cực đại, điểm cực tiểu. Tìm cực trị bằng bảng biến thiên hoặc đạo hàm cấp hai $f''(x)$.
             - Tìm giá trị lớn nhất (GTLN) và giá trị nhỏ nhất (GTNN) của hàm số trên đoạn $[a; b]$ hoặc trên khoảng xác định.
@@ -553,7 +553,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 📖 Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
+            # Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
             Chuyên đề **Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số** thuộc chương trình Toán Lớp 12 (Học kỳ 1).
 
             ### 1. Tính đơn điệu của hàm số
@@ -576,7 +576,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 📐 Bảng Phân Loại & Tính Chất Các Dạng Hàm Số Trọng Tâm
+            # Bảng Phân Loại & Tính Chất Các Dạng Hàm Số Trọng Tâm
             Dưới đây là bảng tổng hợp các dạng hàm số theo chuẩn SGK mới 2026:
 
             | Dạng hàm số | Phương trình tổng quát | Đạo hàm $y'$ | Cực trị | Tiệm cận |
@@ -587,7 +587,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 💡 Phương Pháp Giải Các Dạng Bài Tập Điển Hình
+            # Phương Pháp Giải Các Dạng Bài Tập Điển Hình
             ### Dạng 1: Xét tính đơn điệu và tìm cực trị bằng bảng biến thiên
             - **Bước 1:** Tìm tập xác định $D$ của hàm số.
             - **Bước 2:** Tính đạo hàm $y' = f'(x)$. Tìm các điểm $x_i$ mà tại đó $y' = 0$ hoặc $y'$ không xác định.
@@ -605,7 +605,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 📝 Ví Dụ Minh Họa Có Lời Giải Mẫu Từng Bước
+            # Ví Dụ Minh Họa Có Lời Giải Mẫu Từng Bước
             **Ví dụ 1:** Cho hàm số $y = x^3 - 3x^2 + 2$. Tìm khoảng đơn điệu và các điểm cực trị của hàm số.
 
             *Lời giải:*
@@ -632,7 +632,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # ⚠️ Các Lỗi Sai Học Sinh Thường Mắc Phải
+            # Các Lỗi Sai Học Sinh Thường Mắc Phải
             1. **Nhầm lẫn giữa "Điểm cực trị" và "Giá trị cực trị":**
                - *Điểm cực trị của hàm số:* Là giá trị $x$ (ví dụ: $x = 0$).
                - *Điểm cực trị của đồ thị:* Là tọa độ điểm $(x; y)$ (ví dụ: $(0; 2)$).
@@ -646,7 +646,7 @@ class TheoryKnowledgeService {
         // 2. MÔN TOÁN 12: Nguyên hàm và Tích phân
         if t.contains("nguyên hàm") || t.contains("tích phân") {
             return """
-            # 🎯 Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
+            # Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
             - Nắm vững định nghĩa nguyên hàm, tích phân và công thức Newton-Leibniz: $\\int_a^b f(x)dx = F(b) - F(a)$.
             - Thuộc bảng nguyên hàm của các hàm số sơ cấp cơ bản.
             - Vận dụng thành thạo phương pháp đổi biến số và phương pháp từng phần.
@@ -654,14 +654,14 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 📖 Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
+            # Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
             ### 1. Định nghĩa và tính chất
             - Hàm số $F(x)$ là một nguyên hàm của $f(x)$ trên $K$ nếu $F'(x) = f(x), \\forall x \\in K$. Khi đó: $\\int f(x)dx = F(x) + C$.
             - Tính chất tuyến tính: $\\int [k \\cdot f(x) + g(x)]dx = k \\int f(x)dx + \\int g(x)dx$ ($k \neq 0$).
 
             ---
 
-            # 📐 Bảng Nguyên Hàm Các Hàm Số Thường Gặp
+            # Bảng Nguyên Hàm Các Hàm Số Thường Gặp
             | Hàm số $f(x)$ | Nguyên hàm $\\int f(x)dx$ | Hàm hợp $u = u(x)$ |
             | :--- | :--- | :--- |
             | $x^\\alpha$ ($\\alpha \neq -1$) | $\\frac{x^{\\alpha+1}}{\\alpha+1} + C$ | $\\int u^\\alpha du = \\frac{u^{\\alpha+1}}{\\alpha+1} + C$ |
@@ -673,14 +673,14 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 💡 Phương Pháp Giải Toán Điển Hình
+            # Phương Pháp Giải Toán Điển Hình
             - **Phương pháp đổi biến số:** Đặt $u = u(x) \\Rightarrow du = u'(x)dx$.
             - **Phương pháp từng phần:** $\\int u dv = uv - \\int v du$.
               - Thứ tự ưu tiên đặt $u$: *"Nhất lô (logarit), nhì đa (đa thức), tam lượng (lượng giác), tứ mũ (hàm mũ)"*.
 
             ---
 
-            # 📝 Ví Dụ Minh Họa Có Lời Giải Mẫu
+            # Ví Dụ Minh Họa Có Lời Giải Mẫu
             **Ví dụ 1:** Tính tích phân $I = \\int_0^1 (2x + 1) e^x dx$.
 
             *Lời giải:*
@@ -690,7 +690,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # ⚠️ Các Lỗi Sai Học Sinh Thường Mắc Phải
+            # Các Lỗi Sai Học Sinh Thường Mắc Phải
             1. **Quên đổi cận:** Khi dùng phương pháp đổi biến số cho tích phân xác định, học sinh thường quên đổi cận từ biến $x$ sang biến $u$.
             2. **Quên trị tuyệt đối:** $\\int \\frac{1}{x}dx = \\ln|x| + C$, học sinh hay bỏ quên dấu giá trị tuyệt đối.
             """
@@ -699,7 +699,7 @@ class TheoryKnowledgeService {
         // 3. MÔN TOÁN: Mệnh đề và Tập hợp (Lớp 10)
         if t.contains("mệnh đề") || t.contains("tập hợp") {
             return """
-            # 🎯 Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
+            # Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
             - Nắm vững khái niệm mệnh đề toán học, mệnh đề chứa biến, mệnh đề phủ định, mệnh đề kéo theo và mệnh đề tương đương.
             - Hiểu và sử dụng đúng các ký hiệu toán học $\\forall$ (với mọi) và $\\exists$ (tồn tại).
             - Thành thạo các phép toán tập hợp: giao ($A \\cap B$), hợp ($A \\cup B$), hiệu ($A \\setminus B$) và phần bù ($C_E A$).
@@ -707,7 +707,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 📖 Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
+            # Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
             ### 1. Mệnh đề toán học
             - Mỗi mệnh đề phải hoặc đúng hoặc sai. Một mệnh đề không thể vừa đúng vừa sai.
             - Phủ định của mệnh đề $P$ là $\\overline{P}$. Mệnh đề $\\overline{P}$ đúng khi $P$ sai, và sai khi $P$ đúng.
@@ -721,7 +721,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 📐 Bảng Các Tập Hợp Số & Ký Hiệu Khoảng Đoạn Trên $\\mathbb{R}$
+            # Bảng Các Tập Hợp Số & Ký Hiệu Khoảng Đoạn Trên $\\mathbb{R}$
             | Tên gọi | Ký hiệu | Định nghĩa | Biểu diễn |
             | :--- | :--- | :--- | :--- |
             | Đoạn | $[a; b]$ | $\\{x \\in \\mathbb{R} \\mid a \\le x \\le b\\}$ | Lấy cả hai đầu mút $a$ và $b$ |
@@ -731,13 +731,13 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 💡 Phương Pháp Giải Toán Điển Hình
+            # Phương Pháp Giải Toán Điển Hình
             - Biểu diễn từng tập hợp lên trục số thực.
             - Dùng các quy tắc gạch bỏ phần không thuộc tập hợp để tìm giao, hợp, hiệu một cách trực quan, không bị nhầm lẫn đầu mút.
 
             ---
 
-            # 📝 Ví Dụ Minh Họa Có Lời Giải Mẫu
+            # Ví Dụ Minh Họa Có Lời Giải Mẫu
             **Ví dụ 1:** Cho hai tập hợp $A = [-2; 3)$ và $B = (1; 5]$. Xác định các tập hợp $A \\cap B$, $A \\cup B$ và $A \\setminus B$.
 
             *Lời giải:*
@@ -747,7 +747,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # ⚠️ Các Lỗi Sai Học Sinh Thường Mắc Phải
+            # Các Lỗi Sai Học Sinh Thường Mắc Phải
             1. **Sai đầu mút ngoặc vuông / ngoặc tròn:** Khi lấy hiệu $A \\setminus B$, học sinh thường nhầm lẫn việc đổi ngoặc vuông thành ngoặc tròn tại điểm ranh giới.
             2. **Phủ định mệnh đề có lượng từ:** Phủ định của "$>$" là "$\\le$" (phải có dấu bằng), học sinh hay quên dấu bằng thành "$<$".
             """
@@ -756,7 +756,7 @@ class TheoryKnowledgeService {
         // 4. MÔN TOÁN: Vectơ và Tọa độ Không gian Oxyz (Lớp 12 & 10)
         if t.contains("vectơ") || t.contains("toạ độ") || t.contains("oxyz") || t.contains("mặt phẳng") || t.contains("đường thẳng trong") {
             return """
-            # 🎯 Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
+            # Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
             - Hiểu rõ hệ trục tọa độ không gian $Oxyz$ và tọa độ của điểm, vectơ.
             - Thành thạo các phép toán vectơ: cộng, trừ, nhân với số, tích vô hướng và tích có hướng.
             - Viết phương trình mặt phẳng $Ax + By + Cz + D = 0$ và phương trình đường thẳng trong không gian.
@@ -764,7 +764,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 📖 Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
+            # Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
             - Điểm $M(x; y; z) \\Leftrightarrow \\vec{OM} = x\\vec{i} + y\\vec{j} + z\\vec{k}$.
             - Cho $\\vec{a} = (x_1; y_1; z_1)$ và $\\vec{b} = (x_2; y_2; z_2)$:
               - Tích vô hướng: $\\vec{a} \\cdot \\vec{b} = x_1 x_2 + y_1 y_2 + z_1 z_2$.
@@ -773,7 +773,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 📐 Bảng Công Thức Tọa Độ & Phương Trình Oxyz
+            # Bảng Công Thức Tọa Độ & Phương Trình Oxyz
             | Đối tượng | Dạng phương trình | Yếu tố xác định |
             | :--- | :--- | :--- |
             | Mặt phẳng $(P)$ | $A(x - x_0) + B(y - y_0) + C(z - z_0) = 0$ | Đi qua $M_0(x_0; y_0; z_0)$ và có VTPT $\\vec{n} = (A; B; C)$ |
@@ -783,7 +783,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 📝 Ví Dụ Minh Họa Có Lời Giải Mẫu
+            # Ví Dụ Minh Họa Có Lời Giải Mẫu
             **Ví dụ 1:** Viết phương trình mặt phẳng $(P)$ đi qua điểm $A(1; -2; 3)$ và vuông góc với đường thẳng nối $O(0;0;0)$ và $A$.
 
             *Lời giải:*
@@ -793,7 +793,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # ⚠️ Các Lỗi Sai Học Sinh Thường Mắc Phải
+            # Các Lỗi Sai Học Sinh Thường Mắc Phải
             1. **Nhầm lẫn giữa VTPT và VTCP:** Vectơ pháp tuyến vuông góc với mặt phẳng, vectơ chỉ phương song song hoặc nằm trên đường thẳng.
             2. **Quên dấu giá trị tuyệt đối ở tử số công thức khoảng cách:** Tử số luôn phải có $|Ax_0+By_0+Cz_0+D| \\ge 0$.
             """
@@ -802,14 +802,14 @@ class TheoryKnowledgeService {
         // 5. MÔN TOÁN: Lượng giác (Lớp 11)
         if t.contains("lượng giác") {
             return """
-            # 🎯 Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
+            # Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
             - Nắm vững các công thức lượng giác cơ bản, công thức cộng, công thức nhân đôi, công thức biến đổi tích thành tổng và tổng thành tích.
             - Nắm vững tính chất, tập xác định, chu kỳ tuần hoàn và đồ thị của 4 hàm số lượng giác: $y = \\sin x, y = \\cos x, y = \tan x, y = \\cot x$.
             - Giải thành thạo các phương trình lượng giác cơ bản: $\\sin x = m, \\cos x = m, \tan x = m, \\cot x = m$.
 
             ---
 
-            # 📐 Bảng Công Thức Lượng Giác Trọng Tâm
+            # Bảng Công Thức Lượng Giác Trọng Tâm
             | Nhóm công thức | Công thức cần nhớ |
             | :--- | :--- |
             | Công thức cơ bản | $\\sin^2 x + \\cos^2 x = 1$; $\tan x \\cdot \\cot x = 1$; $1 + \tan^2 x = \\frac{1}{\\cos^2 x}$ |
@@ -820,7 +820,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # 📝 Ví Dụ Minh Họa Có Lời Giải Mẫu
+            # Ví Dụ Minh Họa Có Lời Giải Mẫu
             **Ví dụ 1:** Giải phương trình $\\cos 2x = \\frac{1}{2}$.
 
             *Lời giải:*
@@ -830,7 +830,7 @@ class TheoryKnowledgeService {
 
             ---
 
-            # ⚠️ Các Lỗi Sai Học Sinh Thường Mắc Phải
+            # Các Lỗi Sai Học Sinh Thường Mắc Phải
             1. **Quên đuôi chu kỳ $k2\\pi$ hoặc $k\\pi$:** Hàm $\\sin$ và $\\cos$ có chu kỳ $2\\pi$ (đuôi $k2\\pi$), hàm $\tan$ và $\\cot$ có chu kỳ $\\pi$ (đuôi $k\\pi$).
             2. **Quên điều kiện xác định:** Đối với $\tan x$, điều kiện $x \neq \\frac{\\pi}{2} + k\\pi$; đối với $\\cot x$, điều kiện $x \neq k\\pi$.
             """
@@ -843,21 +843,21 @@ class TheoryKnowledgeService {
         let summaryContent = matchedTopic?.summary ?? "Chuyên đề cốt lõi thuộc chương trình \(subject) Lớp \(grade) (Học kỳ \(semester)) theo khung chuẩn SGK mới của Bộ GD&ĐT."
         
         return """
-        # 🎯 Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
+        # Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
         - Nắm vững định nghĩa, tiên đề và bản chất khoa học của chuyên đề **\(topic)** theo chương trình GDPT mới 2026.
         - Thành thạo các công thức tính toán cốt lõi và phạm vi điều kiện áp dụng chính xác.
         - Phân loại và thành thạo các dạng bài tập từ nhận biết, thông hiểu đến vận dụng thực tiễn.
 
         ---
 
-        # 📖 Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
+        # Kiến Thức Trọng Tâm & Bản Chất Lý Thuyết
         Chuyên đề **\(topic)** thuộc chương trình \(subject) Lớp \(grade) (Học kỳ \(semester)).
         
         \(summaryContent)
 
         ---
 
-        # 📐 Bảng Công Thức & Quy Tắc Cốt Lõi Cần Nhớ
+        # Bảng Công Thức & Quy Tắc Cốt Lõi Cần Nhớ
         Dưới đây là các định lý và quy tắc trọng tâm của chuyên đề:
 
         | Khái niệm / Yếu tố | Công thức / Tính chất | Điều kiện áp dụng |
@@ -868,7 +868,7 @@ class TheoryKnowledgeService {
 
         ---
 
-        # 💡 Phương Pháp Giải Các Dạng Bài Tập Điển Hình
+        # Phương Pháp Giải Các Dạng Bài Tập Điển Hình
         ### Dạng 1: Nhận biết khái niệm và câu hỏi lý thuyết
         - Đọc kỹ yêu cầu đề bài, xác định chính xác từ khóa và giả thiết ban đầu.
         - Sử dụng định nghĩa chuẩn để loại trừ phương án nhiễu.
@@ -879,7 +879,7 @@ class TheoryKnowledgeService {
 
         ---
 
-        # 📝 Ví Dụ Minh Họa Có Lời Giải Mẫu Từng Bước
+        # Ví Dụ Minh Họa Có Lời Giải Mẫu Từng Bước
         **Ví dụ 1:** Vận dụng lý thuyết của bài học **\(topic)** để giải quyết bài toán:
         
         *Hướng dẫn giải từng bước:*
@@ -889,7 +889,7 @@ class TheoryKnowledgeService {
 
         ---
 
-        # ⚠️ Các Lỗi Sai Học Sinh Thường Mắc Phải
+        # Các Lỗi Sai Học Sinh Thường Mắc Phải
         1. **Quên đặt điều kiện xác định:** Luôn tìm tập xác định trước khi thực hiện các phép biến đổi.
         2. **Nhầm lẫn các trường hợp đặc biệt:** Cần chú ý dấu của bất đẳng thức khi nhân/chia với một số âm.
         """

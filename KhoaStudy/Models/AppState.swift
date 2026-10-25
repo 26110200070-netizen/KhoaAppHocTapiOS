@@ -14,8 +14,8 @@ enum AppLanguage: String, CaseIterable, Codable {
     
     var flag: String {
         switch self {
-        case .vietnamese: return "🇻🇳"
-        case .english: return "🇺🇸"
+        case .vietnamese: return "VN"
+        case .english: return "EN"
         }
     }
 }
@@ -220,8 +220,8 @@ enum AIProvider: String, CaseIterable, Codable, Identifiable {
     
     var displayName: String {
         switch self {
-        case .groq: return "⚡ Groq Cloud (Siêu Tốc)"
-        case .gemini: return "🌟 Google Gemini"
+        case .groq: return "Groq Cloud (Siêu Tốc)"
+        case .gemini: return "Google Gemini"
         }
     }
     

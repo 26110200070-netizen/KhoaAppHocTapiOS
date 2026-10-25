@@ -2,7 +2,7 @@ import Foundation
 import AVFoundation
 
 /// Dịch vụ phát âm thanh thật sự (Ambient Chill Sound Generator)
-/// Hỗ trợ: Sóng Biển Đêm 🌊, Tiếng Mưa Rơi 🌧️, Đêm Sao Chill 🌌
+/// Hỗ trợ: Sóng Biển Đêm , Tiếng Mưa Rơi , Đêm Sao Chill 
 /// Sử dụng AVAudioEngine tạo âm thanh mượt mà 100% offline, không bao giờ ngắt quãng
 final class AmbientSoundService: ObservableObject {
     static let shared = AmbientSoundService()

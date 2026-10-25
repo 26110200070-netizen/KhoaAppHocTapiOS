@@ -178,7 +178,7 @@ struct KnowledgeMindmapView: View {
     
     var onOpenAIChatWithTopic: ((String) -> Void)? = nil
     
-    private let grades = [10, 11, 12]
+    private let grades = [6, 7, 8, 9, 10, 11, 12]
     private let subjects = [
         "Toán", "Vật lí", "Hóa học", "Sinh học", "Lịch sử", "Địa lí"
     ]
@@ -268,10 +268,9 @@ struct KnowledgeMindmapView: View {
     // MARK: - 2. Filter Control Section (Lớp • Môn • Học kì)
     private var filterControlSection: some View {
         VStack(spacing: 8) {
-            // Row A: Grade & Semester
-            HStack(spacing: 8) {
-                // Grade Selector
-                HStack(spacing: 5) {
+            // Row A: Grade Selector (Scrollable Grades 6 to 12)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 6) {
                     ForEach(grades, id: \.self) { g in
                         let isSelected = (selectedGrade == g)
                         Button(action: {
@@ -282,7 +281,7 @@ struct KnowledgeMindmapView: View {
                         }) {
                             Text("Lớp \(g)")
                                 .font(.system(size: 12, weight: isSelected ? .bold : .medium))
-                                .padding(.horizontal, 11)
+                                .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
                                 .background(
                                     Capsule()
@@ -295,18 +294,18 @@ struct KnowledgeMindmapView: View {
                         }
                     }
                 }
-                
+                .padding(.horizontal, 16)
+            }
+            .padding(.top, 8)
+            
+            // Row B: Semester Selector
+            HStack(spacing: 6) {
+                semesterChip(title: "Học Kì 1", sem: 1)
+                semesterChip(title: "Học Kì 2", sem: 2)
+                semesterChip(title: "Cả Năm", sem: 0)
                 Spacer()
-                
-                // Semester Selector
-                HStack(spacing: 5) {
-                    semesterChip(title: "HK1", sem: 1)
-                    semesterChip(title: "HK2", sem: 2)
-                    semesterChip(title: "Cả Năm", sem: 0)
-                }
             }
             .padding(.horizontal, 16)
-            .padding(.top, 8)
             
             // Row B: Subject Scroll
             ScrollView(.horizontal, showsIndicators: false) {
@@ -862,8 +861,9 @@ struct KnowledgeMindmapView: View {
                     
                     ForEach(chapter.traps, id: \.self) { t in
                         HStack(alignment: .top, spacing: 6) {
-                            Text("⚠️")
+                            Image(systemName: "exclamationmark.circle.fill")
                                 .font(.system(size: 11))
+                                .foregroundColor(Color(hex: "#D97706"))
                             Text(t)
                                 .font(.system(size: 12))
                                 .foregroundColor(Color(hex: "#374151"))
@@ -1336,12 +1336,40 @@ struct KnowledgeMindmapView: View {
                         )
                     ]
                 }
-            } else {
-                // Lớp 10
+            } else if gr == 10 {
                 return [
                     CurriculumMindmapChapter(title: "1. Mệnh Đề, Tập Hợp & Bất Phương Trình", shortTitle: "Mệnh Đề - Tập Hợp", points: 3.0, percentage: 0.30, importance: .foundation, colorHex: "#0284C7", icon: "circle.grid.2x2", description: "Mệnh đề kéo theo, tập con, các phép toán giao hợp hiệu, BPT bậc hai một ẩn."),
                     CurriculumMindmapChapter(title: "2. Hệ Thức Lượng & Vectơ Trong Mặt Phẳng", shortTitle: "Hệ Thức Lượng", points: 3.5, percentage: 0.35, importance: .critical, colorHex: "#059669", icon: "triangle.fill", description: "Định lý cosin a² = b² + c² - 2bc·cos A, định lý sin, công thức diện tích tam giác và vectơ."),
                     CurriculumMindmapChapter(title: "3. Thống Kê & Xác Suất Cổ Điển", shortTitle: "Thống Kê 10", points: 3.5, percentage: 0.35, importance: .coreFormula, colorHex: "#D97706", icon: "chart.bar.fill", description: "Số trung bình, trung vị, mốt, tứ phân vị và xác suất trong trò chơi đơn giản.")
+                ]
+            } else if gr == 9 {
+                return [
+                    CurriculumMindmapChapter(title: "1. Căn Bậc Hai & Căn Bậc Ba", shortTitle: "Căn Bậc Hai", points: 3.0, percentage: 0.30, importance: .critical, colorHex: "#0284C7", icon: "function", description: "Điều kiện xác định, trục căn thức ở mẫu, rút gọn biểu thức chứa căn."),
+                    CurriculumMindmapChapter(title: "2. Hệ Hai Phương Trình Bậc Nhất Hai Ẩn", shortTitle: "Hệ Phương Trình", points: 2.0, percentage: 0.20, importance: .coreFormula, colorHex: "#0D9488", icon: "equal.square", description: "Phương pháp cộng đại số, phương pháp thế và giải toán bằng cách lập hệ PT."),
+                    CurriculumMindmapChapter(title: "3. Hàm Số y = ax² & Phương Trình Bậc Hai", shortTitle: "PT Bậc Hai & Vi-ét", points: 2.5, percentage: 0.25, importance: .critical, colorHex: "#059669", icon: "chart.xyaxis.line", description: "Đồ thị Parabol, công thức nghiệm biệt thức Delta, định lý Vi-ét: S = -b/a, P = c/a."),
+                    CurriculumMindmapChapter(title: "4. Hệ Thức Lượng & Đường Tròn", shortTitle: "Hình Học 9", points: 2.5, percentage: 0.25, importance: .critical, colorHex: "#7C3AED", icon: "circle.circle", description: "Hệ thức lượng tam giác vuông, góc nội tiếp, tứ giác nội tiếp đường tròn.")
+                ]
+            } else if gr == 8 {
+                return [
+                    CurriculumMindmapChapter(title: "1. Đa Thức & Hằng Đẳng Thức Đáng Nhớ", shortTitle: "Hằng Đẳng Thức", points: 3.0, percentage: 0.30, importance: .critical, colorHex: "#0284C7", icon: "number.square", description: "7 hằng đẳng thức đáng nhớ, phân tích đa thức thành nhân tử."),
+                    CurriculumMindmapChapter(title: "2. Phân Thức Đại Số & Rút Gọn", shortTitle: "Phân Thức Đại Số", points: 2.5, percentage: 0.25, importance: .coreFormula, colorHex: "#059669", icon: "divide.square", description: "Rút gọn phân thức đại số, quy đồng mẫu thức, các phép tính cộng trừ nhân chia."),
+                    CurriculumMindmapChapter(title: "3. Hàm Số Bậc Nhất & Phương Trình", shortTitle: "Hàm Số Bậc Nhất", points: 2.0, percentage: 0.20, importance: .foundation, colorHex: "#D97706", icon: "chart.line.uptrend.xyaxis", description: "Đồ thị hàm số y = ax + b, vị trí tương đối của hai đường thẳng cắt nhau, song song."),
+                    CurriculumMindmapChapter(title: "4. Định Lý Ta-lét & Tam Giác Đồng Dạng", shortTitle: "Đồng Dạng", points: 2.5, percentage: 0.25, importance: .critical, colorHex: "#7C3AED", icon: "triangle", description: "Định lý Ta-lét thuận và đảo, 3 trường hợp đồng dạng của tam giác (c-c-c, c-g-c, g-g).")
+                ]
+            } else if gr == 7 {
+                return [
+                    CurriculumMindmapChapter(title: "1. Số Hữu Tỉ & Số Thực", shortTitle: "Số Hữu Tỉ", points: 3.0, percentage: 0.30, importance: .critical, colorHex: "#0284C7", icon: "number", description: "Tập hợp số hữu tỉ Q, các phép toán số hữu tỉ, lũy thừa số mũ tự nhiên, căn bậc hai số học."),
+                    CurriculumMindmapChapter(title: "2. Tỉ Lệ Thức & Dãy Tỉ Số Bằng Nhau", shortTitle: "Tỉ Lệ Thức", points: 2.5, percentage: 0.25, importance: .coreFormula, colorHex: "#059669", icon: "percent", description: "Tính chất tỉ lệ thức a/b = c/d <=> a·d = b·c, đại lượng tỉ lệ thuận và tỉ lệ nghịch."),
+                    CurriculumMindmapChapter(title: "3. Biểu Thức Đại Số & Đa Thức Một Biến", shortTitle: "Đa Thức 7", points: 2.5, percentage: 0.25, importance: .coreFormula, colorHex: "#D97706", icon: "function", description: "Đơn thức, đa thức một biến, bậc của đa thức, cộng trừ đa thức và nghiệm của đa thức."),
+                    CurriculumMindmapChapter(title: "4. Góc, Hai Đường Song Song & Tam Giác", shortTitle: "Hình Học 7", points: 2.0, percentage: 0.20, importance: .foundation, colorHex: "#7C3AED", icon: "triangle.fill", description: "Góc đối đỉnh, so le trong, đồng vị, tổng 3 góc trong tam giác bằng 180°, tam giác bằng nhau.")
+                ]
+            } else {
+                // Lớp 6
+                return [
+                    CurriculumMindmapChapter(title: "1. Tập Hợp & Số Tự Nhiên", shortTitle: "Số Tự Nhiên", points: 3.0, percentage: 0.30, importance: .critical, colorHex: "#0284C7", icon: "number.circle", description: "Tập hợp N, phép tính lũy thừa, dấu hiệu chia hết cho 2, 3, 5, 9, ước chung và bội chung."),
+                    CurriculumMindmapChapter(title: "2. Số Nguyên & Các Phép Tính (Z)", shortTitle: "Số Nguyên", points: 2.5, percentage: 0.25, importance: .coreFormula, colorHex: "#059669", icon: "plusminus", description: "Tập hợp số nguyên Z, quy tắc dấu ngoặc, phép cộng trừ nhân chia số nguyên âm."),
+                    CurriculumMindmapChapter(title: "3. Phân Số & Số Thập Phân", shortTitle: "Phân Số", points: 2.5, percentage: 0.25, importance: .critical, colorHex: "#D97706", icon: "divide.circle", description: "Khái niệm phân số, tính chất cơ bản, hỗn số, số thập phân và tỉ số phần trăm."),
+                    CurriculumMindmapChapter(title: "4. Hình Học Phẳng Trực Quan", shortTitle: "Hình Học 6", points: 2.0, percentage: 0.20, importance: .foundation, colorHex: "#7C3AED", icon: "square", description: "Tam giác đều, hình vuông, hình lục giác đều, hình thoi, hình bình hành, chu vi và diện tích.")
                 ]
             }
         }

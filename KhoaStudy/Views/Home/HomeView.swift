@@ -86,7 +86,7 @@ struct HomeView: View {
             // 2. Scrollable dashboard content
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 16) {
-                    // 1. Top Header (✨ Shimy • Lớp 12 | Chào, Anh Khoa Dev 👋 | 📊 + 🎓 + 🔔)
+                    // 1. Top Header (Shimy • Lớp 12 | Chào, Anh Khoa Dev | + + )
                     topHeaderSection
                         .padding(.top, 6)
                     
@@ -115,7 +115,7 @@ struct HomeView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
-    // MARK: - 1. Top Header (Bầu trời nền, Chào user, 📊 Thống kê, 🎓 Sơ đồ tư duy, 🔔 Chuông)
+    // MARK: - 1. Top Header (Bầu trời nền, Chào user, Thống kê, Sơ đồ tư duy, Chuông)
     private var topHeaderSection: some View {
         HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: 3) {
@@ -128,14 +128,14 @@ struct HomeView: View {
                         .foregroundColor(Color(hex: "#4B5563"))
                 }
                 
-                Text("Chào, \(appState.currentUser.username) 👋")
+                Text("Chào, \(appState.currentUser.username)")
                     .font(.system(size: 21, weight: .bold, design: .rounded))
                     .foregroundColor(Color(hex: "#111827"))
             }
             
             Spacer()
             
-            // Top Right Action Buttons: 📊 (Thống kê) & 🎓 (Nón tốt nghiệp) & 🔔 (Chuông)
+            // Top Right Action Buttons: (Thống kê) & (Nón tốt nghiệp) & (Chuông)
             HStack(spacing: 8) {
                 // Statistics Button
                 Button(action: {
@@ -421,7 +421,7 @@ struct HomeView: View {
             
             HStack(alignment: .center, spacing: 14) {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("SHIMY AI 🚀")
+                    Text("SHIMY AI")
                         .font(.system(size: 10, weight: .heavy))
                         .foregroundColor(Color(hex: "#FEF08A"))
                     

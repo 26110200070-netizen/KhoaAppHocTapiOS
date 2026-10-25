@@ -171,7 +171,7 @@ struct GeminiConnectSheet: View {
                     
                     // Info Comparison
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("💡 Gợi ý chọn dịch vụ AI:")
+                        Text("Gợi ý chọn dịch vụ AI:")
                             .font(.caption)
                             .fontWeight(.bold)
                             .foregroundColor(AppTheme.primary)

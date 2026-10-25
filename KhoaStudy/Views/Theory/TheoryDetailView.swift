@@ -220,7 +220,7 @@ struct TheoryDetailView: View {
                 .foregroundColor(AppTheme.textSecondary)
             
             VStack(alignment: .leading, spacing: 8) {
-                Text("📌 Mục tiêu cần đạt:")
+                Text("Mục tiêu cần đạt:")
                     .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundColor(AppTheme.primary)
@@ -319,7 +319,7 @@ struct TheoryDetailView: View {
             } else {
                 ForEach(lesson.examples) { ex in
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("📝 Ví dụ:")
+                        Text("Ví dụ:")
                             .font(.caption)
                             .fontWeight(.bold)
                             .foregroundColor(AppTheme.primary)

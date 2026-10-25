@@ -464,21 +464,21 @@ class GeminiAIService {
                     let lower = errMsg.lowercased()
                     if lower.contains("429") || lower.contains("hạn mức") || lower.contains("lượt dùng") {
                         fullAnswer = """
-                        ⚠️ \(errMsg)
+                        Lưu ý: \(errMsg)
                         
-                        💡 Gợi ý: Mỗi học sinh có 150 câu hỏi học tập miễn phí mỗi ngày. Bạn có thể đợi một lát hoặc nâng cấp tài khoản nhé!
+                        Gợi ý: Gợi ý: Mỗi học sinh có 150 câu hỏi học tập miễn phí mỗi ngày. Bạn có thể đợi một lát hoặc nâng cấp tài khoản nhé!
                         """
                     } else if lower.contains("hết hạn") || lower.contains("đăng nhập") || lower.contains("cookie") {
                         fullAnswer = """
-                        ⚠️ Phiên kết nối Google Gemini trên máy tính cần đăng nhập lại.
+                        Lưu ý: Phiên kết nối Google Gemini trên máy tính cần đăng nhập lại.
                         
-                        👉 Cách xử lý siêu nhanh (chỉ 5 giây):
+                        Hướng dẫn: Cách xử lý siêu nhanh (chỉ 5 giây):
                         1. Mở file `run_gemini_server.bat` trên máy tính.
                         2. Cửa sổ trình duyệt sẽ tự động mở lên, bạn đăng nhập tài khoản Google.
                         3. Đăng nhập xong là bạn quay lại app gửi câu hỏi được ngay nhé!
                         """
                     } else {
-                        fullAnswer = "⚠️ Shimy phản hồi: \(errMsg)"
+                        fullAnswer = "Lưu ý: Shimy phản hồi: \(errMsg)"
                     }
                 }
                 // 2. Real Shimy Gemini AI response
@@ -493,15 +493,15 @@ class GeminiAIService {
                 else {
                     let lastUserPrompt = messages.last(where: { $0.role == "user" })?.content ?? ""
                     fullAnswer = """
-                    ⚠️ Không nhận được nội dung phản hồi cho câu hỏi '\(lastUserPrompt)'.
+                    Lưu ý: Không nhận được nội dung phản hồi cho câu hỏi '\(lastUserPrompt)'.
                     
-                    💡 Bạn hãy kiểm tra lại kết nối hoặc chạy file `run_gemini_server.bat` trên máy tính nhé!
+                    Gợi ý: Bạn hãy kiểm tra lại kết nối hoặc chạy file `run_gemini_server.bat` trên máy tính nhé!
                     """
                 }
             } else if let error = error {
-                fullAnswer = "⚠️ Lỗi kết nối mạng: \(error.localizedDescription)\n\nVui lòng kiểm tra xem máy tính và iPhone có đang chung mạng Wi-Fi và máy tính có đang mở file `run_gemini_server.bat` không."
+                fullAnswer = "Lưu ý: Lỗi kết nối mạng: \(error.localizedDescription)\n\nVui lòng kiểm tra xem máy tính và iPhone có đang chung mạng Wi-Fi và máy tính có đang mở file `run_gemini_server.bat` không."
             } else {
-                fullAnswer = "⚠️ Không thể kết nối tới Shimy Server tại \(serverUrl)."
+                fullAnswer = "Lưu ý: Không thể kết nối tới Shimy Server tại \(serverUrl)."
             }
             
             // Deliver smoothly to UI on the main thread
@@ -652,11 +652,11 @@ class GeminiAIService {
                 if let errorObj = json["error"] as? [String: Any],
                    let errMsg = errorObj["message"] as? String {
                     if errMsg.contains("Invalid API Key") || errMsg.contains("invalid_api_key") {
-                        fullAnswer = "⚠️ Groq API Key không hợp lệ. Bạn vui lòng kiểm tra và cập nhật lại Key trên console.groq.com nhé!"
+                        fullAnswer = "Lưu ý: Groq API Key không hợp lệ. Bạn vui lòng kiểm tra và cập nhật lại Key trên console.groq.com nhé!"
                     } else if errMsg.contains("rate limit") || errMsg.contains("Rate limit") {
-                        fullAnswer = "⚠️ Groq báo đạt giới hạn tần suất tạm thời. Bạn vui lòng đợi 5-10 giây rồi thử lại nhé!"
+                        fullAnswer = "Lưu ý: Groq báo đạt giới hạn tần suất tạm thời. Bạn vui lòng đợi 5-10 giây rồi thử lại nhé!"
                     } else {
-                        fullAnswer = "⚠️ Groq phản hồi: \(errMsg)"
+                        fullAnswer = "Lưu ý: Groq phản hồi: \(errMsg)"
                     }
                 } else if let choices = json["choices"] as? [[String: Any]],
                           let firstChoice = choices.first,
@@ -672,12 +672,12 @@ class GeminiAIService {
                 } else if let text = json["response"] as? String {
                     fullAnswer = text
                 } else {
-                    fullAnswer = "⚠️ Không nhận được câu trả lời từ Groq Cloud. Vui lòng thử lại."
+                    fullAnswer = "Lưu ý: Không nhận được câu trả lời từ Groq Cloud. Vui lòng thử lại."
                 }
             } else if let error = error {
-                fullAnswer = "⚠️ Lỗi kết nối Groq: \(error.localizedDescription)"
+                fullAnswer = "Lưu ý: Lỗi kết nối Groq: \(error.localizedDescription)"
             } else {
-                fullAnswer = "⚠️ Không thể kết nối tới Groq Cloud."
+                fullAnswer = "Lưu ý: Không thể kết nối tới Groq Cloud."
             }
             
             self.streamWordsToUI(text: fullAnswer, onToken: onToken, onComplete: onComplete)
@@ -797,11 +797,11 @@ class GeminiAIService {
                 if let errorObj = json["error"] as? [String: Any],
                    let errMsg = errorObj["message"] as? String {
                     if errMsg.contains("API key not valid") || errMsg.contains("API_KEY_INVALID") {
-                        fullAnswer = "⚠️ Google Gemini API Key không hợp lệ hoặc đã bị hết hạn. Vui lòng kiểm tra lại Key trên aistudio.google.com trong Cài Đặt nhé!"
+                        fullAnswer = "Lưu ý: Google Gemini API Key không hợp lệ hoặc đã bị hết hạn. Vui lòng kiểm tra lại Key trên aistudio.google.com trong Cài Đặt nhé!"
                     } else if errMsg.contains("quota") || errMsg.contains("rate") {
-                        fullAnswer = "⚠️ Google Gemini báo đã đạt giới hạn tần suất tạm thời. Bạn vui lòng đợi 10 giây rồi thử lại nhé!"
+                        fullAnswer = "Lưu ý: Google Gemini báo đã đạt giới hạn tần suất tạm thời. Bạn vui lòng đợi 10 giây rồi thử lại nhé!"
                     } else {
-                        fullAnswer = "⚠️ Google Gemini phản hồi: \(errMsg)"
+                        fullAnswer = "Lưu ý: Google Gemini phản hồi: \(errMsg)"
                     }
                 } else if let candidates = json["candidates"] as? [[String: Any]],
                           let firstCandidate = candidates.first,
@@ -810,12 +810,12 @@ class GeminiAIService {
                     let textParts = parts.compactMap { $0["text"] as? String }
                     fullAnswer = textParts.joined()
                 } else {
-                    fullAnswer = "⚠️ Không nhận được phản hồi từ Google Gemini Cloud. Vui lòng thử lại."
+                    fullAnswer = "Lưu ý: Không nhận được phản hồi từ Google Gemini Cloud. Vui lòng thử lại."
                 }
             } else if let error = error {
-                fullAnswer = "⚠️ Lỗi kết nối Google: \(error.localizedDescription)"
+                fullAnswer = "Lưu ý: Lỗi kết nối Google: \(error.localizedDescription)"
             } else {
-                fullAnswer = "⚠️ Không thể kết nối tới Google Gemini."
+                fullAnswer = "Lưu ý: Không thể kết nối tới Google Gemini."
             }
             
             self.streamWordsToUI(text: fullAnswer, onToken: onToken, onComplete: onComplete)

@@ -23,7 +23,7 @@ struct ExamListView: View {
     @State private var hasInitializedGrade: Bool = false
     
     // Lists
-    let gradeList = [10, 11, 12]
+    let gradeList = [6, 7, 8, 9, 10, 11, 12]
     
     let subjectList: [(name: String, icon: String, color: Color)] = [
         ("Toán", "function", Color(hex: "#0284C7")),
@@ -39,7 +39,7 @@ struct ExamListView: View {
         ("Đề Giữa Kỳ", "clock.badge.checkmark", "45 phút • Trọng tâm 50% kiến thức"),
         ("Đề Cuối Kỳ", "doc.text.fill", "90 phút • Bao quát toàn bộ học kỳ"),
         ("Ôn Tập Chương", "list.bullet.rectangle.portrait", "30 phút • Chuyên sâu từng chuyên đề"),
-        ("Thi Thử THPT", "graduationcap.fill", "50 câu • Chuẩn ma trận BGD")
+        ("Thi Thử / Khảo Sát", "graduationcap.fill", "Chuẩn ma trận đề thi BGD")
     ]
     
     var body: some View {
@@ -133,7 +133,7 @@ struct ExamListView: View {
                             .background(Capsule().fill(Color.black.opacity(0.18)))
                     }
                     
-                    Text("Ôn Thi Bứt Phá Điểm Cao 🚀")
+                    Text("Ôn Thi Bứt Phá Điểm Cao")
                         .font(.system(size: 18, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
                     
@@ -161,37 +161,40 @@ struct ExamListView: View {
     // MARK: - 2. Selection Bar: Lớp • Môn • Học kì (Flat, clean, NO nested frames)
     private var selectionBarSection: some View {
         VStack(alignment: .leading, spacing: 14) {
-            // A. Chọn Khối Lớp
+            // A. Chọn Khối Lớp (Scrollable for Grades 6 to 12)
             VStack(alignment: .leading, spacing: 8) {
                 Text("1. Chọn Khối Lớp")
                     .font(.system(size: 13, weight: .bold))
                     .foregroundColor(Color(hex: "#374151"))
                 
-                HStack(spacing: 10) {
-                    ForEach(gradeList, id: \.self) { grade in
-                        let isSelected = (selectedGrade == grade)
-                        Button(action: {
-                            withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
-                                selectedGrade = grade
-                                activeExamGrade = grade
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(gradeList, id: \.self) { grade in
+                            let isSelected = (selectedGrade == grade)
+                            Button(action: {
+                                withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
+                                    selectedGrade = grade
+                                    activeExamGrade = grade
+                                }
+                            }) {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "graduationcap.fill")
+                                        .font(.system(size: 11))
+                                    Text("Lớp \(grade)")
+                                        .font(.system(size: 13, weight: isSelected ? .bold : .medium))
+                                }
+                                .padding(.horizontal, 14)
+                                .padding(.vertical, 8)
+                                .background(
+                                    Capsule()
+                                        .fill(isSelected ? Color(hex: "#0A3E39") : Color.white)
+                                )
+                                .foregroundColor(isSelected ? .white : Color(hex: "#4B5563"))
+                                .shadow(color: Color.black.opacity(isSelected ? 0.08 : 0.03), radius: 5, x: 0, y: 2)
                             }
-                        }) {
-                            HStack(spacing: 4) {
-                                Image(systemName: "graduationcap.fill")
-                                    .font(.system(size: 12))
-                                Text("Lớp \(grade)")
-                                    .font(.system(size: 13, weight: isSelected ? .bold : .medium))
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 9)
-                            .background(
-                                Capsule()
-                                    .fill(isSelected ? Color(hex: "#0A3E39") : Color.white)
-                            )
-                            .foregroundColor(isSelected ? .white : Color(hex: "#4B5563"))
-                            .shadow(color: Color.black.opacity(isSelected ? 0.08 : 0.03), radius: 6, x: 0, y: 2)
                         }
                     }
+                    .padding(.vertical, 2)
                 }
             }
             

@@ -1,7 +1,6 @@
 import SwiftUI
 import WebKit
 
-/// Trình phát video YouTube chuẩn 16:9, tối ưu theo kiến trúc thư viện chính thức `youtube-ios-player-helper` của Google
 struct YouTubePlayerView: UIViewRepresentable {
     let videoId: String
     
@@ -29,12 +28,13 @@ struct YouTubePlayerView: UIViewRepresentable {
         webView.scrollView.bounces = false
         webView.navigationDelegate = context.coordinator
         
-        loadVideo(into: webView, videoId: videoId)
         return webView
     }
     
     func updateUIView(_ uiView: WKWebView, context: Context) {
         let cleanId = videoId.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !cleanId.isEmpty else { return }
+        
         if uiView.accessibilityIdentifier != cleanId {
             uiView.accessibilityIdentifier = cleanId
             loadVideo(into: uiView, videoId: cleanId)
@@ -42,18 +42,39 @@ struct YouTubePlayerView: UIViewRepresentable {
     }
     
     private func loadVideo(into webView: WKWebView, videoId: String) {
-        let cleanId = videoId.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !cleanId.isEmpty else { return }
+        // 1. Tạo định danh Origin hợp lệ dựa trên Bundle ID của App (bắt buộc viết thường)
+        let bundleId = (Bundle.main.bundleIdentifier ?? "com.khoastudy.app").lowercased()
+        let origin = "https://\(bundleId)"
+        guard let baseURL = URL(string: origin) else { return }
         
-        // Tải trực tiếp trang Embed chính thức của YouTube để bảo đảm 100% Header Referer và Origin hợp lệ,
-        // chấm dứt hoàn toàn lỗi Error 150/152-4 (Missing HTTP Referer/Embedder Verification).
-        let urlString = "https://www.youtube.com/embed/\(cleanId)?playsinline=1&controls=1&rel=0&modestbranding=1&enablejsapi=1&origin=https://www.youtube.com"
-        guard let url = URL(string: urlString) else { return }
+        // 2. Đường dẫn nhúng kèm theo origin trùng khớp với baseURL
+        let embedURL = "https://www.youtube.com/embed/\(videoId)?playsinline=1&controls=1&rel=0&modestbranding=1&enablejsapi=1&origin=\(origin)&widget_referrer=\(origin)"
         
-        var request = URLRequest(url: url)
-        request.setValue("https://www.youtube.com", forHTTPHeaderField: "Referer")
-        request.setValue("https://www.youtube.com", forHTTPHeaderField: "Origin")
-        webView.load(request)
+        // 3. Khởi tạo trang HTML bao bọc IFrame chuẩn kiến trúc youtube-ios-player-helper
+        let html = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+            <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                html, body { width: 100%; height: 100%; background-color: #000; overflow: hidden; }
+                iframe { width: 100%; height: 100%; border: none; }
+            </style>
+        </head>
+        <body>
+            <iframe
+                src="\(embedURL)"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+            </iframe>
+        </body>
+        </html>
+        """
+        
+        // 4. Nạp HTML với baseURL để WebKit tự động duy trì Referer và Origin cho mọi request
+        webView.loadHTMLString(html, baseURL: baseURL)
     }
     
     class Coordinator: NSObject, WKNavigationDelegate {
@@ -63,26 +84,15 @@ struct YouTubePlayerView: UIViewRepresentable {
                 return
             }
             
-            let urlString = url.absoluteString.lowercased()
-            // Cho phép các request nội bộ của YouTube player (embed, video chunks, telemetry)
-            if urlString.contains("youtube.com/embed") ||
-               urlString.contains("googlevideo.com") ||
-               urlString.contains("youtube.com/generate_204") ||
-               urlString.contains("youtube.com/api") ||
-               urlString.contains("ytimg.com") {
-                decisionHandler(.allow)
-                return
-            }
-            
-            // Nếu học sinh bấm vào logo YouTube hoặc link ngoài -> mở trong YouTube app hoặc Safari
+            // Nếu học sinh bấm vào logo YouTube hoặc tiêu đề để mở link ngoài -> mở trong YouTube app hoặc Safari
             if navigationAction.navigationType == .linkActivated {
                 UIApplication.shared.open(url)
                 decisionHandler(.cancel)
                 return
             }
             
+            // Cho phép tất cả các luồng tải iframe và tài nguyên ngầm của trình phát
             decisionHandler(.allow)
         }
     }
 }
-

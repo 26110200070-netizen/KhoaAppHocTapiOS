@@ -476,10 +476,10 @@ struct AIChatView: View {
                 .multilineTextAlignment(.center)
             
             VStack(spacing: 10) {
-                promptButton("📐 Giải thích định lý đạo hàm lớp 12 và các dạng bài thi")
-                promptButton("🧪 Hướng dẫn cân bằng phương trình oxi hóa - khử môn Hóa")
-                promptButton("🇬🇧 Mẹo phân biệt Past Simple và Past Continuous")
-                promptButton("📚 Tóm tắt giá trị nhân đạo tác phẩm Vợ Nhặt - Ngữ Văn")
+                promptButton("Giải thích định lý đạo hàm lớp 12 và các dạng bài thi")
+                promptButton("Hướng dẫn cân bằng phương trình oxi hóa - khử môn Hóa")
+                promptButton("Mẹo phân biệt Past Simple và Past Continuous")
+                promptButton("Tóm tắt giá trị nhân đạo tác phẩm Vợ Nhặt - Ngữ Văn")
             }
         }
         .padding(.horizontal, 10)

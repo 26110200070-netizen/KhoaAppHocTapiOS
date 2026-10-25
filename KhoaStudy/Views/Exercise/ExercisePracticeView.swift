@@ -1040,11 +1040,11 @@ struct ExercisePracticeView: View {
     
     private var scoreAssessmentText: String {
         if calculatedScore >= 8.0 {
-            return "🎉 Xuất Sắc! Nắm rất vững kiến thức."
+            return "Xuất Sắc! Nắm rất vững kiến thức."
         } else if calculatedScore >= 5.0 {
-            return "👍 Đạt yêu cầu! Cần ôn luyện thêm."
+            return "Đạt yêu cầu! Cần ôn luyện thêm."
         } else {
-            return "⚠️ Cần xem kỹ lại lời giải chi tiết bên dưới."
+            return "Cần xem kỹ lại lời giải chi tiết bên dưới."
         }
     }
     
