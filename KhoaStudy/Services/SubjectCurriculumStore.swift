@@ -18,7 +18,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Tập Hợp & Số Tự Nhiên 6",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -29,7 +29,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Tập Hợp & Số Tự Nhiên 6",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -40,7 +40,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Tập Hợp & Số Tự Nhiên 6",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -51,7 +51,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Tập Hợp & Số Tự Nhiên 6",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -62,7 +62,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Tập Hợp & Số Tự Nhiên 6",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -76,7 +76,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Tập Hợp & Số Tự Nhiên 6",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -87,7 +87,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Tập Hợp & Số Tự Nhiên 6",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -98,7 +98,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Tập Hợp & Số Tự Nhiên 6",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -109,7 +109,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Tập Hợp & Số Tự Nhiên 6",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -120,7 +120,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Tập Hợp & Số Tự Nhiên 6",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -134,7 +134,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -145,7 +145,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -156,7 +156,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -167,7 +167,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -178,7 +178,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -189,7 +189,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -200,7 +200,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -214,7 +214,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -225,7 +225,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -236,7 +236,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -247,7 +247,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -258,7 +258,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -269,7 +269,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -280,7 +280,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -291,7 +291,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -302,7 +302,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    channelName: "Thầy Kenka • Số Hữu Tỉ & Tam Giác 7",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -315,8 +315,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -326,8 +326,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -337,8 +337,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -348,8 +348,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -359,8 +359,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -370,8 +370,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -381,8 +381,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -395,8 +395,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -406,8 +406,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -417,8 +417,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -428,8 +428,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -439,8 +439,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -450,8 +450,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -461,8 +461,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -472,8 +472,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 8,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "VietJack • Hằng Đẳng Thức & Đa Thức 8",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -486,8 +486,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "5ykgVSHPbIo",
+                    channelName: "VietJack • Căn Bậc Hai & Ba 9",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -497,8 +497,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "5ykgVSHPbIo",
+                    channelName: "VietJack • Căn Bậc Hai & Ba 9",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -508,8 +508,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "5ykgVSHPbIo",
+                    channelName: "VietJack • Căn Bậc Hai & Ba 9",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -519,8 +519,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "Tuyensinh247 • Hệ Phương Trình & Bậc Hai 9",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -530,8 +530,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "Tuyensinh247 • Hệ Phương Trình & Bậc Hai 9",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -541,8 +541,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "Tuyensinh247 • Hệ Phương Trình & Bậc Hai 9",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -552,8 +552,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "5ykgVSHPbIo",
+                    channelName: "Toán 9 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -563,8 +563,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "5ykgVSHPbIo",
+                    channelName: "Toán 9 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -574,8 +574,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "5ykgVSHPbIo",
+                    channelName: "Toán 9 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -588,8 +588,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "Tuyensinh247 • Hệ Phương Trình & Bậc Hai 9",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -599,8 +599,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "svZSkXxCnbs",
+                    channelName: "Tuyensinh247 • Hệ Phương Trình & Bậc Hai 9",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -610,8 +610,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "5ykgVSHPbIo",
+                    channelName: "Toán 9 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -621,8 +621,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "5ykgVSHPbIo",
+                    channelName: "Toán 9 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -632,8 +632,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "5ykgVSHPbIo",
+                    channelName: "Toán 9 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -643,8 +643,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 9,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "5ykgVSHPbIo",
+                    channelName: "Toán 9 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -657,8 +657,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Toán 10 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -668,8 +668,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Thầy Phan Tiến • Mệnh Đề & Tập Hợp 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -679,8 +679,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Toán 10 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -690,8 +690,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Toán 10 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -701,8 +701,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "FvWfHa8QOiI",
+                    channelName: "Tuyensinh247 • Vectơ Hình Học 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -712,8 +712,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "FvWfHa8QOiI",
+                    channelName: "Tuyensinh247 • Vectơ Hình Học 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -723,8 +723,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "FvWfHa8QOiI",
+                    channelName: "Tuyensinh247 • Vectơ Hình Học 10",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -737,8 +737,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Toán 10 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -748,8 +748,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Toán 10 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -759,8 +759,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Toán 10 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -770,8 +770,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Toán 10 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -781,8 +781,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Toán 10 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -792,8 +792,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Toán 10 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -803,8 +803,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Toán 10 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -814,8 +814,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 10,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "xtYqUS8_pZM",
+                    channelName: "Toán 10 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -828,8 +828,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 11,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "HASSGfzkLCc",
+                    channelName: "Thầy Kenka • Hàm Số Lượng Giác 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -839,8 +839,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 11,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "HASSGfzkLCc",
+                    channelName: "Thầy Kenka • Hàm Số Lượng Giác 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -850,8 +850,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 11,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "HASSGfzkLCc",
+                    channelName: "Thầy Kenka • Hàm Số Lượng Giác 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -861,8 +861,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 11,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "ko6QriFQfEk",
+                    channelName: "VietJack • Cấp Số Cộng & Nhân 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -872,8 +872,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 11,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "60Kg5b_mSZQ",
+                    channelName: "Tuyensinh247 • Giới Hạn & Đạo Hàm 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -883,8 +883,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 11,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "FvWfHa8QOiI",
+                    channelName: "Hocmai THPT • Hình Học Không Gian 11",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -897,8 +897,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 11,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "FvWfHa8QOiI",
+                    channelName: "Hocmai THPT • Hình Học Không Gian 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -908,8 +908,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 11,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "60Kg5b_mSZQ",
+                    channelName: "Thầy Phan Tiến • Toán 11 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -919,8 +919,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 11,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "FvWfHa8QOiI",
+                    channelName: "Hocmai THPT • Hình Học Không Gian 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -930,8 +930,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 11,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "60Kg5b_mSZQ",
+                    channelName: "Tuyensinh247 • Giới Hạn & Đạo Hàm 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -941,8 +941,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 11,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "60Kg5b_mSZQ",
+                    channelName: "Thầy Phan Tiến • Toán 11 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -955,8 +955,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 12,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "990wEB5yo2k",
+                    channelName: "Thầy Đỗ Văn Đức • Toán 12 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -966,8 +966,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 12,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "990wEB5yo2k",
+                    channelName: "Thầy Đỗ Văn Đức • Khảo Sát Hàm Số 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -977,8 +977,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 12,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "990wEB5yo2k",
+                    channelName: "Thầy Đỗ Văn Đức • Toán 12 SGK Mới",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -988,8 +988,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 12,
                     semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "phvpqxLNTUQ",
+                    channelName: "Hocmai THPT • Phương Pháp Toạ Độ Oxyz 12",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1002,8 +1002,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 12,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "j615s9znk4U",
+                    channelName: "Thầy Nguyễn Phan Tiến • Nguyên Hàm Tích Phân 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1013,8 +1013,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 12,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "j615s9znk4U",
+                    channelName: "Thầy Nguyễn Phan Tiến • Nguyên Hàm Tích Phân 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1024,8 +1024,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 12,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "w3vX-9m8Y1z",
+                    channelName: "Tuyensinh247 • Xác Suất Thống Kê 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1035,8 +1035,8 @@ struct SubjectCurriculumStore {
                     subject: "Toán",
                     grade: 12,
                     semester: 2,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    videoId: "phvpqxLNTUQ",
+                    channelName: "Hocmai THPT • Phương Pháp Toạ Độ Oxyz 12",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1050,7 +1050,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1061,7 +1061,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1072,7 +1072,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1086,7 +1086,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1097,7 +1097,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1108,7 +1108,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1122,7 +1122,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1133,7 +1133,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1147,7 +1147,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1158,7 +1158,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1172,7 +1172,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1183,7 +1183,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1194,7 +1194,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1205,7 +1205,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1219,7 +1219,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1230,7 +1230,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1244,7 +1244,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1255,7 +1255,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1269,7 +1269,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1280,7 +1280,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1291,7 +1291,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "KHTN Vật Lí THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1305,7 +1305,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "Thầy Vũ Ngọc Anh • Động Lực Học 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1316,7 +1316,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "Thầy Vũ Ngọc Anh • Động Lực Học 10",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1330,7 +1330,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "Thầy Vũ Ngọc Anh • Động Lực Học 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1341,7 +1341,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "Thầy Vũ Ngọc Anh • Động Lực Học 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1352,7 +1352,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "Thầy Vũ Ngọc Anh • Động Lực Học 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1363,7 +1363,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    channelName: "Thầy Vũ Ngọc Anh • Động Lực Học 10",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1376,8 +1376,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1387,8 +1387,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1398,8 +1398,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1409,8 +1409,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1420,8 +1420,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1431,8 +1431,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1442,8 +1442,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1453,8 +1453,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1467,8 +1467,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1478,8 +1478,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1489,8 +1489,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1500,8 +1500,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1511,8 +1511,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1522,8 +1522,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1533,8 +1533,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1544,8 +1544,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1555,8 +1555,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 11,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "kP1q8z_Y4x0",
+                    channelName: "Thầy Chu Văn Biên • Điện Trường & Sóng 11",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1569,8 +1569,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1580,8 +1580,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1591,8 +1591,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1602,8 +1602,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1613,8 +1613,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1624,8 +1624,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1635,8 +1635,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1646,8 +1646,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 1,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1660,8 +1660,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1671,8 +1671,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1682,8 +1682,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1693,8 +1693,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1704,8 +1704,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1715,8 +1715,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1726,8 +1726,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1737,8 +1737,8 @@ struct SubjectCurriculumStore {
                     subject: "Vật lí",
                     grade: 12,
                     semester: 2,
-                    videoId: "Z-qX1s1H_k0",
-                    channelName: "Vật Lí Thầy Vũ Ngọc Anh • VNA Physics",
+                    videoId: "4TXYs2e_Q0o",
+                    channelName: "VNA Physics • Dao Động & Sóng 12",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1752,7 +1752,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1763,7 +1763,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1774,7 +1774,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1785,7 +1785,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1796,7 +1796,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1807,7 +1807,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1818,7 +1818,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1829,7 +1829,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1843,7 +1843,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1854,7 +1854,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1865,7 +1865,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1876,7 +1876,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1887,7 +1887,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1898,7 +1898,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1909,7 +1909,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1920,7 +1920,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -1934,7 +1934,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1945,7 +1945,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1956,7 +1956,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1967,7 +1967,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1978,7 +1978,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -1989,7 +1989,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2000,7 +2000,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -2014,7 +2014,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2025,7 +2025,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2036,7 +2036,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2047,7 +2047,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2058,7 +2058,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2069,7 +2069,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2080,7 +2080,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2091,7 +2091,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2102,7 +2102,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2113,7 +2113,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -2127,7 +2127,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2138,7 +2138,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2149,7 +2149,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2160,7 +2160,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2171,7 +2171,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2182,7 +2182,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2193,7 +2193,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2204,7 +2204,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -2218,7 +2218,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2229,7 +2229,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2240,7 +2240,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2251,7 +2251,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2262,7 +2262,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2273,7 +2273,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2284,7 +2284,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -2298,7 +2298,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2309,7 +2309,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2320,7 +2320,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2331,7 +2331,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2342,7 +2342,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2353,7 +2353,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2364,7 +2364,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2375,7 +2375,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -2389,7 +2389,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2400,7 +2400,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2411,7 +2411,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2422,7 +2422,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2433,7 +2433,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2444,7 +2444,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2455,7 +2455,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2466,7 +2466,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2477,7 +2477,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2488,7 +2488,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "KHTN Hóa Học THCS",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -2501,8 +2501,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2512,8 +2512,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2523,8 +2523,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2534,8 +2534,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2545,8 +2545,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2556,8 +2556,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2567,8 +2567,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -2581,8 +2581,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2592,8 +2592,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2603,8 +2603,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2614,8 +2614,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2625,8 +2625,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2636,8 +2636,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2647,8 +2647,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2658,8 +2658,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 10,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Học Hóa Official • Cấu Tạo Nguyên Tử 10",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -2673,7 +2673,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2684,7 +2684,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2695,7 +2695,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2706,7 +2706,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2717,7 +2717,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2728,7 +2728,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2739,7 +2739,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2750,7 +2750,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2761,7 +2761,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2772,7 +2772,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2783,7 +2783,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -2797,7 +2797,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2808,7 +2808,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2819,7 +2819,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2830,7 +2830,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2841,7 +2841,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2852,7 +2852,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2863,7 +2863,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    channelName: "VietJack • Cân Bằng Hóa Học 11",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -2876,8 +2876,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2887,8 +2887,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2898,8 +2898,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2909,8 +2909,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2920,8 +2920,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2931,8 +2931,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2942,8 +2942,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2953,8 +2953,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2964,8 +2964,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2975,8 +2975,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -2986,8 +2986,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 1,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3000,8 +3000,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3011,8 +3011,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3022,8 +3022,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3033,8 +3033,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3044,8 +3044,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3055,8 +3055,8 @@ struct SubjectCurriculumStore {
                     subject: "Hóa học",
                     grade: 12,
                     semester: 2,
-                    videoId: "614i3Gf3E6g",
-                    channelName: "Hóa Học Thầy Phạm Thắng • VietJack",
+                    videoId: "8nfiPbueiPI",
+                    channelName: "Thầy Phạm Thắng • Este & Lipit 12",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3070,7 +3070,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3081,7 +3081,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3092,7 +3092,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3106,7 +3106,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3117,7 +3117,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3128,7 +3128,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3139,7 +3139,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3153,7 +3153,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3167,7 +3167,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3178,7 +3178,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3189,7 +3189,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3200,7 +3200,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3214,7 +3214,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3225,7 +3225,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3236,7 +3236,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3247,7 +3247,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3258,7 +3258,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3272,7 +3272,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3283,7 +3283,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3294,7 +3294,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3305,7 +3305,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3316,7 +3316,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3327,7 +3327,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3341,7 +3341,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3352,7 +3352,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3363,7 +3363,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3374,7 +3374,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3385,7 +3385,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3399,7 +3399,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3410,7 +3410,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3421,7 +3421,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3432,7 +3432,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3446,7 +3446,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3457,7 +3457,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3468,7 +3468,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3479,7 +3479,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3493,7 +3493,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3504,7 +3504,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3515,7 +3515,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3529,7 +3529,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3540,7 +3540,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3554,7 +3554,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3565,7 +3565,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3576,7 +3576,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3587,7 +3587,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3601,7 +3601,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3612,7 +3612,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3623,7 +3623,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3634,7 +3634,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 1,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3648,7 +3648,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3659,7 +3659,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3670,7 +3670,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3681,7 +3681,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3692,7 +3692,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "3Wp9_d4X0Fw",
-                    channelName: "Sinh Học Thầy Phan Khắc Nghệ",
+                    channelName: "Thầy Phan Khắc Nghệ • Sinh Học",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3706,7 +3706,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3717,7 +3717,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3728,7 +3728,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3739,7 +3739,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3750,7 +3750,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3764,7 +3764,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3775,7 +3775,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3786,7 +3786,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3797,7 +3797,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3808,7 +3808,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3819,7 +3819,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3830,7 +3830,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3844,7 +3844,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3855,7 +3855,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3866,7 +3866,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3877,7 +3877,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3888,7 +3888,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3899,7 +3899,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3910,7 +3910,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3924,7 +3924,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3935,7 +3935,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3946,7 +3946,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -3960,7 +3960,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3971,7 +3971,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3982,7 +3982,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -3993,7 +3993,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4007,7 +4007,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4018,7 +4018,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4029,7 +4029,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4040,7 +4040,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4054,7 +4054,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4065,7 +4065,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4076,7 +4076,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4087,7 +4087,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4101,7 +4101,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4112,7 +4112,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4123,7 +4123,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4137,7 +4137,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4148,7 +4148,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4159,7 +4159,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4170,7 +4170,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4184,7 +4184,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4195,7 +4195,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4206,7 +4206,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4220,7 +4220,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4231,7 +4231,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4242,7 +4242,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4253,7 +4253,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4267,7 +4267,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4278,7 +4278,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4292,7 +4292,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4303,7 +4303,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4314,7 +4314,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4328,7 +4328,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4339,7 +4339,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4350,7 +4350,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Lịch Sử Cô Mai Phương • Học Mãi",
+                    channelName: "Cô Mai Phương • Lịch Sử Học Mãi",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4364,7 +4364,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4375,7 +4375,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4386,7 +4386,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4397,7 +4397,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4411,7 +4411,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4422,7 +4422,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4433,7 +4433,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4444,7 +4444,7 @@ struct SubjectCurriculumStore {
                     grade: 6,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4458,7 +4458,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4469,7 +4469,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4480,7 +4480,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4494,7 +4494,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4505,7 +4505,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4516,7 +4516,7 @@ struct SubjectCurriculumStore {
                     grade: 7,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4530,7 +4530,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4541,7 +4541,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4552,7 +4552,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4566,7 +4566,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4577,7 +4577,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4588,7 +4588,7 @@ struct SubjectCurriculumStore {
                     grade: 8,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4602,7 +4602,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4613,7 +4613,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4624,7 +4624,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4638,7 +4638,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4649,7 +4649,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4660,7 +4660,7 @@ struct SubjectCurriculumStore {
                     grade: 9,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4674,7 +4674,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4685,7 +4685,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4696,7 +4696,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4707,7 +4707,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4718,7 +4718,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4732,7 +4732,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4743,7 +4743,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4754,7 +4754,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4765,7 +4765,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4776,7 +4776,7 @@ struct SubjectCurriculumStore {
                     grade: 10,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4790,7 +4790,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4801,7 +4801,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4812,7 +4812,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4823,7 +4823,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4837,7 +4837,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4848,7 +4848,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4859,7 +4859,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4870,7 +4870,7 @@ struct SubjectCurriculumStore {
                     grade: 11,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4884,7 +4884,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4895,7 +4895,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4906,7 +4906,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 1,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]
@@ -4920,7 +4920,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4931,7 +4931,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4942,7 +4942,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
                 TheoryTopicItem(
@@ -4953,7 +4953,7 @@ struct SubjectCurriculumStore {
                     grade: 12,
                     semester: 2,
                     videoId: "Wh5gqPrJMQ4",
-                    channelName: "Địa Lí Cô Lê Huệ • VietJack",
+                    channelName: "Cô Lê Huệ • Địa Lí VietJack",
                     estimatedTime: "25 phút"
                 ),
             ]

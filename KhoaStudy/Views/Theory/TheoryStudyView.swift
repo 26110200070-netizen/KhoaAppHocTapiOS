@@ -321,16 +321,10 @@ struct TheoryStudyView: View {
                                 }
                                 .padding(.top, 2)
                                 
-                                VStack(alignment: .leading, spacing: 4) {
+                                VStack(alignment: .leading, spacing: 6) {
                                     Text(item.title)
                                         .font(.system(size: 15, weight: .bold))
                                         .foregroundColor(Color(hex: "#111827"))
-                                        .multilineTextAlignment(.leading)
-                                    
-                                    Text(item.summary)
-                                        .font(.system(size: 12.5))
-                                        .foregroundColor(Color(hex: "#4B5563"))
-                                        .lineLimit(2)
                                         .multilineTextAlignment(.leading)
                                     
                                     HStack(spacing: 8) {

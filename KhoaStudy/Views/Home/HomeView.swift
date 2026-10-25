@@ -128,7 +128,7 @@ struct HomeView: View {
                         .foregroundColor(Color(hex: "#4B5563"))
                 }
                 
-                Text("Chào, \(appState.currentUser.username)")
+                Text(appState.currentUser.username.isEmpty ? "Chào bạn" : "Chào, \(appState.currentUser.username)")
                     .font(.system(size: 21, weight: .bold, design: .rounded))
                     .foregroundColor(Color(hex: "#111827"))
             }

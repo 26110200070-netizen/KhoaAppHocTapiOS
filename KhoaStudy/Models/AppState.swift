@@ -72,21 +72,24 @@ class AppState: ObservableObject {
     }
     
     init() {
+        let savedName = UserDefaults.standard.string(forKey: "shimy_student_name") ?? ""
+        let savedGrade = UserDefaults.standard.integer(forKey: "shimy_student_grade")
+        let activeGrade = savedGrade >= 6 && savedGrade <= 12 ? savedGrade : 12
         let defaultUser = UserProfile(
-            username: "Anh Khoa Dev",
-            email: "khoadev@study.edu.vn",
-            grade: 12,
+            username: savedName,
+            email: "",
+            grade: activeGrade,
             avatarName: "person.crop.circle.fill"
         )
         self.currentUser = defaultUser
         if let savedAvatar = UserDefaults.standard.string(forKey: "shimy_avatar_name"), !savedAvatar.isEmpty {
             self.currentUser.avatarName = savedAvatar
         }
-        self.savedAccounts = [
-            defaultUser,
-            UserProfile(username: "Học Sinh THPT", email: "student.thpt@study.vn", grade: 12, avatarName: "graduationcap.circle.fill"),
-            UserProfile(username: "Học Sinh THCS", email: "student.thcs@study.vn", grade: 9, avatarName: "backpack.circle.fill")
-        ]
+        self.savedAccounts = [defaultUser]
+        if let g = SchoolGrade(rawValue: activeGrade) {
+            self.selectedGrade = g
+            self.selectedLevel = g.level
+        }
         
         // Restore saved provider
         if let savedProviderStr = UserDefaults.standard.string(forKey: "shimy_ai_provider"),
@@ -162,6 +165,22 @@ class AppState: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "shimy_app_token")
     }
     
+    func updateStudentProfile(name: String, grade: Int) {
+        let clean = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !clean.isEmpty {
+            self.currentUser.username = clean
+            UserDefaults.standard.set(clean, forKey: "shimy_student_name")
+        }
+        if grade >= 6 && grade <= 12 {
+            self.currentUser.grade = grade
+            UserDefaults.standard.set(grade, forKey: "shimy_student_grade")
+            if let g = SchoolGrade(rawValue: grade) {
+                self.selectedGrade = g
+                self.selectedLevel = g.level
+            }
+        }
+    }
+    
     func login(
         username: String,
         token: String? = nil,
@@ -173,6 +192,7 @@ class AppState: ObservableObject {
         groqModel: String? = nil
     ) {
         self.currentUser.username = username
+        UserDefaults.standard.set(username, forKey: "shimy_student_name")
         self.selectedProvider = provider
         UserDefaults.standard.set(provider.rawValue, forKey: "shimy_ai_provider")
         

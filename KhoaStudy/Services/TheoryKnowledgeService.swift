@@ -73,8 +73,17 @@ class TheoryKnowledgeService {
         appToken: String,
         completion: @escaping (DetailedTheoryLesson) -> Void
     ) {
-        let videoId = preferredVideoId.isEmpty ? getYouTubeVideoIdForQuery(subject: subject, grade: grade, topic: topic) : preferredVideoId
-        let channelName = preferredChannelName.isEmpty ? getChannelNameForSubject(subject) : preferredChannelName
+        // Xác định Video ID và Channel Name chuẩn xác theo môn, lớp và chủ đề bài học
+        var resolvedVideoId = getYouTubeVideoIdForQuery(subject: subject, grade: grade, topic: topic)
+        var resolvedChannel = getChannelNameForSubject(subject)
+        
+        // Không nhận video lớp 6 IGp-J96BbTU cho học sinh lớp 8 trở lên!
+        if !preferredVideoId.isEmpty && !(grade > 7 && preferredVideoId == "IGp-J96BbTU") {
+            resolvedVideoId = preferredVideoId
+        }
+        if !preferredChannelName.isEmpty && !(grade > 7 && preferredChannelName.contains("Tiến Sĩ Trần Hoan")) {
+            resolvedChannel = preferredChannelName
+        }
         
         // 1. Thực hiện tra cứu Web Search thời gian thực
         WebKnowledgeService.shared.searchLatest2026Curriculum(
@@ -128,8 +137,28 @@ class TheoryKnowledgeService {
                # Các Lỗi Sai Học Sinh Thường Mắc Phải
                (Cảnh báo các bẫy đề thi và cách phòng tránh)
             
+            6. VIDEO BÀI GIẢNG CHUẨN XÁC:
+               Ở dòng cuối cùng của bài viết, hãy ghi mã video YouTube (11 ký tự) cho bài giảng Lớp \(grade) Môn \(subject) này (từ các kênh uy tín như Thầy Đỗ Văn Đức, Tuyensinh247, VietJack, Hocmai):
+               [VIDEO_ID: xxxxxxxxxxx]
+            
             Chỉ trả về nội dung Markdown bài giảng hoàn chỉnh, không thêm lời chào mở đầu hay kết thúc thừa.
             """
+            
+            func parseLessonOutput(_ rawText: String) -> (content: String, videoId: String, channel: String) {
+                var cleanContent = rawText.isEmpty ? self.getFallbackTheoryLesson(topic: topic, subject: subject, grade: grade, semester: semester) : rawText
+                var finalVid = resolvedVideoId
+                var finalChan = resolvedChannel
+                
+                if let range = cleanContent.range(of: "(?:\\[VIDEO_ID:\\s*([a-zA-Z0-9_-]{11})\\])", options: .regularExpression) {
+                    let tag = String(cleanContent[range])
+                    let vid = tag.replacingOccurrences(of: "[VIDEO_ID:", with: "").replacingOccurrences(of: "]", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+                    if vid.count == 11 && !(grade > 7 && vid == "IGp-J96BbTU") {
+                        finalVid = vid
+                    }
+                    cleanContent.removeSubrange(range)
+                }
+                return (cleanContent.trimmingCharacters(in: .whitespacesAndNewlines), finalVid, finalChan)
+            }
             
             // Gọi AI theo thứ tự ưu tiên
             let cleanGroq = groqApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -138,15 +167,15 @@ class TheoryKnowledgeService {
             
             if (provider == .groq && !cleanGroq.isEmpty) || (!cleanGroq.isEmpty && cleanGemini.isEmpty) {
                 self.callGroqTheory(prompt: prompt, apiKey: cleanGroq, model: groqModel) { markdown in
-                    let content = markdown.isEmpty ? self.getFallbackTheoryLesson(topic: topic, subject: subject, grade: grade, semester: semester) : markdown
+                    let parsed = parseLessonOutput(markdown)
                     let lesson = DetailedTheoryLesson(
                         topicTitle: topic,
                         subject: subject,
                         grade: grade,
                         semester: semester,
-                        videoId: videoId,
-                        channelName: channelName,
-                        markdownContent: content
+                        videoId: parsed.videoId,
+                        channelName: parsed.channel,
+                        markdownContent: parsed.content
                     )
                     DispatchQueue.main.async { completion(lesson) }
                 }
@@ -155,15 +184,15 @@ class TheoryKnowledgeService {
             
             if !cleanGemini.isEmpty && (cleanGemini.hasPrefix("AIza") || cleanGemini.count >= 25) {
                 self.callGeminiTheory(prompt: prompt, apiKey: cleanGemini) { markdown in
-                    let content = markdown.isEmpty ? self.getFallbackTheoryLesson(topic: topic, subject: subject, grade: grade, semester: semester) : markdown
+                    let parsed = parseLessonOutput(markdown)
                     let lesson = DetailedTheoryLesson(
                         topicTitle: topic,
                         subject: subject,
                         grade: grade,
                         semester: semester,
-                        videoId: videoId,
-                        channelName: channelName,
-                        markdownContent: content
+                        videoId: parsed.videoId,
+                        channelName: parsed.channel,
+                        markdownContent: parsed.content
                     )
                     DispatchQueue.main.async { completion(lesson) }
                 }
@@ -172,30 +201,31 @@ class TheoryKnowledgeService {
             
             if !cleanServer.isEmpty {
                 self.callBackendTheory(prompt: prompt, serverUrl: cleanServer, token: appToken) { markdown in
-                    let content = markdown.isEmpty ? self.getFallbackTheoryLesson(topic: topic, subject: subject, grade: grade, semester: semester) : markdown
+                    let parsed = parseLessonOutput(markdown)
                     let lesson = DetailedTheoryLesson(
                         topicTitle: topic,
                         subject: subject,
                         grade: grade,
                         semester: semester,
-                        videoId: videoId,
-                        channelName: channelName,
-                        markdownContent: content
+                        videoId: parsed.videoId,
+                        channelName: parsed.channel,
+                        markdownContent: parsed.content
                     )
                     DispatchQueue.main.async { completion(lesson) }
                 }
                 return
             }
             
-            // Fallback bài giảng chuẩn SGK biên soạn chuyên sâu theo đúng chuyên đề
+            // Fallback khi không có kết nối AI
+            let fallbackContent = self.getFallbackTheoryLesson(topic: topic, subject: subject, grade: grade, semester: semester)
             let lesson = DetailedTheoryLesson(
                 topicTitle: topic,
                 subject: subject,
                 grade: grade,
                 semester: semester,
-                videoId: videoId,
-                channelName: channelName,
-                markdownContent: self.getFallbackTheoryLesson(topic: topic, subject: subject, grade: grade, semester: semester)
+                videoId: resolvedVideoId,
+                channelName: resolvedChannel,
+                markdownContent: fallbackContent
             )
             DispatchQueue.main.async { completion(lesson) }
         }
@@ -337,40 +367,71 @@ class TheoryKnowledgeService {
         let t = topic.lowercased()
         
         if s.contains("toán") {
-            if t.contains("tập xác định") || t.contains("hàm số") || t.contains("đơn điệu") || t.contains("đồ thị") {
-                return grade == 10 ? "60Kg5b_mSZQ" : "990wEB5yo2k"
-            } else if t.contains("cực trị") || t.contains("tiệm cận") || t.contains("khảo sát") {
+            if grade == 12 {
+                if t.contains("đơn điệu") || t.contains("đồng biến") || t.contains("nghịch biến") || t.contains("cực trị") || t.contains("hàm số") || t.contains("đồ thị") {
+                    return "990wEB5yo2k"
+                } else if t.contains("lớn nhất") || t.contains("nhỏ nhất") || t.contains("gtln") || t.contains("gtnn") || t.contains("tối ưu") {
+                    return "C_b8cglX_qI"
+                } else if t.contains("tiệm cận") {
+                    return "J3tYmGg47J0"
+                } else if t.contains("nguyên hàm") || t.contains("tích phân") {
+                    return "j615s9znk4U"
+                } else if t.contains("không gian") || t.contains("oxyz") || t.contains("toạ độ") || t.contains("vectơ") || t.contains("mặt phẳng") || t.contains("đường thẳng") {
+                    return "phvpqxLNTUQ"
+                } else if t.contains("mũ") || t.contains("lôgarit") || t.contains("logarit") || t.contains("lũy thừa") {
+                    return "Yx8P4H6_1k4"
+                } else if t.contains("xác suất") || t.contains("thống kê") {
+                    return "w3vX-9m8Y1z"
+                }
                 return "990wEB5yo2k"
-            } else if t.contains("tích phân") || t.contains("nguyên hàm") {
-                return "j615s9znk4U"
-            } else if t.contains("vectơ") || t.contains("toạ độ") || t.contains("oxyz") || t.contains("không gian") {
-                return grade == 10 ? "FvWfHa8QOiI" : "phvpqxLNTUQ"
-            } else if t.contains("mệnh đề") || t.contains("tập hợp") {
+            } else if grade == 11 {
+                if t.contains("lượng giác") {
+                    return "HASSGfzkLCc"
+                } else if t.contains("dãy số") || t.contains("cấp số") {
+                    return "ko6QriFQfEk"
+                } else if t.contains("giới hạn") || t.contains("đạo hàm") || t.contains("liên tục") {
+                    return "60Kg5b_mSZQ"
+                } else if t.contains("không gian") || t.contains("song song") || t.contains("vuông góc") {
+                    return "FvWfHa8QOiI"
+                }
+                return "60Kg5b_mSZQ"
+            } else if grade == 10 {
+                if t.contains("mệnh đề") || t.contains("tập hợp") {
+                    return "xtYqUS8_pZM"
+                } else if t.contains("bất phương trình") || t.contains("hệ bất phương trình") {
+                    return "60Kg5b_mSZQ"
+                } else if t.contains("hệ thức lượng") || t.contains("vectơ") || t.contains("vecto") {
+                    return "FvWfHa8QOiI"
+                }
                 return "xtYqUS8_pZM"
-            } else if t.contains("lượng giác") {
-                return "HASSGfzkLCc"
-            } else if t.contains("dãy số") || t.contains("cấp số") {
-                return "ko6QriFQfEk"
-            } else if t.contains("căn bậc") || t.contains("căn thức") {
+            } else if grade == 9 {
+                if t.contains("căn bậc") || t.contains("căn thức") {
+                    return "5ykgVSHPbIo"
+                } else if t.contains("hệ phương trình") || t.contains("phương trình") {
+                    return "svZSkXxCnbs"
+                }
                 return "5ykgVSHPbIo"
-            } else if t.contains("hằng đẳng thức") || t.contains("đa thức") {
+            } else if grade == 8 {
                 return "svZSkXxCnbs"
-            } else if grade <= 7 {
+            } else {
                 return "IGp-J96BbTU"
             }
-            return "990wEB5yo2k"
         } else if s.contains("vật lí") || s.contains("vật lý") {
-            return "4TXYs2e_Q0o"
+            if grade == 12 { return "4TXYs2e_Q0o" }
+            else if grade == 11 { return "kP1q8z_Y4x0" }
+            else { return "Z-qX1s1H_k0" }
         } else if s.contains("hóa") {
-            return "8nfiPbueiPI"
+            if grade == 12 { return "8nfiPbueiPI" }
+            else if grade == 11 { return "614i3Gf3E6g" }
+            else { return "8nfiPbueiPI" }
         } else if s.contains("tiếng anh") {
             return "uohJ67q3DtU"
         } else if s.contains("sinh") {
-            return "mYvXFBVZyUM"
+            return "3Wp9_d4X0Fw"
         } else if s.contains("lịch sử") || s.contains("địa") {
             return "Wh5gqPrJMQ4"
         } else {
-            return "990wEB5yo2k"
+            return grade == 12 ? "990wEB5yo2k" : "IGp-J96BbTU"
         }
     }
     

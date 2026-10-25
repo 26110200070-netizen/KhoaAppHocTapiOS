@@ -428,15 +428,18 @@ struct TheoryLessonDetailView: View {
     private func loadLessonContent(forceRefresh: Bool = false) {
         // 1. Kiểm tra nếu có sẵn bài giảng cũ đã lưu trong lịch sử và không bị ép làm mới: hiển thị ngay lập tức!
         if !forceRefresh, let saved = StudyHistoryStore.shared.getSavedLesson(for: topicItem) {
-            self.detailedLesson = saved
-            self.isLoading = false
-            StudyHistoryStore.shared.recordStudy(
-                topic: topicItem,
-                content: saved.markdownContent,
-                videoId: saved.videoId,
-                channelName: saved.channelName
-            )
-            return
+            // Nếu bài đã lưu không bị dính video lớp 6 trên khối THPT
+            if !(topicItem.grade > 7 && saved.videoId == "IGp-J96BbTU") {
+                self.detailedLesson = saved
+                self.isLoading = false
+                StudyHistoryStore.shared.recordStudy(
+                    topic: topicItem,
+                    content: saved.markdownContent,
+                    videoId: saved.videoId,
+                    channelName: saved.channelName
+                )
+                return
+            }
         }
         
         // 2. Nếu chưa có trong lịch sử hoặc người dùng chủ động bấm làm mới: Mới gọi AI tạo bài giảng
