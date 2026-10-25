@@ -512,29 +512,30 @@ struct AIChatView: View {
         }
     }
     
-    // MARK: - Chat Bubble Row (Ảnh 4)
+    // MARK: - Chat Bubble Row (Tách riêng ảnh và chữ, không lồng khung theo yêu cầu)
     private func chatBubbleRow(msg: ChatMessage) -> some View {
         HStack(alignment: .top, spacing: 10) {
             if msg.role == "user" {
                 Spacer(minLength: 40)
                 
-                VStack(alignment: .leading, spacing: 8) {
-                    // Attached Image Thumbnail if present (Ảnh 4)
+                VStack(alignment: .trailing, spacing: 8) {
+                    // 1. Attached Image Thumbnail đứng độc lập (Ảnh 3, tách riêng không lồng khung)
                     if let b64 = msg.attachedImageBase64,
                        let data = Data(base64Encoded: b64),
                        let uiImg = UIImage(data: data) {
                         Image(uiImage: uiImg)
                             .resizable()
                             .scaledToFit()
-                            .frame(maxWidth: 220, maxHeight: 220)
-                            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                            .frame(maxWidth: 240, maxHeight: 300)
+                            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
                             .overlay(
-                                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                RoundedRectangle(cornerRadius: 18, style: .continuous)
                                     .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
                             )
+                            .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 3)
                     }
                     
-                    // Attached Document name if present
+                    // 2. Attached Document name if present
                     if let fname = msg.attachedFileName {
                         HStack(spacing: 6) {
                             Image(systemName: "doc.fill")
@@ -543,22 +544,25 @@ struct AIChatView: View {
                                 .font(.system(size: 13, weight: .medium))
                                 .lineLimit(1)
                         }
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
-                        .background(RoundedRectangle(cornerRadius: 8).fill(Color.white.opacity(0.8)))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(Color(hex: "#E0E7FF").opacity(0.8)))
                     }
                     
-                    // Text prompt
-                    Text(msg.content)
-                        .font(.system(size: 16))
-                        .foregroundColor(Color(hex: "#111827"))
+                    // 3. User Text bubble riêng biệt (Ảnh 3, gọn gàng và không bị bọc lồng ảnh)
+                    let trimmedContent = msg.content.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if !trimmedContent.isEmpty {
+                        Text(trimmedContent)
+                            .font(.system(size: 16))
+                            .foregroundColor(Color(hex: "#111827"))
+                            .padding(.horizontal, 18)
+                            .padding(.vertical, 12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                                    .fill(Color(hex: "#F0F4F9"))
+                            )
+                    }
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-                .background(
-                    RoundedRectangle(cornerRadius: 22, style: .continuous)
-                        .fill(Color(hex: "#F0F4F9"))
-                )
             } else {
                 VStack(alignment: .leading, spacing: 8) {
                     MarkdownRendererView(content: msg.content)
@@ -583,26 +587,22 @@ struct AIChatView: View {
         }
     }
     
-    // MARK: - Streaming Message Row
+    // MARK: - Streaming Message Row (Bỏ khung xám bao bọc khi chạy chữ như Ảnh 1)
     private var streamingMessageRow: some View {
         VStack(alignment: .leading, spacing: 6) {
             if streamingText.isEmpty {
-                HStack(spacing: 6) {
-                    Text("Shimy đang suy nghĩ và soạn câu trả lời...")
-                        .font(.system(size: 14))
+                HStack(spacing: 8) {
+                    ProgressView().scaleEffect(0.8)
+                    Text("Shimy đang suy nghĩ và soạn...")
+                        .font(.system(size: 14, weight: .medium))
                         .foregroundColor(AppTheme.textSecondary)
-                    ProgressView().scaleEffect(0.7)
                 }
+                .padding(.vertical, 6)
             } else {
                 MarkdownRendererView(content: streamingText)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color(hex: "#F9FAFB"))
-        )
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
