@@ -177,6 +177,10 @@ struct KaTeXMarkdownWebView: UIViewRepresentable {
                                 return "%%MATHBLOCK" + (mathList.length - 1) + "%%";
                             }
                             
+                            // Chuẩn hóa lỗi typo dấu dollar không cân bằng: $$...$ hoặc $...$$
+                            s = s.replace(/\\$\\$([^$\\n]+)\\$/g, function(_, p1) { return "$" + p1 + "$"; });
+                            s = s.replace(/\\$([^$\\n]+)\\$\\$/g, function(_, p1) { return "$" + p1 + "$"; });
+                            
                             // Display math: $$...$$ và \\[...\\]
                             s = s.replace(/\\$\\$[\\s\\S]*?\\$\\$/g, function(m) { return stashMath(m); });
                             s = s.replace(/\\\\\\[[\\s\\S]*?\\\\\\\\]/g, function(m) { return stashMath(m); });

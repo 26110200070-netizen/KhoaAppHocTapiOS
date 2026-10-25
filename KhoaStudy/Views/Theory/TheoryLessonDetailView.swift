@@ -159,7 +159,7 @@ struct TheoryLessonDetailView: View {
                                 .shadow(color: AppTheme.primaryMint.opacity(0.3), radius: 6, x: 0, y: 3)
                             }
                             .padding(.top, 10)
-                            .padding(.bottom, 40)
+                            .padding(.bottom, 120) // Khoảng cách an toàn lớn đảm bảo nút không bao giờ bị thanh tab bar che khuất
                         }
                         .padding(.horizontal, 16)
                         .padding(.top, 8)
@@ -168,6 +168,7 @@ struct TheoryLessonDetailView: View {
             }
         }
         .onAppear {
+            StudyHistoryStore.shared.recordStudy(topic: topicItem)
             loadLessonContent()
         }
         .fullScreenCover(isPresented: $showingPractice) {

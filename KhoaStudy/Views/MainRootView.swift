@@ -33,23 +33,25 @@ struct MainRootView: View {
                 // 2. Mandatory Login Screen
                 LoginView()
             } else {
-                // 3. Main Application with 3-item Bottom Bar (Trang Chủ • Shimy • Tài Khoản)
+                // 3. Main Application with 3-item Flat Bottom Bar (Trang Chủ • Shimy • Tài Khoản)
                 ZStack(alignment: .bottom) {
-                    TabView(selection: $currentTab) {
+                    // Không dùng TabView page-style để cấm kéo vuốt qua lại, bấm chuyển tab mượt mà & giữ nguyên trạng thái không reload
+                    ZStack {
                         HomeView(
                             onOpenAIChat: {
                                 showingAIChatFullScreen = true
                             }
                         )
-                        .tag(MainTab.home)
+                        .opacity(currentTab == .home ? 1 : 0)
+                        .allowsHitTesting(currentTab == .home)
                         
                         AccountView()
-                            .tag(MainTab.account)
+                            .opacity(currentTab == .account ? 1 : 0)
+                            .allowsHitTesting(currentTab == .account)
                     }
-                    .tabViewStyle(.page(indexDisplayMode: .never))
                     
-                    // Full-Width Bottom Bar with Raised Center Dome (Trang Chủ - Shimy - Tài Khoản)
-                    customFullWidthTabBar
+                    // Full-Width Flat Bottom Bar (Trang Chủ - Shimy - Tài Khoản)
+                    customFlatTabBar
                 }
                 .ignoresSafeArea(edges: .bottom)
                 .fullScreenCover(isPresented: $showingAIChatFullScreen) {
@@ -59,50 +61,36 @@ struct MainRootView: View {
         }
     }
     
-    // MARK: - Full-Width Bottom Bar (Trang Chủ - Shimy - Tài Khoản)
-    private var customFullWidthTabBar: some View {
-        ZStack(alignment: .top) {
-            // Background with Raised Center Dome Shape
-            RaisedDomeTabBarShape()
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: -4)
-                .frame(height: 94)
+    // MARK: - Full-Width Flat Bottom Bar (Trang Chủ - Shimy - Tài Khoản: Bằng phẳng, không nhô lên)
+    private var customFlatTabBar: some View {
+        VStack(spacing: 0) {
+            Divider()
             
             HStack(spacing: 0) {
                 // Tab 1: Trang Chủ
                 Button(action: {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                    withAnimation(.easeInOut(duration: 0.2)) {
                         currentTab = .home
                     }
                 }) {
                     VStack(spacing: 4) {
                         Image(systemName: "house.fill")
-                            .font(.system(size: 22, weight: currentTab == .home ? .bold : .medium))
+                            .font(.system(size: 21, weight: currentTab == .home ? .bold : .medium))
                             .foregroundColor(currentTab == .home ? AppTheme.primaryDark : AppTheme.textMuted)
                         
                         Text("Trang Chủ")
                             .font(.system(size: 11, weight: currentTab == .home ? .semibold : .regular))
                             .foregroundColor(currentTab == .home ? AppTheme.primaryDark : AppTheme.textMuted)
-                        
-                        Circle()
-                            .fill(currentTab == .home ? AppTheme.primaryMint : Color.clear)
-                            .frame(width: 4, height: 4)
                     }
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 30)
                 }
                 
-                // Center Button: Shimy (Nằm vừa vặn trong khung vòm bo tròn)
+                // Center Button: Shimy (Bằng phẳng, cân đối)
                 Button(action: {
                     showingAIChatFullScreen = true
                 }) {
-                    VStack(spacing: 3) {
+                    VStack(spacing: 4) {
                         ZStack {
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 58, height: 58)
-                                .shadow(color: AppTheme.primaryMint.opacity(0.3), radius: 8, x: 0, y: 3)
-                            
                             Circle()
                                 .fill(
                                     LinearGradient(
@@ -111,10 +99,10 @@ struct MainRootView: View {
                                         endPoint: .bottomTrailing
                                     )
                                 )
-                                .frame(width: 52, height: 52)
+                                .frame(width: 36, height: 36)
                             
                             Image(systemName: "sparkles")
-                                .font(.system(size: 24, weight: .bold))
+                                .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(.white)
                         }
                         
@@ -123,77 +111,31 @@ struct MainRootView: View {
                             .foregroundColor(AppTheme.primaryDark)
                     }
                     .frame(maxWidth: .infinity)
-                    .offset(y: 4)
                 }
                 
                 // Tab 2: Tài Khoản
                 Button(action: {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                    withAnimation(.easeInOut(duration: 0.2)) {
                         currentTab = .account
                     }
                 }) {
                     VStack(spacing: 4) {
                         Image(systemName: "person.crop.circle.fill")
-                            .font(.system(size: 22, weight: currentTab == .account ? .bold : .medium))
+                            .font(.system(size: 21, weight: currentTab == .account ? .bold : .medium))
                             .foregroundColor(currentTab == .account ? AppTheme.primaryDark : AppTheme.textMuted)
                         
                         Text("Tài Khoản")
                             .font(.system(size: 11, weight: currentTab == .account ? .semibold : .regular))
                             .foregroundColor(currentTab == .account ? AppTheme.primaryDark : AppTheme.textMuted)
-                        
-                        Circle()
-                            .fill(currentTab == .account ? AppTheme.primaryMint : Color.clear)
-                            .frame(width: 4, height: 4)
                     }
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 30)
                 }
             }
-            .padding(.horizontal, 16)
+            .padding(.top, 8)
+            .padding(.bottom, 26)
+            .background(Color.white)
         }
-        .frame(maxWidth: .infinity)
-    }
-}
-
-// MARK: - Custom Shape with Raised Dome in Center (Khung trồi tròn mềm mại chuẩn icon Shimy)
-struct RaisedDomeTabBarShape: Shape {
-    var domeHeight: CGFloat = 26
-    var domeWidth: CGFloat = 92
-    var cornerRadius: CGFloat = 22
-    
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        let w = rect.width
-        let h = rect.height
-        let cx = w / 2
-        let hw = domeWidth / 2
-        
-        path.move(to: CGPoint(x: 0, y: cornerRadius))
-        path.addQuadCurve(to: CGPoint(x: cornerRadius, y: 0),
-                          control: CGPoint(x: 0, y: 0))
-        
-        path.addLine(to: CGPoint(x: cx - hw - 8, y: 0))
-        
-        path.addCurve(
-            to: CGPoint(x: cx, y: -domeHeight),
-            control1: CGPoint(x: cx - hw + 10, y: 0),
-            control2: CGPoint(x: cx - 26, y: -domeHeight)
-        )
-        
-        path.addCurve(
-            to: CGPoint(x: cx + hw + 8, y: 0),
-            control1: CGPoint(x: cx + 26, y: -domeHeight),
-            control2: CGPoint(x: cx + hw - 10, y: 0)
-        )
-        
-        path.addLine(to: CGPoint(x: w - cornerRadius, y: 0))
-        path.addQuadCurve(to: CGPoint(x: w, y: cornerRadius),
-                          control: CGPoint(x: w, y: 0))
-        
-        path.addLine(to: CGPoint(x: w, y: h))
-        path.addLine(to: CGPoint(x: 0, y: h))
-        path.closeSubpath()
-        
-        return path
+        .background(Color.white)
+        .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: -2)
     }
 }

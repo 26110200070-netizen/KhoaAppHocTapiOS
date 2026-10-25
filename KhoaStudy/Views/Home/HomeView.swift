@@ -6,14 +6,23 @@ struct HomeView: View {
     var onNavigateToPractice: (() -> Void)? = nil
     var onOpenAIChat: (() -> Void)? = nil
     
+    @ObservedObject private var historyStore = StudyHistoryStore.shared
     @State private var showingTheory: Bool = false
     @State private var showingExercise: Bool = false
     @State private var showingFocusSheet: Bool = false
     @State private var showingExamSheet: Bool = false
+    @State private var selectedHistoryTopic: TheoryTopicItem? = nil
     
     var body: some View {
         ZStack {
-            if showingTheory {
+            if let historyTopic = selectedHistoryTopic {
+                TheoryLessonDetailView(topicItem: historyTopic, onBack: {
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        selectedHistoryTopic = nil
+                    }
+                })
+                .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing)))
+            } else if showingTheory {
                 TheoryStudyView(onBackToHome: {
                     withAnimation(.easeInOut(duration: 0.25)) {
                         showingTheory = false
@@ -53,13 +62,18 @@ struct HomeView: View {
                     topHeaderSection
                         .padding(.top, 14)
                     
-                    // 2. Tammi Style 3D Cutout Mascot Cards (Không khung bao bọc, Không shadow!)
+                    // 2. Banner Cards (Ảnh mới có sẵn chữ, không đè text thừa)
                     tammiChibiArtworkCardsSection
                     
-                    // 3. AI Tutor Interactive Banner with 3D Mascot
+                    // 3. Lịch Sử Học Tập (Ghi nhận bài học đã mở, vuốt trái để xóa)
+                    if !historyStore.historyList.isEmpty {
+                        studyHistorySection
+                    }
+                    
+                    // 4. AI Tutor Interactive Banner with 3D Mascot
                     aiTutorInteractiveBanner
                     
-                    // 4. Large Promo Exam Banner (Ôn Thi Bứt Phá)
+                    // 5. Large Promo Exam Banner (Ôn Thi Bứt Phá)
                     tammiPromoExamBanner
                     
                     // Spacing above bottom bar
@@ -102,10 +116,10 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - 2. Tammi Style 3D Mascot Cards (NHÂN VẬT TÁCH NỀN TRONG SUỐT - KHÔNG KHUNG - KHÔNG SHADOW)
+    // MARK: - 2. Banner Cards (Ảnh mới có sẵn chữ, không đè text thừa)
     private var tammiChibiArtworkCardsSection: some View {
-        HStack(alignment: .top, spacing: 12) {
-            // Left Hero Card: HỌC LÍ THUYẾT SGK (3D Chibi Fox Mascot tách nền trong suốt)
+        HStack(alignment: .top, spacing: 10) {
+            // Left Hero Card: HỌC LÍ THUYẾT SGK (Ảnh có sẵn chữ)
             Button(action: {
                 if let onNavigateToTheory = onNavigateToTheory {
                     onNavigateToTheory()
@@ -115,48 +129,17 @@ struct HomeView: View {
                     }
                 }
             }) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Học Lí Thuyết\nChuẩn SGK")
-                        .font(.system(size: 17, weight: .bold, design: .rounded))
-                        .foregroundColor(Color(hex: "#111827"))
-                        .lineSpacing(2)
-                        .multilineTextAlignment(.leading)
-                    
-                    HStack(spacing: 4) {
-                        Text("Vào học ngay")
-                            .font(.system(size: 11, weight: .bold))
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 9, weight: .bold))
-                    }
-                    .foregroundColor(Color(hex: "#EF4444"))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 4)
-                    .background(Capsule().fill(Color(hex: "#FEE2E2")))
-                    
-                    Spacer(minLength: 4)
-                    
-                    // Nhân vật tách nền tự do, không khung, không shadow!
-                    HStack {
-                        Spacer()
-                        Image("ChibiTheory")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 145)
-                        Spacer()
-                    }
-                }
-                .padding(14)
-                .frame(maxWidth: .infinity, minHeight: 240)
-                .background(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .fill(Color.white)
-                        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
-                )
+                Image("BannerTheory")
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 3)
             }
+            .buttonStyle(.plain)
             
-            // Right 2 Stacked Cards (Nhân vật tách nền tự do!)
-            VStack(spacing: 12) {
-                // Card Top Right: LUYỆN BÀI TẬP (Chibi Bear Mascot tách nền)
+            // Right 2 Stacked Cards: Luyện bài tập & Treo máy tự học
+            VStack(spacing: 10) {
+                // Card Top Right: LUYỆN BÀI TẬP (Ảnh có sẵn chữ)
                 Button(action: {
                     if let onNavigateToPractice = onNavigateToPractice {
                         onNavigateToPractice()
@@ -166,61 +149,23 @@ struct HomeView: View {
                         }
                     }
                 }) {
-                    HStack(alignment: .center, spacing: 8) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Luyện Bài Tập")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                .foregroundColor(Color(hex: "#111827"))
-                            Text("5 - 40 câu có lời giải")
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(AppTheme.textSecondary)
-                        }
-                        
-                        Spacer()
-                        
-                        // Nhân vật tách nền tự do, không khung, không shadow!
-                        Image("ChibiPractice")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 72, height: 72)
-                    }
-                    .padding(12)
-                    .frame(maxWidth: .infinity, minHeight: 114)
-                    .background(
-                        RoundedRectangle(cornerRadius: 22, style: .continuous)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
-                    )
+                    Image("BannerPractice")
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 3)
                 }
+                .buttonStyle(.plain)
                 
-                // Card Bottom Right: TREO MÁY TỰ HỌC (Chibi Bunny Mascot tách nền)
+                // Card Bottom Right: TREO MÁY TỰ HỌC (Ảnh có sẵn chữ)
                 Button(action: { showingFocusSheet = true }) {
-                    HStack(alignment: .center, spacing: 8) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Treo Máy Tự Học")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
-                                .foregroundColor(Color(hex: "#111827"))
-                            Text("Pomodoro tập trung")
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(AppTheme.textSecondary)
-                        }
-                        
-                        Spacer()
-                        
-                        // Nhân vật tách nền tự do, không khung, không shadow!
-                        Image("ChibiFocus")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 72, height: 72)
-                    }
-                    .padding(12)
-                    .frame(maxWidth: .infinity, minHeight: 114)
-                    .background(
-                        RoundedRectangle(cornerRadius: 22, style: .continuous)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
-                    )
+                    Image("BannerFocus")
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 3)
                 }
+                .buttonStyle(.plain)
             }
             .frame(maxWidth: .infinity)
         }
@@ -324,6 +269,157 @@ struct HomeView: View {
                 Circle().fill(Color.gray.opacity(0.3)).frame(width: 6, height: 6)
             }
             .padding(.top, 4)
+        }
+    }
+    
+    // MARK: - 5. Study History Section (Lịch Sử Học Tập)
+    private var studyHistorySection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 6) {
+                Image(systemName: "clock.arrow.circlepath")
+                    .foregroundColor(AppTheme.primaryMint)
+                    .font(.system(size: 15, weight: .bold))
+                Text("Lịch Sử Học Tập")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .foregroundColor(Color(hex: "#111827"))
+                Spacer()
+            }
+            .padding(.horizontal, 2)
+            
+            ForEach(historyStore.groupedSections, id: \.sectionTitle) { group in
+                VStack(alignment: .center, spacing: 8) {
+                    // Tiêu đề nhóm theo ngày: -- hôm nay --, -- hôm qua --
+                    Text("-- \(group.sectionTitle) --")
+                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                        .foregroundColor(AppTheme.textSecondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 2)
+                    
+                    VStack(spacing: 8) {
+                        ForEach(group.items) { item in
+                            SwipeableHistoryRow(
+                                item: item,
+                                onSelect: {
+                                    withAnimation(.easeInOut(duration: 0.25)) {
+                                        selectedHistoryTopic = item.topicItem
+                                    }
+                                },
+                                onDelete: {
+                                    historyStore.remove(id: item.id)
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Swipeable History Row (Vuốt Trái Để Xóa Chuẩn iOS)
+struct SwipeableHistoryRow: View {
+    let item: StudyHistoryItem
+    let onSelect: () -> Void
+    let onDelete: () -> Void
+    
+    @State private var offset: CGFloat = 0
+    @State private var isSwiped: Bool = false
+    
+    private let buttonWidth: CGFloat = 72
+    
+    var body: some View {
+        ZStack(alignment: .trailing) {
+            // Nút Xóa đỏ nằm phía dưới bên phải
+            HStack {
+                Spacer()
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        onDelete()
+                    }
+                }) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "trash.fill")
+                            .font(.system(size: 16, weight: .bold))
+                        Text("Xóa")
+                            .font(.system(size: 11, weight: .semibold))
+                    }
+                    .foregroundColor(.white)
+                    .frame(width: buttonWidth)
+                    .frame(maxHeight: .infinity)
+                    .background(Color(hex: "#EF4444"))
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                }
+            }
+            
+            // Thẻ nội dung chính
+            Button(action: {
+                if isSwiped {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        offset = 0
+                        isSwiped = false
+                    }
+                } else {
+                    onSelect()
+                }
+            }) {
+                HStack(spacing: 12) {
+                    ZStack {
+                        Circle()
+                            .fill(Color(hex: "#ECFDF5"))
+                            .frame(width: 38, height: 38)
+                        Image(systemName: "book.fill")
+                            .font(.system(size: 15))
+                            .foregroundColor(AppTheme.primaryMint)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(item.displaySubtitle)
+                            .font(.system(size: 14, weight: .semibold, design: .rounded))
+                            .foregroundColor(Color(hex: "#111827"))
+                            .lineLimit(2)
+                            .multilineTextAlignment(.leading)
+                    }
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(Color.gray.opacity(0.5))
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .fill(Color.white)
+                        .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
+                )
+            }
+            .buttonStyle(.plain)
+            .offset(x: offset)
+            .gesture(
+                DragGesture(minimumDistance: 15)
+                    .onChanged { value in
+                        if value.translation.width < 0 {
+                            // Vuốt sang trái
+                            let drag = value.translation.width + (isSwiped ? -buttonWidth : 0)
+                            offset = max(-buttonWidth - 15, drag)
+                        } else if isSwiped && value.translation.width > 0 {
+                            // Kéo ngược lại về phải
+                            offset = min(0, -buttonWidth + value.translation.width)
+                        }
+                    }
+                    .onEnded { value in
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
+                            if value.translation.width < -30 {
+                                offset = -buttonWidth
+                                isSwiped = true
+                            } else {
+                                offset = 0
+                                isSwiped = false
+                            }
+                        }
+                    }
+            )
         }
     }
 }
