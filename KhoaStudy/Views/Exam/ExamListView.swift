@@ -452,48 +452,56 @@ struct ExamListView: View {
     }
     
     private func generateCuratedExams() -> [CuratedExamItem] {
+        let semVal = selectedSemester == 0 ? 1 : selectedSemester
         let semName = selectedSemester == 1 ? "Học Kì I" : (selectedSemester == 2 ? "Học Kì II" : "Toàn Diện Cả Năm")
         let sub = selectedSubject
         let gr = selectedGrade
         
+        // Lấy danh sách các chuyên đề thật 100% từ trithucAI qua SubjectCurriculumStore
+        let realTopics = SubjectCurriculumStore.shared.getTopics(subject: sub, grade: gr, semester: semVal)
+        let mainTopicTitles = realTopics.map { $0.title }
+        let topicsPreview = mainTopicTitles.prefix(3).joined(separator: ", ")
+        
         switch selectedExamCategory {
         case 0:
-            // Đề Giữa Kỳ
+            // Đề Giữa Kỳ (Bám sát 50% kiến thức học kỳ từ trithucAI)
+            let midQuery = !mainTopicTitles.isEmpty ? "Kiến thức giữa kì bám sát trithucAI: \(topicsPreview)" : "Đề thi giữa kì môn \(sub) lớp \(gr)"
             return [
                 CuratedExamItem(
-                    title: "Đề Thi Khảo Sát Giữa \(semName) - Môn \(sub) \(gr) (Đề Số 01)",
+                    title: "Đề Thi Khảo Sát Giữa \(semName) - Môn \(sub) \(gr) (Đề Chuẩn 01)",
                     categoryBadge: "GIỮA KÌ",
                     durationMinutes: 45,
                     questionCount: 28,
                     difficulty: "Chuẩn Đề Thi",
-                    description: "Trọng tâm kiến thức 4 tuần đầu kỳ: Đầy đủ các mức độ Nhận biết, Thông hiểu và Vận dụng cao.",
+                    description: "Trọng tâm kiến thức chuẩn trithucAI: \(topicsPreview.isEmpty ? "Đầy đủ nhận biết, thông hiểu và vận dụng." : topicsPreview).",
                     isHot: true,
-                    topicQuery: "Đề kiểm tra giữa kỳ 1 môn \(sub) lớp \(gr) chuẩn cấu trúc bộ giáo dục"
+                    topicQuery: midQuery
                 ),
                 CuratedExamItem(
-                    title: "Đề Ôn Luyện Trọng Tâm Giữa \(semName) - Môn \(sub) \(gr) (Đề Số 02)",
+                    title: "Đề Ôn Luyện Phân Hóa Giữa \(semName) - Môn \(sub) \(gr) (Đề 02)",
                     categoryBadge: "GIỮA KÌ",
                     durationMinutes: 45,
                     questionCount: 25,
                     difficulty: "Nâng Cao",
-                    description: "Bộ câu hỏi phân hóa điểm 8-9-10 dành cho học sinh khá giỏi ôn luyện bứt phá điểm số.",
+                    description: "Tập trung các câu hỏi vận dụng và bẫy đề thi hay gặp trong chương trình \(sub) \(gr).",
                     isHot: false,
-                    topicQuery: "Đề thi giữa kỳ môn \(sub) lớp \(gr) câu hỏi phân hóa điểm cao"
+                    topicQuery: "Đề thi giữa kì nâng cao môn \(sub) lớp \(gr) chuẩn trithucAI"
                 ),
                 CuratedExamItem(
-                    title: "Đề Thử Sức Nhanh Giữa \(semName) - Môn \(sub) \(gr) (Đề Số 03)",
+                    title: "Đề Rà Soát Cơ Bản Giữa \(semName) - Môn \(sub) \(gr) (Đề 03)",
                     categoryBadge: "GIỮA KÌ",
                     durationMinutes: 45,
-                    questionCount: 22,
+                    questionCount: 20,
                     difficulty: "Cơ Bản Chắc Điểm",
-                    description: "Rà soát lại toàn bộ công thức và định lý cốt lõi, tránh các bẫy trắc nghiệm phổ biến.",
+                    description: "Chống điểm liệt, rà soát lại toàn bộ công thức và định lý cốt lõi của \(semName).",
                     isHot: false,
-                    topicQuery: "Đề thi thử giữa kỳ môn \(sub) lớp \(gr) chống điểm liệt và nắm chắc cơ bản"
+                    topicQuery: "Đề kiểm tra giữa kỳ cơ bản môn \(sub) lớp \(gr) trithucAI"
                 )
             ]
             
         case 1:
-            // Đề Cuối Kỳ
+            // Đề Cuối Kỳ (Bao quát 100% kiến thức từ trithucAI)
+            let allTopicsQuery = !mainTopicTitles.isEmpty ? "Kiến thức cuối kì toàn diện trithucAI: \(mainTopicTitles.prefix(5).joined(separator: "; "))" : "Đề thi cuối kì môn \(sub) lớp \(gr)"
             return [
                 CuratedExamItem(
                     title: "Đề Thi Chính Thức Cuối \(semName) - Môn \(sub) \(gr) (Mã Đề 101)",
@@ -501,60 +509,65 @@ struct ExamListView: View {
                     durationMinutes: 90,
                     questionCount: 40,
                     difficulty: "Tổng Hợp Chuẩn",
-                    description: "Bao quát 100% chương trình của \(semName), mô phỏng áp lực phòng thi thật.",
+                    description: "Bao quát toàn bộ chuyên đề theo giáo trình trithucAI, mô phỏng phòng thi thật.",
                     isHot: true,
-                    topicQuery: "Đề thi học kỳ cuối kỳ môn \(sub) lớp \(gr) đầy đủ kiến thức học kỳ"
+                    topicQuery: allTopicsQuery
                 ),
                 CuratedExamItem(
-                    title: "Đề Khảo Sát Chất Lượng Cuối \(semName) - Các Trường Chuyên (Mã Đề 102)",
+                    title: "Đề Khảo Sát Trường Chuyên Cuối \(semName) - Môn \(sub) \(gr) (Mã Đề 102)",
                     categoryBadge: "CUỐI KÌ",
                     durationMinutes: 90,
                     questionCount: 40,
                     difficulty: "Phân Hóa Chuyên",
-                    description: "Tổng hợp từ đề thi thử học kỳ của các trường THPT Chuyên hàng đầu toàn quốc.",
+                    description: "Đề phân hóa điểm 8-9-10 từ các trường THPT Chuyên trên toàn quốc theo chuẩn BGD.",
                     isHot: true,
-                    topicQuery: "Đề thi cuối kỳ môn \(sub) lớp \(gr) các trường chuyên trường điểm"
+                    topicQuery: "Đề thi học kỳ chuyên sâu môn \(sub) lớp \(gr) trithucAI"
                 ),
                 CuratedExamItem(
-                    title: "Đề Thi Thực Chiến Cuối \(semName) - Bứt Phá Điểm 9+ (Mã Đề 103)",
+                    title: "Đề Bứt Phá Điểm 9+ Cuối \(semName) - Môn \(sub) \(gr) (Mã Đề 103)",
                     categoryBadge: "CUỐI KÌ",
                     durationMinutes: 90,
                     questionCount: 35,
-                    difficulty: "Bứt Phá Điểm Cao",
-                    description: "Tập trung các bẫy đề thi, kỹ thuật bấm máy tính cầm tay và tư duy giải nhanh.",
+                    difficulty: "Bứt Phá Điểm 9+",
+                    description: "Rèn luyện tư duy phản xạ nhanh, bẫy trắc nghiệm và phương pháp giải toán thực tế.",
                     isHot: false,
-                    topicQuery: "Đề thi cuối kỳ môn \(sub) lớp \(gr) rèn luyện tư duy giải nhanh"
+                    topicQuery: "Đề thi cuối kỳ điểm cao môn \(sub) lớp \(gr) trithucAI"
                 )
             ]
             
         case 2:
-            // Ôn Tập Chương
-            let chapterName = sub == "Toán" ? (gr == 12 ? "Khảo Sát Hàm Số & Ứng Dụng Đạo Hàm" : "Hàm Số Lượng Giác & Phương Trình") : "Chuyên Đề Trọng Tâm Chắt Lọc"
-            return [
-                CuratedExamItem(
-                    title: "Ôn Tập Chuyên Đề: \(chapterName)",
-                    categoryBadge: "CHUYÊN ĐỀ",
-                    durationMinutes: 30,
-                    questionCount: 18,
-                    difficulty: "Chuyên Sâu",
-                    description: "Hệ thống hóa toàn bộ dạng bài thường gặp trong đề thi, từ bài tập nhận biết đến thực tế.",
-                    isHot: true,
-                    topicQuery: "Bài tập ôn tập chuyên đề \(chapterName) môn \(sub) lớp \(gr)"
-                ),
-                CuratedExamItem(
-                    title: "Kiểm Tra 15 Phút Nhanh: Công Thức & Khái Niệm Cốt Lõi",
-                    categoryBadge: "CỦNG CỐ",
-                    durationMinutes: 15,
-                    questionCount: 12,
-                    difficulty: "Khởi Động",
-                    description: "Kiểm tra phản xạ lý thuyết và công thức nhanh, giúp học sinh ghi nhớ sâu.",
-                    isHot: false,
-                    topicQuery: "Kiểm tra 15 phút lý thuyết công thức môn \(sub) lớp \(gr)"
-                )
-            ]
+            // Ôn Tập Chương (LẤY TỪNG CHUYÊN ĐỀ THẬT TỪ trithucAI)
+            if !realTopics.isEmpty {
+                return realTopics.prefix(5).enumerated().map { index, topicItem in
+                    CuratedExamItem(
+                        title: "Ôn Tập Chuyên Đề: \(topicItem.title)",
+                        categoryBadge: "CHUYÊN ĐỀ",
+                        durationMinutes: 30,
+                        questionCount: 20,
+                        difficulty: "Chuyên Sâu",
+                        description: topicItem.summary.isEmpty ? "Bộ câu hỏi trắc nghiệm rèn luyện chuyên sâu chủ đề \(topicItem.title)." : topicItem.summary,
+                        isHot: index == 0,
+                        topicQuery: "Chuyên đề \(topicItem.title) môn \(sub) lớp \(gr) chuẩn trithucAI SGK"
+                    )
+                }
+            } else {
+                let defaultChapter = sub == "Toán" ? "Hàm số và Đạo hàm" : "Kiến thức trọng tâm"
+                return [
+                    CuratedExamItem(
+                        title: "Ôn Tập Chuyên Đề: \(defaultChapter)",
+                        categoryBadge: "CHUYÊN ĐỀ",
+                        durationMinutes: 30,
+                        questionCount: 18,
+                        difficulty: "Chuyên Sâu",
+                        description: "Hệ thống hóa toàn bộ dạng bài tập thường gặp trong đề thi.",
+                        isHot: true,
+                        topicQuery: "Ôn tập chuyên đề \(defaultChapter) môn \(sub) lớp \(gr)"
+                    )
+                ]
+            }
             
         default:
-            // Thi Thử THPT Quốc Gia
+            // Thi Thử THPT Quốc Gia (Dành cho Lớp 12 theo chuẩn ma trận BGD mới)
             return [
                 CuratedExamItem(
                     title: "Đề Thi Thử Tốt Nghiệp THPT - Môn \(sub) (Đề Dự Đoán Số 01)",
@@ -562,19 +575,19 @@ struct ExamListView: View {
                     durationMinutes: 50,
                     questionCount: 40,
                     difficulty: "Chuẩn Ma Trận 2025",
-                    description: "Cấu trúc đề mới nhất của Bộ GD&ĐT: Trắc nghiệm 4 lựa chọn, Đúng/Sai đa ý và Trả lời ngắn.",
+                    description: "Đề bám sát 100% tài liệu trithucAI: Trắc nghiệm 4 lựa chọn, Đúng/Sai đa ý và Điền đáp án ngắn.",
                     isHot: true,
-                    topicQuery: "Đề thi thử tốt nghiệp THPT môn \(sub) cấu trúc mới nhất bộ giáo dục"
+                    topicQuery: "Đề thi thử tốt nghiệp THPT môn \(sub) lớp 12 chuẩn cấu trúc mới trithucAI"
                 ),
                 CuratedExamItem(
-                    title: "Đề Thi Thử Tốt Nghiệp THPT - Đề Phân Hóa Thủ Khoa (Đề Số 02)",
+                    title: "Đề Thi Thử THPT Quốc Gia - Phân Hóa Thủ Khoa (Đề Số 02)",
                     categoryBadge: "THPT QUỐC GIA",
                     durationMinutes: 50,
                     questionCount: 40,
                     difficulty: "Điểm 9 - 10",
-                    description: "Rèn luyện tư duy thực tế và bài toán liên môn, tối ưu hóa thời gian làm bài.",
+                    description: "Tập trung các câu hỏi vận dụng cao, bài toán thực tế và liên môn bứt phá điểm 10.",
                     isHot: true,
-                    topicQuery: "Đề thi thử THPT quốc gia môn \(sub) bứt phá điểm 9 điểm 10"
+                    topicQuery: "Đề thi thử THPT quốc gia nâng cao môn \(sub) lớp 12 trithucAI"
                 )
             ]
         }

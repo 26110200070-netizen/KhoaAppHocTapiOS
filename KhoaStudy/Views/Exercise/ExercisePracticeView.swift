@@ -1352,5 +1352,19 @@ struct ExercisePracticeView: View {
         self.correctCount = correct
         self.totalSubItems = totalItems
         self.isSubmitted = true
+        
+        // Lưu kết quả thi thực tế 100% vào ExamHistoryStore để phục vụ Sơ Đồ Thống Kê
+        let spentSeconds = max(10, (45 * 60) - max(0, timeRemainingSeconds))
+        let title = focusTopicInput.isEmpty ? "Đề luyện thi \(selectedSubject) Lớp \(selectedGrade)" : focusTopicInput
+        ExamHistoryStore.shared.addRecord(
+            subject: selectedSubject,
+            grade: selectedGrade,
+            semester: selectedSemester,
+            examTitle: title,
+            score: normalizedScore,
+            correctCount: correct,
+            totalQuestions: totalItems,
+            durationSeconds: spentSeconds
+        )
     }
 }

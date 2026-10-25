@@ -1,13 +1,13 @@
 import SwiftUI
 
-/// Sơ Đồ Thống Kê Học Tập - Hiển thị toàn diện số liệu tự học, bài học đã nạp, phân bố môn học, điểm thi
+/// Sơ Đồ Thống Kê Học Tập - Hiển thị 100% SỐ LIỆU THỰC TẾ
+/// Lấy dữ liệu từ StudyHistoryStore (bài học thật), ExamHistoryStore (điểm thi thật) và AppState (thời gian tự học & phiên Pomodoro thật)
 /// Thiết kế chuẩn hiện đại: Phẳng, thoáng, KHÔNG khung lồng khung (Single-layer clean surface)
 struct StudyStatisticsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appState: AppState
     @ObservedObject private var historyStore = StudyHistoryStore.shared
-    
-    @State private var selectedTimeFilter: Int = 0 // 0: Toàn thời gian, 1: Tuần này, 2: Tháng này
+    @ObservedObject private var examStore = ExamHistoryStore.shared
     
     var body: some View {
         NavigationStack {
@@ -23,17 +23,17 @@ struct StudyStatisticsView: View {
                         // 2. 4-Box Key Metrics Grid (Single-layer cards, flat & modern)
                         keyMetricsGrid
                         
-                        // 3. Subject Distribution Breakdown
+                        // 3. Subject Distribution Breakdown (100% Real from historyStore)
                         subjectBreakdownSection
                         
-                        // 4. Grade & Semester Progress
+                        // 4. Grade & Semester Progress (100% Real from historyStore)
                         gradeAndSemesterSection
                         
-                        // 5. Exam & Practice Performance Chart
+                        // 5. Exam & Practice Performance (100% Real from examStore)
                         examPerformanceSection
                         
-                        // 6. Next Learning Milestones
-                        milestonesSection
+                        // 6. Recent Learning Activity Log (100% Real)
+                        recentActivityLogSection
                         
                         Spacer().frame(height: 40)
                     }
@@ -76,10 +76,10 @@ struct StudyStatisticsView: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 52, height: 52)
+                    .frame(width: 50, height: 50)
                 
                 Image(systemName: "chart.bar.xaxis")
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundColor(.white)
             }
             
@@ -88,11 +88,11 @@ struct StudyStatisticsView: View {
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(Color(hex: "#059669"))
                 
-                Text("Hành Trình Tích Lũy Tri Thức")
-                    .font(.system(size: 19, weight: .bold, design: .rounded))
+                Text("Dữ Liệu Học Tập Thực Tế")
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
                     .foregroundColor(Color(hex: "#111827"))
                 
-                Text("Cập nhật theo dữ liệu tự học thực tế từ trước đến nay")
+                Text("Ghi nhận chính xác 100% lịch sử học, thời gian và điểm thi")
                     .font(.caption)
                     .foregroundColor(AppTheme.textSecondary)
             }
@@ -102,12 +102,21 @@ struct StudyStatisticsView: View {
         .padding(.vertical, 4)
     }
     
-    // MARK: - 2. 4-Box Key Metrics Grid (Single-layer cards, flat & modern, KHÔNG lồng khung)
+    // MARK: - 2. 4-Box Key Metrics Grid (100% SỐ LIỆU THỰC TẾ)
     private var keyMetricsGrid: some View {
         let totalHours = appState.totalStudyMinutes / 60
         let totalMins = appState.totalStudyMinutes % 60
-        let timeString = totalHours > 0 ? "\(totalHours)h \(totalMins)p" : "\(totalMins) phút"
+        let timeString: String
+        if appState.totalStudyMinutes == 0 {
+            timeString = "0 phút"
+        } else if totalHours > 0 {
+            timeString = "\(totalHours)h \(totalMins)p"
+        } else {
+            timeString = "\(totalMins) phút"
+        }
+        
         let lessonCount = historyStore.historyList.count
+        let examCount = examStore.records.count
         
         return LazyVGrid(columns: [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)], spacing: 12) {
             // Metric 1: Thời gian tự học
@@ -125,7 +134,7 @@ struct StudyStatisticsView: View {
                 iconColor: Color(hex: "#059669"),
                 bgColor: Color(hex: "#D1FAE5"),
                 value: "\(lessonCount) bài",
-                label: "Bài học đã tích lũy"
+                label: "Bài học đã ghi nhận"
             )
             
             // Metric 3: Phiên Pomodoro tập trung
@@ -137,13 +146,13 @@ struct StudyStatisticsView: View {
                 label: "Phiên treo máy học tập"
             )
             
-            // Metric 4: Chuỗi ngày liên tục
+            // Metric 4: Số đề thi đã hoàn thành
             metricTile(
-                icon: "trophy.fill",
-                iconColor: Color(hex: "#CA8A04"),
-                bgColor: Color(hex: "#FEF9C3"),
-                value: "7 ngày",
-                label: "Chuỗi ngày chăm chỉ"
+                icon: "doc.text.fill",
+                iconColor: Color(hex: "#7C3AED"),
+                bgColor: Color(hex: "#F3E8FF"),
+                value: "\(examCount) đề",
+                label: "Đề thi đã làm xong"
             )
         }
     }
@@ -153,15 +162,15 @@ struct StudyStatisticsView: View {
             ZStack {
                 Circle()
                     .fill(bgColor)
-                    .frame(width: 38, height: 38)
+                    .frame(width: 36, height: 36)
                 Image(systemName: icon)
-                    .font(.system(size: 18, weight: .bold))
+                    .font(.system(size: 16, weight: .bold))
                     .foregroundColor(iconColor)
             }
             
             VStack(alignment: .leading, spacing: 2) {
                 Text(value)
-                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                    .font(.system(size: 19, weight: .bold, design: .rounded))
                     .foregroundColor(Color(hex: "#111827"))
                     .lineLimit(1)
                 
@@ -180,9 +189,9 @@ struct StudyStatisticsView: View {
         )
     }
     
-    // MARK: - 3. Subject Breakdown Section (Clean flat card, NO nested boxes)
+    // MARK: - 3. Subject Breakdown Section (100% Real from historyStore)
     private var subjectBreakdownSection: some View {
-        let stats = computeSubjectStats()
+        let stats = computeRealSubjectStats()
         
         return VStack(alignment: .leading, spacing: 14) {
             HStack {
@@ -190,7 +199,7 @@ struct StudyStatisticsView: View {
                     Text("Phân Bố Kiến Thức Theo Môn")
                         .font(.system(size: 16, weight: .bold, design: .rounded))
                         .foregroundColor(Color(hex: "#111827"))
-                    Text("Tỷ trọng các bài học đã học theo môn học")
+                    Text("Dựa trên các bài học đã mở học trong lịch sử")
                         .font(.caption)
                         .foregroundColor(AppTheme.textSecondary)
                 }
@@ -199,39 +208,59 @@ struct StudyStatisticsView: View {
                     .foregroundColor(Color(hex: "#10B981"))
             }
             
-            // Stacked Multi-Color Progress Bar
-            GeometryReader { geo in
-                HStack(spacing: 3) {
-                    ForEach(stats) { item in
-                        let w = max(geo.size.width * CGFloat(item.percentage) / 100.0, item.percentage > 0 ? 8 : 0)
-                        RoundedRectangle(cornerRadius: 4, style: .continuous)
-                            .fill(item.color)
-                            .frame(width: w, height: 12)
+            if stats.isEmpty {
+                // Empty state khi học sinh chưa học bài nào
+                HStack {
+                    Spacer()
+                    VStack(spacing: 6) {
+                        Image(systemName: "book.closed")
+                            .font(.system(size: 28))
+                            .foregroundColor(Color.gray.opacity(0.4))
+                        Text("Chưa có bài học nào được ghi nhận")
+                            .font(.system(size: 13, weight: .medium))
+                            .foregroundColor(AppTheme.textSecondary)
+                        Text("Hãy chọn một bài học ở mục 'Học lí thuyết' để bắt đầu")
+                            .font(.caption2)
+                            .foregroundColor(AppTheme.textMuted)
+                    }
+                    .padding(.vertical, 16)
+                    Spacer()
+                }
+            } else {
+                // Stacked Multi-Color Progress Bar
+                GeometryReader { geo in
+                    HStack(spacing: 3) {
+                        ForEach(stats) { item in
+                            let w = max(geo.size.width * CGFloat(item.percentage) / 100.0, 8)
+                            RoundedRectangle(cornerRadius: 4, style: .continuous)
+                                .fill(item.color)
+                                .frame(width: w, height: 12)
+                        }
                     }
                 }
-            }
-            .frame(height: 12)
-            .clipShape(Capsule())
-            
-            // Subject Details Rows (Flat, no inner border)
-            VStack(spacing: 10) {
-                ForEach(stats) { item in
-                    HStack(spacing: 10) {
-                        Circle()
-                            .fill(item.color)
-                            .frame(width: 10, height: 10)
-                        
-                        Text(item.name)
-                            .font(.system(size: 13, weight: .semibold))
-                            .foregroundColor(Color(hex: "#1F2937"))
-                        
-                        Spacer()
-                        
-                        Text("\(item.lessonCount) bài (\(Int(item.percentage))%)")
-                            .font(.system(size: 12, weight: .bold, design: .rounded))
-                            .foregroundColor(AppTheme.textSecondary)
+                .frame(height: 12)
+                .clipShape(Capsule())
+                
+                // Subject Details Rows (Flat, no inner border)
+                VStack(spacing: 10) {
+                    ForEach(stats) { item in
+                        HStack(spacing: 10) {
+                            Circle()
+                                .fill(item.color)
+                                .frame(width: 10, height: 10)
+                            
+                            Text(item.name)
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundColor(Color(hex: "#1F2937"))
+                            
+                            Spacer()
+                            
+                            Text("\(item.lessonCount) bài (\(Int(item.percentage))%)")
+                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                .foregroundColor(AppTheme.textSecondary)
+                        }
+                        .padding(.vertical, 2)
                     }
-                    .padding(.vertical, 2)
                 }
             }
         }
@@ -243,17 +272,27 @@ struct StudyStatisticsView: View {
         )
     }
     
-    // MARK: - 4. Grade & Semester Progress
+    // MARK: - 4. Grade & Semester Progress (100% Real from historyStore)
     private var gradeAndSemesterSection: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            Text("Tiến Độ Theo Khối Lớp & Học Kì")
+        let total = max(historyStore.historyList.count, 1)
+        let g12 = historyStore.historyList.filter { $0.topicItem.grade == 12 }.count
+        let g11 = historyStore.historyList.filter { $0.topicItem.grade == 11 }.count
+        let g10 = historyStore.historyList.filter { $0.topicItem.grade == 10 }.count
+        
+        let sem1 = historyStore.historyList.filter { $0.topicItem.semester == 1 }.count
+        let sem2 = historyStore.historyList.filter { $0.topicItem.semester == 2 }.count
+        
+        let hasData = !historyStore.historyList.isEmpty
+        
+        return VStack(alignment: .leading, spacing: 14) {
+            Text("Phân Bố Khối Lớp & Học Kì")
                 .font(.system(size: 16, weight: .bold, design: .rounded))
                 .foregroundColor(Color(hex: "#111827"))
             
             VStack(spacing: 12) {
-                gradeProgressBar(title: "Lớp 12 (Trọng tâm tốt nghiệp)", percentage: 0.75, color: Color(hex: "#059669"))
-                gradeProgressBar(title: "Lớp 11 (Nền tảng kiến thức)", percentage: 0.50, color: Color(hex: "#0284C7"))
-                gradeProgressBar(title: "Lớp 10 (Nhập môn THPT)", percentage: 0.35, color: Color(hex: "#9333EA"))
+                realProgressBar(title: "Lớp 12", count: g12, total: hasData ? total : 0, color: Color(hex: "#059669"))
+                realProgressBar(title: "Lớp 11", count: g11, total: hasData ? total : 0, color: Color(hex: "#0284C7"))
+                realProgressBar(title: "Lớp 10", count: g10, total: hasData ? total : 0, color: Color(hex: "#9333EA"))
             }
             
             Divider().padding(.vertical, 4)
@@ -262,7 +301,7 @@ struct StudyStatisticsView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "1.circle.fill")
                         .foregroundColor(Color(hex: "#059669"))
-                    Text("Học kì 1: 68% hoàn thành")
+                    Text("Học kì 1: \(sem1) bài (\(hasData ? Int(Double(sem1)/Double(total)*100) : 0)%)")
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(Color(hex: "#374151"))
                 }
@@ -272,7 +311,7 @@ struct StudyStatisticsView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "2.circle.fill")
                         .foregroundColor(Color(hex: "#0284C7"))
-                    Text("Học kì 2: 32% hoàn thành")
+                    Text("Học kì 2: \(sem2) bài (\(hasData ? Int(Double(sem2)/Double(total)*100) : 0)%)")
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(Color(hex: "#374151"))
                 }
@@ -286,16 +325,17 @@ struct StudyStatisticsView: View {
         )
     }
     
-    private func gradeProgressBar(title: String, percentage: Double, color: Color) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+    private func realProgressBar(title: String, count: Int, total: Int, color: Color) -> some View {
+        let pct = total > 0 ? Double(count) / Double(total) : 0.0
+        return VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(title)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(Color(hex: "#1F2937"))
                 Spacer()
-                Text("\(Int(percentage * 100))%")
+                Text("\(count) bài (\(Int(pct * 100))%)")
                     .font(.system(size: 12, weight: .bold, design: .rounded))
-                    .foregroundColor(color)
+                    .foregroundColor(count > 0 ? color : AppTheme.textMuted)
             }
             
             GeometryReader { geo in
@@ -304,62 +344,108 @@ struct StudyStatisticsView: View {
                         .fill(color.opacity(0.12))
                         .frame(height: 8)
                     
-                    Capsule()
-                        .fill(color)
-                        .frame(width: geo.size.width * CGFloat(percentage), height: 8)
+                    if count > 0 {
+                        Capsule()
+                            .fill(color)
+                            .frame(width: max(geo.size.width * CGFloat(pct), 8), height: 8)
+                    }
                 }
             }
             .frame(height: 8)
         }
     }
     
-    // MARK: - 5. Exam Performance Chart
+    // MARK: - 5. Exam Performance (100% Real from examStore)
     private var examPerformanceSection: some View {
-        VStack(alignment: .leading, spacing: 14) {
+        let records = Array(examStore.recent5Records.reversed())
+        let avg = examStore.averageScore
+        
+        return VStack(alignment: .leading, spacing: 14) {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Điểm Số & Kết Quả Luyện Đề")
+                    Text("Điểm Thi & Kết Quả Luyện Đề")
                         .font(.system(size: 16, weight: .bold, design: .rounded))
                         .foregroundColor(Color(hex: "#111827"))
-                    Text("5 bài thi & luyện tập gần nhất")
+                    Text(records.isEmpty ? "Chưa có lượt làm bài nào" : "\(records.count) bài thi gần nhất")
                         .font(.caption)
                         .foregroundColor(AppTheme.textSecondary)
                 }
                 Spacer()
-                Text("ĐTB: 8.9 / 10")
-                    .font(.system(size: 12, weight: .heavy, design: .rounded))
-                    .foregroundColor(Color(hex: "#DC2626"))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 4)
-                    .background(Capsule().fill(Color(hex: "#FEE2E2")))
-            }
-            
-            // Bar Chart Visualization
-            HStack(alignment: .bottom, spacing: 16) {
-                barChartColumn(label: "Đề 1", score: 8.5, maxScore: 10.0, color: Color(hex: "#059669"))
-                barChartColumn(label: "Đề 2", score: 9.0, maxScore: 10.0, color: Color(hex: "#059669"))
-                barChartColumn(label: "Đề 3", score: 7.8, maxScore: 10.0, color: Color(hex: "#EA580C"))
-                barChartColumn(label: "Đề 4", score: 9.5, maxScore: 10.0, color: Color(hex: "#059669"))
-                barChartColumn(label: "Đề 5", score: 9.75, maxScore: 10.0, color: Color(hex: "#059669"))
-            }
-            .frame(height: 120)
-            .padding(.top, 8)
-            .padding(.horizontal, 8)
-            
-            Divider().padding(.vertical, 2)
-            
-            HStack(spacing: 20) {
-                HStack(spacing: 6) {
-                    Circle().fill(Color(hex: "#059669")).frame(width: 8, height: 8)
-                    Text("Đạt điểm giỏi (>= 8.5)")
-                        .font(.caption2)
-                        .foregroundColor(AppTheme.textSecondary)
+                
+                if let avg = avg {
+                    Text("ĐTB: \(String(format: "%.1f", avg)) / 10")
+                        .font(.system(size: 12, weight: .heavy, design: .rounded))
+                        .foregroundColor(Color(hex: "#DC2626"))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 4)
+                        .background(Capsule().fill(Color(hex: "#FEE2E2")))
+                } else {
+                    Text("Chưa có điểm")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundColor(AppTheme.textMuted)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Capsule().fill(Color.gray.opacity(0.1)))
                 }
-                HStack(spacing: 6) {
-                    Circle().fill(Color(hex: "#EA580C")).frame(width: 8, height: 8)
-                    Text("Cần ôn thêm (< 8.5)")
-                        .font(.caption2)
-                        .foregroundColor(AppTheme.textSecondary)
+            }
+            
+            if records.isEmpty {
+                // Empty state thật khi chưa làm đề
+                HStack {
+                    Spacer()
+                    VStack(spacing: 8) {
+                        Image(systemName: "pencil.and.outline")
+                            .font(.system(size: 32))
+                            .foregroundColor(Color.gray.opacity(0.4))
+                        Text("Chưa có bài thi nào được thực hiện")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(Color(hex: "#374151"))
+                        Text("Vào mục 'Ôn thi bứt phá điểm cao' để làm đề thi đầu tiên. Điểm số thật của bạn sẽ được lưu và vẽ biểu đồ tại đây!")
+                            .font(.caption)
+                            .foregroundColor(AppTheme.textSecondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 16)
+                    }
+                    .padding(.vertical, 14)
+                    Spacer()
+                }
+            } else {
+                // Bar Chart Visualization từ kết quả thật
+                HStack(alignment: .bottom, spacing: 14) {
+                    ForEach(Array(records.enumerated()), id: \.element.id) { index, rec in
+                        realBarChartColumn(
+                            label: rec.shortDate,
+                            score: rec.score,
+                            maxScore: 10.0,
+                            color: rec.score >= 8.0 ? Color(hex: "#059669") : (rec.score >= 5.0 ? Color(hex: "#0284C7") : Color(hex: "#DC2626"))
+                        )
+                    }
+                }
+                .frame(height: 120)
+                .padding(.top, 8)
+                .padding(.horizontal, 8)
+                
+                Divider().padding(.vertical, 2)
+                
+                HStack(spacing: 16) {
+                    HStack(spacing: 5) {
+                        Circle().fill(Color(hex: "#059669")).frame(width: 8, height: 8)
+                        Text("Giỏi (>= 8.0)")
+                            .font(.caption2)
+                            .foregroundColor(AppTheme.textSecondary)
+                    }
+                    HStack(spacing: 5) {
+                        Circle().fill(Color(hex: "#0284C7")).frame(width: 8, height: 8)
+                        Text("Khá (5.0 - 7.9)")
+                            .font(.caption2)
+                            .foregroundColor(AppTheme.textSecondary)
+                    }
+                    HStack(spacing: 5) {
+                        Circle().fill(Color(hex: "#DC2626")).frame(width: 8, height: 8)
+                        Text("Cần ôn thêm (< 5.0)")
+                            .font(.caption2)
+                            .foregroundColor(AppTheme.textSecondary)
+                    }
                 }
             }
         }
@@ -371,9 +457,9 @@ struct StudyStatisticsView: View {
         )
     }
     
-    private func barChartColumn(label: String, score: Double, maxScore: Double, color: Color) -> some View {
-        let heightFraction = CGFloat(score / maxScore)
-        let barHeight = max(100 * heightFraction, 16)
+    private func realBarChartColumn(label: String, score: Double, maxScore: Double, color: Color) -> some View {
+        let fraction = CGFloat(max(0.1, score / maxScore))
+        let barHeight = max(90 * fraction, 16)
         
         return VStack(spacing: 6) {
             Text(String(format: "%.1f", score))
@@ -391,23 +477,55 @@ struct StudyStatisticsView: View {
                 .frame(height: barHeight)
             
             Text(label)
-                .font(.system(size: 11, weight: .semibold))
+                .font(.system(size: 10, weight: .semibold))
                 .foregroundColor(AppTheme.textSecondary)
+                .lineLimit(1)
         }
         .frame(maxWidth: .infinity)
     }
     
-    // MARK: - 6. Milestones Section
-    private var milestonesSection: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            Text("Cột Mốc Mục Tiêu Học Tập")
+    // MARK: - 6. Recent Learning Activity Log (100% Real)
+    private var recentActivityLogSection: some View {
+        let history = Array(historyStore.historyList.prefix(5))
+        
+        return VStack(alignment: .leading, spacing: 14) {
+            Text("Nhật Ký Học Tập Gần Đây")
                 .font(.system(size: 16, weight: .bold, design: .rounded))
                 .foregroundColor(Color(hex: "#111827"))
             
-            VStack(spacing: 12) {
-                milestoneRow(icon: "star.fill", title: "Chinh phục 30 bài học lý thuyết", progress: "18 / 30 bài", fraction: 0.60, color: Color(hex: "#059669"))
-                milestoneRow(icon: "bolt.fill", title: "Luyện 10 đề thi tổng hợp", progress: "5 / 10 đề", fraction: 0.50, color: Color(hex: "#DC2626"))
-                milestoneRow(icon: "clock.badge.fill", title: "Treo máy tự học đạt 20 giờ", progress: "12h / 20h", fraction: 0.60, color: Color(hex: "#0284C7"))
+            if history.isEmpty {
+                Text("Chưa có hoạt động học nào gần đây.")
+                    .font(.caption)
+                    .foregroundColor(AppTheme.textMuted)
+                    .padding(.vertical, 8)
+            } else {
+                VStack(spacing: 10) {
+                    ForEach(history) { item in
+                        HStack(spacing: 12) {
+                            Circle()
+                                .fill(Color(hex: "#D1FAE5"))
+                                .frame(width: 32, height: 32)
+                                .overlay(
+                                    Image(systemName: "checkmark")
+                                        .font(.system(size: 12, weight: .bold))
+                                        .foregroundColor(Color(hex: "#059669"))
+                                )
+                            
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(item.topicItem.title)
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(Color(hex: "#1F2937"))
+                                    .lineLimit(1)
+                                
+                                Text("\(item.topicItem.subject) • Lớp \(item.topicItem.grade) • \(item.sectionHeader)")
+                                    .font(.caption2)
+                                    .foregroundColor(AppTheme.textSecondary)
+                            }
+                            
+                            Spacer()
+                        }
+                    }
+                }
             }
         }
         .padding(18)
@@ -418,40 +536,7 @@ struct StudyStatisticsView: View {
         )
     }
     
-    private func milestoneRow(icon: String, title: String, progress: String, fraction: Double, color: Color) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 8) {
-                Image(systemName: icon)
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(color)
-                
-                Text(title)
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(Color(hex: "#1F2937"))
-                
-                Spacer()
-                
-                Text(progress)
-                    .font(.system(size: 11, weight: .bold, design: .rounded))
-                    .foregroundColor(AppTheme.textSecondary)
-            }
-            
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule()
-                        .fill(Color.gray.opacity(0.12))
-                        .frame(height: 6)
-                    
-                    Capsule()
-                        .fill(color)
-                        .frame(width: geo.size.width * CGFloat(fraction), height: 6)
-                }
-            }
-            .frame(height: 6)
-        }
-    }
-    
-    // MARK: - Helper to compute Subject Stats from real history
+    // MARK: - Helper to compute Real Subject Stats
     private struct SubjectStatItem: Identifiable {
         let id = UUID()
         let name: String
@@ -460,8 +545,9 @@ struct StudyStatisticsView: View {
         let color: Color
     }
     
-    private func computeSubjectStats() -> [SubjectStatItem] {
+    private func computeRealSubjectStats() -> [SubjectStatItem] {
         let history = historyStore.historyList
+        guard !history.isEmpty else { return [] }
         
         let subjects = [
             ("Toán", Color(hex: "#0284C7")),
@@ -472,23 +558,12 @@ struct StudyStatisticsView: View {
             ("Địa lí", Color(hex: "#0D9488"))
         ]
         
-        if history.isEmpty {
-            // Default baseline if user has fresh install
-            return [
-                SubjectStatItem(name: "Toán", lessonCount: 6, percentage: 38, color: Color(hex: "#0284C7")),
-                SubjectStatItem(name: "Vật lí", lessonCount: 4, percentage: 25, color: Color(hex: "#7C3AED")),
-                SubjectStatItem(name: "Hóa học", lessonCount: 3, percentage: 19, color: Color(hex: "#EA580C")),
-                SubjectStatItem(name: "Sinh học", lessonCount: 2, percentage: 12, color: Color(hex: "#059669")),
-                SubjectStatItem(name: "Lịch sử", lessonCount: 1, percentage: 6, color: Color(hex: "#DC2626"))
-            ]
-        }
-        
         var counts: [String: Int] = [:]
         for item in history {
             counts[item.topicItem.subject, default: 0] += 1
         }
         
-        let total = max(history.count, 1)
+        let total = history.count
         var result: [SubjectStatItem] = []
         for (subName, col) in subjects {
             let count = counts[subName] ?? 0
@@ -497,14 +572,6 @@ struct StudyStatisticsView: View {
                 result.append(SubjectStatItem(name: subName, lessonCount: count, percentage: pct, color: col))
             }
         }
-        
-        // If result is empty after filtering, show non-zero subjects
-        if result.isEmpty {
-            return [
-                SubjectStatItem(name: "Toán", lessonCount: 1, percentage: 100, color: Color(hex: "#0284C7"))
-            ]
-        }
-        
         return result
     }
 }

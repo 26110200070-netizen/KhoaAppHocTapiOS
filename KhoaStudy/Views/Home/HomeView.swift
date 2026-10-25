@@ -8,6 +8,7 @@ struct HomeView: View {
     var onOpenHistory: (() -> Void)? = nil
     
     @ObservedObject private var historyStore = StudyHistoryStore.shared
+    @ObservedObject private var examStore = ExamHistoryStore.shared
     @State private var showingTheory: Bool = false
     @State private var showingExercise: Bool = false
     @State private var showingFocusSheet: Bool = false
@@ -316,7 +317,15 @@ struct HomeView: View {
                     let totalHours = appState.totalStudyMinutes / 60
                     let totalMins = appState.totalStudyMinutes % 60
                     let timeStr = totalHours > 0 ? "\(totalHours)h \(totalMins)p" : "\(totalMins)p"
-                    Text("Đã nạp \(historyStore.historyList.count) bài • Tự học \(timeStr) • ĐTB 8.9")
+                    let examSubtitle: String = {
+                        if examStore.records.isEmpty {
+                            return "Đã nạp \(historyStore.historyList.count) bài • Tự học \(timeStr) • Chưa thi thử"
+                        } else {
+                            let avg = examStore.records.map { $0.score }.reduce(0, +) / Double(examStore.records.count)
+                            return "Đã nạp \(historyStore.historyList.count) bài • Tự học \(timeStr) • ĐTB \(String(format: "%.1f", avg))"
+                        }
+                    }()
+                    Text(examSubtitle)
                         .font(.caption)
                         .foregroundColor(AppTheme.textSecondary)
                         .lineLimit(1)

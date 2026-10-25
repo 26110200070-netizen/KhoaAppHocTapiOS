@@ -1277,8 +1277,21 @@ class GeminiAIService {
         let schemaJoined = schemaFields.joined(separator: ",\n")
         let partReqsJoined = partReqs.joined(separator: "\n")
         
+        let realTopics = SubjectCurriculumStore.shared.getTopics(subject: subject, grade: grade, semester: semester)
+        let trithucKnowledgeList = realTopics.prefix(6).map { topic in
+            let snippet = topic.summary.isEmpty ? "" : " - Tóm tắt cốt lõi: \(topic.summary.prefix(160))..."
+            return "• Chuyên đề: \(topic.title)\(snippet)"
+        }.joined(separator: "\n")
+        let trithucPromptSection = trithucKnowledgeList.isEmpty ? "" : """
+        [DỮ LIỆU CHUẨN XÁC TỪ KHO KIẾN THỨC TRITHUCAI (SGK BỘ GIÁO DỤC 2026)]:
+        \(trithucKnowledgeList)
+        * YÊU CẦU BẮT BUỘC: Toàn bộ câu hỏi thi trắc nghiệm, đúng/sai và trả lời ngắn PHẢI bám sát triệt để theo các chuyên đề và công thức thực tế trong kho trithucAI nêu trên. Tuyệt đối không tự bịa đặt kiến thức, không ra đề sai lệch chương trình GDPT!
+        """
+
         return """
         Bạn là Chuyên gia Khảo thí Cao cấp của Bộ Giáo Dục & Đào Tạo Việt Nam, chịu trách nhiệm xây dựng đề thi chuẩn hóa năm học 2025 - 2026 theo chương trình GDPT mới (bộ sách Kết Nối Tri Thức, Cánh Diều, Chân Trời Sáng Tạo).
+
+        \(trithucPromptSection)
 
         \(webContext)
 
