@@ -61,6 +61,31 @@ struct MindmapNode: Identifiable {
         self.traps = traps
         self.children = children
     }
+    
+    // Convenience init allowing importance before description
+    init(
+        id: String = UUID().uuidString,
+        title: String,
+        icon: String = "circle.fill",
+        colorHex: String = "#0284C7",
+        importance: NodeImportance,
+        description: String = "",
+        formulas: [String] = [],
+        keyPoints: [String] = [],
+        traps: [String] = [],
+        children: [MindmapNode] = []
+    ) {
+        self.id = id
+        self.title = title
+        self.icon = icon
+        self.colorHex = colorHex
+        self.description = description
+        self.importance = importance
+        self.formulas = formulas
+        self.keyPoints = keyPoints
+        self.traps = traps
+        self.children = children
+    }
 }
 
 // MARK: - Knowledge Mindmap View
