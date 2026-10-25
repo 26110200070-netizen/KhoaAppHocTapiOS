@@ -429,34 +429,38 @@ struct SwipeableHistoryRow: View {
             }) {
                 HStack(spacing: 12) {
                     ZStack {
-                        Circle()
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
                             .fill(Color(hex: "#ECFDF5"))
                             .frame(width: 38, height: 38)
-                        Image(systemName: "book.fill")
-                            .font(.system(size: 15))
+                        Image(systemName: "book.closed.fill")
+                            .font(.system(size: 16))
                             .foregroundColor(AppTheme.primaryMint)
                     }
                     
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text(item.displaySubtitle)
-                            .font(.system(size: 14, weight: .semibold, design: .rounded))
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(item.topicItem.title)
+                            .font(.system(size: 15, weight: .bold, design: .rounded))
                             .foregroundColor(Color(hex: "#111827"))
                             .lineLimit(2)
                             .multilineTextAlignment(.leading)
+                        
+                        Text("Lớp \(item.topicItem.grade) - Học Kì \(item.topicItem.semester) - Môn: \(item.topicItem.subject)")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(AppTheme.textSecondary)
                     }
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(Color.gray.opacity(0.5))
+                        .foregroundColor(Color.gray.opacity(0.4))
                 }
                 .padding(.horizontal, 14)
                 .padding(.vertical, 12)
                 .background(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
                         .fill(Color.white)
-                        .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
+                        .shadow(color: Color.black.opacity(0.03), radius: 4, x: 0, y: 1)
                 )
             }
             .buttonStyle(.plain)

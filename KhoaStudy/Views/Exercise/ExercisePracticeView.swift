@@ -599,30 +599,42 @@ struct ExercisePracticeView: View {
             .padding(.horizontal, 16)
             .padding(.bottom, 8)
             
-            // Questions Scroll View
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 16) {
-                    if activeExamPart == 0 {
-                        // Part 1: Multiple Choice Questions
-                        ForEach(activeExam?.multipleChoice ?? []) { q in
-                            mcQuestionCard(q)
+            // Questions Scroll View (Tự động cuộn lên đầu khi chuyển tab trắc nghiệm / đúng sai / trả lời ngắn)
+            ScrollViewReader { scrollProxy in
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 16) {
+                        // Anchor cuộn lên đầu trang
+                        Color.clear
+                            .frame(height: 1)
+                            .id("EXAM_QUESTIONS_TOP_ANCHOR")
+                        
+                        if activeExamPart == 0 {
+                            // Part 1: Multiple Choice Questions
+                            ForEach(activeExam?.multipleChoice ?? []) { q in
+                                mcQuestionCard(q)
+                            }
+                        } else if activeExamPart == 1 {
+                            // Part 2: True / False Questions
+                            ForEach(activeExam?.trueFalse ?? []) { q in
+                                tfQuestionCard(q)
+                            }
+                        } else {
+                            // Part 3: Short Answer Questions
+                            ForEach(activeExam?.shortAnswer ?? []) { q in
+                                saQuestionCard(q)
+                            }
                         }
-                    } else if activeExamPart == 1 {
-                        // Part 2: True / False Questions
-                        ForEach(activeExam?.trueFalse ?? []) { q in
-                            tfQuestionCard(q)
-                        }
-                    } else {
-                        // Part 3: Short Answer Questions
-                        ForEach(activeExam?.shortAnswer ?? []) { q in
-                            saQuestionCard(q)
-                        }
+                        
+                        Spacer().frame(height: 100)
                     }
-                    
-                    Spacer().frame(height: 100)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 8)
+                .onChange(of: activeExamPart) { _ in
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        scrollProxy.scrollTo("EXAM_QUESTIONS_TOP_ANCHOR", anchor: .top)
+                    }
+                }
             }
             
             // Bottom Sticky Bar: Submit Button

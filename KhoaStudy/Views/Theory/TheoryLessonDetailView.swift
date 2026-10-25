@@ -419,36 +419,9 @@ struct TheoryLessonDetailView: View {
         .overlay(Divider(), alignment: .bottom)
     }
     
-    // Loading State
+    // Loading State: Hiệu ứng Shimy đang tìm kiếm và soạn (Thoáng đãng, không khung bao bọc)
     private var loadingLessonView: some View {
-        VStack(spacing: 20) {
-            Spacer()
-            
-            ZStack {
-                Circle()
-                    .stroke(Color(hex: "#E5E7EB"), lineWidth: 4)
-                    .frame(width: 64, height: 64)
-                
-                ProgressView()
-                    .scaleEffect(1.3)
-                    .progressViewStyle(CircularProgressViewStyle(tint: AppTheme.primaryMint))
-            }
-            
-            VStack(spacing: 6) {
-                Text("AI Đang Tra Cứu Web Search 2026...")
-                    .font(.system(size: 16, weight: .bold, design: .rounded))
-                    .foregroundColor(Color(hex: "#111827"))
-                
-                Text("Đang tổng hợp kiến thức từ SGK mới & chuẩn bị video bài giảng YouTube cho bạn.")
-                    .font(.caption)
-                    .foregroundColor(AppTheme.textSecondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
-            }
-            
-            Spacer()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        ShimyFloatingLoadingView()
     }
     
     // MARK: - Actions
@@ -496,3 +469,84 @@ struct TheoryLessonDetailView: View {
         }
     }
 }
+
+// MARK: - Shimy Floating Loading Animation (Hoàn toàn thoáng đãng, không viền khung)
+struct ShimyFloatingLoadingView: View {
+    @State private var isAnimating = false
+    
+    var body: some View {
+        VStack(spacing: 22) {
+            Spacer()
+            
+            // Floating Sparkle Aura
+            ZStack {
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                AppTheme.primaryMint.opacity(0.25),
+                                AppTheme.primaryMint.opacity(0.0)
+                            ],
+                            center: .center,
+                            startRadius: 5,
+                            endRadius: 55
+                        )
+                    )
+                    .frame(width: 110, height: 110)
+                    .scaleEffect(isAnimating ? 1.2 : 0.85)
+                    .opacity(isAnimating ? 0.9 : 0.4)
+                
+                Image(systemName: "sparkles")
+                    .font(.system(size: 40, weight: .bold))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [AppTheme.primaryMint, Color(hex: "#059669"), Color(hex: "#0284C7")],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .rotationEffect(.degrees(isAnimating ? 10 : -10))
+                    .scaleEffect(isAnimating ? 1.08 : 0.92)
+            }
+            .animation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true), value: isAnimating)
+            
+            // 3 Animated Glowing Wave Dots
+            HStack(spacing: 8) {
+                ForEach(0..<3) { index in
+                    Circle()
+                        .fill(
+                            [AppTheme.primaryMint, Color(hex: "#10B981"), Color(hex: "#06B6D4")][index]
+                        )
+                        .frame(width: 8, height: 8)
+                        .scaleEffect(isAnimating ? 1.25 : 0.7)
+                        .opacity(isAnimating ? 1.0 : 0.35)
+                        .animation(
+                            .easeInOut(duration: 0.6)
+                            .repeatForever(autoreverses: true)
+                            .delay(Double(index) * 0.18),
+                            value: isAnimating
+                        )
+                }
+            }
+            
+            VStack(spacing: 6) {
+                Text("Shimy đang tìm kiếm và soạn")
+                    .font(.system(size: 17, weight: .bold, design: .rounded))
+                    .foregroundColor(Color(hex: "#111827"))
+                
+                Text("Đang tổng hợp kiến thức từ SGK mới & chuẩn bị bài học chi tiết cho bạn.")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundColor(AppTheme.textSecondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 40)
+            }
+            
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear {
+            isAnimating = true
+        }
+    }
+}
+

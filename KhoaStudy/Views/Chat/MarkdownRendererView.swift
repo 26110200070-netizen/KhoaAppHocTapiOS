@@ -119,6 +119,7 @@ struct KaTeXMarkdownWebView: UIViewRepresentable {
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
                 <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
                 <style>
                     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -180,7 +181,19 @@ struct KaTeXMarkdownWebView: UIViewRepresentable {
                                 return "%%CODEBLOCK" + (codeBlocks.length - 1) + "%%";
                             });
                             
-                            // 2. Bảo vệ và chuẩn hóa các khối công thức toán học
+                            // 2. Bảo vệ và chuẩn hóa công thức hóa học \\ce (mhchem) trước tiên
+                            s = s.replace(/\\\\ce\\{([^}]+)\\}/g, function(_, formula) {
+                                return "%%CHEM{" + formula + "}%%";
+                            });
+                            s = s.replace(/\\\\ce\\s*([A-Za-z0-9'_\\-+><=()[\\]\\s]+?)(?=\\||$|\\n|\\$|<|&|;|\\.\\s)/g, function(_, formula) {
+                                var cleanFormula = formula.trim();
+                                if (!cleanFormula) return "\\\\ce";
+                                return "%%CHEM{" + cleanFormula + "}%%";
+                            });
+                            s = s.replace(/\\$%%CHEM\\{([^}]+)\\}\\%\\$/g, function(_, f) { return "$\\ce{" + f + "}$"; });
+                            s = s.replace(/%%CHEM\\{([^}]+)\\}\\%/g, function(_, f) { return "$\\ce{" + f + "}$"; });
+                            
+                            // 3. Bảo vệ và chuẩn hóa các khối công thức toán học
                             var mathList = [];
                             function stashMath(str) {
                                 mathList.push(str);
@@ -204,19 +217,19 @@ struct KaTeXMarkdownWebView: UIViewRepresentable {
                             s = s.replace(/\\\\\\([\\s\\S]*?\\\\\\)/g, function(m) { return stashMath(m); });
                             s = s.replace(/\\$[^$\\n]+\\$/g, function(m) { return stashMath(m); });
                             
-                            // 3. Chuẩn hóa ký hiệu Unicode đặc trưng: ℕ^*, ℕ, ℤ, ℚ, ℝ
+                            // 4. Chuẩn hóa ký hiệu Unicode đặc trưng: ℕ^*, ℕ, ℤ, ℚ, ℝ
                             s = s.replace(/ℕ\\s*\\^\\s*\\*|ℕ\\*/g, function() { return stashMath("$\\mathbb{N}^*$"); });
                             s = s.replace(/ℕ/g, function() { return stashMath("$\\mathbb{N}$"); });
                             s = s.replace(/ℤ/g, function() { return stashMath("$\\mathbb{Z}$"); });
                             s = s.replace(/ℚ/g, function() { return stashMath("$\\mathbb{Q}$"); });
                             s = s.replace(/ℝ/g, function() { return stashMath("$\\mathbb{R}$"); });
                             
-                            // 4. Ký hiệu tập hợp: e.g. {0, 1, 2, 3, \\dots}
+                            // 5. Ký hiệu tập hợp: e.g. {0, 1, 2, 3, \\dots}
                             s = s.replace(/\\{[^{}\\n]*?\\\\(?:dots|cdots)[^{}\\n]*?\\}/g, function(m) {
                                 return stashMath("$\\\\{" + m.slice(1, -1) + "\\\\}$");
                             });
                             
-                            // 5. Bare LaTeX commands: \\frac, \\sqrt, \\vec, \\sum, \\mathbb, lone commands
+                            // 6. Bare LaTeX commands: \\frac, \\sqrt, \\vec, \\sum, \\mathbb, lone commands
                             s = s.replace(/\\\\frac\\{[^{}]*\\}\\{[^{}]*\\}/g, function(m) { return stashMath("$" + m + "$"); });
                             s = s.replace(/\\\\sqrt(?:\\[[^\\]]*\\])?\\{[^{}]*\\}/g, function(m) { return stashMath("$" + m + "$"); });
                             s = s.replace(/\\\\(?:vec|overrightarrow)\\{[^{}]*\\}/g, function(m) { return stashMath("$" + m + "$"); });

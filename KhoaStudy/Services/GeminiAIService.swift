@@ -840,79 +840,16 @@ class GeminiAIService {
             return
         }
         
-        let promptText = """
-        Bạn là Chuyên gia Khảo thí Cao cấp của Bộ Giáo Dục & Đào Tạo Việt Nam, chịu trách nhiệm xây dựng đề thi chuẩn hóa năm học 2025 - 2026 theo chương trình GDPT mới (bộ sách Kết Nối Tri Thức, Cánh Diều, Chân Trời Sáng Tạo).
-
-        \(webContext)
-
-        Thông tin đề thi:
-        - Lớp: \(grade)
-        - Học kỳ: \(semester)
-        - Môn học: \(subject)
-        - Trọng tâm ôn tập: "\(focusTopic.isEmpty ? "Toàn bộ kiến thức trọng tâm học kỳ \(semester) lớp \(grade)" : focusTopic)"
-
-        [YÊU CẦU ĐẶC BIỆT VỀ CHẤT LƯỢNG ĐỀ THI - BẮT BUỘC TUÂN THỦ]:
-        1. KHÔNG ĐƯỢC BỊA ĐẶT KIẾN THỨC: Toàn bộ công thức, định lý, sự kiện, dữ kiện phải chính xác 100% theo chương trình giáo dục phổ thông Việt Nam năm học 2025 - 2026.
-        2. TUYỆT ĐỐI KHÔNG ĐƯỢC TẠO CÁC CÂU HỎI GIỐNG NHAU RỒI ĐỔI SỐ:
-           - CẤM việc lặp lại cùng một công thức, hàm số hay khuôn mẫu câu hỏi rồi chỉ thay hệ số số học.
-           - Mỗi câu hỏi PHẢI khai thác một khía cạnh, góc độ và bản chất tư duy hoàn toàn khác nhau:
-             * Dạng 1: Bản chất định nghĩa, khái niệm lý thuyết, phân tích tính chất và các bẫy thường gặp.
-             * Dạng 2: Khai thác trực quan qua bảng biến thiên, đồ thị hàm số, bảng số liệu hoặc sơ đồ thí nghiệm.
-             * Dạng 3: Bài toán ứng dụng liên môn hoặc gắn liền với đời sống thực tế (kinh tế, sinh thái, kỹ thuật, tự nhiên).
-             * Dạng 4: Bài toán biện luận tham số, suy luận ngược, phân loại học sinh khá giỏi.
-        3. PHÂN BỐ MỨC ĐỘ TƯ DUY THEO CHUẨN BỘ GD&ĐT:
-           - Nhận biết (40%): Nhận diện đúng khái niệm, công thức cơ bản.
-           - Thông hiểu (30%): Hiểu bản chất, tính toán cơ bản 1-2 bước, đọc đồ thị/bảng.
-           - Vận dụng (20%): Phối hợp nhiều kiến thức, giải quyết tình huống thực tế.
-           - Vận dụng cao (10%): Tối ưu hóa, tham số nâng cao, bài toán cực trị phức hợp.
-
-        Yêu cầu số lượng câu hỏi CHÍNH XÁC:
-        1. PHẦN 1 - TRẮC NGHIỆM 4 LỰA CHỌN: Đúng \(mcCount) câu. Mỗi câu có 4 phương án A, B, C, D (chỉ 1 đáp án đúng).
-        2. PHẦN 2 - TRẮC NGHIỆM ĐÚNG/SAI: Đúng \(tfCount) câu. Mỗi câu gồm 1 ngữ cảnh/bài toán lớn dẫn dắt (context) và 4 ý a, b, c, d với giá trị boolean isCorrectTrue (true hoặc false). Các ý a, b, c, d phải phát triển tuần tự từ nhận biết đến tính toán nâng cao.
-        3. PHẦN 3 - TRẢ LỜI NGẮN: Đúng \(saCount) câu. Yêu cầu tính toán ra một đáp số cụ thể (số hoặc từ khóa ngắn gọn).
-
-        CÔNG THỨC TOÁN/LÝ/HÓA:
-        - Sử dụng ký hiệu toán học chuẩn hoặc LaTeX ngắn gọn trong $...$. Không dùng macro LaTeX phức tạp như \\boxed hay \\displaystyle.
-
-        BẮT BUỘC TRẢ VỀ DUY NHẤT 1 ĐỐI TƯỢNG JSON THUẦN TÚY TUÂN THỦ SCHEMA SAU (Không kèm markdown ```json hay giải thích):
-        {
-          "title": "Đề Khảo Sát \(subject) Lớp \(grade) - Học Kỳ \(semester)",
-          "grade": \(grade),
-          "semester": \(semester),
-          "subject": "\(subject)",
-          "focusTopic": "\(focusTopic)",
-          "multipleChoice": [
-            {
-              "id": 1,
-              "question": "Nội dung câu hỏi trắc nghiệm (sử dụng LaTeX $...$ nếu cần)",
-              "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
-              "correctIndex": 0,
-              "explanation": "Lời giải chi tiết từng bước"
-            }
-          ],
-          "trueFalse": [
-            {
-              "id": 1,
-              "context": "Ngữ cảnh đề bài hoặc bài toán thực tế dẫn dắt",
-              "statements": [
-                {"id": "a", "statement": "Nhận định ý a", "isCorrectTrue": true, "explanation": "Giải thích chi tiết"},
-                {"id": "b", "statement": "Nhận định ý b", "isCorrectTrue": false, "explanation": "Giải thích chi tiết"},
-                {"id": "c", "statement": "Nhận định ý c", "isCorrectTrue": true, "explanation": "Giải thích chi tiết"},
-                {"id": "d", "statement": "Nhận định ý d", "isCorrectTrue": false, "explanation": "Giải thích chi tiết"}
-              ]
-            }
-          ],
-          "shortAnswer": [
-            {
-              "id": 1,
-              "question": "Nội dung câu hỏi tính toán ngắn",
-              "acceptedAnswers": ["12", "12.0"],
-              "unit": "cm",
-              "explanation": "Hướng dẫn các bước tính toán chi tiết"
-            }
-          ]
-        }
-        """
+        let promptText = GeminiAIService.buildExamPrompt(
+            grade: grade,
+            semester: semester,
+            subject: subject,
+            focusTopic: focusTopic,
+            mcCount: mcCount,
+            tfCount: tfCount,
+            saCount: saCount,
+            webContext: webContext
+        )
         
         let body: [String: Any] = [
             "contents": [
@@ -954,12 +891,14 @@ class GeminiAIService {
                 
                 let cleaned = GeminiAIService.extractJsonBlock(from: text)
                 if let jsonData = cleaned.data(using: .utf8),
-                   let exam = try? JSONDecoder().decode(GeneratedExam.self, from: jsonData),
-                   !exam.multipleChoice.isEmpty {
-                    DispatchQueue.main.async {
-                        completion(.success(exam))
+                   let rawExam = try? JSONDecoder().decode(GeneratedExam.self, from: jsonData) {
+                    let sanitized = GeminiAIService.sanitizeExam(rawExam, mcCount: mcCount, tfCount: tfCount, saCount: saCount)
+                    if (sanitized.multipleChoice.count + sanitized.trueFalse.count + sanitized.shortAnswer.count) > 0 {
+                        DispatchQueue.main.async {
+                            completion(.success(sanitized))
+                        }
+                        return
                     }
-                    return
                 }
             }
             
@@ -974,7 +913,8 @@ class GeminiAIService {
                     tfCount: tfCount,
                     saCount: saCount
                 )
-                completion(.success(fallback))
+                let sanitized = GeminiAIService.sanitizeExam(fallback, mcCount: mcCount, tfCount: tfCount, saCount: saCount)
+                completion(.success(sanitized))
             }
         }.resume()
     }
@@ -998,79 +938,16 @@ class GeminiAIService {
             return
         }
         
-        let promptText = """
-        Bạn là Chuyên gia Khảo thí Cao cấp của Bộ Giáo Dục & Đào Tạo Việt Nam, chịu trách nhiệm xây dựng đề thi chuẩn hóa năm học 2025 - 2026 theo chương trình GDPT mới (bộ sách Kết Nối Tri Thức, Cánh Diều, Chân Trời Sáng Tạo).
-
-        \(webContext)
-
-        Thông tin đề thi:
-        - Lớp: \(grade)
-        - Học kỳ: \(semester)
-        - Môn học: \(subject)
-        - Trọng tâm ôn tập: "\(focusTopic.isEmpty ? "Toàn bộ kiến thức trọng tâm học kỳ \(semester) lớp \(grade)" : focusTopic)"
-
-        [YÊU CẦU ĐẶC BIỆT VỀ CHẤT LƯỢNG ĐỀ THI - BẮT BUỘC TUÂN THỦ]:
-        1. KHÔNG ĐƯỢC BỊA ĐẶT KIẾN THỨC: Toàn bộ công thức, định lý, sự kiện, dữ kiện phải chính xác 100% theo chương trình giáo dục phổ thông Việt Nam năm học 2025 - 2026.
-        2. TUYỆT ĐỐI KHÔNG ĐƯỢC TẠO CÁC CÂU HỎI GIỐNG NHAU RỒI ĐỔI SỐ:
-           - CẤM việc lặp lại cùng một công thức, hàm số hay khuôn mẫu câu hỏi rồi chỉ thay hệ số số học.
-           - Mỗi câu hỏi PHẢI khai thác một khía cạnh, góc độ và bản chất tư duy hoàn toàn khác nhau:
-             * Dạng 1: Bản chất định nghĩa, khái niệm lý thuyết, phân tích tính chất và các bẫy thường gặp.
-             * Dạng 2: Khai thác trực quan qua bảng biến thiên, đồ thị hàm số, bảng số liệu hoặc sơ đồ thí nghiệm.
-             * Dạng 3: Bài toán ứng dụng liên môn hoặc gắn liền với đời sống thực tế (kinh tế, sinh thái, kỹ thuật, tự nhiên).
-             * Dạng 4: Bài toán biện luận tham số, suy luận ngược, phân loại học sinh khá giỏi.
-        3. PHÂN BỐ MỨC ĐỘ TƯ DUY THEO CHUẨN BỘ GD&ĐT:
-           - Nhận biết (40%): Nhận diện đúng khái niệm, công thức cơ bản.
-           - Thông hiểu (30%): Hiểu bản chất, tính toán cơ bản 1-2 bước, đọc đồ thị/bảng.
-           - Vận dụng (20%): Phối hợp nhiều kiến thức, giải quyết tình huống thực tế.
-           - Vận dụng cao (10%): Tối ưu hóa, tham số nâng cao, bài toán cực trị phức hợp.
-
-        Yêu cầu số lượng câu hỏi CHÍNH XÁC:
-        1. PHẦN 1 - TRẮC NGHIỆM 4 LỰA CHỌN: Đúng \(mcCount) câu. Mỗi câu có 4 phương án A, B, C, D (chỉ 1 đáp án đúng).
-        2. PHẦN 2 - TRẮC NGHIỆM ĐÚNG/SAI: Đúng \(tfCount) câu. Mỗi câu gồm 1 ngữ cảnh/bài toán lớn dẫn dắt (context) và 4 ý a, b, c, d với giá trị boolean isCorrectTrue (true hoặc false). Các ý a, b, c, d phải phát triển tuần tự từ nhận biết đến tính toán nâng cao.
-        3. PHẦN 3 - TRẢ LỜI NGẮN: Đúng \(saCount) câu. Yêu cầu tính toán ra một đáp số cụ thể (số hoặc từ khóa ngắn gọn).
-
-        CÔNG THỨC TOÁN/LÝ/HÓA:
-        - Sử dụng ký hiệu toán học chuẩn hoặc LaTeX ngắn gọn trong $...$. Không dùng macro LaTeX phức tạp như \\boxed hay \\displaystyle.
-
-        BẮT BUỘC TRẢ VỀ DUY NHẤT 1 ĐỐI TƯỢNG JSON THUẦN TÚY TUÂN THỦ SCHEMA SAU (Không kèm markdown ```json hay giải thích):
-        {
-          "title": "Đề Khảo Sát \(subject) Lớp \(grade) - Học Kỳ \(semester)",
-          "grade": \(grade),
-          "semester": \(semester),
-          "subject": "\(subject)",
-          "focusTopic": "\(focusTopic)",
-          "multipleChoice": [
-            {
-              "id": 1,
-              "question": "Nội dung câu hỏi trắc nghiệm (sử dụng LaTeX $...$ nếu cần)",
-              "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
-              "correctIndex": 0,
-              "explanation": "Lời giải chi tiết từng bước"
-            }
-          ],
-          "trueFalse": [
-            {
-              "id": 1,
-              "context": "Ngữ cảnh đề bài hoặc bài toán thực tế dẫn dắt",
-              "statements": [
-                {"id": "a", "statement": "Nhận định ý a", "isCorrectTrue": true, "explanation": "Giải thích chi tiết"},
-                {"id": "b", "statement": "Nhận định ý b", "isCorrectTrue": false, "explanation": "Giải thích chi tiết"},
-                {"id": "c", "statement": "Nhận định ý c", "isCorrectTrue": true, "explanation": "Giải thích chi tiết"},
-                {"id": "d", "statement": "Nhận định ý d", "isCorrectTrue": false, "explanation": "Giải thích chi tiết"}
-              ]
-            }
-          ],
-          "shortAnswer": [
-            {
-              "id": 1,
-              "question": "Nội dung câu hỏi tính toán ngắn",
-              "acceptedAnswers": ["12", "12.0"],
-              "unit": "cm",
-              "explanation": "Hướng dẫn các bước tính toán chi tiết"
-            }
-          ]
-        }
-        """
+        let promptText = GeminiAIService.buildExamPrompt(
+            grade: grade,
+            semester: semester,
+            subject: subject,
+            focusTopic: focusTopic,
+            mcCount: mcCount,
+            tfCount: tfCount,
+            saCount: saCount,
+            webContext: webContext
+        )
         
         let body: [String: Any] = [
             "model": model,
@@ -1105,12 +982,14 @@ class GeminiAIService {
                 
                 let cleaned = GeminiAIService.extractJsonBlock(from: text)
                 if let jsonData = cleaned.data(using: .utf8),
-                   let exam = try? JSONDecoder().decode(GeneratedExam.self, from: jsonData),
-                   !exam.multipleChoice.isEmpty {
-                    DispatchQueue.main.async {
-                        completion(.success(exam))
+                   let rawExam = try? JSONDecoder().decode(GeneratedExam.self, from: jsonData) {
+                    let sanitized = GeminiAIService.sanitizeExam(rawExam, mcCount: mcCount, tfCount: tfCount, saCount: saCount)
+                    if (sanitized.multipleChoice.count + sanitized.trueFalse.count + sanitized.shortAnswer.count) > 0 {
+                        DispatchQueue.main.async {
+                            completion(.success(sanitized))
+                        }
+                        return
                     }
-                    return
                 }
             }
             
@@ -1125,7 +1004,8 @@ class GeminiAIService {
                     tfCount: tfCount,
                     saCount: saCount
                 )
-                completion(.success(fallback))
+                let sanitized = GeminiAIService.sanitizeExam(fallback, mcCount: mcCount, tfCount: tfCount, saCount: saCount)
+                completion(.success(sanitized))
             }
         }.resume()
     }
@@ -1203,75 +1083,16 @@ class GeminiAIService {
                 return
             }
         
-            var searchSection = ""
-            if !webContext.isEmpty {
-                searchSection = """
-                
-                DỮ LIỆU TÌM KIẾM WEB CHUẨN NĂM 2026 TỪ BỘ GIÁO DỤC VÀ ĐÀO TẠO:
-                \(webContext)
-                
-                QUY ĐỊNH BẮT BUỘC:
-                - Dựa trực tiếp vào dữ liệu tra cứu 2026 ở trên để ra câu hỏi thực tế, chuẩn xác, tuyệt đối không bịa đặt kiến thức cũ trước 2025.
-                - Các câu hỏi phải ĐA DẠNG: không được dùng cùng 1 mẫu câu rồi chỉ thay đổi số liệu. Mỗi câu hỏi phải kiểm tra một khía cạnh kiến thức hoặc dạng bài khác nhau.
-                """
-            }
-            
-            let promptText = """
-            Bạn là Chuyên gia Khảo thí của Bộ Giáo Dục & Đào Tạo. Hãy dùng tìm kiếm web tra cứu giáo trình chuẩn (Kết Nối Tri Thức, Cánh Diều, Chân Trời Sáng Tạo) để tạo 1 Đề Thi Kiểm Tra chuẩn cho:
-            - Lớp: \(grade)
-            - Học kỳ: \(semester)
-            - Môn học: \(subject)
-            - Trọng tâm kiến thức: "\(focusTopic.isEmpty ? "Toàn bộ kiến thức trọng tâm học kỳ \(semester) lớp \(grade)" : focusTopic)"
-            \(searchSection)
-
-            Yêu cầu số lượng câu hỏi CHÍNH XÁC:
-            1. Đúng \(mcCount) câu hỏi Trắc nghiệm 4 lựa chọn (A, B, C, D, chỉ 1 đáp án đúng).
-            2. Đúng \(tfCount) câu hỏi Đúng/Sai (Mỗi câu gồm ngữ cảnh và 4 ý a, b, c, d; mỗi ý xác định đúng hay sai).
-            3. Đúng \(saCount) câu hỏi Trả lời ngắn (Điền số hoặc đáp số ngắn).
-
-            Yêu cầu kỹ thuật:
-            - Sử dụng công thức toán/lý/hóa bằng định dạng LaTeX chuẩn ($...$).
-            - Không được trùng lặp, bám sát SGK.
-            - Lời giải thích (explanation) phải chi tiết, hướng dẫn từng bước.
-            - BẮT BUỘC trả về DUY NHẤT 1 đối tượng JSON thuần túy (không kèm lời chào hay văn bản thừa), theo định dạng sau:
-            {
-              "title": "Đề Khảo Sát \(subject) Lớp \(grade) - Học Kỳ \(semester)",
-              "grade": \(grade),
-              "semester": \(semester),
-              "subject": "\(subject)",
-              "focusTopic": "\(focusTopic)",
-              "multipleChoice": [
-                {
-                  "id": 1,
-                  "question": "Nội dung câu hỏi",
-                  "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
-                  "correctIndex": 0,
-                  "explanation": "Giải thích chi tiết"
-                }
-              ],
-              "trueFalse": [
-                {
-                  "id": 1,
-                  "context": "Ngữ cảnh đề bài",
-                  "statements": [
-                    {"id": "a", "statement": "Ý a", "isCorrectTrue": true, "explanation": "Giải thích"},
-                    {"id": "b", "statement": "Ý b", "isCorrectTrue": false, "explanation": "Giải thích"},
-                    {"id": "c", "statement": "Ý c", "isCorrectTrue": true, "explanation": "Giải thích"},
-                    {"id": "d", "statement": "Ý d", "isCorrectTrue": false, "explanation": "Giải thích"}
-                  ]
-                }
-              ],
-              "shortAnswer": [
-                {
-                  "id": 1,
-                  "question": "Nội dung câu hỏi tính toán ngắn",
-                  "acceptedAnswers": ["12", "12.0"],
-                  "unit": "cm",
-                  "explanation": "Lời giải chi tiết"
-                }
-              ]
-            }
-            """
+            let promptText = GeminiAIService.buildExamPrompt(
+                grade: grade,
+                semester: semester,
+                subject: subject,
+                focusTopic: focusTopic,
+                mcCount: mcCount,
+                tfCount: tfCount,
+                saCount: saCount,
+                webContext: webContext
+            )
             
             let apiMessages: [[String: String]] = [
                 ["role": "user", "content": promptText]
@@ -1310,12 +1131,14 @@ class GeminiAIService {
                     
                     let cleaned = GeminiAIService.extractJsonBlock(from: content)
                     if let jsonData = cleaned.data(using: .utf8),
-                       let exam = try? JSONDecoder().decode(GeneratedExam.self, from: jsonData),
-                       !exam.multipleChoice.isEmpty {
-                        DispatchQueue.main.async {
-                            completion(.success(exam))
+                       let rawExam = try? JSONDecoder().decode(GeneratedExam.self, from: jsonData) {
+                        let sanitized = GeminiAIService.sanitizeExam(rawExam, mcCount: mcCount, tfCount: tfCount, saCount: saCount)
+                        if (sanitized.multipleChoice.count + sanitized.trueFalse.count + sanitized.shortAnswer.count) > 0 {
+                            DispatchQueue.main.async {
+                                completion(.success(sanitized))
+                            }
+                            return
                         }
-                        return
                     }
                 }
                 
@@ -1330,7 +1153,8 @@ class GeminiAIService {
                         tfCount: tfCount,
                         saCount: saCount
                     )
-                    completion(.success(fallback))
+                    let sanitized = GeminiAIService.sanitizeExam(fallback, mcCount: mcCount, tfCount: tfCount, saCount: saCount)
+                    completion(.success(sanitized))
                 }
             }.resume()
         }
@@ -1353,5 +1177,131 @@ class GeminiAIService {
             str = String(str[openBrace...closeBrace])
         }
         return str.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    // MARK: - Sanitizer: Đảm bảo số lượng câu hỏi và phần thi đúng chính xác theo lựa chọn người dùng
+    static func sanitizeExam(_ exam: GeneratedExam, mcCount: Int, tfCount: Int, saCount: Int) -> GeneratedExam {
+        let mc = mcCount <= 0 ? [] : Array(exam.multipleChoice.prefix(mcCount))
+        let tf = tfCount <= 0 ? [] : Array(exam.trueFalse.prefix(tfCount))
+        let sa = saCount <= 0 ? [] : Array(exam.shortAnswer.prefix(saCount))
+        return GeneratedExam(
+            title: exam.title,
+            grade: exam.grade,
+            semester: exam.semester,
+            subject: exam.subject,
+            focusTopic: exam.focusTopic,
+            multipleChoice: mc,
+            trueFalse: tf,
+            shortAnswer: sa
+        )
+    }
+    
+    // MARK: - Dynamic Prompt Builder: Tùy biến schema theo đúng phần thi người dùng tích chọn
+    static func buildExamPrompt(
+        grade: Int,
+        semester: Int,
+        subject: String,
+        focusTopic: String,
+        mcCount: Int,
+        tfCount: Int,
+        saCount: Int,
+        webContext: String
+    ) -> String {
+        let topicText = focusTopic.isEmpty ? "Toàn bộ kiến thức trọng tâm học kỳ \(semester) lớp \(grade)" : focusTopic
+        
+        var partReqs: [String] = []
+        var schemaFields: [String] = []
+        
+        if mcCount > 0 {
+            partReqs.append("1. PHẦN 1 - TRẮC NGHIỆM 4 LỰA CHỌN: Đúng \(mcCount) câu. Mỗi câu có 4 phương án A, B, C, D (chỉ 1 đáp án đúng).")
+            schemaFields.append("""
+            "multipleChoice": [
+              {
+                "id": 1,
+                "question": "Nội dung câu hỏi trắc nghiệm (sử dụng LaTeX $...$ nếu cần)",
+                "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
+                "correctIndex": 0,
+                "explanation": "Lời giải chi tiết từng bước"
+              }
+            ]
+            """)
+        } else {
+            partReqs.append("1. PHẦN 1 - TRẮC NGHIỆM: KHÔNG YÊU CẦU. Bắt buộc để multipleChoice = [].")
+            schemaFields.append("\"multipleChoice\": []")
+        }
+        
+        if tfCount > 0 {
+            partReqs.append("2. PHẦN 2 - TRẮC NGHIỆM ĐÚNG/SAI: Đúng \(tfCount) câu. Mỗi câu gồm 1 ngữ cảnh/bài toán lớn dẫn dắt (context) và 4 ý a, b, c, d với giá trị boolean isCorrectTrue (true hoặc false).")
+            schemaFields.append("""
+            "trueFalse": [
+              {
+                "id": 1,
+                "context": "Ngữ cảnh đề bài hoặc bài toán thực tế dẫn dắt",
+                "statements": [
+                  {"id": "a", "statement": "Nhận định ý a", "isCorrectTrue": true, "explanation": "Giải thích chi tiết"},
+                  {"id": "b", "statement": "Nhận định ý b", "isCorrectTrue": false, "explanation": "Giải thích chi tiết"},
+                  {"id": "c", "statement": "Nhận định ý c", "isCorrectTrue": true, "explanation": "Giải thích chi tiết"},
+                  {"id": "d", "statement": "Nhận định ý d", "isCorrectTrue": false, "explanation": "Giải thích chi tiết"}
+                ]
+              }
+            ]
+            """)
+        } else {
+            partReqs.append("2. PHẦN 2 - ĐÚNG/SAI: KHÔNG YÊU CẦU. Bắt buộc để trueFalse = [].")
+            schemaFields.append("\"trueFalse\": []")
+        }
+        
+        if saCount > 0 {
+            partReqs.append("3. PHẦN 3 - TRẢ LỜI NGẮN: Đúng \(saCount) câu. Yêu cầu tính toán ra một đáp số cụ thể (số hoặc từ khóa ngắn gọn).")
+            schemaFields.append("""
+            "shortAnswer": [
+              {
+                "id": 1,
+                "question": "Nội dung câu hỏi tính toán ngắn",
+                "acceptedAnswers": ["12", "12.0"],
+                "unit": "cm",
+                "explanation": "Hướng dẫn các bước tính toán chi tiết"
+              }
+            ]
+            """)
+        } else {
+            partReqs.append("3. PHẦN 3 - TRẢ LỜI NGẮN: KHÔNG YÊU CẦU. Bắt buộc để shortAnswer = [].")
+            schemaFields.append("\"shortAnswer\": []")
+        }
+        
+        let schemaJoined = schemaFields.joined(separator: ",\n")
+        let partReqsJoined = partReqs.joined(separator: "\n")
+        
+        return """
+        Bạn là Chuyên gia Khảo thí Cao cấp của Bộ Giáo Dục & Đào Tạo Việt Nam, chịu trách nhiệm xây dựng đề thi chuẩn hóa năm học 2025 - 2026 theo chương trình GDPT mới (bộ sách Kết Nối Tri Thức, Cánh Diều, Chân Trời Sáng Tạo).
+
+        \(webContext)
+
+        Thông tin đề thi:
+        - Lớp: \(grade)
+        - Học kỳ: \(semester)
+        - Môn học: \(subject)
+        - Trọng tâm ôn tập: "\(topicText)"
+
+        [YÊU CẦU ĐẶC BIỆT VỀ CHẤT LƯỢNG ĐỀ THI - BẮT BUỘC TUÂN THỦ]:
+        1. KHÔNG ĐƯỢC BỊA ĐẶT KIẾN THỨC: Toàn bộ công thức, định lý, sự kiện, dữ kiện phải chính xác 100% theo chương trình giáo dục phổ thông Việt Nam năm học 2025 - 2026.
+        2. TUYỆT ĐỐI KHÔNG ĐƯỢC TẠO CÁC CÂU HỎI GIỐNG NHAU RỒI ĐỔI SỐ.
+        3. PHÂN BỐ MỨC ĐỘ TƯ DUY: Nhận biết, thông hiểu, vận dụng, vận dụng cao.
+        4. SỐ LƯỢNG CÂU HỎI CHÍNH XÁC:
+        \(partReqsJoined)
+
+        CÔNG THỨC TOÁN/LÝ/HÓA:
+        - Sử dụng ký hiệu toán học chuẩn hoặc LaTeX ngắn gọn trong $...$. Không dùng macro LaTeX phức tạp như \\boxed hay \\displaystyle.
+
+        BẮT BUỘC TRẢ VỀ DUY NHẤT 1 ĐỐI TƯỢNG JSON THUẦN TÚY TUÂN THỦ SCHEMA SAU (Không kèm markdown ```json hay giải thích):
+        {
+          "title": "Đề Khảo Sát \(subject) Lớp \(grade) - Học Kỳ \(semester)",
+          "grade": \(grade),
+          "semester": \(semester),
+          "subject": "\(subject)",
+          "focusTopic": "\(focusTopic)",
+          \(schemaJoined)
+        }
+        """
     }
 }

@@ -29,6 +29,7 @@ struct StudyHistoryView: View {
                         historyContentList
                     }
                 }
+                .padding(.bottom, 74)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
             }
         }
@@ -67,17 +68,13 @@ struct StudyHistoryView: View {
                     Button(action: {
                         showingClearAlert = true
                     }) {
-                        HStack(spacing: 4) {
+                        HStack(spacing: 5) {
                             Image(systemName: "trash")
-                                .font(.system(size: 13, weight: .semibold))
+                                .font(.system(size: 14))
                             Text("Xóa hết")
-                                .font(.system(size: 13, weight: .semibold))
+                                .font(.system(size: 14, weight: .medium))
                         }
                         .foregroundColor(Color(hex: "#EF4444"))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 7)
-                        .background(Color(hex: "#FEE2E2"))
-                        .clipShape(Capsule())
                     }
                 }
             }
@@ -160,7 +157,7 @@ struct StudyHistoryView: View {
                     }
                 }
                 
-                Spacer().frame(height: 110)
+                Spacer().frame(height: 140)
             }
             .padding(.horizontal, 16)
             .padding(.top, 12)
