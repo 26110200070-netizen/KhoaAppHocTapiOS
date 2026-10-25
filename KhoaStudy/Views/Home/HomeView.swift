@@ -13,6 +13,7 @@ struct HomeView: View {
     @State private var showingFocusSheet: Bool = false
     @State private var showingExamSheet: Bool = false
     @State private var showingMindmapSheet: Bool = false
+    @State private var showingStatisticsSheet: Bool = false
     @State private var selectedHistoryTopic: TheoryTopicItem? = nil
     
     var body: some View {
@@ -54,6 +55,9 @@ struct HomeView: View {
                 onOpenAIChat?()
             })
         }
+        .fullScreenCover(isPresented: $showingStatisticsSheet) {
+            StudyStatisticsView()
+        }
     }
     
     // MARK: - Home Dashboard Content
@@ -81,7 +85,7 @@ struct HomeView: View {
             // 2. Scrollable dashboard content
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 16) {
-                    // 1. Top Header (✨ Shimy • Lớp 12 | Chào, Anh Khoa Dev 👋 | 🎓 + 🔔)
+                    // 1. Top Header (✨ Shimy • Lớp 12 | Chào, Anh Khoa Dev 👋 | 📊 + 🎓 + 🔔)
                     topHeaderSection
                         .padding(.top, 6)
                     
@@ -91,10 +95,13 @@ struct HomeView: View {
                     // 3. Khối 3 Thẻ Học Tập: Học Lí Thuyết 9:16 + Luyện Bài Tập & Treo Máy
                     tammiChibiArtworkCardsSection
                     
-                    // 4. Banner Lịch Sử Học Tập (Dài ngang)
+                    // 4. Banner Sơ Đồ Thống Kê Học Tập (MỚI)
+                    studyStatisticsInteractiveBanner
+                    
+                    // 5. Banner Lịch Sử Học Tập (Dài ngang)
                     studyHistoryInteractiveBanner
                     
-                    // 5. Banner Ôn Thi Bứt Phá Điểm Cao (Màu đỏ)
+                    // 6. Banner Ôn Thi Bứt Phá Điểm Cao (Màu đỏ)
                     tammiPromoExamBanner
                     
                     // Spacing above bottom tab bar
@@ -107,7 +114,7 @@ struct HomeView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
-    // MARK: - 1. Top Header (Bầu trời nền, Chào user, Nút nón tốt nghiệp 🎓 và chuông thông báo 🔔)
+    // MARK: - 1. Top Header (Bầu trời nền, Chào user, 📊 Thống kê, 🎓 Sơ đồ tư duy, 🔔 Chuông)
     private var topHeaderSection: some View {
         HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: 3) {
@@ -127,20 +134,35 @@ struct HomeView: View {
             
             Spacer()
             
-            // Top Right Action Buttons: 🎓 (Nón tốt nghiệp) & 🔔 (Chuông)
-            HStack(spacing: 10) {
-                // Graduate Cap Button
+            // Top Right Action Buttons: 📊 (Thống kê) & 🎓 (Nón tốt nghiệp) & 🔔 (Chuông)
+            HStack(spacing: 8) {
+                // Statistics Button
+                Button(action: {
+                    showingStatisticsSheet = true
+                }) {
+                    ZStack {
+                        Circle()
+                            .fill(Color(hex: "#D1FAE5"))
+                            .frame(width: 42, height: 42)
+                            .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
+                        Image(systemName: "chart.bar.fill")
+                            .font(.system(size: 17))
+                            .foregroundColor(Color(hex: "#059669"))
+                    }
+                }
+                
+                // Graduate Cap Button (Mindmap)
                 Button(action: {
                     showingMindmapSheet = true
                 }) {
                     ZStack {
                         Circle()
-                            .fill(Color(hex: "#D1FAE5"))
-                            .frame(width: 44, height: 44)
+                            .fill(Color(hex: "#E0F2FE"))
+                            .frame(width: 42, height: 42)
                             .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
                         Image(systemName: "graduationcap.fill")
-                            .font(.system(size: 20))
-                            .foregroundColor(Color(hex: "#059669"))
+                            .font(.system(size: 18))
+                            .foregroundColor(Color(hex: "#0284C7"))
                     }
                 }
                 
@@ -150,18 +172,18 @@ struct HomeView: View {
                 }) {
                     ZStack {
                         Circle()
-                            .fill(Color.white.opacity(0.85))
-                            .frame(width: 44, height: 44)
+                            .fill(Color.white.opacity(0.9))
+                            .frame(width: 42, height: 42)
                             .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
                         Image(systemName: "bell.fill")
-                            .font(.system(size: 18))
+                            .font(.system(size: 17))
                             .foregroundColor(Color(hex: "#4B5563"))
                         
                         // Red notification dot
                         Circle()
                             .fill(Color(hex: "#EF4444"))
                             .frame(width: 8, height: 8)
-                            .offset(x: 8, y: -8)
+                            .offset(x: 7, y: -7)
                     }
                 }
             }
@@ -254,7 +276,69 @@ struct HomeView: View {
         )
     }
     
-    // MARK: - 4. Banner Lịch Sử Học Tập (Chuẩn Ảnh 2)
+    // MARK: - 4. Banner Sơ Đồ Thống Kê Học Tập (Phẳng, hiện đại, KHÔNG khung lồng khung)
+    private var studyStatisticsInteractiveBanner: some View {
+        Button(action: {
+            showingStatisticsSheet = true
+        }) {
+            HStack(spacing: 14) {
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color(hex: "#D1FAE5"), Color(hex: "#A7F3D0")],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 48, height: 48)
+                    
+                    Image(systemName: "chart.bar.xaxis")
+                        .font(.system(size: 22, weight: .bold))
+                        .foregroundColor(Color(hex: "#059669"))
+                }
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    HStack(spacing: 6) {
+                        Text("Sơ Đồ Thống Kê")
+                            .font(.system(size: 16, weight: .bold, design: .rounded))
+                            .foregroundColor(Color(hex: "#111827"))
+                        
+                        Text("MỚI")
+                            .font(.system(size: 9, weight: .heavy))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color(hex: "#059669"))
+                            .clipShape(Capsule())
+                    }
+                    
+                    let totalHours = appState.totalStudyMinutes / 60
+                    let totalMins = appState.totalStudyMinutes % 60
+                    let timeStr = totalHours > 0 ? "\(totalHours)h \(totalMins)p" : "\(totalMins)p"
+                    Text("Đã nạp \(historyStore.historyList.count) bài • Tự học \(timeStr) • ĐTB 8.9")
+                        .font(.caption)
+                        .foregroundColor(AppTheme.textSecondary)
+                        .lineLimit(1)
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(Color.gray.opacity(0.45))
+            }
+            .padding(14)
+            .background(
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .fill(Color.white)
+                    .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+    
+    // MARK: - 5. Banner Lịch Sử Học Tập (Chuẩn Ảnh 2)
     private var studyHistoryInteractiveBanner: some View {
         Button(action: {
             onOpenHistory?()
