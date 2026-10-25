@@ -374,7 +374,7 @@ struct AIChatView: View {
                         .foregroundColor(Color(hex: "#111827"))
                     
                     Image(systemName: "checkmark.seal.fill")
-                        .font(.size(14))
+                        .font(.system(size: 14))
                         .foregroundColor(.green)
                 }
                 
