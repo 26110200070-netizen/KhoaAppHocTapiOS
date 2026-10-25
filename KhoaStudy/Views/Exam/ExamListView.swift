@@ -9,7 +9,7 @@ struct ExamListView: View {
     let curriculum: SubjectCurriculum?
     
     // MARK: - 1. Selection State
-    @State private var selectedGrade: Int = 12
+    @State private var selectedGrade: Int = 11
     @State private var selectedSubject: String = "Toán"
     @State private var selectedSemester: Int = 1 // 1: Học kì 1, 2: Học kì 2, 0: Cả năm
     @State private var selectedExamCategory: Int = 0 // 0: Giữa kỳ, 1: Cuối kỳ, 2: Ôn tập chương, 3: Thi thử THPT
@@ -17,9 +17,10 @@ struct ExamListView: View {
     // MARK: - 2. Active Exam Practice State
     @State private var activeExamTopic: String = ""
     @State private var activeExamSubject: String = "Toán"
-    @State private var activeExamGrade: Int = 12
+    @State private var activeExamGrade: Int = 11
     @State private var activeExamSemester: Int = 1
     @State private var showingExamPractice: Bool = false
+    @State private var hasInitializedGrade: Bool = false
     
     // Lists
     let gradeList = [10, 11, 12]
@@ -100,7 +101,11 @@ struct ExamListView: View {
                 )
             }
             .onAppear {
-                selectedGrade = appState.currentUser.grade
+                if !hasInitializedGrade {
+                    selectedGrade = appState.currentUser.grade
+                    activeExamGrade = appState.currentUser.grade
+                    hasInitializedGrade = true
+                }
             }
         }
     }
@@ -168,6 +173,7 @@ struct ExamListView: View {
                         Button(action: {
                             withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
                                 selectedGrade = grade
+                                activeExamGrade = grade
                             }
                         }) {
                             HStack(spacing: 4) {
@@ -246,6 +252,7 @@ struct ExamListView: View {
         return Button(action: {
             withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
                 selectedSemester = semesterIndex
+                activeExamSemester = semesterIndex == 0 ? 1 : semesterIndex
             }
         }) {
             Text(title)
@@ -567,27 +574,28 @@ struct ExamListView: View {
             }
             
         default:
-            // Thi Thử THPT Quốc Gia (Dành cho Lớp 12 theo chuẩn ma trận BGD mới)
+            let catName = gr == 12 ? "THPT QUỐC GIA" : "KHẢO SÁT CHẤT LƯỢNG"
+            let examName = gr == 12 ? "Đề Thi Thử Tốt Nghiệp THPT - Môn \(sub)" : "Đề Thi Khảo Sát Năng Lực - Môn \(sub) \(gr)"
             return [
                 CuratedExamItem(
-                    title: "Đề Thi Thử Tốt Nghiệp THPT - Môn \(sub) (Đề Dự Đoán Số 01)",
-                    categoryBadge: "THPT QUỐC GIA",
+                    title: "\(examName) (Đề Dự Đoán 01)",
+                    categoryBadge: catName,
                     durationMinutes: 50,
                     questionCount: 40,
-                    difficulty: "Chuẩn Ma Trận 2025",
-                    description: "Đề bám sát 100% tài liệu trithucAI: Trắc nghiệm 4 lựa chọn, Đúng/Sai đa ý và Điền đáp án ngắn.",
+                    difficulty: "Chuẩn Ma Trận",
+                    description: "Đề bám sát 100% tài liệu trithucAI: Trắc nghiệm 4 lựa chọn, Đúng/Sai đa ý và Điền đáp án ngắn cho học sinh lớp \(gr).",
                     isHot: true,
-                    topicQuery: "Đề thi thử tốt nghiệp THPT môn \(sub) lớp 12 chuẩn cấu trúc mới trithucAI"
+                    topicQuery: "Đề thi thử khảo sát chất lượng môn \(sub) lớp \(gr) học kì \(semVal) chuẩn cấu trúc mới trithucAI"
                 ),
                 CuratedExamItem(
-                    title: "Đề Thi Thử THPT Quốc Gia - Phân Hóa Thủ Khoa (Đề Số 02)",
-                    categoryBadge: "THPT QUỐC GIA",
+                    title: "\(examName) - Phân Hóa Điểm 9-10 (Đề Số 02)",
+                    categoryBadge: catName,
                     durationMinutes: 50,
                     questionCount: 40,
                     difficulty: "Điểm 9 - 10",
-                    description: "Tập trung các câu hỏi vận dụng cao, bài toán thực tế và liên môn bứt phá điểm 10.",
+                    description: "Tập trung các câu hỏi vận dụng cao, bài toán thực tế và phân hóa sâu chương trình lớp \(gr).",
                     isHot: true,
-                    topicQuery: "Đề thi thử THPT quốc gia nâng cao môn \(sub) lớp 12 trithucAI"
+                    topicQuery: "Đề thi khảo sát nâng cao môn \(sub) lớp \(gr) học kì \(semVal) trithucAI"
                 )
             ]
         }

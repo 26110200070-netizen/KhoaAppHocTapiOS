@@ -328,125 +328,199 @@ public struct CuratedStandardExamProvider {
         // Generate realistic, diverse subject-specific questions with LaTeX
         switch subject.lowercased() {
         case let s where s.contains("toán"):
-            let mathMC: [(q: String, opts: [String], ans: Int, exp: String)] = [
-                (
-                    "Tìm tập xác định của hàm số $y = \\frac{\\sqrt{x + 2}}{x - 3}$.",
-                    ["$D = [-2; +\\infty) \\setminus \\{3\\}$", "$D = (-2; +\\infty)$", "$D = \\mathbb{R} \\setminus \\{3\\}$", "$D = [2; +\\infty)$"],
-                    0,
-                    "Điều kiện: $x + 2 \\ge 0 \\Leftrightarrow x \\ge -2$ và $x - 3 \\ne 0 \\Leftrightarrow x \\ne 3$. Vậy $D = [-2; +\\infty) \\setminus \\{3\\}$."
-                ),
-                (
-                    "Cho hàm số $y = x^3 - 3x^2 + 2$. Điểm cực tiểu của đồ thị hàm số có tọa độ là:",
-                    ["$(2; -2)$", "$(0; 2)$", "$(1; 0)$", "$(-2; 2)$"],
-                    0,
-                    "Ta có $y' = 3x^2 - 6x = 3x(x - 2)$. $y' = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$. Bảng biến thiên cho thấy cực tiểu tại $x = 2 \\Rightarrow y(2) = -2$."
-                ),
-                (
-                    "Đường tiệm cận đứng của đồ thị hàm số $y = \\frac{2x + 1}{x - 1}$ là đường thẳng:",
-                    ["$x = 1$", "$y = 2$", "$x = -1$", "$y = 1$"],
-                    0,
-                    "Nghiệm của mẫu số là $x = 1$ và tử số tại $x=1$ bằng $3 \\ne 0$. Do đó tiệm cận đứng là đường thẳng $x = 1$."
-                ),
-                (
-                    "Giá trị lớn nhất của hàm số $f(x) = x^4 - 2x^2 + 3$ trên đoạn $[0; 2]$ bằng:",
-                    ["$11$", "$3$", "$2$", "$19$"],
-                    0,
-                    "Ta có $f'(x) = 4x^3 - 4x = 4x(x^2 - 1) = 0 \\Leftrightarrow x = 0, x = 1$ trên $[0; 2]$. Ta có $f(0) = 3$, $f(1) = 2$, $f(2) = 11$. Vậy $\\max = 11$."
-                ),
-                (
-                    "Trong không gian $Oxyz$, cho $A(1; 2; 3)$ và $B(3; 0; 1)$. Tọa độ trung điểm $M$ của đoạn thẳng $AB$ là:",
-                    ["$M(2; 1; 2)$", "$M(4; 2; 4)$", "$M(2; -2; -2)$", "$M(1; -1; -1)$"],
-                    0,
-                    "Tọa độ trung điểm $M = (\\frac{1+3}{2}; \\frac{2+0}{2}; \\frac{3+1}{2}) = (2; 1; 2)$."
-                ),
-                (
-                    "Tập nghiệm của phương trình $\\log_2(x - 1) = 3$ là:",
-                    ["$S = \\{9\\}$", "$S = \\{7\\}$", "$S = \\{8\\}$", "$S = \\{10\\}$"],
-                    0,
-                    "Điều kiện $x > 1$. Phương trình tương đương $x - 1 = 2^3 = 8 \\Leftrightarrow x = 9$ (thỏa mãn)."
-                ),
-                (
-                    "Tính tích phân $I = \\int_0^1 (2x + 1) dx$ có kết quả là:",
-                    ["$2$", "$1$", "$3$", "$4$"],
-                    0,
-                    "$I = [x^2 + x]_0^1 = (1 + 1) - 0 = 2$."
-                ),
-                (
-                    "Một tổ gồm 6 nam và 4 nữ. Chọn ngẫu nhiên 2 học sinh. Xác suất để chọn được 1 nam và 1 nữ là:",
-                    ["$\\frac{8}{15}$", "$\\frac{7}{15}$", "$\\frac{1}{2}$", "$\\frac{2}{5}$"],
-                    0,
-                    "Số phần tử không gian mẫu $n(\\Omega) = C_{10}^2 = 45$. Số cách chọn 1 nam 1 nữ là $C_6^1 \\cdot C_4^1 = 24$. Xác suất $P = \\frac{24}{45} = \\frac{8}{15}$."
-                )
-            ]
+            let mathMC: [(q: String, opts: [String], ans: Int, exp: String)]
+            let mathTF: [(ctx: String, stmts: [(id: String, s: String, t: Bool, e: String)])]
+            let mathSA: [(q: String, ans: [String], u: String, exp: String)]
             
-            if mcCount > 0 {
-            
-                for i in 1...mcCount {
-                let item = mathMC[(i - 1) % mathMC.count]
-                mcList.append(MultipleChoiceQuestion(
-                    id: i,
-                    question: "Câu \(i): \(item.q)",
-                    options: item.opts,
-                    correctIndex: item.ans,
-                    explanation: item.exp
-                ))
-                }
+            if grade == 11 {
+                // CHUYÊN ĐỀ LỚP 11: Lượng giác, Cấp số cộng/nhân, Giới hạn, Hình không gian
+                mathMC = [
+                    (
+                        "Tập xác định của hàm số lượng giác $y = \\tan(x - \\frac{\\pi}{4})$ là:",
+                        ["$D = \\mathbb{R} \\setminus \\{\\frac{3\\pi}{4} + k\\pi, k \\in \\mathbb{Z}\\}$", "$D = \\mathbb{R} \\setminus \\{\\frac{\\pi}{4} + k\\pi\\}$", "$D = \\mathbb{R} \\setminus \\{\\frac{\\pi}{2} + k\\pi\\}$", "$D = \\mathbb{R}$"],
+                        0,
+                        "Điều kiện: $x - \\frac{\\pi}{4} \\ne \\frac{\\pi}{2} + k\\pi \\Leftrightarrow x \\ne \\frac{3\\pi}{4} + k\\pi$ ($k \\in \\mathbb{Z}$)."
+                    ),
+                    (
+                        "Nghiệm của phương trình lượng giác cơ bản $\\sin x = \\frac{1}{2}$ là:",
+                        ["$x = \\frac{\\pi}{6} + k2\\pi$ hoặc $x = \\frac{5\\pi}{6} + k2\\pi$", "$x = \\frac{\\pi}{3} + k2\\pi$", "$x = \\pm \\frac{\\pi}{6} + k2\\pi$", "$x = \\frac{\\pi}{6} + k\\pi$"],
+                        0,
+                        "Ta có $\\sin x = \\sin(\\frac{\\pi}{6}) \\Leftrightarrow x = \\frac{\\pi}{6} + k2\\pi$ hoặc $x = \\pi - \\frac{\\pi}{6} + k2\\pi = \\frac{5\\pi}{6} + k2\\pi$ ($k \\in \\mathbb{Z}$)."
+                    ),
+                    (
+                        "Cho cấp số cộng $(u_n)$ có số hạng đầu $u_1 = 3$ và công sai $d = 2$. Giá trị của số hạng $u_5$ là:",
+                        ["$11$", "$13$", "$10$", "$9$"],
+                        0,
+                        "Công thức số hạng tổng quát $u_n = u_1 + (n - 1)d \\Rightarrow u_5 = 3 + 4 \\times 2 = 11$."
+                    ),
+                    (
+                        "Tính giới hạn $L = \\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}$ có kết quả là:",
+                        ["$4$", "$2$", "$0$", "Không tồn tại"],
+                        0,
+                        "Ta có $\\frac{x^2 - 4}{x - 2} = \\frac{(x - 2)(x + 2)}{x - 2} = x + 2$. Khi $x \\to 2$, giới hạn bằng $2 + 2 = 4$."
+                    ),
+                    (
+                        "Cho cấp số nhân $(u_n)$ có số hạng đầu $u_1 = 2$ và công bội $q = 3$. Giá trị của $u_3$ là:",
+                        ["$18$", "$12$", "$6$", "$54$"],
+                        0,
+                        "Số hạng tổng quát $u_n = u_1 \\times q^{n-1} \\Rightarrow u_3 = 2 \\times 3^2 = 18$."
+                    ),
+                    (
+                        "Tập giá trị của hàm số $y = 3\\cos x - 2$ là đoạn:",
+                        ["$[-5; 1]$", "$[-1; 5]$", "$[-3; 3]$", "$[-2; 3]$"],
+                        0,
+                        "Vì $-1 \\le \\cos x \\le 1 \\Rightarrow -3 \\le 3\\cos x \\le 3 \\Rightarrow -5 \\le 3\\cos x - 2 \\le 1$. Vậy tập giá trị là $[-5; 1]$."
+                    ),
+                    (
+                        "Trong không gian, cho hai đường thẳng phân biệt $a$ và $b$ cùng song song với mặt phẳng $(P)$. Khẳng định nào sau đây là ĐÚNG?",
+                        ["$a$ và $b$ có thể song song, cắt nhau hoặc chéo nhau", "$a$ và $b$ chắc chắn song song với nhau", "$a$ và $b$ chắc chắn cắt nhau", "$a$ và $b$ chéo nhau"],
+                        0,
+                        "Hai đường thẳng cùng song song với một mặt phẳng thì có thể song song, cắt nhau hoặc chéo nhau trong không gian."
+                    ),
+                    (
+                        "Một tổ gồm 5 học sinh nam và 5 học sinh nữ. Chọn ngẫu nhiên 3 học sinh. Xác suất để chọn được ít nhất 1 học sinh nữ là:",
+                        ["$\\frac{11}{12}$", "$\\frac{1}{12}$", "$\\frac{5}{6}$", "$\\frac{1}{2}$"],
+                        0,
+                        "Số phần tử không gian mẫu $n(\\Omega) = C_{10}^3 = 120$. Biến cố đối cả 3 đều là nam: $C_5^3 = 10$. Xác suất $P = 1 - \\frac{10}{120} = \\frac{11}{12}$."
+                    )
+                ]
+                
+                mathTF = [
+                    (
+                        "Cho cấp số cộng $(u_n)$ có số hạng đầu $u_1 = 2$ và công sai $d = 3$. Xét tính đúng/sai của các mệnh đề sau:",
+                        [
+                            ("a", "Số hạng tổng quát của cấp số cộng là $u_n = 3n - 1$.", true, "Ta có $u_n = u_1 + (n - 1)d = 2 + 3(n - 1) = 3n - 1$."),
+                            ("b", "Số hạng thứ 10 là $u_{10} = 29$.", true, "Thay $n = 10$ ta có $u_{10} = 3(10) - 1 = 29$."),
+                            ("c", "Tổng của 10 số hạng đầu tiên là $S_{10} = 155$.", true, "Tổng $S_{10} = \\frac{10 \\times (u_1 + u_{10})}{2} = \\frac{10 \\times (2 + 29)}{2} = 155$."),
+                            ("d", "Số 100 là một số hạng của cấp số cộng $(u_n)$.", false, "Nếu $3n - 1 = 100 \\Rightarrow 3n = 101 \\Rightarrow n = \\frac{101}{3} \\notin \\mathbb{N}^*$ nên 100 không phải số hạng.")
+                        ]
+                    ),
+                    (
+                        "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành tâm $O$. Gọi $M, N$ lần lượt là trung điểm của $SA$ và $SC$.",
+                        [
+                            ("a", "Đường thẳng $MN$ song song với mặt phẳng $(ABCD)$.", true, "$MN$ là đường trung bình tam giác $SAC$ nên $MN \\parallel AC \\Rightarrow MN \\parallel (ABCD)$."),
+                            ("b", "Đoạn thẳng $SO$ đi qua trung điểm của đoạn thẳng $MN$.", true, "Trong tam giác $SAC$, đường trung tuyến $SO$ cắt đường trung bình $MN$ tại trung điểm."),
+                            ("c", "Mặt phẳng $(BMN)$ cắt hình chóp theo thiết diện là một hình thang.", true, "Thiết diện tạo bởi $(BMN)$ với hình chóp là tứ giác có hai cạnh đối song song nên là hình thang."),
+                            ("d", "Giao tuyến của $(SAB)$ và $(SCD)$ là đường thẳng đi qua $S$ và cắt $AB$.", false, "Vì $AB \\parallel CD$ nên giao tuyến là đường thẳng qua $S$ và song song với $AB, CD$.")
+                        ]
+                    )
+                ]
+                
+                mathSA = [
+                    (
+                        "Cho cấp số cộng $(u_n)$ có $u_1 = 5$ và công sai $d = 4$. Tính số hạng $u_{15}$.",
+                        ["61", "61.0"],
+                        "",
+                        "$u_{15} = u_1 + 14d = 5 + 14 \\times 4 = 61$."
+                    ),
+                    (
+                        "Tính giới hạn của dãy số $L = \\lim \\frac{4n^2 + 3n - 1}{2n^2 + 5}$.",
+                        ["2", "2.0"],
+                        "",
+                        "Chia cả tử và mẫu cho $n^2$: $L = \\lim \\frac{4 + 3/n - 1/n^2}{2 + 5/n^2} = \\frac{4}{2} = 2$."
+                    ),
+                    (
+                        "Cho phương trình $\\cos(2x) = 1$. Số nghiệm của phương trình thuộc đoạn $[0; 2\\pi]$ là bao nhiêu nghiệm?",
+                        ["3"],
+                        "nghiệm",
+                        "Phương trình tương đương $2x = k2\\pi \\Leftrightarrow x = k\\pi$. Trên $[0; 2\\pi]$ có 3 nghiệm: $x = 0, x = \\pi, x = 2\\pi$."
+                    )
+                ]
+            } else {
+                // CHUYÊN ĐỀ LỚP 12: Đạo hàm, Khối tròn xoay, Tích phân, Oxyz
+                mathMC = [
+                    (
+                        "Tìm tập xác định của hàm số $y = \\frac{\\sqrt{x + 2}}{x - 3}$.",
+                        ["$D = [-2; +\\infty) \\setminus \\{3\\}$", "$D = (-2; +\\infty)$", "$D = \\mathbb{R} \\setminus \\{3\\}$", "$D = [2; +\\infty)$"],
+                        0,
+                        "Điều kiện: $x + 2 \\ge 0 \\Leftrightarrow x \\ge -2$ và $x - 3 \\ne 0 \\Leftrightarrow x \\ne 3$. Vậy $D = [-2; +\\infty) \\setminus \\{3\\}$."
+                    ),
+                    (
+                        "Cho hàm số $y = x^3 - 3x^2 + 2$. Điểm cực tiểu của đồ thị hàm số có tọa độ là:",
+                        ["$(2; -2)$", "$(0; 2)$", "$(1; 0)$", "$(-2; 2)$"],
+                        0,
+                        "Ta có $y' = 3x^2 - 6x = 3x(x - 2)$. $y' = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$. Bảng biến thiên cho thấy cực tiểu tại $x = 2 \\Rightarrow y(2) = -2$."
+                    ),
+                    (
+                        "Đường tiệm cận đứng của đồ thị hàm số $y = \\frac{2x + 1}{x - 1}$ là đường thẳng:",
+                        ["$x = 1$", "$y = 2$", "$x = -1$", "$y = 1$"],
+                        0,
+                        "Nghiệm của mẫu số là $x = 1$ và tử số tại $x=1$ bằng $3 \\ne 0$. Do đó tiệm cận đứng là đường thẳng $x = 1$."
+                    ),
+                    (
+                        "Giá trị lớn nhất của hàm số $f(x) = x^4 - 2x^2 + 3$ trên đoạn $[0; 2]$ bằng:",
+                        ["$11$", "$3$", "$2$", "$19$"],
+                        0,
+                        "Ta có $f'(x) = 4x^3 - 4x = 4x(x^2 - 1) = 0 \\Leftrightarrow x = 0, x = 1$ trên $[0; 2]$. Ta có $f(0) = 3$, $f(1) = 2$, $f(2) = 11$. Vậy $\\max = 11$."
+                    ),
+                    (
+                        "Trong không gian $Oxyz$, cho $A(1; 2; 3)$ và $B(3; 0; 1)$. Tọa độ trung điểm $M$ của đoạn thẳng $AB$ là:",
+                        ["$M(2; 1; 2)$", "$M(4; 2; 4)$", "$M(2; -2; -2)$", "$M(1; -1; -1)$"],
+                        0,
+                        "Tọa độ trung điểm $M = (\\frac{1+3}{2}; \\frac{2+0}{2}; \\frac{3+1}{2}) = (2; 1; 2)$."
+                    ),
+                    (
+                        "Tập nghiệm của phương trình $\\log_2(x - 1) = 3$ là:",
+                        ["$S = \\{9\\}$", "$S = \\{7\\}$", "$S = \\{8\\}$", "$S = \\{10\\}$"],
+                        0,
+                        "Điều kiện $x > 1$. Phương trình tương đương $x - 1 = 2^3 = 8 \\Leftrightarrow x = 9$ (thỏa mãn)."
+                    ),
+                    (
+                        "Tính tích phân $I = \\int_0^1 (2x + 1) dx$ có kết quả là:",
+                        ["$2$", "$1$", "$3$", "$4$"],
+                        0,
+                        "$I = [x^2 + x]_0^1 = (1 + 1) - 0 = 2$."
+                    ),
+                    (
+                        "Một tổ gồm 6 nam và 4 nữ. Chọn ngẫu nhiên 2 học sinh. Xác suất để chọn được 1 nam và 1 nữ là:",
+                        ["$\\frac{8}{15}$", "$\\frac{7}{15}$", "$\\frac{1}{2}$", "$\\frac{2}{5}$"],
+                        0,
+                        "Số phần tử không gian mẫu $n(\\Omega) = C_{10}^2 = 45$. Số cách chọn 1 nam 1 nữ là $C_6^1 \\cdot C_4^1 = 24$. Xác suất $P = \\frac{24}{45} = \\frac{8}{15}$."
+                    )
+                ]
+                
+                mathTF = [
+                    (
+                        "Cho hàm số bậc ba $y = f(x) = x^3 - 3x + 1$ có đồ thị $(C)$. Xét tính đúng/sai của các khẳng định sau:",
+                        [
+                            ("a", "Hàm số đồng biến trên khoảng $(-\\infty; -1)$ và $(1; +\\infty)$.", true, "Đạo hàm $y' = 3x^2 - 3 > 0$ khi $x < -1$ hoặc $x > 1$."),
+                            ("b", "Điểm cực đại của đồ thị hàm số là $M(-1; 3)$.", true, "Tại $x = -1$, $y(-1) = (-1)^3 - 3(-1) + 1 = 3$."),
+                            ("c", "Đồ thị hàm số $(C)$ đi qua gốc tọa độ $O(0; 0)$.", false, "Khi $x = 0$, $y = 1 \\ne 0$ nên đồ thị không đi qua gốc tọa độ."),
+                            ("d", "Phương trình $f(x) = 0$ có đúng 1 nghiệm thực.", false, "Giá trị cực trị $y_{CĐ} = 3 > 0$ và $y_{CT} = -1 < 0$ nên phương trình có 3 nghiệm thực phân biệt.")
+                        ]
+                    ),
+                    (
+                        "Trong không gian tọa độ $Oxyz$, cho mặt phẳng $(P): 2x - y + 2z - 5 = 0$ và điểm $A(1; 1; 2)$.",
+                        [
+                            ("a", "Véctơ pháp tuyến của mặt phẳng $(P)$ là $\\vec{n} = (2; -1; 2)$.", true, "Hệ số trước $x, y, z$ trong phương trình tổng quát là $(2; -1; 2)$."),
+                            ("b", "Điểm $A$ thuộc mặt phẳng $(P)$.", false, "Thay tọa độ $A$ vào: $2(1) - 1 + 2(2) - 5 = 0$ nên $A \\in (P)$."),
+                            ("c", "Khoảng cách từ gốc tọa độ $O(0; 0; 0)$ đến mặt phẳng $(P)$ bằng $\\frac{5}{3}$.", true, "$d(O, (P)) = \\frac{|-5|}{\\sqrt{2^2 + (-1)^2 + 2^2}} = \\frac{5}{3}$."),
+                            ("d", "Mặt phẳng $(Q): 2x - y + 2z + 1 = 0$ cắt mặt phẳng $(P)$.", false, "Hai mặt phẳng có cùng vectơ pháp tuyến và khác hệ số tự do nên song song với nhau.")
+                        ]
+                    )
+                ]
+                
+                mathSA = [
+                    (
+                        "Cho hàm số $y = -x^3 + 3x^2 + 9x - 1$. Giá trị cực đại của hàm số bằng bao nhiêu?",
+                        ["26", "26.0"],
+                        "",
+                        "Đạo hàm $y' = -3x^2 + 6x + 9 = 0 \\Leftrightarrow x = -1$ hoặc $x = 3$. Điểm cực đại tại $x = 3 \\Rightarrow y_{CĐ} = -27 + 27 + 27 - 1 = 26$."
+                    ),
+                    (
+                        "Trong không gian $Oxyz$, cho mặt phẳng $(P): 2x - 2y + z + 5 = 0$. Khoảng cách từ điểm $M(1; 2; 3)$ đến $(P)$ bằng bao nhiêu?",
+                        ["2", "2.0"],
+                        "",
+                        "$d(M, P) = \\frac{|2(1) - 2(2) + 3 + 5|}{\\sqrt{2^2 + (-2)^2 + 1^2}} = \\frac{6}{3} = 2$."
+                    ),
+                    (
+                        "Một người gửi 100 triệu đồng vào ngân hàng với lãi suất 6%/năm theo thể thức lãi kép. Sau 2 năm, số tiền lãi người đó nhận được là bao nhiêu triệu đồng? (Làm tròn 2 chữ số thập phân)",
+                        ["12.36"],
+                        "triệu đồng",
+                        "Tổng số tiền sau 2 năm: $T = 100 \\times (1 + 0.06)^2 = 112.36$ triệu đồng. Tiền lãi là $112.36 - 100 = 12.36$ triệu đồng."
+                    )
+                ]
             }
-            
-            let mathTF: [(ctx: String, stmts: [(id: String, s: String, t: Bool, e: String)])] = [
-                (
-                    "Cho hàm số bậc ba $y = f(x) = x^3 - 3x + 1$ có đồ thị $(C)$. Xét tính đúng/sai của các khẳng định sau:",
-                    [
-                        ("a", "Hàm số đồng biến trên khoảng $(-\\infty; -1)$ và $(1; +\\infty)$.", true, "Đạo hàm $y' = 3x^2 - 3 > 0$ khi $x < -1$ hoặc $x > 1$."),
-                        ("b", "Điểm cực đại của đồ thị hàm số là $M(-1; 3)$.", true, "Tại $x = -1$, $y(-1) = (-1)^3 - 3(-1) + 1 = 3$."),
-                        ("c", "Đồ thị hàm số $(C)$ đi qua gốc tọa độ $O(0; 0)$.", false, "Khi $x = 0$, $y = 1 \\ne 0$ nên đồ thị không đi qua gốc tọa độ."),
-                        ("d", "Phương trình $f(x) = 0$ có đúng 1 nghiệm thực.", false, "Giá trị cực trị $y_{CĐ} = 3 > 0$ và $y_{CT} = -1 < 0$ nên phương trình có 3 nghiệm thực phân biệt.")
-                    ]
-                ),
-                (
-                    "Trong không gian tọa độ $Oxyz$, cho mặt phẳng $(P): 2x - y + 2z - 5 = 0$ và điểm $A(1; 1; 2)$.",
-                    [
-                        ("a", "Véctơ pháp tuyến của mặt phẳng $(P)$ là $\\vec{n} = (2; -1; 2)$.", true, "Hệ số trước $x, y, z$ trong phương trình tổng quát là $(2; -1; 2)$."),
-                        ("b", "Điểm $A$ thuộc mặt phẳng $(P)$.", false, "Thay tọa độ $A$ vào: $2(1) - 1 + 2(2) - 5 = 0$ nên $A \\in (P)$."),
-                        ("c", "Khoảng cách từ gốc tọa độ $O(0; 0; 0)$ đến mặt phẳng $(P)$ bằng $\\frac{5}{3}$.", true, "$d(O, (P)) = \\frac{|-5|}{\\sqrt{2^2 + (-1)^2 + 2^2}} = \\frac{5}{3}$."),
-                        ("d", "Mặt phẳng $(Q): 2x - y + 2z + 1 = 0$ cắt mặt phẳng $(P)$.", false, "Hai mặt phẳng có cùng vectơ pháp tuyến và khác hệ số tự do nên song song với nhau.")
-                    ]
-                )
-            ]
-            
-            if tfCount > 0 {
-            
-                for i in 1...tfCount {
-                let item = mathTF[(i - 1) % mathTF.count]
-                let stmts = item.stmts.map { TrueFalseStatement(id: $0.id, statement: $0.s, isCorrectTrue: $0.t, explanation: $0.e) }
-                tfList.append(TrueFalseQuestion(
-                    id: i,
-                    context: item.ctx,
-                    statements: stmts
-                ))
-                }
-            }
-            
-            let mathSA: [(q: String, ans: [String], u: String, exp: String)] = [
-                (
-                    "Cho hàm số $y = -x^3 + 3x^2 + 9x - 1$. Giá trị cực đại của hàm số bằng bao nhiêu?",
-                    ["26", "26.0"],
-                    "",
-                    "Đạo hàm $y' = -3x^2 + 6x + 9 = 0 \\Leftrightarrow x = -1$ hoặc $x = 3$. Điểm cực đại tại $x = 3 \\Rightarrow y_{CĐ} = -27 + 27 + 27 - 1 = 26$."
-                ),
-                (
-                    "Trong không gian $Oxyz$, cho mặt phẳng $(P): 2x - 2y + z + 5 = 0$. Khoảng cách từ điểm $M(1; 2; 3)$ đến $(P)$ bằng bao nhiêu?",
-                    ["2", "2.0"],
-                    "",
-                    "$d(M, P) = \\frac{|2(1) - 2(2) + 3 + 5|}{\\sqrt{2^2 + (-2)^2 + 1^2}} = \\frac{6}{3} = 2$."
-                ),
-                (
-                    "Một người gửi 100 triệu đồng vào ngân hàng với lãi suất 6%/năm theo thể thức lãi kép. Sau 2 năm, số tiền lãi người đó nhận được là bao nhiêu triệu đồng? (Làm tròn 2 chữ số thập phân)",
-                    ["12.36"],
-                    "triệu đồng",
-                    "Tổng số tiền sau 2 năm: $T = 100 \\times (1 + 0.06)^2 = 112.36$ triệu đồng. Tiền lãi là $112.36 - 100 = 12.36$ triệu đồng."
-                )
-            ]
             
             if saCount > 0 {
             

@@ -75,6 +75,19 @@ struct ExercisePracticeView: View {
         self.initialSaCount = initialSaCount
         self.autoStart = autoStart
         self.onBackToHome = onBackToHome
+        
+        let g = initialGrade ?? 11
+        let s = initialSemester ?? 1
+        let sub = initialSubject ?? "Toán"
+        let top = initialTopic ?? ""
+        
+        _selectedGrade = State(initialValue: g)
+        _selectedSemester = State(initialValue: s)
+        _selectedSubject = State(initialValue: sub)
+        _focusTopicInput = State(initialValue: top)
+        if let mc = initialMcCount { _mcCount = State(initialValue: mc) }
+        if let tf = initialTfCount { _tfCount = State(initialValue: tf) }
+        if let sa = initialSaCount { _saCount = State(initialValue: sa) }
     }
     
     public var body: some View {
@@ -676,34 +689,38 @@ struct ExercisePracticeView: View {
         let isSelected = (activeExamPart == partIndex)
         return Button(action: { activeExamPart = partIndex }) {
             Text(title)
-                .font(.system(size: 12, weight: .bold))
-                .foregroundColor(isSelected ? .white : AppTheme.textSecondary)
-                .frame(maxWidth: .infinity)
+                .font(.system(size: 13, weight: isSelected ? .bold : .medium))
+                .foregroundColor(isSelected ? Color(hex: "#059669") : Color(hex: "#6B7280"))
+                .padding(.horizontal, 14)
                 .padding(.vertical, 8)
                 .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(isSelected ? AppTheme.primaryDark : Color.white)
+                    Capsule()
+                        .fill(isSelected ? Color(hex: "#D1FAE5") : Color(hex: "#F3F4F6"))
                 )
-                .shadow(color: Color.black.opacity(0.03), radius: 4, x: 0, y: 2)
         }
     }
     
-    // Multiple Choice Card
+    // Multiple Choice Card (Taste-Skill Anti-Slop: Flat, single-layer, airy typography, NO nested boxes)
     private func mcQuestionCard(_ q: MultipleChoiceQuestion) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text("Câu \(q.id)")
-                    .font(.caption)
-                    .fontWeight(.bold)
-                    .foregroundColor(AppTheme.primaryMint)
-                    .padding(.horizontal, 8)
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(spacing: 6) {
+                Text("CÂU \(q.id)")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundColor(Color(hex: "#059669"))
+                    .padding(.horizontal, 7)
                     .padding(.vertical, 3)
-                    .background(Capsule().fill(AppTheme.primaryLight))
+                    .background(Capsule().fill(Color(hex: "#D1FAE5")))
+                
+                Text("Trắc nghiệm 4 phương án")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(Color(hex: "#6B7280"))
+                
                 Spacer()
             }
             
             MarkdownRendererView(content: q.question)
                 .font(.system(size: 15))
+                .foregroundColor(Color(hex: "#111827"))
             
             VStack(spacing: 8) {
                 ForEach(0..<q.options.count, id: \.self) { optIdx in
@@ -711,178 +728,208 @@ struct ExercisePracticeView: View {
                     Button(action: {
                         studentMCAnswers[q.id] = optIdx
                     }) {
-                        HStack(spacing: 10) {
+                        HStack(spacing: 12) {
                             ZStack {
                                 Circle()
-                                    .fill(isChosen ? AppTheme.primaryMint : Color(hex: "#F3F4F6"))
-                                    .frame(width: 28, height: 28)
+                                    .fill(isChosen ? Color(hex: "#0A3E39") : Color.white)
+                                    .frame(width: 26, height: 26)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(isChosen ? Color(hex: "#0A3E39") : Color(hex: "#D1D5DB"), lineWidth: 1)
+                                    )
                                 Text(["A", "B", "C", "D"][optIdx % 4])
                                     .font(.system(size: 12, weight: .bold))
                                     .foregroundColor(isChosen ? .white : Color(hex: "#374151"))
                             }
                             
                             MarkdownRendererView(content: q.options[optIdx])
-                                .font(.system(size: 14))
-                                .foregroundColor(Color(hex: "#1F2937"))
+                                .font(.system(size: 14, weight: isChosen ? .semibold : .regular))
+                                .foregroundColor(isChosen ? Color(hex: "#0A3E39") : Color(hex: "#1F2937"))
                             
                             Spacer()
                         }
-                        .padding(10)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 11)
                         .background(
-                            RoundedRectangle(cornerRadius: 14)
-                                .fill(isChosen ? AppTheme.primaryMint.opacity(0.08) : Color(hex: "#F9FAFB"))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 14)
-                                        .stroke(isChosen ? AppTheme.primaryMint : Color(hex: "#E5E7EB"), lineWidth: isChosen ? 1.5 : 1)
-                                )
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .fill(isChosen ? Color(hex: "#F0FDF4") : Color.white)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .stroke(isChosen ? Color(hex: "#10B981") : Color(hex: "#E5E7EB"), lineWidth: 1)
                         )
                     }
+                    .buttonStyle(.plain)
                 }
             }
         }
         .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+                )
         )
     }
     
-    // True/False Card (4 statements a, b, c, d)
+    // True/False Card (Taste-Skill Anti-Slop: Flat editorial context, clean hairline rows, NO nested box-in-a-box)
     private func tfQuestionCard(_ q: TrueFalseQuestion) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text("Câu \(q.id) (Đúng / Sai)")
-                    .font(.caption)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color(hex: "#2563EB"))
-                    .padding(.horizontal, 8)
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(spacing: 6) {
+                Text("CÂU \(q.id)")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundColor(Color(hex: "#0284C7"))
+                    .padding(.horizontal, 7)
                     .padding(.vertical, 3)
-                    .background(Capsule().fill(Color(hex: "#DBEAFE")))
+                    .background(Capsule().fill(Color(hex: "#E0F2FE")))
+                
+                Text("Đúng / Sai 4 ý a, b, c, d")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(Color(hex: "#6B7280"))
+                
                 Spacer()
             }
             
-            MarkdownRendererView(content: q.context)
-                .font(.system(size: 15))
+            HStack(alignment: .top, spacing: 10) {
+                Rectangle()
+                    .fill(Color(hex: "#0284C7"))
+                    .frame(width: 3)
+                    .cornerRadius(1.5)
+                
+                MarkdownRendererView(content: q.context)
+                    .font(.system(size: 14.5))
+                    .foregroundColor(Color(hex: "#1F2937"))
+            }
+            .padding(.vertical, 2)
             
-            VStack(spacing: 10) {
-                ForEach(q.statements) { stmt in
+            VStack(spacing: 0) {
+                ForEach(Array(q.statements.enumerated()), id: \.element.id) { index, stmt in
                     let answerKey = "\(q.id):\(stmt.id)"
                     let chosenVal = studentTFAnswers[answerKey]
                     
                     VStack(alignment: .leading, spacing: 8) {
+                        if index > 0 {
+                            Divider().padding(.vertical, 4)
+                        }
+                        
                         HStack(alignment: .top, spacing: 8) {
                             Text("\(stmt.id))")
-                                .font(.system(size: 14, weight: .bold))
+                                .font(.system(size: 13, weight: .bold))
                                 .foregroundColor(Color(hex: "#374151"))
                             
                             MarkdownRendererView(content: stmt.statement)
-                                .font(.system(size: 14))
+                                .font(.system(size: 13.5))
+                                .foregroundColor(Color(hex: "#1F2937"))
                         }
                         
                         HStack(spacing: 8) {
                             Spacer()
-                            // Option: ĐÚNG
                             Button(action: { studentTFAnswers[answerKey] = true }) {
                                 HStack(spacing: 4) {
                                     Image(systemName: chosenVal == true ? "checkmark.circle.fill" : "circle")
+                                        .font(.system(size: 11))
                                     Text("Đúng")
-                                        .fontWeight(.bold)
+                                        .font(.system(size: 12, weight: chosenVal == true ? .bold : .medium))
                                 }
-                                .font(.caption)
                                 .foregroundColor(chosenVal == true ? .white : Color(hex: "#059669"))
-                                .padding(.horizontal, 14)
+                                .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
                                 .background(
                                     Capsule().fill(chosenVal == true ? Color(hex: "#059669") : Color(hex: "#D1FAE5"))
                                 )
                             }
+                            .buttonStyle(.plain)
                             
-                            // Option: SAI
                             Button(action: { studentTFAnswers[answerKey] = false }) {
                                 HStack(spacing: 4) {
                                     Image(systemName: chosenVal == false ? "xmark.circle.fill" : "circle")
+                                        .font(.system(size: 11))
                                     Text("Sai")
-                                        .fontWeight(.bold)
+                                        .font(.system(size: 12, weight: chosenVal == false ? .bold : .medium))
                                 }
-                                .font(.caption)
                                 .foregroundColor(chosenVal == false ? .white : Color(hex: "#DC2626"))
-                                .padding(.horizontal, 14)
+                                .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
                                 .background(
                                     Capsule().fill(chosenVal == false ? Color(hex: "#DC2626") : Color(hex: "#FEE2E2"))
                                 )
                             }
+                            .buttonStyle(.plain)
                         }
                     }
-                    .padding(10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color(hex: "#F9FAFB"))
-                    )
+                    .padding(.vertical, 6)
                 }
             }
         }
         .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+                )
         )
     }
     
-    // Short Answer Card
+    // Short Answer Card (Taste-Skill Anti-Slop: Clean field, no clutter)
     private func saQuestionCard(_ q: ShortAnswerQuestion) -> some View {
         let binding = Binding<String>(
             get: { studentSAAnswers[q.id] ?? "" },
             set: { studentSAAnswers[q.id] = $0 }
         )
         
-        return VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text("Câu \(q.id) (Trả Lời Ngắn)")
-                    .font(.caption)
-                    .fontWeight(.bold)
+        return VStack(alignment: .leading, spacing: 14) {
+            HStack(spacing: 6) {
+                Text("CÂU \(q.id)")
+                    .font(.system(size: 11, weight: .bold))
                     .foregroundColor(Color(hex: "#7C3AED"))
-                    .padding(.horizontal, 8)
+                    .padding(.horizontal, 7)
                     .padding(.vertical, 3)
                     .background(Capsule().fill(Color(hex: "#EDE9FE")))
+                
+                Text("Trả lời ngắn (Điền đáp số)")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(Color(hex: "#6B7280"))
+                
                 Spacer()
             }
             
             MarkdownRendererView(content: q.question)
                 .font(.system(size: 15))
+                .foregroundColor(Color(hex: "#111827"))
             
-            HStack {
-                TextField("Nhập kết quả số hoặc đáp số...", text: binding)
-                    .font(.system(size: 15, design: .rounded))
-                    .padding(12)
-                    .background(Color(hex: "#F9FAFB"))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            HStack(spacing: 8) {
+                TextField("Điền kết quả số...", text: binding)
+                    .font(.system(size: 15, weight: .medium, design: .rounded))
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .background(Color.white)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color(hex: "#D1D5DB"), lineWidth: 1)
                     )
                 
                 if let unit = q.unit, !unit.isEmpty {
                     Text(unit)
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(AppTheme.textSecondary)
-                        .padding(.horizontal, 8)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(Color(hex: "#4B5563"))
                 }
             }
         }
         .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+                )
         )
     }
     
-    // =====================================================================
-    // MARK: - SCREEN 4: GRADING & STEP-BY-STEP EXPLANATION
-    // =====================================================================
     // =====================================================================
     // MARK: - SCREEN 4: GRADING & STEP-BY-STEP EXPLANATION
     // =====================================================================
@@ -1026,59 +1073,71 @@ struct ExercisePracticeView: View {
                 let studentLetter = (studentAns != nil && studentAns! >= 0 && studentAns! < 4) ? optionLetter(studentAns!) : "Chưa chọn"
                 let correctLetter = optionLetter(q.correctIndex)
                 
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-                        Label("Câu \(q.id)", systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                            .font(.caption)
-                            .fontWeight(.bold)
-                            .foregroundColor(isCorrect ? .green : .red)
-                            .padding(.horizontal, 8)
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack(spacing: 8) {
+                        Text("CÂU \(q.id)")
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundColor(isCorrect ? Color(hex: "#059669") : Color(hex: "#DC2626"))
+                            .padding(.horizontal, 7)
                             .padding(.vertical, 3)
-                            .background(Capsule().fill(isCorrect ? Color.green.opacity(0.12) : Color.red.opacity(0.12)))
+                            .background(Capsule().fill(isCorrect ? Color(hex: "#D1FAE5") : Color(hex: "#FEE2E2")))
+                        
+                        Text(isCorrect ? "Đúng (+0.25đ)" : "Chưa chính xác")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(isCorrect ? Color(hex: "#059669") : Color(hex: "#DC2626"))
                         
                         Spacer()
-                        
-                        Text(isCorrect ? "Đúng" : "Sai")
-                            .font(.caption2)
-                            .fontWeight(.bold)
-                            .foregroundColor(isCorrect ? .green : .red)
                     }
                     
                     MarkdownRendererView(content: q.question)
-                        .font(.system(size: 14))
+                        .font(.system(size: 14.5))
+                        .foregroundColor(Color(hex: "#111827"))
                     
-                    HStack {
-                        Text("Bạn chọn: \(studentLetter)")
-                            .font(.caption)
-                            .foregroundColor(isCorrect ? .green : .red)
+                    HStack(spacing: 16) {
+                        Text("Bạn chọn: ")
+                            .font(.system(size: 13))
+                            .foregroundColor(Color(hex: "#6B7280"))
+                        + Text(studentLetter)
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundColor(isCorrect ? Color(hex: "#059669") : Color(hex: "#DC2626"))
+                        
                         Spacer()
-                        Text("Đáp án đúng: \(correctLetter)")
-                            .font(.caption)
-                            .fontWeight(.bold)
-                            .foregroundColor(.green)
+                        
+                        Text("Đáp án đúng: ")
+                            .font(.system(size: 13))
+                            .foregroundColor(Color(hex: "#6B7280"))
+                        + Text(correctLetter)
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundColor(Color(hex: "#059669"))
                     }
-                    .padding(8)
-                    .background(Color(hex: "#F9FAFB"))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .padding(.vertical, 4)
                     
+                    // Explanation: Editorial left border line, no box-in-box
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("💡 Lời giải chi tiết từ AI:")
-                            .font(.caption)
-                            .fontWeight(.bold)
-                            .foregroundColor(AppTheme.primaryMint)
-                        MarkdownRendererView(content: q.explanation)
-                            .font(.caption)
+                        Text("Hướng dẫn giải:")
+                            .font(.system(size: 12, weight: .bold))
                             .foregroundColor(Color(hex: "#374151"))
+                        MarkdownRendererView(content: q.explanation)
+                            .font(.system(size: 13))
+                            .foregroundColor(Color(hex: "#4B5563"))
                     }
-                    .padding(10)
-                    .background(Color(hex: "#ECFDF5"))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.leading, 10)
+                    .overlay(
+                        Rectangle()
+                            .fill(Color(hex: "#10B981"))
+                            .frame(width: 2.5),
+                        alignment: .leading
+                    )
+                    .padding(.top, 4)
                 }
-                .padding(14)
+                .padding(16)
                 .background(
-                    RoundedRectangle(cornerRadius: 18)
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
                         .fill(Color.white)
-                        .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+                        )
                 )
             }
         }
@@ -1088,55 +1147,84 @@ struct ExercisePracticeView: View {
     private var reviewTrueFalseSection: some View {
         if let tfQuestions = activeExam?.trueFalse, !tfQuestions.isEmpty {
             ForEach(tfQuestions) { q in
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Câu \(q.id) (Đúng / Sai)")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(hex: "#2563EB"))
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(Capsule().fill(Color(hex: "#DBEAFE")))
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack(spacing: 8) {
+                        Text("CÂU \(q.id)")
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundColor(Color(hex: "#0284C7"))
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 3)
+                            .background(Capsule().fill(Color(hex: "#E0F2FE")))
+                        
+                        Text("Đúng / Sai")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(Color(hex: "#4B5563"))
+                        
+                        Spacer()
+                    }
                     
                     MarkdownRendererView(content: q.context)
-                        .font(.system(size: 14))
+                        .font(.system(size: 14.5))
+                        .foregroundColor(Color(hex: "#111827"))
                     
                     ForEach(q.statements) { stmt in
                         let chosen = studentTFAnswers["\(q.id):\(stmt.id)"]
                         let isCorrect = (chosen == stmt.isCorrectTrue)
+                        let chosenText = chosen == true ? "Đúng" : (chosen == false ? "Sai" : "Chưa chọn")
+                        let actualText = stmt.isCorrectTrue ? "Đúng" : "Sai"
                         
                         VStack(alignment: .leading, spacing: 6) {
-                            HStack(alignment: .top, spacing: 6) {
+                            HStack(alignment: .top, spacing: 8) {
                                 Image(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                    .foregroundColor(isCorrect ? .green : .red)
-                                    .font(.caption)
+                                    .foregroundColor(isCorrect ? Color(hex: "#059669") : Color(hex: "#DC2626"))
+                                    .font(.system(size: 13))
                                     .padding(.top, 2)
-                                MarkdownRendererView(content: "**Ý \(stmt.id)):** " + stmt.statement)
-                                    .font(.caption)
+                                
+                                MarkdownRendererView(content: "**\(stmt.id))** " + stmt.statement)
+                                    .font(.system(size: 13.5))
+                                    .foregroundColor(Color(hex: "#1F2937"))
+                                
                                 Spacer()
-                                Text(stmt.isCorrectTrue ? "Đúng" : "Sai")
-                                    .font(.caption2)
-                                    .fontWeight(.bold)
+                                
+                                Text(actualText)
+                                    .font(.system(size: 11, weight: .bold))
                                     .foregroundColor(stmt.isCorrectTrue ? Color(hex: "#059669") : Color(hex: "#DC2626"))
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
-                                    .background(Capsule().fill(stmt.isCorrectTrue ? Color.green.opacity(0.12) : Color.red.opacity(0.12)))
+                                    .background(Capsule().fill(stmt.isCorrectTrue ? Color(hex: "#D1FAE5") : Color(hex: "#FEE2E2")))
                             }
                             
-                            MarkdownRendererView(content: "💡 **Giải thích:** " + stmt.explanation)
-                                .font(.caption2)
-                                .foregroundColor(AppTheme.textSecondary)
-                                .padding(.leading, 20)
+                            HStack(spacing: 12) {
+                                Text("Bạn chọn: \(chosenText)")
+                                    .font(.system(size: 11))
+                                    .foregroundColor(isCorrect ? Color(hex: "#059669") : Color(hex: "#DC2626"))
+                                
+                                Text("•")
+                                    .foregroundColor(Color.gray.opacity(0.3))
+                                    .font(.system(size: 10))
+                                
+                                Text(stmt.explanation)
+                                    .font(.system(size: 11))
+                                    .foregroundColor(Color(hex: "#6B7280"))
+                                    .lineLimit(2)
+                            }
+                            .padding(.leading, 22)
                         }
-                        .padding(8)
-                        .background(isCorrect ? Color.green.opacity(0.05) : Color.red.opacity(0.05))
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .padding(.vertical, 4)
+                        
+                        if stmt.id != q.statements.last?.id {
+                            Divider().padding(.leading, 22)
+                        }
                     }
                 }
-                .padding(14)
+                .padding(16)
                 .background(
-                    RoundedRectangle(cornerRadius: 18)
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
                         .fill(Color.white)
-                        .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+                        )
                 )
             }
         }
@@ -1149,55 +1237,76 @@ struct ExercisePracticeView: View {
                 let studentAns = studentSAAnswers[q.id]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
                 let isCorrect = q.acceptedAnswers.contains(where: { $0.lowercased() == studentAns.lowercased() })
                 
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-                        Label("Câu \(q.id) (Trả lời ngắn)", systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                            .font(.caption)
-                            .fontWeight(.bold)
-                            .foregroundColor(isCorrect ? .green : .red)
-                            .padding(.horizontal, 8)
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack(spacing: 8) {
+                        Text("CÂU \(q.id)")
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundColor(Color(hex: "#7C3AED"))
+                            .padding(.horizontal, 7)
                             .padding(.vertical, 3)
-                            .background(Capsule().fill(isCorrect ? Color.green.opacity(0.12) : Color.red.opacity(0.12)))
+                            .background(Capsule().fill(Color(hex: "#EDE9FE")))
+                        
+                        Text(isCorrect ? "Đúng (+0.25đ)" : "Chưa chính xác")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(isCorrect ? Color(hex: "#059669") : Color(hex: "#DC2626"))
+                        
                         Spacer()
                     }
                     
                     MarkdownRendererView(content: q.question)
-                        .font(.system(size: 14))
+                        .font(.system(size: 14.5))
+                        .foregroundColor(Color(hex: "#111827"))
                     
-                    HStack {
-                        Text("Bạn điền: \"\(studentAns.isEmpty ? "Bỏ trống" : studentAns)\"")
-                            .font(.caption)
-                            .foregroundColor(isCorrect ? .green : .red)
+                    HStack(spacing: 16) {
+                        Text("Bạn điền: ")
+                            .font(.system(size: 13))
+                            .foregroundColor(Color(hex: "#6B7280"))
+                        + Text(studentAns.isEmpty ? "(Bỏ trống)" : studentAns)
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundColor(isCorrect ? Color(hex: "#059669") : Color(hex: "#DC2626"))
+                        
                         Spacer()
-                        MarkdownRendererView(content: "Đáp số: **\(q.acceptedAnswers.first ?? "")** \(q.unit ?? "")")
-                            .font(.caption)
+                        
+                        Text("Đáp số chuẩn: ")
+                            .font(.system(size: 13))
+                            .foregroundColor(Color(hex: "#6B7280"))
+                        + Text("\(q.acceptedAnswers.first ?? "") \(q.unit ?? "")")
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundColor(Color(hex: "#059669"))
                     }
-                    .padding(8)
-                    .background(Color(hex: "#F9FAFB"))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .padding(.vertical, 4)
                     
+                    // Explanation with left accent bar
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("💡 Hướng dẫn giải chi tiết:")
-                            .font(.caption)
-                            .fontWeight(.bold)
-                            .foregroundColor(AppTheme.primaryMint)
-                        MarkdownRendererView(content: q.explanation)
-                            .font(.caption)
+                        Text("Hướng dẫn giải:")
+                            .font(.system(size: 12, weight: .bold))
                             .foregroundColor(Color(hex: "#374151"))
+                        MarkdownRendererView(content: q.explanation)
+                            .font(.system(size: 13))
+                            .foregroundColor(Color(hex: "#4B5563"))
                     }
-                    .padding(10)
-                    .background(Color(hex: "#ECFDF5"))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.leading, 10)
+                    .overlay(
+                        Rectangle()
+                            .fill(Color(hex: "#7C3AED"))
+                            .frame(width: 2.5),
+                        alignment: .leading
+                    )
+                    .padding(.top, 4)
                 }
-                .padding(14)
+                .padding(16)
                 .background(
-                    RoundedRectangle(cornerRadius: 18)
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
                         .fill(Color.white)
-                        .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+                        )
                 )
             }
         }
     }
+
     
     private func statBadge(label: String, val: String, color: Color) -> some View {
         VStack(spacing: 2) {
