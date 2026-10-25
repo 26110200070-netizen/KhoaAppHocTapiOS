@@ -49,9 +49,15 @@ struct YouTubePlayerView: UIViewRepresentable {
         let cleanId = videoId.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !cleanId.isEmpty else { return }
         
-        // Nhúng chuẩn qua domain privacy youtube-nocookie.com, loại bỏ các tham số origin/widget_referrer giả lập gây lỗi
-        let embedURL = "https://www.youtube-nocookie.com/embed/\(cleanId)?playsinline=1&controls=1&rel=0&modestbranding=1&enablejsapi=1"
+        // 1. BẮT BUỘC: Dùng Bundle ID của app làm định danh Origin (không dùng domain của YouTube)
+        let bundleId = (Bundle.main.bundleIdentifier ?? "com.khoa.studyapp").lowercased()
+        let appOrigin = "https://\(bundleId)"
+        guard let baseURL = URL(string: appOrigin) else { return }
         
+        // 2. Truyền origin trùng khớp với baseURL vào link embed
+        let embedURL = "https://www.youtube-nocookie.com/embed/\(cleanId)?playsinline=1&controls=1&rel=0&modestbranding=1&enablejsapi=1&origin=\(appOrigin)"
+        
+        // 3. Thêm referrerpolicy="strict-origin-when-cross-origin" vào thẻ iframe
         let html = """
         <!DOCTYPE html>
         <html>
@@ -67,13 +73,14 @@ struct YouTubePlayerView: UIViewRepresentable {
             <iframe
                 src="\(embedURL)"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen>
             </iframe>
         </body>
         </html>
         """
         
-        guard let baseURL = URL(string: "https://www.youtube-nocookie.com") else { return }
+        // 4. Nạp HTML với baseURL là định danh của App (https://<bundle_id>)
         webView.loadHTMLString(html, baseURL: baseURL)
     }
     
