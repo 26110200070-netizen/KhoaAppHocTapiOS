@@ -7,6 +7,8 @@
 ### I. Vật lí nhiệt
 
 #### 1. Mô hình động học phân tử và Cấu trúc của chất
+> 📺 **Video bài giảng tham khảo:** [Vật lí 12 Bài 8: Mô hình động học phân tử ... (VietJack THPT Official)](https://www.youtube.com/watch?v=vEVQx5lCwiw)
+
 *   **Mô hình động học phân tử:** Các chất được cấu tạo từ các hạt riêng biệt gọi là phân tử. Các phân tử chuyển động hỗn loạn không ngừng (chuyển động nhiệt). Các phân tử tương tác với nhau bằng lực hút và lực đẩy phân tử.
 *   **Cấu trúc của chất:**
     *   *Chất rắn:* Các phân tử ở rất gần nhau, dao động quanh vị trí cân bằng cố định. Có thể tích và hình dạng xác định.
@@ -14,6 +16,8 @@
     *   *Chất khí:* Các phân tử ở xa nhau, chuyển động hỗn loạn về mọi hướng. Không có hình dạng và thể tích xác định.
 
 #### 2. Định luật I nhiệt động lực học
+> 📺 **Video bài giảng tham khảo:** [Vật lí 12 Bài 2: Nội năng. Định luật I của... (VietJack THPT Official)](https://www.youtube.com/watch?v=VxzEvmMJipo)
+
 *   Độ biến thiên nội năng của hệ bằng tổng công và nhiệt lượng mà hệ nhận được.
     $$\Delta U = A + Q$$
     *   *Quy ước dấu:*
@@ -21,12 +25,16 @@
         *   $A > 0$: Hệ nhận công; $A < 0$: Hệ thực hiện công.
 
 #### 3. Sự chuyển thể của các chất
+> 📺 **Video bài giảng tham khảo:** [Vật lí 12 Cánh diều - Bài 1: Sự chuyển thể... (VietJack THPT Official)](https://www.youtube.com/watch?v=rupdDV0uLDc)
+
 *   **Nhiệt nóng chảy riêng ($\lambda$):** Nhiệt lượng cần cung cấp cho $1\text{ kg}$ chất đó nóng chảy hoàn toàn ở nhiệt độ nóng chảy.
     $$Q = \lambda \cdot m$$ (Đơn vị: $\text{J/kg}$).
 *   **Nhiệt hóa hơi riêng ($L$):** Nhiệt lượng cần cung cấp cho $1\text{ kg}$ chất lỏng hóa hơi hoàn toàn ở nhiệt độ sôi.
     $$Q = L \cdot m$$ (Đơn vị: $\text{J/kg}$).
 
 #### 4. Thang nhiệt độ và Nhiệt dung riêng
+> 📺 **Video bài giảng tham khảo:** [Vật lí 12 Bài 4: Nhiệt dung riêng - Kết nố... (VietJack THPT Official)](https://www.youtube.com/watch?v=pQ1BwAg2bto)
+
 *   **Thang nhiệt độ Kelvin (K):** Thang nhiệt độ tuyệt đối, bắt đầu từ độ không tuyệt đối ($0\text{ K} = -273,15^\circ\text{C}$).
     $$T(\text{K}) = t(^\circ\text{C}) + 273,15$$
 *   **Nhiệt dung riêng ($c$):** Nhiệt lượng cần thiết để làm cho $1\text{ kg}$ chất đó tăng thêm $1^\circ\text{C}$ (hoặc $1\text{ K}$).
@@ -35,6 +43,8 @@
 ### II. Khí lí tưởng
 
 #### 1. Phương trình trạng thái của khí lí tưởng
+> 📺 **Video bài giảng tham khảo:** [Vận dụng phương trình trạng thái của khí l... (VietJack THPT Official)](https://www.youtube.com/watch?v=3kztL19fZeI)
+
 *   **Khí lí tưởng:** Là chất khí trong đó các phân tử được coi là các chất điểm và chỉ tương tác với nhau khi va chạm.
 *   **Các định luật về khí lí tưởng:**
     *   *Định luật Boyle (Đẳng nhiệt):* $P \cdot V = \text{const} \Rightarrow P_1V_1 = P_2V_2$
@@ -47,6 +57,8 @@
     *   Trong đó: $n$ là số mol, $R \approx 8,31\text{ J/mol.K}$ là hằng số khí lí tưởng.
 
 #### 2. Áp suất khí và Động năng phân tử
+> 📺 **Video bài giảng tham khảo:** [Vật lí 12 Bài 12: Áp suất khí theo mô hình... (VietJack THPT Official)](https://www.youtube.com/watch?v=nADFBOnsjas)
+
 *   Áp suất khí lí tưởng tác dụng lên thành bình được giải thích do sự va chạm của các phân tử khí lên thành bình.
 *   Công thức áp suất từ mô hình động học phân tử: $P = \frac{1}{3}\mu \cdot m_0 \cdot \overline{v^2}$ (với $\mu$ là mật độ phân tử, $m_0$ là khối lượng phân tử).
 *   Động năng tịnh tiến trung bình của phân tử khí tỉ lệ thuận với nhiệt độ tuyệt đối:
@@ -60,6 +72,8 @@
 ### I. Từ trường
 
 #### 1. Lực từ tác dụng lên dây dẫn thẳng mang dòng điện
+> 📺 **Video bài giảng tham khảo:** [Vật lí 12 Bài 15: Lực từ tác dụng lên dây ... (VietJack THPT Official)](https://www.youtube.com/watch?v=-Th489FiUO8)
+
 *   Lực từ $\vec{F}$ tác dụng lên một đoạn dây dẫn thẳng có chiều dài $L$, mang dòng điện $I$, đặt trong từ trường đều có cảm ứng từ $\vec{B}$.
 *   **Độ lớn (Định luật Ampere):**
     $$F = B \cdot I \cdot L \cdot \sin\alpha$$
@@ -67,11 +81,15 @@
 *   **Chiều của lực từ:** Xác định bằng **quy tắc bàn tay trái**.
 
 #### 2. Cảm ứng từ của dòng điện có hình dạng đặc biệt
+> 📺 **Video bài giảng tham khảo:** [Vật lí 12 Bài 15: Lực từ tác dụng lên dây ... (VietJack THPT Official)](https://www.youtube.com/watch?v=-Th489FiUO8)
+
 *   **Dòng điện thẳng dài vô hạn:** $B = 2 \cdot 10^{-7} \cdot \frac{I}{r}$ ($r$ là khoảng cách từ dây dẫn đến điểm xét).
 *   **Dòng điện tròn (tại tâm):** $B = 2\pi \cdot 10^{-7} \cdot N \cdot \frac{I}{R}$ ($N$ là số vòng dây, $R$ là bán kính vòng dây).
 *   **Ống dây dẫn thẳng:** $B = 4\pi \cdot 10^{-7} \cdot n \cdot I = 4\pi \cdot 10^{-7} \cdot \frac{N}{L} \cdot I$ ($n$ là số vòng dây trên một đơn vị chiều dài).
 
 #### 3. Lực Lorentz
+> 📺 **Video bài giảng tham khảo:** [Vật lí 12 Bài 15: Lực từ tác dụng lên dây ... (VietJack THPT Official)](https://www.youtube.com/watch?v=-Th489FiUO8)
+
 *   Lực Lorentz là lực do từ trường tác dụng lên một hạt mang điện tích $q$ chuyển động với vận tốc $\vec{v}$.
     $$f = |q| \cdot v \cdot B \cdot \sin\alpha$$
     *   Trong đó: $\alpha = (\vec{v}, \vec{B})$. Chiều lực Lorentz xác định bằng quy tắc bàn tay trái (lưu ý dấu của điện tích $q$).
@@ -81,6 +99,8 @@
 ### II. Vật lí hạt nhân
 
 #### 1. Cấu tạo hạt nhân và Độ hụt khối
+> 📺 **Video bài giảng tham khảo:** [Vật lí 12 Bài 21: Cấu trúc hạt nhân - Kết ... (VietJack THPT Official)](https://www.youtube.com/watch?v=TJjNtOEJjRM)
+
 *   **Cấu tạo hạt nhân:** Kí hiệu hạt nhân là $_Z^A\text{X}$.
     *   Hạt nhân cấu tạo từ các nucleon bao gồm: Proton ($Z$ hạt, mang điện tích $+e$) và Neutron ($N = A - Z$ hạt, không mang điện).
     *   $A$: Số khối (tổng số nucleon). $Z$: Điện tích hạt nhân (số hiệu nguyên tử).
@@ -91,6 +111,8 @@
 *   **Năng lượng liên kết riêng:** Là năng lượng liên kết tính trên một nucleon: $\frac{W_{lk}}{A}$. Đại lượng này **đặc trưng cho mức độ bền vững** của hạt nhân (hạt nhân có năng lượng liên kết riêng càng lớn thì càng bền vững, thường nằm trong khoảng số khối $50 < A < 80$).
 
 #### 2. Phóng xạ và Định luật phóng xạ
+> 📺 **Video bài giảng tham khảo:** [Vật lí 12 Bài 23: Hiện tượng phóng xạ - Kế... (VietJack THPT Official)](https://www.youtube.com/watch?v=9J8D775y3TY)
+
 *   **Hiện tượng phóng xạ:** Là quá trình phân rã tự phát của một hạt nhân không bền vững thành hạt nhân khác, đồng thời phát ra các tia phóng xạ ($\alpha, \beta^-, \beta^+, \gamma$). Quá trình này hoàn toàn tự phát và không phụ thuộc vào các điều kiện bên ngoài.
 *   **Các loại tia phóng xạ:**
     *   *Phóng xạ $\alpha$ ($_2^4\text{He}$):* $_Z^A\text{X} \rightarrow _2^4\text{He} + _{Z-2}^{A-4}\text{Y}$
@@ -104,6 +126,8 @@
     *   $T$: Chu kì bán rã. $\lambda = \frac{\ln 2}{T}$: Hằng số phóng xạ.
 
 #### 3. Phản ứng hạt nhân, Phân hạch và Nhiệt hạch
+> 📺 **Video bài giảng tham khảo:** [[Vật Lý 12] Phản ứng hạt nhân, Phân hạch, ... (Khôi Cao Minh - Vật Lý)](https://www.youtube.com/watch?v=r_GIrs5bMpE)
+
 *   **Phản ứng hạt nhân:** Là mọi quá trình dẫn đến sự biến đổi của các hạt nhân (gồm phản ứng tự phát như phóng xạ và phản ứng kích thích do các hạt va chạm).
 *   **Các định luật bảo toàn trong phản ứng hạt nhân:**
     1. Bảo toàn số điện tích (số $Z$).

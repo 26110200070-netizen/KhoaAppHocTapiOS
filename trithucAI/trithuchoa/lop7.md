@@ -7,6 +7,8 @@
 ### I. Nguyên tử
 
 #### 1. Khái niệm và cấu tạo nguyên tử
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 2: Nguyên tử -... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=n-no-o3RfWM)
+
 *   **Khái niệm:** Nguyên tử là hạt cực kỳ nhỏ bé, trung hòa về điện, cấu tạo nên các chất.
 *   **Cấu tạo nguyên tử:** Gồm 2 phần chính:
     *   *Hạt nhân (ở tâm):* Gồm các hạt proton (kí hiệu là $p$, mang điện tích dương $+1$) và hạt neutron (kí hiệu là $n$, không mang điện).
@@ -17,17 +19,23 @@
     $$\text{Khối lượng nguyên tử} \approx \text{Khối lượng } (p + n)$$
 
 #### 2. Nguyên tố hóa học
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 3: Nguyên tố h... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=v_CBSKC3xfw)
+
 *   **Định nghĩa:** Nguyên tố hóa học là tập hợp những nguyên tử có cùng số proton trong hạt nhân. Các nguyên tử của cùng một nguyên tố hóa học đều có tính chất hóa học giống nhau.
 *   **Kí hiệu hóa học:** Mỗi nguyên tố được biểu diễn bằng một hoặc hai chữ cái (chữ cái đầu viết hoa, chữ cái sau viết thường). Kí hiệu này được quy định thống nhất trên toàn thế giới theo IUPAC (Ví dụ: Hydrogen là $\text{H}$, Carbon là $\text{C}$, Sodium là $\text{Na}$).
 
 ### II. Sơ lược về bảng tuần hoàn các nguyên tố hóa học
 
 #### 1. Nguyên tắc sắp xếp
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 3: Nguyên tố h... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=v_CBSKC3xfw)
+
 *   Các nguyên tố hóa học được sắp xếp theo chiều tăng dần của điện tích hạt nhân nguyên tử (số proton).
 *   Các nguyên tố có cùng số lớp electron trong nguyên tử được xếp thành một hàng (chu kì).
 *   Các nguyên tố có tính chất hóa học tương tự nhau được xếp thành một cột (nhóm).
 
 #### 2. Cấu tạo bảng tuần hoàn
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 4: Sơ lược về ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=s9MGybD8wSE)
+
 *   **Ô nguyên tố:** Cho biết số hiệu nguyên tử (bằng số $p$), kí hiệu hóa học, tên nguyên tố và khối lượng nguyên tử.
 *   **Chu kì:** Là dãy các nguyên tố mà nguyên tử của chúng có cùng số lớp electron, xếp theo chiều tăng dần điện tích hạt nhân. Bảng tuần hoàn gồm 7 chu kì (chu kì 1, 2, 3 là chu kì nhỏ; chu kì 4, 5, 6, 7 là chu kì lớn).
     $$\text{Số thứ tự chu kì} = \text{Số lớp electron}$$
@@ -35,6 +43,8 @@
     $$\text{Số thứ tự nhóm A} = \text{Số electron ở lớp ngoài cùng}$$
 
 #### 3. Các nhóm nguyên tố chính trong bảng tuần hoàn
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 4: Sơ lược về ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=s9MGybD8wSE)
+
 *   **Kim loại:** Chiếm đa số trong bảng tuần hoàn (ở góc dưới bên trái).
 *   **Phi kim:** Chiếm số lượng ít hơn (ở góc trên bên phải).
 *   **Khí hiếm:** Nằm ở nhóm VIIIA (cột cuối cùng bên phải), trơ về mặt hóa học, khó tham gia phản ứng.
@@ -46,10 +56,14 @@
 ### I. Phân tử - Đơn chất và Hợp chất
 
 #### 1. Đơn chất và Hợp chất
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 7: Hóa trị và ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=M3kP9svb86M)
+
 *   **Đơn chất:** Là những chất được tạo nên từ một nguyên tố hóa học (Ví dụ: Khí oxygen $\text{O}_2$ tạo từ nguyên tố $\text{O}$; lá đồng $\text{Cu}$ tạo từ nguyên tố $\text{Cu}$).
 *   **Hợp chất:** Là những chất được tạo nên từ hai hoặc nhiều nguyên tố hóa học hòa hợp với nhau theo một tỉ lệ xác định (Ví dụ: Nước $\text{H}_2\text{O}$ tạo từ nguyên tố $\text{H}$ và $\text{O}$; Muối ăn $\text{NaCl}$ tạo từ nguyên tố $\text{Na}$ và $\text{Cl}$).
 
 #### 2. Phân tử và Khối lượng phân tử
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 5: Phân tử - đ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=wrV_tID-0IA)
+
 *   **Phân tử:** Là hạt đại diện cho chất, gồm một số nguyên tử liên kết với nhau bằng liên kết hóa học và thể hiện đầy đủ tính chất hóa học của chất.
 *   **Khối lượng phân tử:** Bằng tổng khối lượng các nguyên tử có trong phân tử (tính theo đơn vị amu).
     *   *Ví dụ:* Khối lượng phân tử của $\text{H}_2\text{O} = 2 \cdot 1\text{ (amu)} + 1 \cdot 16\text{ (amu)} = 18\text{ amu}$.
@@ -57,13 +71,19 @@
 ### II. Giới thiệu về liên kết hóa học
 
 #### 1. Quy tắc octet (quy tắc 8 electron)
+> 📺 **Video bài giảng tham khảo:** [Hóa học lớp 10 - Bài 8: Quy tắc octet - Ch... (Thầy Nguyễn Chí Sơn )](https://www.youtube.com/watch?v=Exix86yUiHs)
+
 *   Nguyên tử của các nguyên tố có xu hướng nhường, nhận hoặc dùng chung electron để đạt được lớp electron ngoài cùng bền vững giống như khí hiếm (thường là 8 electron, riêng Hydrogen là 2 electron).
 
 #### 2. Liên kết ion
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 6: Giới thiệu ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=D-0f3e1SAt4)
+
 *   Là liên kết được hình thành bởi lực hút tĩnh điện giữa các ion mang điện tích trái dấu (thường xảy ra giữa nguyên tử kim loại điển hình và phi kim điển hình).
 *   *Cơ chế:* Nguyên tử kim loại nhường electron biến thành ion dương (cation), nguyên tử phi kim nhận electron biến thành ion âm (anion). Hai ion này hút nhau tạo thành liên kết ion (Ví dụ: liên kết trong phân tử $\text{NaCl}$).
 
 #### 3. Liên kết cộng hóa trị
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 6: Giới thiệu ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=D-0f3e1SAt4)
+
 *   Là liên kết được hình thành giữa hai nguyên tử bằng một hoặc nhiều cặp electron dùng chung (thường xảy ra giữa các nguyên tử phi kim với nhau).
 *   *Phân loại:*
     *   Chất cộng hóa trị không phân cực: Cặp electron dùng chung lệch đều về hai bên (Ví dụ: $\text{H}_2, \text{O}_2, \text{N}_2$).
@@ -72,6 +92,8 @@
 ### III. Hóa trị và Công thức hóa học
 
 #### 1. Công thức hóa học
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 7: Hóa trị và ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=M3kP9svb86M)
+
 *   Công thức hóa học dùng để biểu diễn chữ viết của chất.
 *   **Dạng tổng quát của công thức hóa học:** $\text{A}_x\text{B}_y$ hoặc $\text{A}_x\text{B}_y\text{C}_z$.
     *   $\text{A, B, C}$: Kí hiệu hóa học của các nguyên tố.
@@ -79,6 +101,8 @@
 *   **Ý nghĩa:** Cho biết nguyên tố nào cấu tạo nên chất, số lượng nguyên tử của mỗi nguyên tố trong một phân tử và tính được khối lượng phân tử của chất đó.
 
 #### 2. Hóa trị và Quy tắc hóa trị
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 7: Hóa trị và ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=M3kP9svb86M)
+
 *   **Hóa trị:** Là con số biểu thị khả năng liên kết của nguyên tử nguyên tố này với nguyên tử nguyên tố khác. Quy ước chọn hóa trị của $\text{H}$ làm đơn vị ($\text{I}$) và hóa trị của $\text{O}$ là $\text{II}$.
 *   **Quy tắc hóa trị:** Trong công thức hóa học của hợp chất hai nguyên tố $\text{A}_x^a\text{B}_y^b$ (với $a, b$ lần lượt là hóa trị của nguyên tố $\text{A, B}$): Tích của chỉ số và hóa trị của nguyên tố này bằng tích của chỉ số và hóa trị của nguyên tố kia.
     $$x \cdot a = y \cdot b$$

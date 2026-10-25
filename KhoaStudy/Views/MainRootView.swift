@@ -86,7 +86,6 @@ struct CurvedTabBarShape: Shape {
 
 struct MainRootView: View {
     @EnvironmentObject var appState: AppState
-    @Environment(\.scenePhase) private var scenePhase
     @State private var currentTab: MainTab = .home
     @State private var showingAIChatFullScreen: Bool = false
     @State private var showingHistoryFullScreen: Bool = false
@@ -131,12 +130,6 @@ struct MainRootView: View {
                         showingHistoryFullScreen = false
                     })
                 }
-            }
-        }
-        .onChange(of: scenePhase) { newPhase in
-            if newPhase == .background {
-                // Khi người dùng thoát/đóng app ra ngoài, reset để khi vào lại sẽ phát intro Shimy
-                appState.hasSeenIntro = false
             }
         }
     }

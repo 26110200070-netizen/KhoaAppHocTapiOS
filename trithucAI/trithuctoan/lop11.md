@@ -7,6 +7,8 @@
 ### I. Hàm số lượng giác và Phương trình lượng giác
 
 #### 1. Góc lượng giác và Giá trị lượng giác
+> 📺 **Video bài giảng tham khảo:** [Toán 11 Bài 1 Giá trị lượng giác của góc l... (VietJack THPT Official)](https://www.youtube.com/watch?v=zSkQ55tPuY4)
+
 *   **Góc lượng giác:** Khái niệm góc lượng giác, đơn vị đo góc (độ và radian), độ dài cung tròn. Khái niệm đường tròn lượng giác.
 *   **Giá trị lượng giác:** Định nghĩa $\sin \alpha, \cos \alpha, \tan \alpha, \cot \alpha$. Dấu của các giá trị lượng giác theo từng góc phần tư.
 *   **Các hệ thức lượng giác cơ bản:**
@@ -18,6 +20,8 @@
 *   **Công thức lượng giác:** Công thức cộng, công thức nhân đôi, công thức biến đổi tích thành tổng và tổng thành tích.
 
 #### 2. Hàm số lượng giác và Phương trình lượng giác cơ bản
+> 📺 **Video bài giảng tham khảo:** [Toán 11 Bài 4: Phương trình lượng giác cơ ... (VietJack THPT Official)](https://www.youtube.com/watch?v=0xPgwneCusw)
+
 *   **Hàm số lượng giác:** Tập xác định, tập giá trị, tính chẵn lẻ, tính tuần hoàn và đồ thị của các hàm số $y = \sin x, y = \cos x, y = \tan x, y = \cot x$.
 *   **Phương trình lượng giác cơ bản:** Công thức nghiệm của các phương trình:
     *   $\sin x = m$ (có nghiệm khi $|m| \le 1$)
@@ -25,6 +29,8 @@
     *   $\tan x = m$ và $\cot x = m$ (luôn có nghiệm với mọi $m$)
 
 ### II. Dãy số, Cấp số cộng và Cấp số nhân
+> 📺 **Video bài giảng tham khảo:** [Toán 11 Bài 5: Dãy số - Kết nối tri thức -... (VietJack THPT Official)](https://www.youtube.com/watch?v=MRUp8fgsaCU)
+
 
 *   **Dãy số:** Khái niệm dãy số (dãy số hữu hạn, dãy số vô hạn). Các cách cho một dãy số. Dãy số tăng, dãy số giảm, dãy số bị chặn.
 *   **Cấp số cộng (CSC):** 
@@ -39,12 +45,16 @@
     *   Tổng $n$ số hạng đầu tiên: $S_n = \frac{u_1(1 - q^n)}{1 - q}$ ($q \neq 1$).
 
 ### III. Giới hạn và Hàm số liên tục
+> 📺 **Video bài giảng tham khảo:** [Hàm số liên tục - Toán 11 - Thầy Nguyễn Tr... (VietJack TV Official)](https://www.youtube.com/watch?v=4hv5VcrQevE)
+
 
 *   **Giới hạn của dãy số:** Khái niệm giới hạn hữu hạn, giới hạn vô cực. Một số giới hạn đặc biệt. Định lý về giới hạn hữu hạn (tổng, hiệu, tích, thương). Tổng của một cấp số nhân lùi vô hạn ($S = \frac{u_1}{1 - q}$ với $|q| < 1$).
 *   **Giới hạn của hàm số:** Giới hạn của hàm số tại một điểm, giới hạn tại vô cực, giới hạn một bên (trái, phải). Các định lý và quy tắc tính giới hạn của hàm số.
 *   **Hàm số liên tục:** Định nghĩa hàm số liên tục tại một điểm, liên tục trên một khoảng/đoạn. Tính chất của hàm số liên tục (Định lý về sự tồn tại nghiệm của phương trình trên một đoạn).
 
 ### IV. Đường thẳng và Mặt phẳng trong không gian (Hình học không gian)
+> 📺 **Video bài giảng tham khảo:** [Toán 11 Bài 10 Đường thẳng và mặt phẳng tr... (VietJack THPT Official)](https://www.youtube.com/watch?v=5MDMV-eDijE)
+
 
 *   **Đường thẳng và mặt phẳng:** Khái niệm điểm, đường thẳng, mặt phẳng trong không gian. Các hình thức xác định một mặt phẳng. Hình chóp và hình lăng trụ.
 *   **Vị trí tương đối:**
@@ -60,12 +70,16 @@
 ### I. Hàm số mũ, Hàm số lôgarit và Quan hệ vuông góc
 
 #### 1. Lũy thừa, Lôgarit và Hàm số lũy thừa, mũ, lôgarit
+> 📺 **Video bài giảng tham khảo:** [Toán 11 Bài 19: Lôgarit - Kết nối tri thức... (VietJack THPT Official)](https://www.youtube.com/watch?v=z2QwEH8qqhc)
+
 *   **Phép tính lũy thừa:** Lũy thừa với số mũ nguyên, số mũ hữu tỉ và số mũ thực. Các tính chất của lũy thừa.
 *   **Phép tính lôgarit:** Định nghĩa $\log_a b$ ($a > 0, a \neq 1, b > 0$). Các tính chất, công thức đổi cơ số. Lôgarit tự nhiên ($\ln$), lôgarit thập phân ($\log$).
 *   **Hàm số lũy thừa, hàm số mũ, hàm số lôgarit:** Tập xác định, đồ thị và chiều biến thiên của các hàm số $y = x^\alpha$, $y = a^x$, $y = \log_a x$.
 *   **Phương trình và bất phương trình mũ, lôgarit:** Cách giải các dạng cơ bản bằng phương pháp đưa về cùng cơ số hoặc đặt ẩn phụ.
 
 #### 2. Quan hệ vuông góc trong không gian
+> 📺 **Video bài giảng tham khảo:** [Ôn Tập Toàn Diện: QUAN HỆ VUÔNG GÓC TRONG ... (Tuyensinh247 - Học trực tuyến)](https://www.youtube.com/watch?v=Chyyi3XHm28)
+
 *   **Góc giữa hai đường thẳng** trong không gian. Hai đường thẳng vuông góc.
 *   **Đường thẳng vuông góc với mặt phẳng:**
     *   Điều kiện: Đường thẳng vuông góc với hai đường thẳng cắt nhau nằm trong mặt phẳng.
@@ -75,6 +89,8 @@
 *   **Khoảng cách trong không gian:** Khoảng cách từ một điểm đến một đường thẳng/mặt phẳng; Khoảng cách giữa đường thẳng và mặt phẳng song song; Khoảng cách giữa hai mặt phẳng song song; Khoảng cách giữa hai đường thẳng chéo nhau.
 
 ### II. Đạo hàm
+> 📺 **Video bài giảng tham khảo:** [Định nghĩa và ý nghĩa của đạo hàm - Bài 1 ... (VietJack THPT Official)](https://www.youtube.com/watch?v=8tk9gFkQeCg)
+
 
 *   **Khái niệm đạo hàm:** Định nghĩa đạo hàm tại một điểm (ý nghĩa hình học là hệ số góc của tiếp tuyến, ý nghĩa vật lý là vận tốc tức thời, gia tốc). Định nghĩa đạo hàm trên một khoảng.
 *   **Các quy tắc tính đạo hàm:** 
@@ -86,6 +102,8 @@
 *   **Đạo hàm cấp hai:** Định nghĩa và ý nghĩa vật lý của đạo hàm cấp hai (gia tốc của chuyển động).
 
 ### III. Một số yếu tố Xác suất (Nâng cao)
+> 📺 **Video bài giảng tham khảo:** [Xác suất và các dạng bài - Toán học 11 - T... (VietJack THPT Official)](https://www.youtube.com/watch?v=9vHehlsajyw)
+
 
 *   **Biến cố giao và Biến cố xung khắc:** Khái niệm và quy tắc cộng xác suất cho hai biến cố xung khắc: $P(A \cup B) = P(A) + P(B)$.
 *   **Biến cố độc lập:** Khái niệm hai biến cố độc lập và quy tắc nhân xác suất cho hai biến cố độc lập: $P(A \cap B) = P(A) \cdot P(B)$.

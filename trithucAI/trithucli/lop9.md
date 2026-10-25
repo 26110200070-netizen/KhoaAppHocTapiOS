@@ -5,6 +5,8 @@
 ## HỌC KỲ 1: ĐIỆN HỌC VÀ ĐIỆN TỪ HỌC
 
 ### I. Điện học
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 9 Bài 11: Điện trở. Định... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=uf58k56ThxU)
+
 *   **Định luật Ôm:** Cường độ dòng điện chạy qua một dây dẫn tỉ lệ thuận với hiệu điện thế đặt vào hai đầu dây và tỉ lệ nghịch với điện trở của dây.
     *   *Công thức:* 
         $$I = \frac{U}{R}$$
@@ -33,6 +35,8 @@
         $$Q = I^2 \cdot R \cdot t$$ (Đơn vị: $\text{J}$). Nếu tính theo calo: $Q = 0,24 \cdot I^2 \cdot R \cdot t$.
 
 ### II. Điện từ học
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 9 Bài 14: Cảm ứng điện t... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=AHER9q0p1Zo)
+
 *   **Lực từ tác dụng lên dây dẫn mang dòng điện:** Dây dẫn thẳng có dòng điện chạy qua đặt trong từ trường và không song song với các đường sức từ thì chịu tác dụng của lực từ.
 *   **Hiện tượng cảm ứng điện từ:** Khi số đường sức từ xuyên qua tiết diện $S$ của cuộn dây dẫn kín biến thiên (tăng hoặc giảm) thì trong cuộn dây xuất hiện dòng điện cảm ứng. 
 *   **Dòng điện xoay chiều (AC):** Là dòng điện có chiều luân phiên thay đổi ngược xuôi theo thời gian. Dòng điện trong mạng điện gia đình là dòng điện xoay chiều.
@@ -50,6 +54,8 @@
 ## HỌC KỲ 2: QUANG HỌC VÀ NĂNG LƯỢNG BỀN VỮNG
 
 ### I. Khúc xạ ánh sáng và Quang hình học
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 9 Bài 5: Khúc xạ ánh sán... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=8nJ7NKXfzIs)
+
 *   **Hiện tượng khúc xạ ánh sáng:** Là hiện tượng tia sáng truyền từ môi trường trong suốt này sang môi trường trong suốt khác bị gãy khúc tại mặt phân cách giữa hai môi trường.
     *   Khi tia sáng truyền từ không khí sang nước: Góc khúc xạ ($r$) nhỏ hơn góc tới ($i$): $r < i$.
     *   Khi tia sáng truyền từ nước sang không khí: Góc khúc xạ ($r$) lớn hơn góc tới ($i$): $r > i$.
@@ -63,6 +69,8 @@
     3. Tia tới đi qua tiêu điểm (hoặc có đường kéo dài qua tiêu điểm) $\rightarrow$ Tia ló song song trục chính.
 
 ### II. Các dụng cụ quang học trực quan
+> 📺 **Video bài giảng tham khảo:** [Dụng cụ quang học - Vật Lý Học Tập 41 - Tr... (Tri Thức Nhân Loại)](https://www.youtube.com/watch?v=kntRKyAJZE0)
+
 *   **Mắt về phương diện quang học:** Thể thủy tinh đóng vai trò như một thấu kính hội tụ (có thể co dãn để thay đổi tiêu cự - sự điều tiết), màng lưới (võng mạc) đóng vai trò như màn hứng ảnh. Ảnh của vật hiện rõ trên màng lưới là ảnh thật, ngược chiều và nhỏ hơn vật.
 *   **Các tật của mắt và cách khắc phục:**
     *   *Mắt cận thị:* Chỉ nhìn rõ các vật ở gần, không nhìn rõ các vật ở xa. Điểm cực viễn $C_v$ ở gần hơn mắt bình thường. Cách sửa: Đeo **thấu kính phân kì** phù hợp để nhìn rõ vật ở xa.
@@ -70,6 +78,8 @@
 *   **Kính lúp:** Là một thấu kính hội tụ có tiêu cự ngắn (vài centimét), dùng để quan sát các vật rất nhỏ. Khi quan sát, vật phải đặt trong khoảng tiêu cự của kính lúp để cho một ảnh ảo, cùng chiều và lớn hơn vật.
 
 ### III. Năng lượng và Phát triển bền vững
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 9 Bài 2: Động năng. Thế ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=t5pjnzstZ_o)
+
 *   **Định luật bảo toàn năng lượng trong các hiện tượng cơ - nhiệt - điện:** Năng lượng có thể chuyển hóa qua lại giữa các dạng: cơ năng, nhiệt năng, điện năng, hóa năng, quang năng. Tổng năng lượng của một hệ cô lập luôn được bảo toàn.
 *   **Năng lượng sạch và Phát triển bền vững:** 
     *   Tác hại của việc lạm dụng năng lượng hóa thạch (hiệu ứng nhà kính, biến đổi khí hậu).

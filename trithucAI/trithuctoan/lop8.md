@@ -7,6 +7,8 @@
 ### I. Đa thức và Hằng đẳng thức
 
 #### 1. Đa thức nhiều biến
+> 📺 **Video bài giảng tham khảo:** [Bài 1: Đơn thức và đa thức nhiều biến - To... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=ej4vRHdFQM0)
+
 *   **Đơn thức và đa thức nhiều biến:** Khái niệm đơn thức, đa thức nhiều biến. Đơn thức đồng dạng. Thu gọn và tìm bậc của đa thức.
 *   **Các phép tính với đa thức:**
     *   Cộng và trừ hai đa thức.
@@ -14,6 +16,8 @@
     *   Chia đa thức cho đơn thức (trường hợp chia hết).
 
 #### 2. Hằng đẳng thức đáng nhớ
+> 📺 **Video bài giảng tham khảo:** [Hằng đẳng thức đáng nhớ Bài 3 Toán 8 Cánh ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=PmKsnnRRaoQ)
+
 *   **7 Hằng đẳng thức đáng nhớ:**
     1.  Bình phương của một tổng: $(A + B)^2 = A^2 + 2AB + B^2$
     2.  Bình phương của một hiệu: $(A - B)^2 = A^2 - 2AB + B^2$
@@ -25,6 +29,8 @@
 *   **Phân tích đa thức thành nhân tử:** Các phương pháp cơ bản gồm đặt nhân tử chung, dùng hằng đẳng thức, nhóm hạng tử, và phối hợp nhiều phương pháp.
 
 ### II. Phân thức đại số
+> 📺 **Video bài giảng tham khảo:** [Phân thức đại số - Bài 21 Toán 8 - Kết nối... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=LUHzIfHAYQA)
+
 
 *   **Khái niệm phân thức đại số:** Biểu thức có dạng $\frac{A}{B}$ với $A, B$ là các đa thức và $B$ khác đa thức 0. Điều kiện xác định và giá trị của phân thức.
 *   **Tính chất cơ bản:** Khái niệm hai phân thức bằng nhau. Rút gọn phân thức đại số. Quy đồng mẫu thức nhiều phân thức.
@@ -33,12 +39,16 @@
 ### III. Hình học trực quan và Hình học phẳng
 
 #### 1. Hình khối trong thực tiễn
+> 📺 **Video bài giảng tham khảo:** [Hình chóp tam giác đều - Bài 38 Toán 8 - K... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=SEExAkZfIls)
+
 *   **Hình chóp tam giác đều và Hình chóp tứ giác đều:**
     *   Nhận biết đỉnh, cạnh bên, mặt bên, mặt đáy, đường cao, trung đoạn của hình chóp đều.
     *   Công thức tính **Diện tích xung quanh ($S_{xq} = p \cdot d$)** với $p$ là nửa chu vi đáy, $d$ là trung đoạn.
     *   Công thức tính **Thể tích ($V = \frac{1}{3} \cdot S_{đáy} \cdot h$)** với $h$ là chiều cao.
 
 #### 2. Tứ giác
+> 📺 **Video bài giảng tham khảo:** [Tứ giác - Bài 10 Toán 8 - Kết nối tri thức... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=ouGQUeExsb0)
+
 *   **Tứ giác:** Định nghĩa tứ giác lồi. Tổng các góc của một tứ giác bằng $360^\circ$.
 *   **Các hình tứ giác đặc biệt:** Định nghĩa, tính chất và dấu hiệu nhận biết của:
     *   Hình thang cân.
@@ -52,6 +62,8 @@
 ## HỌC KỲ 2
 
 ### I. Hàm số và Đồ thị
+> 📺 **Video bài giảng tham khảo:** [Khái niệm hàm số và đồ thị của hàm số - Bà... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=Po1jmH4dEGc)
+
 
 *   **Khái niệm hàm số:** Định nghĩa hàm số, biến số. Giá trị của hàm số $y = f(x)$ tại một điểm.
 *   **Tọa độ phẳng:** Hệ trục tọa độ Oxy, tọa độ của một điểm $(x; y)$.
@@ -63,6 +75,8 @@
     *   Cắt nhau khi $a \neq a'$.
 
 ### II. Phương trình bậc nhất một ẩn
+> 📺 **Video bài giảng tham khảo:** [Phương trình bậc nhất một ẩn - Bài 25 Toán... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=LWKWymb4bWc)
+
 
 *   **Khái niệm phương trình bậc nhất một ẩn:** Phương trình có dạng $ax + b = 0$ ($a \neq 0$).
 *   **Cách giải phương trình:** Vận dụng quy tắc chuyển vế và quy tắc nhân với một số để tìm nghiệm.
@@ -71,11 +85,15 @@
 ### III. Hình học phẳng (Định lý Thales và Tam giác đồng dạng)
 
 #### 1. Định lý Thales trong tam giác
+> 📺 **Video bài giảng tham khảo:** [Định lí Thales trong tam giác - Bài 15 Toá... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=yf8Sy2Uacr8)
+
 *   **Định lý Thales (Thuận và Đảo):** Nếu một đường thẳng song song với một cạnh của tam giác và cắt hai cạnh còn lại thì nó định ra trên hai cạnh đó những đoạn thẳng tương ứng tỉ lệ.
 *   **Đường trung bình của tam giác:** Định nghĩa đường trung bình. Tính chất: Đường trung bình của tam giác thì song song với cạnh thứ ba và bằng nửa cạnh ấy.
 *   **Tính chất đường phân giác:** Đường phân giác trong của một góc trong tam giác chia cạnh đối diện thành hai đoạn thẳng tỉ lệ với hai cạnh kề hai đoạn ấy.
 
 #### 2. Tam giác đồng dạng
+> 📺 **Video bài giảng tham khảo:** [Hai tam giác đồng dạng - Bài 33 Toán 8 - K... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=DSaKTM_Kv-0)
+
 *   **Khái niệm:** Định nghĩa hai tam giác đồng dạng, tỉ số đồng dạng $k$.
 *   **Các trường hợp đồng dạng của hai tam giác thường:**
     *   Cạnh - cạnh - cạnh (c.c.c).
@@ -87,9 +105,13 @@
 ### IV. Một số yếu tố Thống kê và Xác suất
 
 #### 1. Thống kê
+> 📺 **Video bài giảng tham khảo:** [Phân tích số liệu thống kê dựa vào biểu đồ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=MXZp4DahD58)
+
 *   **Thu thập và lựa chọn dữ liệu:** Lựa chọn phương pháp thu thập dữ liệu thích hợp. Biểu diễn dữ liệu bằng các dạng biểu đồ đã học.
 *   **Biểu đồ đoạn thẳng và Biểu đồ hình quạt tròn:** Phân tích và xử lý số liệu thu được từ biểu đồ để đưa ra nhận xét, dự đoán.
 
 #### 2. Xác suất
+> 📺 **Video bài giảng tham khảo:** [Cách tính xác suất của biến cố bằng tỉ số ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=W4m3UsAXmnU)
+
 *   **Xác suất của biến cố ngẫu nhiên:** Định nghĩa xác suất của biến cố trong các mô hình đồng khả năng:
     $$\text{Xác suất} = \frac{\text{Số kết quả thuận lợi cho biến cố}}{\text{Tổng số kết quả có thể xảy ra}}$$

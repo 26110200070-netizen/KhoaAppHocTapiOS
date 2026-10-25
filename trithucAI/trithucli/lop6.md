@@ -5,6 +5,8 @@
 ## HỌC KỲ 1: CÁC PHÉP ĐO CƠ BẢN VÀ LỰC
 
 ### I. Các phép đo cơ bản
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 6 Bài 5: Đo chiều dài - ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=_DhVQ1IRcSw)
+
 *   **Đo chiều dài:** 
     *   Đơn vị đo hợp pháp là mét ($m$). 
     *   Dụng cụ đo: Thước cuộn, thước kẻ, thước dây, thước kẹp.
@@ -24,6 +26,8 @@
         *   Từ $^\circ\text{C}$ sang $\text{K}$: $T(\text{K}) = t(^\circ\text{C}) + 273$
 
 ### II. Lực và Chuyển động
+> 📺 **Video bài giảng tham khảo:** [Lực và biểu diễn lực - Khoa học tự nhiên 6... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=OQb-RrZPAPE)
+
 *   **Khái niệm về lực:** 
     *   Tác dụng đẩy hoặc kéo của vật này lên vật khác gọi là lực. Ký hiệu là $F$, đơn vị của lực là Niu-tơn ($\text{N}$).
     *   Mỗi lực đều có phương, chiều và độ lớn xác định. Biểu diễn lực bằng một mũi tên.
@@ -34,6 +38,8 @@
 *   **Hai lực cân bằng:** Là hai lực cùng tác dụng lên một vật, có cùng phương nhưng ngược chiều, và có độ lớn (cường độ) bằng nhau. Nếu vật đang đứng yên chịu tác dụng của hai lực cân bằng thì tiếp tục đứng yên.
 
 ### III. Các loại lực thường gặp và Khối lượng riêng
+> 📺 **Video bài giảng tham khảo:** [Trọng lượng riêng - Khối lượng riêng - Bài... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=E8-doHxA-wQ)
+
 *   **Trọng lực và Trọng lượng:**
     *   Trọng lực là lực hút của Trái Đất tác dụng lên mọi vật xung quanh nó. Trọng lực có phương thẳng đứng và chiều từ trên xuống dưới (hướng về phía tâm Trái Đất).
     *   Trọng lượng ($P$) là độ lớn của trọng lực tác dụng lên vật. 
@@ -50,6 +56,8 @@
 ## HỌC KỲ 2: NĂNG LƯỢNG VÀ SỰ TRUYỀN NĂNG LƯỢNG
 
 ### I. Cơ năng và Sự truyền năng lượng
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 6 Bài 46: Năng lượng và ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=MZRb0vhmYHc)
+
 *   **Khái niệm năng lượng:** Mọi chuyển động và biến đổi trong tự nhiên đều cần năng lượng. Đơn vị của năng lượng là Jun ($\text{J}$).
 *   **Các dạng năng lượng:**
     *   *Động năng:* Năng lượng của một vật có được do chuyển động. Vật càng nặng và chuyển động càng nhanh thì động năng càng lớn.
@@ -61,6 +69,8 @@
     *   *Định luật bảo toàn năng lượng:* Năng lượng không tự sinh ra cũng không tự mất đi, nó chỉ truyền từ vật này sang vật khác hoặc chuyển hóa từ dạng này sang dạng khác.
 
 ### II. Năng lượng hao phí và Năng lượng tái tạo
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 6 Bài 50: Năng lượng tái... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=mVfwYsqZmn8)
+
 *   **Năng lượng hao phí:** Trong mọi quá trình chuyển hóa và truyền năng lượng, luôn có một phần năng lượng bị hao phí (không phục vụ mục đích sử dụng ban đầu), phần lớn thường chuyển hóa thành nhiệt năng hoặc năng lượng âm thanh phát ra môi trường.
 *   **Nguồn năng lượng trong thực tiễn:**
     *   *Nguồn năng lượng không tái tạo:* Là nguồn năng lượng mất hàng triệu năm để hình thành và sẽ cạn kiệt nếu khai thác quá mức (Ví dụ: than đá, dầu mỏ, khí tự nhiên).
@@ -68,6 +78,8 @@
 *   **Tiết kiệm năng lượng:** Tầm quan trọng của việc tiết kiệm năng lượng, sử dụng các thiết bị điện nhãn tiết kiệm năng lượng để bảo vệ tài nguyên và giảm khí thải nhà kính.
 
 ### III. Sơ lược về Thiên văn học (Trái Đất và bầu trời)
+> 📺 **Video bài giảng tham khảo:** [Video Bài giảng Trái đất và bầu trời KHTN 6 (Thị Nghị)](https://www.youtube.com/watch?v=AxP0ckaqlDI)
+
 *   **Chuyển động nhìn thấy của Mặt Trời:** Mặt Trời mọc ở hướng Đông và lặn ở hướng Tây do Trái Đất tự quay quanh trục của nó từ Tây sang Đông.
 *   **Hiện tượng Ngày và Đêm:** Do Trái Đất có hình cầu và tự quay quanh trục, nên tại mọi thời điểm, nửa hướng về phía Mặt Trời là ban ngày, nửa khuất bóng Mặt Trời là ban đêm.
 *   **Chuyển động nhìn thấy của Mặt Trăng (Các hình dạng nhìn thấy):** Mặt Trăng không tự phát sáng mà phản xạ ánh sáng Mặt Trời. Tùy thuộc vào vị trí của Mặt Trăng so với Trái Đất và Mặt Trời mà người trên Trái Đất nhìn thấy các hình dạng khác nhau (Trăng tròn, Trăng khuyết, Trăng bán nguyệt, Không trăng).

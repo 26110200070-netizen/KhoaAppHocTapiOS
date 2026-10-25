@@ -17,6 +17,7 @@ struct YouTubePlayerView: UIViewRepresentable {
         configuration.allowsInlineMediaPlayback = true
         configuration.mediaTypesRequiringUserActionForPlayback = []
         configuration.allowsAirPlayForMediaPlayback = true
+        configuration.allowsPictureInPictureMediaPlayback = true
         if #available(iOS 14.0, *) {
             configuration.defaultWebpagePreferences.allowsContentJavaScript = true
         }
@@ -27,6 +28,9 @@ struct YouTubePlayerView: UIViewRepresentable {
         webView.scrollView.isScrollEnabled = false
         webView.scrollView.bounces = false
         webView.navigationDelegate = context.coordinator
+        
+        // Cung cấp User-Agent Mobile Safari tiêu chuẩn để YouTube cấp phép phát mượt mà
+        webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"
         
         return webView
     }
@@ -42,15 +46,12 @@ struct YouTubePlayerView: UIViewRepresentable {
     }
     
     private func loadVideo(into webView: WKWebView, videoId: String) {
-        // 1. Tạo định danh Origin hợp lệ dựa trên Bundle ID của App (bắt buộc viết thường)
-        let bundleId = (Bundle.main.bundleIdentifier ?? "com.khoastudy.app").lowercased()
-        let origin = "https://\(bundleId)"
-        guard let baseURL = URL(string: origin) else { return }
+        let cleanId = videoId.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !cleanId.isEmpty else { return }
         
-        // 2. Đường dẫn nhúng kèm theo origin trùng khớp với baseURL
-        let embedURL = "https://www.youtube.com/embed/\(videoId)?playsinline=1&controls=1&rel=0&modestbranding=1&enablejsapi=1&origin=\(origin)&widget_referrer=\(origin)"
+        // Nhúng chuẩn qua domain privacy youtube-nocookie.com, loại bỏ các tham số origin/widget_referrer giả lập gây lỗi
+        let embedURL = "https://www.youtube-nocookie.com/embed/\(cleanId)?playsinline=1&controls=1&rel=0&modestbranding=1&enablejsapi=1"
         
-        // 3. Khởi tạo trang HTML bao bọc IFrame chuẩn kiến trúc youtube-ios-player-helper
         let html = """
         <!DOCTYPE html>
         <html>
@@ -66,14 +67,13 @@ struct YouTubePlayerView: UIViewRepresentable {
             <iframe
                 src="\(embedURL)"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen>
             </iframe>
         </body>
         </html>
         """
         
-        // 4. Nạp HTML với baseURL để WebKit tự động duy trì Referer và Origin cho mọi request
+        guard let baseURL = URL(string: "https://www.youtube-nocookie.com") else { return }
         webView.loadHTMLString(html, baseURL: baseURL)
     }
     
@@ -84,14 +84,14 @@ struct YouTubePlayerView: UIViewRepresentable {
                 return
             }
             
-            // Nếu học sinh bấm vào logo YouTube hoặc tiêu đề để mở link ngoài -> mở trong YouTube app hoặc Safari
-            if navigationAction.navigationType == .linkActivated {
+            // Nếu người dùng bấm vào các liên kết ngoài hoặc tab mới
+            if navigationAction.navigationType == .linkActivated || navigationAction.targetFrame == nil {
                 UIApplication.shared.open(url)
                 decisionHandler(.cancel)
                 return
             }
             
-            // Cho phép tất cả các luồng tải iframe và tài nguyên ngầm của trình phát
+            // Cho phép tất cả các tài nguyên và iframe bên trong tải bình thường
             decisionHandler(.allow)
         }
     }

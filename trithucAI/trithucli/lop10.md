@@ -5,6 +5,8 @@
 ## HỌC KỲ 1: ĐỘNG HỌC VÀ ĐỘNG LỰC HỌC CHẤT ĐIỂM
 
 ### I. Mở đầu và Động học chất điểm
+> 📺 **Video bài giảng tham khảo:** [Vật lí 10 Bài 4: Độ dịch chuyển và quãng đ... (VietJack THPT Official)](https://www.youtube.com/watch?v=r7WKF9JkoOU)
+
 *   **Sai số trong phép đo các đại lượng vật lí:** Khái niệm sai số hệ thống, sai số ngẫu nhiên. Cách viết kết quả đo đại lượng vật lí: $A = \bar{A} \pm \Delta A$. Tính sai số tuyệt đối và sai số tỉ đối.
 *   **Chuyển động thẳng đều:** Chuyển động có quỹ đạo là đường thẳng và tốc độ không đổi.
     *   *Phương trình chuyển động:* $x = x_0 + v \cdot t$
@@ -24,6 +26,8 @@
     *   Thời gian rơi: $t = \sqrt{\frac{2h}{g}}$. Tầm xa: $L = x_{max} = v_0 \cdot \sqrt{\frac{2h}{g}}$.
 
 ### II. Động lực học chất điểm
+> 📺 **Video bài giảng tham khảo:** [Tổng hợp và phân tích lực - Điều kiện cân ... (VietJack THPT Official)](https://www.youtube.com/watch?v=5A9Smfa-1M0)
+
 *   **Tổng hợp và phân tích lực:** Tổng hợp lực là thay thế nhiều lực tác dụng đồng thời vào một vật bằng một lực duy nhất (lực tổng hợp) theo quy tắc hình bình hành. Phân tích lực là phép làm ngược lại.
 *   **Ba định luật Niutơn (Newton):**
     *   *Định luật I (Định luật quán tính):* Nếu một vật không chịu tác dụng của lực nào hoặc chịu tác dụng của các lực có hợp lực bằng không, thì vật đang đứng yên sẽ tiếp tục đứng yên, đang chuyển động sẽ tiếp tục chuyển động thẳng đều.
@@ -40,6 +44,8 @@
 ## HỌC KỲ 2: NĂNG LƯỢNG, ĐỘNG LƯỢNG VÀ CHUYỂN ĐỘNG TRÒN
 
 ### I. Khối lượng riêng, Áp suất chất lỏng và Độ biến dạng của vật rắn
+> 📺 **Video bài giảng tham khảo:** [Vật lí 10 Bài 34: Khối lượng riêng. Áp suấ... (VietJack THPT Official)](https://www.youtube.com/watch?v=zKQUBcMA3Og)
+
 *   **Khối lượng riêng:** $D = \frac{m}{V}$ (Đơn vị: $\text{kg/m}^3$).
 *   **Áp suất chất lỏng nâng cao:** Khái niệm áp suất tĩnh. $p = p_0 + \rho \cdot g \cdot h$ (với $p_0$ là áp suất khí quyển, $\rho$ là khối lượng riêng của chất lỏng).
 *   **Biến dạng của vật rắn và Định luật Húc (Hooke):** Trong giới hạn đàn hồi, độ biến dạng của vật rắn (lò xo) tỉ lệ thuận với lực gây ra sự biến dạng đó.
@@ -47,6 +53,8 @@
     *   *Trong đó:* $k$ là độ cứng của lò xo ($\text{N/m}$), $\Delta l = l - l_0$ là độ biến dạng (độ dãn hoặc nén) ($\text{m}$).
 
 ### II. Năng lượng, Công và Công suất
+> 📺 **Video bài giảng tham khảo:** [Công và công suất - Bài 24 - Vật lí 10 - C... (VietJack THPT Official)](https://www.youtube.com/watch?v=If0vjlR4anc)
+
 *   **Công cơ học ($A$):** Đại lượng đại số đặc trưng cho tác dụng lực làm vật dịch chuyển.
     $$A = F \cdot s \cdot \cos\alpha$$
     *   *Trong đó:* $\alpha$ là góc hợp bởi hướng của lực $\vec{F}$ và hướng dịch chuyển. 
@@ -60,6 +68,8 @@
 *   **Hiệu suất ($H$):** Tỉ số giữa năng lượng có ích và năng lượng toàn phần. $H = \frac{A_{ích}}{A_{tp}} \cdot 100\%$.
 
 ### III. Động lượng
+> 📺 **Video bài giảng tham khảo:** [Vật lí 10 Bài 18: Động lượng, định luật bả... (VietJack THPT Official)](https://www.youtube.com/watch?v=z38kU0FZcUU)
+
 *   **Động lượng ($\vec{p}$):** Đại lượng vectơ đặc trưng cho sự truyền chuyển động của vật. 
     $$\vec{p} = m \cdot \vec{v}$$ (Đơn vị: $\text{kg.m/s}$ hoặc $\text{N.s}$).
 *   **Xung lượng của lực:** Độ biến thiên động lượng của một vật trong một khoảng thời gian bằng xung lượng của tổng hợp lực tác dụng lên vật trong khoảng thời gian đó. $\Delta \vec{p} = \vec{p}_2 - \vec{p}_1 = \vec{F} \cdot \Delta t$.
@@ -67,6 +77,8 @@
 *   **Ứng dụng:** Giải bài toán va chạm (va chạm mềm, va chạm đàn hồi) và chuyển động bằng phản lực (tên lửa).
 
 ### IV. Chuyển động tròn đều và Tĩnh học
+> 📺 **Video bài giảng tham khảo:** [Chuyển động tròn đều - Bài 5 - Vật lí 10 -... (VietJack THPT Official)](https://www.youtube.com/watch?v=-idONiawiJw)
+
 *   **Chuyển động tròn đều:** Chuyển động có quỹ đạo tròn và tốc độ không đổi.
     *   *Tốc độ góc ($\omega$):* Độ góc quay được trong một đơn vị thời gian. $\omega = \frac{\theta}{t}$ (Đơn vị: $\text{rad/s}$).
     *   *Liên hệ giữa tốc độ dài $v$ và tốc độ góc $\omega$:* $v = \omega \cdot r$ ($r$ là bán kính quỹ đạo).

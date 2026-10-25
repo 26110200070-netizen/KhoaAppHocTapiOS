@@ -7,10 +7,14 @@
 ### I. Nhập môn Hóa học và Cấu tạo nguyên tử
 
 #### 1. Nhập môn Hóa học
+> 📺 **Video bài giảng tham khảo:** [Hóa học 10 Bài 1: Nhập môn hóa học - Chân ... (VietJack THPT Official)](https://www.youtube.com/watch?v=Zkt2DaBE4qI)
+
 *   **Đối tượng nghiên cứu của Hóa học:** Nghiên cứu về thành phần, cấu trúc, tính chất và sự biến đổi của chất, cùng với năng lượng đi kèm các quá trình biến đổi đó.
 *   **Phương pháp học tập và nghiên cứu Hóa học:** Phương pháp tìm hiểu lý thuyết, phương pháp nghiên cứu thực nghiệm (quan sát, thí nghiệm), phương pháp sử dụng mô hình hóa/mô phỏng.
 
 #### 2. Cấu tạo hạt nhân và Vỏ nguyên tử
+> 📺 **Video bài giảng tham khảo:** [Hóa học 10 Bài 1: Thành phần của nguyên tử... (VietJack THPT Official)](https://www.youtube.com/watch?v=o3BFIpU2xS0)
+
 *   **Thành phần cấu tạo nguyên tử:**
     *   *Hạt nhân:* Gồm hạt proton ($p$, điện tích $+1$, khối lượng $\approx 1\text{ amu}$) và neutron ($n$, điện tích $0$, khối lượng $\approx 1\text{ amu}$).
     *   *Vỏ nguyên tử:* Gồm các electron ($e$, điện tích $-1$, khối lượng rất nhỏ $\approx 0,00055\text{ amu}$).
@@ -25,6 +29,8 @@
         $$\bar{A} = \frac{A_1 \cdot x + A_2 \cdot y + ...}{100}$$
 
 #### 3. Cấu trúc lớp vỏ electron của nguyên tử
+> 📺 **Video bài giảng tham khảo:** [Hóa học 10 Bài 3: Cấu trúc lớp vỏ electron... (VietJack THPT Official)](https://www.youtube.com/watch?v=mtnZG4P1MBM)
+
 *   **Chuyển động của electron trong nguyên tử:** Các electron chuyển động rất nhanh trong khu vực xung quanh hạt nhân không theo những quỹ đạo xác định, tạo nên **vỏ nguyên tử (đám mây electron)**. Khái niệm orbital nguyên tử (AO) là vùng không gian xung quanh hạt nhân mà tại đó xác suất tìm thấy electron là lớn nhất ($\ge 90\%$). Các AO có hình dạng cơ bản: AO $s$ (hình cầu), AO $p$ (hình số 8 nổi).
 *   **Lớp và phân lớp electron:**
     *   *Lớp electron:* Gồm các electron có năng lượng gần bằng nhau. Được đánh số từ trong ra ngoài: $n = 1, 2, 3, 4, 5, 6, 7$ tương ứng với tên lớp: $K, L, M, N, O, P, Q$. Số electron tối đa trong một lớp là $2n^2$.
@@ -37,6 +43,8 @@
 ### II. Bảng tuần hoàn các nguyên tố hóa học
 
 #### 1. Cấu tạo của Bảng tuần hoàn
+> 📺 **Video bài giảng tham khảo:** [Hóa học 10 Bài 5: Cấu tạo của bảng tuần ho... (VietJack THPT Official)](https://www.youtube.com/watch?v=t-CMW4VVqbk)
+
 *   **Nguyên tắc sắp xếp:** Theo chiều tăng dần của điện tích hạt nhân; Các nguyên tố có cùng số lớp electron được xếp vào một hàng; Các nguyên tố có cùng số electron hóa trị được xếp vào một cột.
 *   **Cấu trúc:** 
     *   *Ô nguyên tố:* Cho biết số hiệu nguyên tử ($Z$), kí hiệu, tên nguyên tố, khối lượng nguyên tử trung bình, độ âm điện, cấu hình electron...
@@ -44,6 +52,8 @@
     *   *Nhóm nguyên tố:* Gồm các nguyên tố có cấu hình electron tương tự nhau. Nhóm A (gồm nguyên tố nhóm $s$ và $p$, số thứ tự nhóm = số electron lớp ngoài cùng). Nhóm B (gồm các nguyên tố nhóm $d$ và $f$, là các kim loại chuyển tiếp).
 
 #### 2. Xu hướng biến đổi tính chất trong Bảng tuần hoàn
+> 📺 **Video bài giảng tham khảo:** [Hóa học lớp 10 - Bài 6: Xu hướng biến đổi ... (Thầy Nguyễn Chí Sơn )](https://www.youtube.com/watch?v=NybPsy7yu3Q)
+
 *   **Trong một chu kì (từ trái sang phải theo chiều tăng $Z$):**
     *   Bán kính nguyên tử: **Giảm dần** (do lực hút của hạt nhân tăng).
     *   Độ âm điện: **Tăng dần**.
@@ -63,6 +73,8 @@
 ### I. Liên kết hóa học
 
 #### 1. Liên kết ion và Liên kết cộng hóa trị
+> 📺 **Video bài giảng tham khảo:** [Hóa học 10 Bài 10: Liên kết cộng hóa trị -... (VietJack THPT Official)](https://www.youtube.com/watch?v=_bYtnzLU4-c)
+
 *   **Quy tắc octet:** Các nguyên tử có xu hướng nhường, nhận hoặc góp chung electron hóa trị để đạt cấu hình electron bền vững của khí hiếm gần nhất với 8 electron lớp ngoài cùng (hoặc 2 electron đối với Helium).
 *   **Liên kết ion:** Được hình thành bởi lực hút tĩnh điện giữa các ion mang điện tích trái dấu (cation kim loại và anion phi kim). Hợp chất ion có nhiệt độ nóng chảy và nhiệt độ sôi cao, dẫn điện tốt khi nóng chảy hoặc tan trong nước.
 *   **Liên kết cộng hóa trị:** Được hình thành giữa hai nguyên tử bằng một hoặc nhiều cặp electron dùng chung.
@@ -72,12 +84,16 @@
 *   **Sự hình thành liên kết theo lý thuyết AO (Sự xen phủ AO):** Liên kết $\sigma$ (xen phủ trục, bền vững) và liên kết $\pi$ (xen phủ bên, kém bền). Liên kết đơn luôn là liên kết $\sigma$. Liên kết đôi gồm $1\sigma + 1\pi$. Liên kết ba gồm $1\sigma + 2\pi$.
 
 #### 2. Tương tác van der Waals và Liên kết hydrogen
+> 📺 **Video bài giảng tham khảo:** [Hóa học 10 Bài 11: Liên kết Hydrogen và tư... (VietJack THPT Official)](https://www.youtube.com/watch?v=w5_yC8QMue0)
+
 *   **Liên kết hydrogen:** Bản chất là lực hút tĩnh điện yếu giữa nguyên tử $\text{H}$ đã liên kết với một nguyên tử có độ âm điện lớn (như $\text{F, O, N}$) có cặp electron hóa trị chưa tham gia liên kết của nguyên tử có độ âm điện lớn khác. Làm tăng nhiệt độ sôi, nhiệt độ nóng chảy và tính tan của chất (Ví dụ: nước, ethanol).
 *   **Tương tác van der Waals:** Là lực tương tác tĩnh điện yếu giữa các phân tử (hoặc nguyên tử khí hiếm) do sự xuất hiện của các lưỡng cực tạm thời và lưỡng cực cảm ứng. Tương tác tăng khi khối lượng phân tử và kích thước đám mây electron tăng.
 
 ### II. Phản ứng Oxi hóa - Khử và Năng lượng hóa học
 
 #### 1. Phản ứng Oxi hóa - Khử
+> 📺 **Video bài giảng tham khảo:** [Hóa học 10 Bài 15: Phản ứng oxi hóa - khử ... (VietJack THPT Official)](https://www.youtube.com/watch?v=VHDl_jq2l6M)
+
 *   **Số oxi hóa (SOH):** Là điện tích giả định của nguyên tử trong phân tử nếu giả định rằng tất cả các liên kết trong phân tử đều là liên kết ion. Quy tắc xác định số oxi hóa (đơn chất = 0; tổng SOH trong phân tử = 0; SOH của ion bằng điện tích ion; thông thường $\text{H} = +1, \text{O} = -2$, kim loại nhóm IA, IIA, Al bằng số thứ tự nhóm kèm dấu $+$).
 *   **Khái niệm cốt lõi:**
     *   *Chất khử (chất bị oxi hóa):* Chất **nhường** electron $\rightarrow$ Số oxi hóa **tăng** sau phản ứng.
@@ -88,6 +104,8 @@
 *   **Cân bằng phản ứng oxi hóa - khử:** Sử dụng phương pháp thăng bằng electron dựa trên nguyên tắc: **Tổng số electron chất khử nhường = Tổng số electron chất oxi hóa nhận**.
 
 #### 2. Năng lượng hóa học (Nhiệt hóa học)
+> 📺 **Video bài giảng tham khảo:** [Ôn tập chủ đề 5: Năng lượng hóa học  - Hóa... (Tuyensinh247 - Học trực tuyến)](https://www.youtube.com/watch?v=D0e2wUvZzqo)
+
 *   **Phản ứng tỏa nhiệt và Phản ứng thu nhiệt:**
     *   *Phản ứng tỏa nhiệt:* Giải phóng năng lượng dưới dạng nhiệt ra môi trường ($\Delta_{r}H < 0$).
     *   *Phản ứng thu nhiệt:* Hấp thụ năng lượng dưới dạng nhiệt từ môi trường ($\Delta_{r}H > 0$).
@@ -100,6 +118,8 @@
 ### III. Tốc độ phản ứng hóa học và Khái quát về nhóm Halogen
 
 #### 1. Tốc độ phản ứng hóa học
+> 📺 **Video bài giảng tham khảo:** [Hóa học 10 Bài 16: Tốc độ phản ứng hóa học... (VietJack THPT Official)](https://www.youtube.com/watch?v=ycVHeHWoLEI)
+
 *   **Khái niệm:** Là đại lượng đặc trưng cho mức độ nhanh hay chậm của một phản ứng hóa học, được xác định bằng sự biến thiên nồng độ của một trong các chất phản ứng hoặc chất sản phẩm trong một đơn vị thời gian.
 *   **Các yếu tố ảnh hưởng đến tốc độ phản ứng:**
     *   *Nồng độ:* Tăng nồng độ chất phản ứng làm tăng tần số va chạm hiệu quả $\rightarrow$ tốc độ tăng.

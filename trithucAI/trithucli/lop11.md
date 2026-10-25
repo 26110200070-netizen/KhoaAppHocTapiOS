@@ -7,6 +7,8 @@
 ### I. Dao động cơ
 
 #### 1. Dao động điều hòa
+> 📺 **Video bài giảng tham khảo:** [Vật lí 11 Bài 1: Dao động điều hoà - Kết n... (VietJack THPT Official)](https://www.youtube.com/watch?v=QD8X0CajCBo)
+
 *   **Khái niệm:** Dao động điều hòa là dao động trong đó li độ của vật là một hàm sin hoặc cosin của thời gian.
 *   **Phương trình dao động điều hòa:**
     $$x = A\cos(\omega t + \phi)$$
@@ -20,6 +22,8 @@
     *   Tần số ($f$): Số dao động toàn phần thực hiện được trong một giây. $f = \frac{1}{T} = \frac{\omega}{2\pi}$ ($\text{Hz}$).
 
 #### 2. Vận tốc và gia tốc trong dao động điều hòa
+> 📺 **Video bài giảng tham khảo:** [Vật Lý 11 - Chương I -Bài 3: Vận tốc, Gia ... (Việt Lê Siêu Nhân)](https://www.youtube.com/watch?v=OGSo3oZpf0M)
+
 *   **Phương trình vận tốc:** $v = x' = -\omega A\sin(\omega t + \phi) = \omega A\cos(\omega t + \phi + \frac{\pi}{2})$
     *   Vận tốc biến thiên điều hòa cùng tần số nhưng **sớm pha $\frac{\pi}{2}$** so với li độ.
     *   Vật qua vị trí cân bằng ($x = 0$): Vận tốc có độ lớn cực đại $v_{max} = \omega A$.
@@ -32,12 +36,16 @@
     $$A^2 = x^2 + \frac{v^2}{\omega^2} = \frac{a^2}{\omega^4} + \frac{v^2}{\omega^2}$$
 
 #### 3. Năng lượng trong dao động điều hòa
+> 📺 **Video bài giảng tham khảo:** [Vật lí 11 Bài 1: Dao động điều hoà - Kết n... (VietJack THPT Official)](https://www.youtube.com/watch?v=QD8X0CajCBo)
+
 *   **Động năng:** $W_đ = \frac{1}{2}mv^2 = \frac{1}{2}m\omega^2 A^2\sin^2(\omega t + \phi)$
 *   **Thế năng:** $W_t = \frac{1}{2}m\omega^2 x^2 = \frac{1}{2}m\omega^2 A^2\cos^2(\omega t + \phi)$
 *   **Cơ năng:** $W = W_đ + W_t = \frac{1}{2}m\omega^2 A^2 = \text{const}$ (được bảo toàn nếu bỏ qua mọi ma sát).
 *   *Lưu ý:* Khi li độ và vận tốc biến thiên điều hòa với chu kì $T$, tần số $f$ thì động năng và thế năng biến thiên tuần hoàn với chu kì $T' = \frac{T}{2}$ và tần số $f' = 2f$.
 
 #### 4. Dao động tắt dần, dao động cưỡng bức và Hiện tượng cộng hưởng
+> 📺 **Video bài giảng tham khảo:** [Vật lí 11 Bài 6: Dao động tắt dần. Dao độn... (VietJack THPT Official)](https://www.youtube.com/watch?v=bGUWkxmB6h8)
+
 *   **Dao động tắt dần:** Là dao động có biên độ và cơ năng giảm dần theo thời gian do tác dụng của lực cản môi trường. Lực cản càng lớn, dao động tắt dần càng nhanh.
 *   **Dao động duy trì:** Bằng cách cung cấp thêm năng lượng đúng bằng phần năng lượng tiêu hao sau mỗi chu kì mà không làm thay đổi chu kì riêng của hệ.
 *   **Dao động cưỡng bức:** Là dao động chịu tác dụng của một ngoại lực tuần hoàn biến đổi theo thời gian $F = F_0\cos(\omega t + \phi_0)$. Dao động cưỡng bức có tần số bằng tần số của ngoại lực cưỡng bức.
@@ -46,6 +54,8 @@
 ### II. Sóng cơ và Sóng âm
 
 #### 1. Sóng cơ và các đặc trưng của sóng
+> 📺 **Video bài giảng tham khảo:** [[Vật Lý 11] Chương 2: Sóng - Các đặc trưng... (Khôi Cao Minh - Vật Lý)](https://www.youtube.com/watch?v=HRYd9gyLifM)
+
 *   **Khái niệm:** Sóng cơ là sự lan truyền dao động cơ trong một môi trường vật chất theo thời gian. Các phần tử môi trường chỉ dao động tại chỗ chứ không truyền đi theo sóng.
 *   **Phân loại:**
     *   *Sóng ngang:* Các phần tử môi trường dao động theo phương **vuông góc** với phương truyền sóng (Truyền được trong chất rắn và bề mặt chất lỏng).
@@ -60,6 +70,8 @@
 *   **Độ lệch pha giữa hai điểm cách nhau khoảng $d$ trên cùng một phương truyền:** $\Delta \phi = \frac{2\pi d}{\lambda}$.
 
 #### 2. Giao thoa sóng và Sóng dừng
+> 📺 **Video bài giảng tham khảo:** [Vật lí 11 Bài 12: Giao thoa sóng - Kết nối... (VietJack THPT Official)](https://www.youtube.com/watch?v=jyBtwL1z6xU)
+
 *   **Giao thoa sóng:** Là hiện tượng hai sóng kết hợp (cùng tần số và có độ lệch pha không đổi theo thời gian) gặp nhau tạo nên các cực đại và cực tiểu giao thoa ổn định trong không gian.
     *   Vị trí cực đại giao thoa: $d_2 - d_1 = k\lambda$ ($k \in \mathbb{Z}$).
     *   Vị trí cực tiểu giao thoa: $d_2 - d_1 = (k + \frac{1}{2})\lambda$ ($k \in \mathbb{Z}$).
@@ -76,12 +88,16 @@
 ### I. Điện trường
 
 #### 1. Lực tương tác tĩnh điện (Định luật Culông)
+> 📺 **Video bài giảng tham khảo:** [Điện tích và Định luật Cu-Lông - Bài 1 - V... (VietJack THPT Official)](https://www.youtube.com/watch?v=bWtFC3fnN1o)
+
 *   Lực hút hoặc đẩy giữa hai điện tích điểm $q_1, q_2$ đặt trong chân không tỉ lệ thuận với tích độ lớn của hai điện tích và tỉ lệ nghịch với bình phương khoảng cách giữa chúng.
     $$F = k \cdot \frac{|q_1 \cdot q_2|}{r^2}$$
     *   Trong đó: $k = 9 \cdot 10^9 \, \text{N.m}^2/\text{C}^2$, $r$ là khoảng cách ($\text{m}$).
     *   Nếu đặt trong môi trường điện môi đồng tính có hằng số điện môi $\varepsilon$: $F = k \cdot \frac{|q_1 \cdot q_2|}{\varepsilon \cdot r^2}$.
 
 #### 2. Cường độ điện trường
+> 📺 **Video bài giảng tham khảo:** [Điện trường - Cường độ điện trường - Ôn lu... (VietJack THPT Official)](https://www.youtube.com/watch?v=qigka3yTR3Q)
+
 *   **Khái niệm:** Là đại lượng đặc trưng cho điện trường về mặt tác dụng lực. $\vec{E} = \frac{\vec{F}}{q}$ (Đơn vị: $\text{V/m}$).
 *   **Điện trường của một điện tích điểm $Q$:**
     $$E = k \cdot \frac{|Q|}{\varepsilon \cdot r^2}$$
@@ -89,6 +105,8 @@
 *   **Nguyên lí chồng chất điện trường:** $\vec{E} = \vec{E}_1 + \vec{E}_2 + ... + \vec{E}_n$.
 
 #### 3. Công của lực điện, Điện thế và Hiệu điện thế
+> 📺 **Video bài giảng tham khảo:** [Điện thế - Hiệu điện thế - Bài 5 - Vật lí ... (VietJack THPT Official)](https://www.youtube.com/watch?v=h9u9G5ixLzw)
+
 *   **Công của lực điện:** Không phụ thuộc vào hình dạng đường đi mà chỉ phụ thuộc vào vị trí điểm đầu và điểm cuối của đường đi trong điện trường.
     $$A_{MN} = q \cdot E \cdot d$$
     *   $d$: Hình chiếu của quỹ đạo lên một đường sức điện ($\text{m}$).
@@ -96,6 +114,8 @@
     $$U_{MN} = V_M - V_V = \frac{A_{MN}}{q} \quad \text{và} \quad E = \frac{U}{d}$$
 
 #### 4. Tụ điện
+> 📺 **Video bài giảng tham khảo:** [Vật lí 11 Bài 21: Tụ điện - Kết nối tri th... (VietJack THPT Official)](https://www.youtube.com/watch?v=ePARXM3mEmQ)
+
 *   **Khái niệm:** Là một hệ hai vật dẫn đặt gần nhau và ngăn cách nhau bằng một lớp cách điện (điện môi), dùng để tích và phóng điện.
 *   **Điện dung của tụ điện ($C$):** Đại lượng đặc trưng cho khả năng tích điện của tụ.
     $$C = \frac{Q}{U}$$ (Đơn vị: Fara - $\text{F}$).
@@ -104,6 +124,8 @@
 ### II. Dòng điện không đổi
 
 #### 1. Dòng điện và Cường độ dòng điện
+> 📺 **Video bài giảng tham khảo:** [Vật lí 11 Bài 22: Cường độ dòng điện - Kết... (VietJack THPT Official)](https://www.youtube.com/watch?v=Cxi6Ng5mO20)
+
 *   **Dòng điện:** Dòng dịch chuyển có hướng của các hạt mang điện (điện tích).
 *   **Cường độ dòng điện ($I$):** Đại lượng đặc trưng cho tác dụng mạnh hay yếu của dòng điện, đo bằng điện lượng dịch chuyển qua tiết diện thẳng của vật dẫn trong một đơn vị thời gian.
     $$I = \frac{\Delta q}{\Delta t}$$ (Đơn vị: Ampe - $\text{A}$).
@@ -114,12 +136,16 @@
         $$\mathcal{E} = \frac{A_{lạ}}{q}$$ (Đơn vị: Vôn - $\text{V}$). Mỗi nguồn điện có suất điện động $\mathcal{E}$ và điện trở trong $r$.
 
 #### 2. Định luật Ôm đối với toàn mạch
+> 📺 **Video bài giảng tham khảo:** [23. VẬT LÍ 11. ĐỊNH LUẬT ÔM ĐỐI VỚI TOÀN MẠCH (Thầy Hiếu Lí-CBH)](https://www.youtube.com/watch?v=mmNlIJ2uL-8)
+
 *   Cường độ dòng điện chạy trong mạch điện kín tỉ lệ thuận với suất điện động của nguồn điện và tỉ lệ nghịch với điện trở toàn phần của mạch đó.
     $$I = \frac{\mathcal{E}}{R_{nguài} + r}$$
 *   **Hiệu điện thế mạch ngoài (độ sụt áp mạch ngoài):** $U = I \cdot R_{nguài} = \mathcal{E} - I \cdot r$.
 *   **Hiện tượng đoản mạch:** Xảy ra khi điện trở mạch ngoài không đáng kể ($R_{nguài} \approx 0$). Khi đó cường độ dòng điện trong mạch đạt giá trị cực đại $I_{max} = \frac{\mathcal{E}}{r}$, có thể gây cháy nổ, hỏng hóc nguồn điện.
 
 #### 3. Công và Công suất của nguồn điện
+> 📺 **Video bài giảng tham khảo:** [Vật lí 11 Bài 25: Năng lượng và công suất ... (VietJack THPT Official)](https://www.youtube.com/watch?v=9OAglQe-49I)
+
 *   **Công của nguồn điện:** $A_{nguồn} = q \cdot \mathcal{E} = \mathcal{E} \cdot I \cdot t$.
 *   **Công suất của nguồn điện:** $P_{nguồn} = \frac{A_{nguồn}}{t} = \mathcal{E} \cdot I$.
 *   **Hiệu suất của nguồn điện:**

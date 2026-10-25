@@ -62,13 +62,18 @@ struct TheoryLessonDetailView: View {
                                     
                                     Spacer()
                                     
-                                    // Thay toàn bộ bằng 1 nút duy nhất: Xem video trên YouTube (Logic tìm kiếm chính xác bài học)
+                                    // Nút: Xem video trên YouTube (mở trực tiếp video bài giảng chuẩn từ trithucAI hoặc tìm kiếm nếu chưa có)
                                     Button(action: {
-                                        var comp = URLComponents(string: "https://www.youtube.com/results")
-                                        let query = "\(topicItem.title) \(topicItem.subject) lớp \(topicItem.grade) sgk mới"
-                                        comp?.queryItems = [URLQueryItem(name: "search_query", value: query)]
-                                        if let sUrl = comp?.url {
-                                            UIApplication.shared.open(sUrl)
+                                        let cleanId = lesson.videoId.trimmingCharacters(in: .whitespacesAndNewlines)
+                                        if !cleanId.isEmpty, cleanId.count >= 6, let watchUrl = URL(string: "https://www.youtube.com/watch?v=\(cleanId)") {
+                                            UIApplication.shared.open(watchUrl)
+                                        } else {
+                                            var comp = URLComponents(string: "https://www.youtube.com/results")
+                                            let query = "\(topicItem.title) \(topicItem.subject) lớp \(topicItem.grade) sgk mới"
+                                            comp?.queryItems = [URLQueryItem(name: "search_query", value: query)]
+                                            if let sUrl = comp?.url {
+                                                UIApplication.shared.open(sUrl)
+                                            }
                                         }
                                     }) {
                                         HStack(spacing: 5) {
@@ -427,9 +432,21 @@ struct TheoryLessonDetailView: View {
     // MARK: - Actions
     private func loadLessonContent(forceRefresh: Bool = false) {
         // 1. Kiểm tra nếu có sẵn bài giảng cũ đã lưu trong lịch sử và không bị ép làm mới: hiển thị ngay lập tức!
-        if !forceRefresh, let saved = StudyHistoryStore.shared.getSavedLesson(for: topicItem) {
+        if !forceRefresh, var saved = StudyHistoryStore.shared.getSavedLesson(for: topicItem) {
             // Nếu bài đã lưu không bị dính video lớp 6 trên khối THPT
             if !(topicItem.grade > 7 && saved.videoId == "IGp-J96BbTU") {
+                // Đồng bộ video chuẩn mới nhất từ trithucAI nếu bài lưu trước đó có videoId khác
+                if !topicItem.videoId.isEmpty && saved.videoId != topicItem.videoId {
+                    saved = DetailedTheoryLesson(
+                        topicTitle: saved.topicTitle,
+                        subject: saved.subject,
+                        grade: saved.grade,
+                        semester: saved.semester,
+                        videoId: topicItem.videoId,
+                        channelName: topicItem.channelName.isEmpty ? saved.channelName : topicItem.channelName,
+                        markdownContent: saved.markdownContent
+                    )
+                }
                 self.detailedLesson = saved
                 self.isLoading = false
                 StudyHistoryStore.shared.recordStudy(

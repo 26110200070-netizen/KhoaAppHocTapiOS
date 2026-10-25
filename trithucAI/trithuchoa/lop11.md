@@ -7,6 +7,8 @@
 ### I. Cân bằng hóa học
 
 #### 1. Khái niệm về phản ứng thuận nghịch và trạng thái cân bằng
+> 📺 **Video bài giảng tham khảo:** [Hóa học 11 Bài 1: Khái niệm về cân bằng hó... (VietJack THPT Official)](https://www.youtube.com/watch?v=2wD8sFFjddw)
+
 *   **Phản ứng một chiều:** Phản ứng chỉ xảy ra theo một chiều từ chất phản ứng tạo thành sản phẩm.
 *   **Phản ứng thuận nghịch:** Phản ứng xảy ra theo hai chiều trái ngược nhau trong cùng một điều kiện. Chiều từ trái sang phải là chiều thuận, chiều từ phải sang trái là chiều nghịch.
 *   **Trạng thái cân bằng:** Là trạng thái của phản ứng thuận nghịch khi tốc độ phản ứng thuận bằng tốc độ phản ứng nghịch (vt = vn). Cân bằng hóa học là cân bằng động (phản ứng vẫn tiếp diễn nhưng nồng độ các chất không thay đổi).
@@ -15,6 +17,8 @@
     *(Lưu ý: Chất ở trạng thái rắn không xuất hiện trong biểu thức Kc, hằng số Kc chỉ phụ thuộc vào bản chất của phản ứng và nhiệt độ).*
 
 #### 2. Sự chuyển dịch cân bằng hóa học (Nguyên lí Le Chatelier)
+> 📺 **Video bài giảng tham khảo:** [Mẹo nhớ các yếu tố ảnh hưởng đến chuyển dị... (Thầy Hải - Dạy Hóa Online)](https://www.youtube.com/watch?v=nxe-gbq67PY)
+
 *   **Nguyên lí Le Chatelier:** Khi một hệ đang ở trạng thái cân bằng chịu một tác động từ bên ngoài làm thay đổi nồng độ, nhiệt độ hoặc áp suất thì cân bằng sẽ chuyển dịch theo chiều làm giảm tác động bên ngoài đó.
 *   **Các yếu tố ảnh hưởng:**
     *   *Nồng độ:* Tăng nồng độ một chất -> cân bằng chuyển dịch theo chiều giảm nồng độ chất đó (chiều tương tác tiêu thụ chất đó).
@@ -25,16 +29,22 @@
 ### II. Cân bằng trong dung dịch nước
 
 #### 1. Sự điện li
+> 📺 **Video bài giảng tham khảo:** [Sự điện li - bài 1 - Hóa học 11 - Cô Nguyễ... (VietJack TV Official)](https://www.youtube.com/watch?v=hqFjTzASiLM)
+
 *   **Khái niệm:** Sự điện li là quá trình phân rã các chất thành ion khi tan trong nước hoặc ở trạng thái nóng chảy. Chất điện li gồm acid, base và muối.
 *   **Chất điện li mạnh:** Khi tan trong nước, các phân tử hòa tan đều phân li hoàn toàn thành ion (Ví dụ: acid mạnh HCl, HNO3, H2SO4; base mạnh NaOH, KOH, Ca(OH)2; và hầu hết các muối). Biểu diễn bằng mũi tên một chiều (->).
 *   **Chất điện li yếu:** Khi tan trong nước, chỉ có một phần số phân tử hòa tan phân li thành ion, phần còn lại vẫn tồn tại dưới dạng phân tử (Ví dụ: acid yếu CH3COOH, H2CO3, H2S; base yếu NH3, Mg(OH)2). Biểu diễn bằng mũi tên thuận nghịch (⇌).
 
 #### 2. Thuyết Acid - Base của Brønsted - Lowry
+> 📺 **Video bài giảng tham khảo:** [[ HÓA 11 ] CHỦ ĐỀ 01- Bài 2 CBHH - thuyết ... (Học Hóa cùng thầy Minh Myelin)](https://www.youtube.com/watch?v=mVjTX5PeuNQ)
+
 *   **Acid:** Là chất có khả năng nhường proton (H+).
 *   **Base:** Là chất có khả năng nhận proton (H+).
 *   **Chất lưỡng tính:** Là chất vừa có khả năng nhường, vừa có khả năng nhận proton (H+) (Ví dụ: H2O, HCO3-, Al(OH)3).
 
 #### 3. Khái niệm về pH và Ý nghĩa của pH trong thực tiễn
+> 📺 **Video bài giảng tham khảo:** [ÔN TẬP - Hoá 11 - Khái niệm pH và ý nghĩa ... (Manabie Vietnam)](https://www.youtube.com/watch?v=mgYEkU-StKY)
+
 *   **Tích số ion của nước (Kw):** Ở 25°C, Kw = [H+] * [OH-] = 10^-14.
 *   **Công thức tính pH:** pH = -log[H+] -> [H+] = 10^-pH.
 *   **Môi trường dung dịch:** Môi trường acid (pH < 7); Môi trường trung tính (pH = 7); Môi trường base (pH > 7).
@@ -43,15 +53,21 @@
 ### III. Nitrogen và Sulfur
 
 #### 1. Đơn chất Nitrogen (N2) và Ammonia (NH3)
+> 📺 **Video bài giảng tham khảo:** [HÓA 11-CHƯƠNG 2-LÝ THUYẾT NITROGEN (TRỌNG PHẠM)](https://www.youtube.com/watch?v=MrO6KFuJ5mg)
+
 *   **Nitrogen (N2):** Ở nhiệt độ thường khá trơ về mặt hóa học do có liên kết ba bền vững (N≡N). Ở nhiệt độ cao, thể hiện cả tính khử (tác dụng với O2) và tính oxi hóa (tác dụng với kim loại hoạt động mạnh, H2).
 *   **Ammonia (NH3):** Phân tử có cấu trúc hình chóp tam giác, phân cực mạnh. Có tính base yếu (tác dụng với nước, acid, dung dịch muối) và tính khử mạnh do số oxi hóa của N là -3 thấp nhất (tác dụng với O2, CuO).
 *   **Muối ammonium (NH4+):** Đều dễ tan, là chất điện li mạnh, dễ bị nhiệt phân hủy và tác dụng với dung dịch kiềm giải phóng khí NH3.
 
 #### 2. Nitric acid (HNO3) và Hiện tượng phú dưỡng
+> 📺 **Video bài giảng tham khảo:** [Hóa học 11 KNTT Bài 6: Một số hợp chất của... (VietJack THPT Official)](https://www.youtube.com/watch?v=vrqhMoau8do)
+
 *   **Nitric acid (HNO3):** Là một acid mạnh và là một chất oxi hóa cực kỳ mạnh. Tác dụng với hầu hết kim loại (trừ Pt, Au) tạo thành muối nitrate, nước và các sản phẩm khử của N (như NO2, NO, N2O, N2, NH4NO3) tùy thuộc vào độ hoạt động của kim loại và nồng độ acid. Không giải phóng khí H2.
 *   **Hiện tượng phú dưỡng (Eutrophication):** Ao, hồ nhận quá nhiều nguồn dinh dưỡng chứa hợp chất của nitrogen và phosphorus từ nước thải, phân bón dư thừa làm tảo, thực vật thủy sinh phát triển bùng phát, khi chết đi phân hủy làm cạn kiệt oxygen trong nước, gây độc cho thủy sinh vật.
 
 #### 3. Sulfur (S), Sulfur dioxide (SO2) và Sulfuric acid (H2SO4)
+> 📺 **Video bài giảng tham khảo:** [Hóa học 11 KNTT Bài 7: Sulfur và sulfur di... (VietJack THPT Official)](https://www.youtube.com/watch?v=YPQnaS7DoR0)
+
 *   **Sulfur (S):** Có các dạng thù hình (tà phương, đơn tà). Thể hiện tính oxi hóa (tác dụng với kim loại, H2) và tính khử (tác dụng với phi kim mạnh hơn như O2, F2).
 *   **Sulfur dioxide (SO2):** Oxide acid độc, khí không màu, mùi hắc. Vừa có tính khử (tác dụng với O2, Cl2, KMnO4), vừa có tính oxi hóa (tác dụng với H2S). Là một trong các tác nhân chính gây mưa acid.
 *   **Sulfuric acid (H2SO4):**
@@ -65,6 +81,8 @@
 ### I. Đại cương về Hóa học hữu cơ
 
 #### 1. Phân loại và Phương pháp tách biệt hợp chất hữu cơ
+> 📺 **Video bài giảng tham khảo:** [Hóa học 11 Bài 11: Phương pháp tách biệt v... (VietJack THPT Official)](https://www.youtube.com/watch?v=fQcDkujbfrI)
+
 *   **Đặc điểm chung:** Liên kết trong phân tử chủ yếu là liên kết cộng hóa trị. Các hợp chất hữu cơ thường kém bền nhiệt, dễ cháy, phản ứng hóa học xảy ra chậm, không hoàn toàn và theo nhiều hướng (tạo hỗn hợp sản phẩm).
 *   **Phương pháp tách biệt và tinh chế:**
     *   *Phương pháp chưng cất:* Tách các chất lỏng có nhiệt độ sôi khác nhau rõ rệt.
@@ -73,6 +91,8 @@
     *   *Sắc kí cột:* Tách các chất dựa trên tốc độ di chuyển khác nhau của chúng trên pha tĩnh khi được dòng pha động cuốn đi.
 
 #### 2. Công thức phân tử và Cấu tạo hóa học
+> 📺 **Video bài giảng tham khảo:** [Hóa học 11 Bài 12: Công thức phân tử hợp c... (VietJack THPT Official)](https://www.youtube.com/watch?v=GbGGVDoUOF8)
+
 *   **Công thức đơn giản nhất (CTĐGN):** Biểu thị tỉ lệ tối giản về số nguyên tử của các nguyên tố trong phân tử.
 *   **Công thức phân tử (CTPT):** Biểu thị số lượng nguyên tử thực tế của mỗi nguyên tố trong phân tử. CTPT = (CTĐGN)n.
 *   **Thuyết cấu tạo hóa học:** Các nguyên tử liên kết với nhau theo đúng hóa trị và theo một thứ tự nhất định. Việc thay đổi thứ tự liên kết sẽ tạo ra chất mới. Carbon luôn có hóa trị IV trong hợp chất hữu cơ, có thể tạo mạch hở (không nhánh, có nhánh) hoặc mạch vòng.
@@ -83,6 +103,8 @@
 ### II. Hydrocarbon
 
 #### 1. Alkane (Hydrocarbon no)
+> 📺 **Video bài giảng tham khảo:** [Hóa học 11 Bài 15: Alkane - Kết nối tri th... (VietJack THPT Official)](https://www.youtube.com/watch?v=CYH2FW4Fe0Q)
+
 *   **Khái niệm:** Là những hydrocarbon mạch hở, trong phân tử chỉ chứa các liên kết đơn C-C và C-H. Công thức chung: CnH2n+2 (n >= 1).
 *   **Tính chất hóa học:** Do chỉ có liên kết sigma bền vững nên alkane tương đối trơ ở nhiệt độ thường. 
     *   *Phản ứng thế Halogen:* Ưu tiên thế vào carbon bậc cao hơn (tạo sản phẩm chính).
@@ -90,6 +112,8 @@
     *   *Phản ứng đốt cháy:* Tỏa nhiều nhiệt, luôn có nH2O > nCO2.
 
 #### 2. Alkene và Alkyne (Hydrocarbon không no)
+> 📺 **Video bài giảng tham khảo:** [Hóa học 11 Bài 16: Hydrocarbon không no - ... (VietJack THPT Official)](https://www.youtube.com/watch?v=xHQjSYBMFLo)
+
 *   **Alkene:** Hydrocarbon mạch hở chứa 1 liên kết đôi C=C. Công thức chung: CnH2n (n >= 2). Có đồng phân hình học (cis - trans) khi các nhóm thế ở mỗi carbon mang liên kết đôi khác nhau từng đôi một.
 *   **Alkyne:** Hydrocarbon mạch hở chứa 1 liên kết ba C≡C. Công thức chung: CnH2n-2 (n >= 2).
 *   **Tính chất hóa học đặc trưng:** Do có liên kết pi kém bền.
@@ -99,6 +123,8 @@
     *   *Phản ứng thế bằng ion kim loại:* Chỉ xảy ra với alk-1-yne (alkyne có liên kết ba ở đầu mạch) tác dụng với dung dịch AgNO3/NH3 tạo kết tủa màu vàng nhạt.
 
 #### 3. Arene (Hydrocarbon thơm)
+> 📺 **Video bài giảng tham khảo:** [Hóa học 11 Bài 17: Arene (Hydrocarbon thơm... (VietJack THPT Official)](https://www.youtube.com/watch?v=E3ps3CJkGAc)
+
 *   **Khái niệm:** Là những hydrocarbon trong phân tử có chứa vòng benzene. Công thức chung của dãy đồng đẳng benzene: CnH2n-6 (n >= 6).
 *   **Tính chất hóa học (Tính thơm):** Dễ thế, khó cộng và bền vững với các chất oxi hóa.
     *   *Phản ứng thế (Halogen, Nitro hóa):* Benzene tham gia phản ứng thế. Đối với các alkylbenzene (như toluene), phản ứng thế vào vòng diễn ra dễ dàng hơn và ưu tiên định hướng vào vị trí ortho và para. Toluene có khả năng bị oxi hóa nhóm alkyl bởi dung dịch KMnO4 khi đun nóng tạo muối benzoate.

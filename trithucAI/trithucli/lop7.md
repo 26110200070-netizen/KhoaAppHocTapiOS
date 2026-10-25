@@ -5,6 +5,8 @@
 ## HỌC KỲ 1: TỐC ĐỘ VÀ SÓNG ÂM
 
 ### I. Tốc độ chuyển động
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 8: Tốc độ chuy... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=knLmrwxE60o)
+
 *   **Khái niệm tốc độ:** Là đại lượng cho biết mức độ nhanh hay chậm của chuyển động. Ký hiệu là $v$.
 *   **Công thức tính tốc độ:** 
     $$v = \frac{s}{t}$$
@@ -18,6 +20,8 @@
     *   Đồ thị là một đường thẳng nằm ngang song song với trục thời gian: Vật đang đứng yên.
 
 ### II. Sóng âm (Âm thanh)
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 12: Sóng âm - ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=gr0I_2EjIh8)
+
 *   **Sự tạo thành âm thanh:** Âm thanh được tạo ra bởi các vật dao động. Vật phát ra âm thanh gọi là nguồn âm (Ví dụ: dây đàn rung động, mặt trống rung lên khi gõ).
 *   **Sự truyền âm:**
     *   Âm truyền được qua các môi trường: Rắn, Lỏng, Khí.
@@ -39,6 +43,8 @@
 ## HỌC KỲ 2: ÁNH SÁNG VÀ TỪ TRƯỜNG
 
 ### I. Ánh sáng
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 15: Ánh sáng, ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=lznoNl_1oks)
+
 *   **Nguồn sáng và Vật sáng:** Nguồn sáng là vật tự nó phát ra ánh sáng (Ví dụ: Mặt Trời, ngọn nến đang cháy, bóng đèn đang bật). Vật sáng bao gồm nguồn sáng và những vật hắt lại ánh sáng chiếu vào nó (Ví dụ: Mặt Trăng, bàn ghế, sách vở).
 *   **Sự truyền ánh sáng:** trong môi trường trong suốt và đồng tính, ánh sáng truyền đi theo một đường thẳng. Đường truyền của ánh sáng được biểu diễn bằng một đường thẳng có mũi tên chỉ hướng gọi là tia sáng.
 *   **Chùm sáng:** Gồm nhiều tia sáng hợp thành. Có 3 loại chùm sáng:
@@ -56,6 +62,8 @@
 *   **Ảnh của vật qua gương phẳng:** Là ảnh ảo (không hứng được trên màn chắn), có kích thước bằng vật, khoảng cách từ một điểm của vật đến gương bằng khoảng cách từ gương đến ảnh của điểm đó (đối xứng qua gương).
 
 ### II. Từ học (Nam châm và Từ trường)
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên lớp 7 Bài 18: Nam châm -... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=T5dU40N_Fys)
+
 *   **Nam châm:** Là những vật có đặc tính hút được các chất từ (sắt, thép, niken, coban...). Mỗi nam châm luôn có hai cực: Cực Bắc (N - màu đỏ) và Cực Nam (S - màu xanh/tối). Hai cực cùng tên thì đẩy nhau, khác tên thì hút nhau.
 *   **Từ trường:** Là không gian xung quanh nam châm (hoặc xung quanh dòng điện) có khả năng tác dụng lực từ lên kim nam châm đặt trong nó.
 *   **Từ phổ và Đường sức từ:**

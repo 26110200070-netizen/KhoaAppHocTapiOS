@@ -7,11 +7,15 @@
 ### I. Đại số và Đại số tổ hợp
 
 #### 1. Mệnh đề và Tập hợp
+> 📺 **Video bài giảng tham khảo:** [Toán 10 Bài 1: Mệnh đề - Kết nối tri thức ... (VietJack THPT Official)](https://www.youtube.com/watch?v=edVegk01ZsA)
+
 *   **Mệnh đề toán học:** Khái niệm mệnh đề, mệnh đề phủ định ($\overline{P}$), mệnh đề kéo theo ($P \Rightarrow Q$), mệnh đề tương đương ($P \Leftrightarrow Q$). Mệnh đề chứa ký hiệu với mọi ($\forall$) và tồn tại ($\exists$).
 *   **Tập hợp:** Khái niệm tập hợp, tập con ($\subset$), hai tập hợp bằng nhau. Các tập hợp số thường gặp ($\mathbb{N}, \mathbb{Z}, \mathbb{Q}, \mathbb{R}$) và các tập con của số thực (khoảng, đoạn, nửa khoảng).
 *   **Các phép toán trên tập hợp:** Phép giao ($A \cap B$), phép hợp ($A \cup B$), hiệu ($A \setminus B$), và phần bù ($C_A B$).
 
 #### 2. Hàm số bậc hai và Đồ thị
+> 📺 **Video bài giảng tham khảo:** [Hàm số bậc hai - Bài 3 - Toán học 10 - Thầ... (VietJack THPT Official)](https://www.youtube.com/watch?v=XuG121zTSsE)
+
 *   **Hàm số và đồ thị:** Khái niệm hàm số, tập xác định, tập giá trị. Sự biến thiên của hàm số (đồng biến, nghịch biến trên một khoảng).
 *   **Hàm số bậc hai:** Hàm số dạng $y = ax^2 + bx + c$ ($a \neq 0$).
     *   Tọa độ đỉnh Parabol: $I\left(-\frac{b}{2a}; -\frac{\Delta}{4a}\right)$.
@@ -20,12 +24,16 @@
     *   Cách vẽ đồ thị hàm số bậc hai và ứng dụng giải bài toán thực tế (tối ưu hóa doanh thu, quỹ đạo chuyển động).
 
 #### 3. Hệ phương trình bậc nhất ba ẩn
+> 📺 **Video bài giảng tham khảo:** [Hệ phương trình bậc nhất ba ẩn – Môn Toán ... (Tuyensinh247 - Học trực tuyến)](https://www.youtube.com/watch?v=jXSio7pIIaQ)
+
 *   **Khái niệm:** Hệ phương trình gồm 3 phương trình bậc nhất có dạng tổng quát đối với 3 ẩn $x, y, z$.
 *   **Phương pháp giải:** Phương pháp Gauss (biến đổi ma trận/hệ phương trình đưa về dạng tam giác bằng cách khử dần ẩn số) hoặc sử dụng máy tính cầm tay để tìm nghiệm.
 
 ### II. Hình học trực quan và Vectơ
 
 #### 1. Vectơ và các phép toán
+> 📺 **Video bài giảng tham khảo:** [Toán 10 Bài 8: Tổng và hiệu của hai vectơ ... (VietJack THPT Official)](https://www.youtube.com/watch?v=fWc2zQr5t0c)
+
 *   **Khái niệm vectơ:** Định nghĩa vectơ, vectơ-không ($\vec{0}$), hai vectơ cùng phương, cùng hướng, độ dài của vectơ, hai vectơ bằng nhau.
 *   **Các phép toán vectơ:**
     *   Tổng của hai vectơ: Quy tắc ba điểm ($\vec{AB} + \vec{BC} = \vec{AC}$), quy tắc hình bình hành.
@@ -34,6 +42,8 @@
 *   **Tọa độ của vectơ:** Trục tọa độ, hệ trục tọa độ Oxy. Biểu diễn vectơ qua các vectơ đơn vị $\vec{i}, \vec{j}$. Biểu thức tọa độ của các phép toán vectơ.
 
 #### 2. Tích vô hướng của hai vectơ và ứng dụng
+> 📺 **Video bài giảng tham khảo:** [Toán 10 Bài 11: Tích vô hướng của hai vect... (VietJack THPT Official)](https://www.youtube.com/watch?v=xjA5-1CFnVQ)
+
 *   **Giá trị lượng giác của một góc từ $0^\circ$ đến $180^\circ$:** Định nghĩa $s\text{in}, cos, tan, cot$ trên nửa đường tròn đơn vị. Hệ thức lượng cơ bản giữa các giá trị lượng giác.
 *   **Tích vô hướng của hai vectơ:**
     *   Định nghĩa: $\vec{a} \cdot \vec{b} = |\vec{a}| \cdot |\vec{b}| \cdot \cos(\vec{a}, \vec{b})$.
@@ -47,6 +57,8 @@
 ### I. Đại số và Đại số tổ hợp (tiếp theo)
 
 #### 1. Dấu của tam thức bậc hai và Phương trình quy về bậc hai
+> 📺 **Video bài giảng tham khảo:** [Dấu của tam thức bậc hai - Bài 5 - Toán họ... (VietJack THPT Official)](https://www.youtube.com/watch?v=3aAHlso6r4E)
+
 *   **Tam thức bậc hai:** Biểu thức dạng $f(x) = ax^2 + bx + c$ ($a \neq 0$).
 *   **Định lý về dấu của tam thức bậc hai:** Dựa vào biệt thức $\Delta$ và hệ số $a$ để xét dấu của $f(x)$ trên tập số thực.
 *   **Bất phương trình bậc hai một ẩn:** Giải bất phương trình $f(x) > 0, f(x) < 0, f(x) \ge 0, f(x) \le 0$ bằng cách xét dấu.
@@ -56,6 +68,8 @@
     *   *Cách giải:* Bình phương hai vế để khử căn thức và tiến hành thử lại nghiệm hoặc đặt điều kiện có nghĩa.
 
 #### 2. Đại số tổ hợp
+> 📺 **Video bài giảng tham khảo:** [Toán 10 Bài 3: Tổ hợp - trang 15, 17 - Cán... (VietJack THPT Official)](https://www.youtube.com/watch?v=_dkXdekB4oc)
+
 *   **Quy tắc đếm cơ bản:** Quy tắc cộng (các hành động độc lập) và Quy tắc nhân (các hành động liên tiếp/công đoạn).
 *   **Hoán vị, Chỉnh hợp, Tổ hợp:**
     *   Hoán vị của $n$ phần tử: $P_n = n!$
@@ -66,6 +80,8 @@
 ### II. Hình học tọa độ phẳng (Phương pháp tọa độ trong mặt phẳng)
 
 #### 1. Đường thẳng trong mặt phẳng tọa độ
+> 📺 **Video bài giảng tham khảo:** [Toán 10 Bài 2: Đường thẳng trong mặt phẳng... (VietJack THPT Official)](https://www.youtube.com/watch?v=BWhqjT3ulto)
+
 *   **Vectơ chỉ phương (VTCP) và Vectơ pháp tuyến (VPTN)** của đường thẳng.
 *   **Các dạng phương trình đường thẳng:**
     *   Phương trình tham số (dựa vào 1 điểm và 1 VTCP).
@@ -75,16 +91,22 @@
     $$d(M, \Delta) = \frac{|ax_0 + by_0 + c|}{\sqrt{a^2 + b^2}}$$
 
 #### 2. Đường tròn trong mặt phẳng tọa độ
+> 📺 **Video bài giảng tham khảo:** [Toán 10 Bài 21: Đường tròn trong mặt phẳng... (VietJack THPT Official)](https://www.youtube.com/watch?v=7g0KsKuzIXc)
+
 *   **Phương trình đường tròn:**
     *   Dạng chính tắc: $(x - a)^2 + (y - b)^2 = R^2$ với tâm $I(a; b)$ và bán kính $R$.
     *   Dạng tổng quát: $x^2 + y^2 - 2ax - 2by + c = 0$ với điều kiện $a^2 + b^2 - c > 0$.
 *   **Phương trình tiếp tuyến của đường tròn:** Viết phương trình tiếp tuyến của đường tròn tại một điểm cho trước thuộc đường tròn.
 
 #### 3. Ba đường Conic
+> 📺 **Video bài giảng tham khảo:** [Toán 10 Bài 22: Ba đường conic - Kết nối t... (VietJack THPT Official)](https://www.youtube.com/watch?v=ZRbKhSrUgdY)
+
 *   **Đường Elip:** Phương trình chính tắc $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$ ($a > b > 0$). Xác định các yếu tố: đỉnh, tiêu điểm, tiêu cự ($2c = 2\sqrt{a^2 - b^2}$), trục lớn, trục nhỏ.
 *   **Đường Hypebol:** Phương trình chính tắc $\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$ ($a > 0, b > 0$). Xác định các đỉnh, tiêu điểm, tiêu cự ($2c = 2\sqrt{a^2 + b^2}$), trục thực, trục ảo và đường tiệm cận.
 *   **Đường Parabol:** Phương trình chính tắc $y^2 = 2px$ ($với\ p > 0$). Xác định tiêu điểm $I\left(\frac{p}{2}; 0\right)$ và phương trình đường chuẩn $x = -\frac{p}{2}$.
 
 ### III. Thống kê và Xác suất sơ cấp
+> 📺 **Video bài giảng tham khảo:** [Khái niệm thống kê - Bài 1 - Toán học 10 -... (VietJack THPT Official)](https://www.youtube.com/watch?v=2TySFp_xT6g)
+
 
 *   **Tính xác suất theo định nghĩa cổ điển:** Sử dụng các công cụ của đại số tổ hợp (quy tắc đếm, hoán vị, chỉnh hợp, tổ hợp) để xác định số phần tử của không gian mẫu $\Omega$ và số phần tử của biến cố $A$. Tính xác suất: $P(A) = \frac{n(A)}{n(\Omega)}$.

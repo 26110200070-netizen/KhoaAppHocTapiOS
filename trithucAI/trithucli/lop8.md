@@ -5,6 +5,8 @@
 ## HỌC KỲ 1: CƠ HỌC VÀ ÁP SUẤT
 
 ### I. Lực và Chuyển động nâng cao
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 9 Bài 2: Động năng. Thế ... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=t5pjnzstZ_o)
+
 *   **Biểu diễn lực:** Lực là một đại lượng vectơ, được biểu diễn bằng một mũi tên có: Gốc (điểm đặt của lực), Phương và chiều (trùng với phương và chiều của lực), Độ dài (biểu diễn độ lớn của lực theo một tỉ xích cho trước).
 *   **Sự cân bằng lực và Quán tính:**
     *   *Quán tính:* Là tính chất giữ nguyên vận tốc của vật. Khi có lực tác dụng, vật không thể thay đổi vận tốc đột ngột được vì có quán tính (Ví dụ: Hành khách ngã về phía trước khi xe phanh gấp).
@@ -14,6 +16,8 @@
     *   *Ma sát nghỉ:* Giữ cho vật không bị trượt khi vật bị tác dụng của ngoại lực.
 
 ### II. Áp suất
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 8 Bài 15: Áp suất trên m... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=pNUjrUbtp_A)
+
 *   **Áp lực:** Là lực ép có phương vuông góc với mặt bị ép.
 *   **Áp suất (chất rắn):** Là độ lớn của áp lực trên một đơn vị diện tích bị ép.
     *   *Công thức:* 
@@ -28,6 +32,8 @@
 *   **Áp suất khí quyển:** Trái Đất được bao bọc bởi một lớp không khí gọi là khí quyển. Khí quyển gây ra một áp suất theo mọi phương lên mọi vật trên Trái Đất gọi là áp suất khí quyển. Càng lên cao áp suất khí quyển càng giảm.
 
 ### III. Lực đẩy Ác-si-mét và Sự nổi
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 8 Bài 17: Lực đẩy Archim... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=z4MIi6tTKY0)
+
 *   **Lực đẩy Ác-si-mét:** Một vật nhúng trong chất lỏng bị chất lỏng tác dụng một lực đẩy hướng thẳng đứng từ dưới lên trên.
     *   *Công thức:* 
         $$F_A = d \cdot V$$
@@ -38,6 +44,8 @@
     *   Vật nổi lên mặt thoáng khi: $P < F_A$ (hoặc $d_{vật} < d_{chất\ lỏng}$). Khi vật đã nổi ổn định trên mặt chất lỏng thì $F_A = P$ (với $V$ trong công thức $F_A$ lúc này chỉ là thể tích phần chìm).
 
 ### IV. Mômen lực và Đòn bẩy
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 8 Bài 19: Đòn bẩy và ứng... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=8gzgxx8GmaI)
+
 *   **Tác dụng làm quay của lực:** Khi lực tác dụng vào một vật có trục quay cố định mà giá của lực không đi qua trục quay thì sẽ làm vật quay.
 *   **Mômen lực:** Là đại lượng đặc trưng cho tác dụng làm quay của lực.
     *   *Công thức:* 
@@ -50,6 +58,8 @@
 ## HỌC KỲ 2: ĐIỆN HỌC VÀ NHIỆT HỌC
 
 ### I. Điện học
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên Lớp 8 Bài 20: Hiện tượng... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=ylvKTdwz06w)
+
 *   **Sự nhiễm điện:** Có thể làm nhiễm điện nhiều vật bằng cách cọ xát. Vật nhiễm điện (vật mang điện tích) có khả năng hút các vật khác hoặc phóng điện qua vật khác.
 *   **Hai loại điện tích:** Có hai loại điện tích là điện tích dương ($+$) và điện tích âm ($-$). Các vật mang điện tích cùng loại thì đẩy nhau, khác loại thì hút nhau.
 *   **Dòng điện – Nguồn điện:**
@@ -64,6 +74,8 @@
 *   **Các tác dụng của dòng điện:** Dòng điện có 5 tác dụng chính: Tác dụng nhiệt (bàn là, nồi cơm), Tác dụng phát sáng (đèn LED, đèn neon), Tác dụng từ (nam châm điện), Tác dụng hóa học (mạ điện), Tác dụng sinh lý (châm cứu, giật điện).
 
 ### II. Nhiệt học
+> 📺 **Video bài giảng tham khảo:** [Khoa học tự nhiên 8 Bài 26: Năng lượng nhi... (VietJack Tiểu học & THCS)](https://www.youtube.com/watch?v=yNLCyPOGHBY)
+
 *   **Năng lượng nhiệt và Nhiệt độ:**
     *   *Năng lượng nhiệt:* Là tổng động năng của các phân tử cấu tạo nên vật. Vật có nhiệt độ càng cao thì các phân tử cấu tạo nên vật chuyển động càng nhanh và năng lượng nhiệt của vật càng lớn.
     *   *Nhiệt lượng:* Là phần năng lượng nhiệt mà vật nhận thêm hay mất đi trong quá trình truyền nhiệt. Ký hiệu là $Q$, đơn vị là Jun ($\text{J}$) hoặc Calo ($\text{cal}$).
