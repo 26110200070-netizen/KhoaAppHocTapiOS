@@ -139,12 +139,11 @@ struct KaTeXMarkdownWebView: UIViewRepresentable {
                     p { margin-bottom: 8px; }
                     ul, ol { padding-left: 22px; margin-bottom: 8px; }
                     li { margin-bottom: 4px; }
-                    .table-wrapper { width: 100%; overflow-x: auto; margin: 12px 0; -webkit-overflow-scrolling: touch; }
-                    table { border-collapse: collapse; width: 100%; min-width: 260px; font-size: \(fontSize - 1)px; margin: 0; }
-                    th, td { border-bottom: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB; padding: 9px 12px; text-align: left; vertical-align: middle; }
-                    th:last-child, td:last-child { border-right: none; }
-                    th { font-weight: 700; color: #111827; background-color: #F9FAFB; border-top: 1px solid #E5E7EB; border-bottom: 2px solid #D1D5DB; }
-                    tr:last-child td { border-bottom: 1px solid #E5E7EB; }
+                    .table-wrapper { width: 100%; overflow-x: auto; margin: 14px 0; -webkit-overflow-scrolling: touch; border-radius: 8px; }
+                    table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: \(fontSize - 1)px; line-height: 1.5; margin: 0; text-align: left; }
+                    th { font-weight: 700; color: #111827; background-color: transparent; border-top: none; border-left: none; border-right: none; border-bottom: 1.5px solid #E5E7EB; padding: 10px 14px; white-space: nowrap; }
+                    td { border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #F1F5F9; padding: 10px 14px; color: #374151; vertical-align: top; }
+                    tr:last-child td { border-bottom: none; }
                     code { background-color: #F3F4F6; padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: ui-monospace, SFMono-Regular, monospace; }
                     pre { background-color: #1F2937; color: #F9FAFB; padding: 12px; border-radius: 8px; overflow-x: auto; margin: 10px 0; }
                     pre code { background-color: transparent; padding: 0; }
@@ -164,9 +163,19 @@ struct KaTeXMarkdownWebView: UIViewRepresentable {
                                 return;
                             }
                             
+                            var s = text;
+                            
+                            // 0. Chuẩn hóa display math viết dạng [ ... ] trên dòng riêng biệt (như ảnh 1 & 2)
+                            s = s.replace(/(?:^|\\n)\\s*\\[\\s*\\n([\\s\\S]*?)\\n\\s*\\]\\s*(?=\\n|$)/g, function(_, inner) {
+                                return "\\n\\n$$\\n" + inner.trim() + "\\n$$\\n\\n";
+                            });
+                            s = s.replace(/\\\\\\[([\\s\\S]*?)\\\\\\]/g, function(_, inner) {
+                                return "$$" + inner + "$$";
+                            });
+                            
                             // 1. Bảo vệ khối code nguồn
                             var codeBlocks = [];
-                            var s = text.replace(/```[\\s\\S]*?```|`[^`]+`/g, function(match) {
+                            s = s.replace(/```[\\s\\S]*?```|`[^`]+`/g, function(match) {
                                 codeBlocks.push(match);
                                 return "%%CODEBLOCK" + (codeBlocks.length - 1) + "%%";
                             });
@@ -223,9 +232,16 @@ struct KaTeXMarkdownWebView: UIViewRepresentable {
                                 var html = marked.parse(s);
                                 html = html.replace(/<table/g, '<div class="table-wrapper"><table').replace(/<\\/table>/g, '</table></div>');
                                 
-                                // 7. Khôi phục lại khối toán học nguyên vẹn sau khi Marked xong
-                                for (var i = 0; i < mathList.length; i++) {
-                                    html = html.split("%%MATHBLOCK" + i + "%%").join(mathList[i]);
+                                // 7. Khôi phục lại khối toán học nguyên vẹn sau khi Marked xong (vòng lặp để giải nén hoàn toàn placeholder lồng nhau)
+                                var passes = 0;
+                                while (html.indexOf("%%MATHBLOCK") !== -1 && passes < 12) {
+                                    for (var i = 0; i < mathList.length; i++) {
+                                        var token = "%%MATHBLOCK" + i + "%%";
+                                        if (html.indexOf(token) !== -1) {
+                                            html = html.split(token).join(mathList[i]);
+                                        }
+                                    }
+                                    passes++;
                                 }
                                 
                                 // 8. Khôi phục khối code

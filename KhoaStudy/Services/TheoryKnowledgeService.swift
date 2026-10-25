@@ -97,12 +97,19 @@ class TheoryKnowledgeService {
 
             QUY ĐỊNH BẮT BUỘC:
             1. Tuyệt đối KHÔNG BỊA ĐẶT kiến thức hay công thức sai lệch. Bám sát SGK mới 2025-2026 (Kết Nối Tri Thức, Cánh Diều, Chân Trời Sáng Tạo).
-            2. Trình bày bài học bằng định dạng Markdown tuyệt đẹp, rõ ràng, sư phạm:
-               - Sử dụng các tiêu đề #, ##, ### phân cấp khoa học.
-               - Dùng bảng Markdown kẻ bảng so sánh các trường hợp / tính chất khi cần thiết.
-               - Sử dụng công thức toán/lý/hóa chuẩn LaTeX ($...$).
-               - Dùng các icon trực quan (🎯, 📖, 📐, 💡, 📝, ⚠️).
-            3. CẤU TRÚC BÀI GIẢNG PHẢI ĐẦY ĐỦ 5 PHẦN:
+            2. NỘI DUNG ĐẦY ĐỦ, TOÀN DIỆN VÀ HOÀN CHỈNH TỪ ĐẦU ĐẾN CUỐI:
+               - Tuyệt đối KHÔNG ĐƯỢC DỪNG ĐỘT NGỘT giữa chừng bài giảng.
+               - Mọi dạng bài và ví dụ minh họa đều phải trình bày trọn vẹn đầy đủ các bước giải và kết luận đáp số cuối cùng.
+            3. QUY TẮC CÔNG THỨC TOÁN HỌC (LATEX):
+               - Mọi công thức toán học bắt buộc phải đặt trong cặp dấu $$...$$ (đối với khối công thức riêng dòng) hoặc $...$ (đối với công thức nội dòng).
+               - TUYỆT ĐỐI KHÔNG dùng dấu ngoặc vuông đơn độc [ và ] ở đầu dòng hoặc cuối dòng để bọc công thức toán.
+            4. BẢNG BIỂU SO SÁNH / TỔNG HỢP:
+               - Sử dụng bảng Markdown chuẩn cú pháp:
+                 | Tiêu đề 1 | Tiêu đề 2 | Tiêu đề 3 |
+                 | :--- | :--- | :--- |
+                 | Dữ liệu 1 | Dữ liệu 2 | Dữ liệu 3 |
+               - Trình bày thông thoáng, rõ ràng, sư phạm.
+            5. CẤU TRÚC BÀI GIẢNG PHẢI ĐẦY ĐỦ 5 PHẦN:
                # 🎯 Mục Tiêu Bài Học & Yêu Cầu Cần Đạt
                (Nêu rõ học sinh sẽ hiểu được gì và vận dụng được gì theo chuẩn GDPT mới)
                
@@ -110,13 +117,13 @@ class TheoryKnowledgeService {
                (Giải thích chi tiết định nghĩa, hiện tượng, bản chất khoa học)
                
                # 📐 Bảng Công Thức & Quy Tắc Ghi Nhớ
-               (Tổng hợp đầy đủ các công thức, đơn vị, điều kiện áp dụng)
+               (Tổng hợp đầy đủ các công thức, đơn vị, điều kiện áp dụng dưới dạng bảng Markdown)
                
                # 💡 Phương Pháp Giải Các Dạng Bài Tập Điển Hình
                (Chia thành Dạng 1, Dạng 2... hướng dẫn từng bước tư duy)
                
                # 📝 Ví Dụ Minh Họa Có Lời Giải Mẫu Từng Bước
-               (Đưa ra ít nhất 2 ví dụ cụ thể kèm lời giải chi tiết, không bỏ bước)
+               (Đưa ra ít nhất 2 ví dụ cụ thể kèm lời giải chi tiết, không bỏ bước, có kết luận rõ ràng)
                
                # ⚠️ Các Lỗi Sai Học Sinh Thường Mắc Phải
                (Cảnh báo các bẫy đề thi và cách phòng tránh)
@@ -206,14 +213,14 @@ class TheoryKnowledgeService {
         req.addValue("application/json", forHTTPHeaderField: "Content-Type")
         req.timeoutInterval = 45.0
         
-        let primaryModel = model.isEmpty ? "llama-3.3-70b-versatile" : model
+        let primaryModel = model.isEmpty ? "openai/gpt-oss-120b" : model
         let body: [String: Any] = [
             "model": primaryModel,
             "messages": [
                 ["role": "system", "content": "Bạn là Chuyên gia Giáo dục hàng đầu Bộ GD&ĐT Việt Nam. Hãy soạn bài giảng chi tiết, chuẩn xác 100% theo chương trình SGK mới 2026."],
                 ["role": "user", "content": prompt]
             ],
-            "max_tokens": 4096,
+            "max_tokens": 12288,
             "temperature": 0.4
         ]
         guard let httpData = try? JSONSerialization.data(withJSONObject: body) else {
@@ -232,9 +239,9 @@ class TheoryKnowledgeService {
                let content = msg["content"] as? String,
                !content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 completion(content)
-            } else if primaryModel != "llama-3.3-70b-versatile" {
-                // Tự động thử lại với Llama 3.3 70B nếu model ban đầu gặp lỗi
-                self?.callGroqTheory(prompt: prompt, apiKey: apiKey, model: "llama-3.3-70b-versatile", completion: completion)
+            } else if primaryModel != "openai/gpt-oss-20b" {
+                // Tự động thử lại với GPT-OSS 20B nếu model ban đầu gặp lỗi
+                self?.callGroqTheory(prompt: prompt, apiKey: apiKey, model: "openai/gpt-oss-20b", completion: completion)
             } else {
                 completion("")
             }
@@ -263,7 +270,7 @@ class TheoryKnowledgeService {
                 ["role": "system", "content": "Bạn là Chuyên gia Giáo dục hàng đầu Bộ GD&ĐT Việt Nam."],
                 ["role": "user", "content": prompt]
             ],
-            "max_tokens": 4096
+            "max_tokens": 8192
         ]
         guard let httpData = try? JSONSerialization.data(withJSONObject: body) else {
             completion("")

@@ -5,6 +5,7 @@ struct HomeView: View {
     var onNavigateToTheory: (() -> Void)? = nil
     var onNavigateToPractice: (() -> Void)? = nil
     var onOpenAIChat: (() -> Void)? = nil
+    var onOpenHistory: (() -> Void)? = nil
     
     @ObservedObject private var historyStore = StudyHistoryStore.shared
     @State private var showingTheory: Bool = false
@@ -65,10 +66,8 @@ struct HomeView: View {
                     // 2. Banner Cards (Ảnh mới có sẵn chữ, không đè text thừa)
                     tammiChibiArtworkCardsSection
                     
-                    // 3. Lịch Sử Học Tập (Ghi nhận bài học đã mở, vuốt trái để xóa)
-                    if !historyStore.historyList.isEmpty {
-                        studyHistorySection
-                    }
+                    // 3. Nút Lịch Sử Học Tập dài ngang như Gia sư trí tuệ nhân tạo (Chuẩn yêu cầu người dùng)
+                    studyHistoryInteractiveBanner
                     
                     // 4. AI Tutor Interactive Banner with 3D Mascot
                     aiTutorInteractiveBanner
@@ -276,6 +275,65 @@ struct HomeView: View {
                 Circle().fill(Color.gray.opacity(0.3)).frame(width: 6, height: 6)
             }
             .padding(.top, 4)
+        }
+    }
+    
+    // MARK: - Study History Interactive Banner (Dài ngang như Gia sư trí tuệ nhân tạo)
+    private var studyHistoryInteractiveBanner: some View {
+        Button(action: {
+            onOpenHistory?()
+        }) {
+            HStack(spacing: 14) {
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color(hex: "#E0F2FE"), Color(hex: "#BAE6FD")],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 52, height: 52)
+                    
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(hex: "#0284C7"))
+                }
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    HStack(spacing: 6) {
+                        Text("Lịch Sử Học Tập")
+                            .font(.system(size: 15, weight: .bold, design: .rounded))
+                            .foregroundColor(Color(hex: "#111827"))
+                        
+                        if !historyStore.historyList.isEmpty {
+                            Text("\(historyStore.historyList.count)")
+                                .font(.system(size: 11, weight: .bold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color(hex: "#0284C7"))
+                                .clipShape(Capsule())
+                        }
+                    }
+                    Text(historyStore.historyList.isEmpty ? "Chưa có bài học nào được lưu gần đây" : "Gần nhất: \(historyStore.historyList.first?.topicItem.title ?? "Xem lại bài giảng")")
+                        .font(.caption)
+                        .foregroundColor(AppTheme.textSecondary)
+                        .lineLimit(1)
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(Color(hex: "#0284C7"))
+            }
+            .padding(14)
+            .background(
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .fill(Color.white)
+                    .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
+            )
         }
     }
     

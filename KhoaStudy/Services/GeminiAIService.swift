@@ -36,7 +36,6 @@ enum GeminiAIModel: String, CaseIterable, Identifiable {
 enum GroqModel: String, CaseIterable, Identifiable {
     case gpt_oss_120b = "openai/gpt-oss-120b"
     case gpt_oss_20b = "openai/gpt-oss-20b"
-    case llama33_70b = "llama-3.3-70b-versatile"
     case qwen38_27b = "qwen/qwen3.8-27b"
     case gpt_oss_safeguard_20b = "openai/gpt-oss-safeguard-20b"
     
@@ -44,9 +43,8 @@ enum GroqModel: String, CaseIterable, Identifiable {
     
     var displayName: String {
         switch self {
-        case .gpt_oss_120b: return "OpenAI GPT-OSS 120B (Khuyên Dùng)"
+        case .gpt_oss_120b: return "OpenAI GPT-OSS 120B (Mặc Định)"
         case .gpt_oss_20b: return "OpenAI GPT-OSS 20B (Siêu Tốc 1000 t/s)"
-        case .llama33_70b: return "Meta Llama 3.3 70B (Đa Năng)"
         case .qwen38_27b: return "Alibaba Qwen 3.8 27B"
         case .gpt_oss_safeguard_20b: return "OpenAI GPT-OSS Safeguard 20B"
         }
@@ -56,7 +54,6 @@ enum GroqModel: String, CaseIterable, Identifiable {
         switch self {
         case .gpt_oss_120b: return "GPT-OSS 120B"
         case .gpt_oss_20b: return "GPT-OSS 20B"
-        case .llama33_70b: return "Llama 3.3 70B"
         case .qwen38_27b: return "Qwen 3.8 27B"
         case .gpt_oss_safeguard_20b: return "GPT Safeguard 20B"
         }
@@ -66,7 +63,6 @@ enum GroqModel: String, CaseIterable, Identifiable {
         switch self {
         case .gpt_oss_120b: return "Mô hình 120B mạnh nhất của OpenAI trên Groq, tốc độ 500 từ/giây, suy luận toán & văn chuyên sâu"
         case .gpt_oss_20b: return "Mô hình OpenAI siêu tốc độ 1000 từ/giây, phản hồi tức thì"
-        case .llama33_70b: return "Mô hình 70B của Meta, bối cảnh 131k tokens"
         case .qwen38_27b: return "Mô hình Qwen 27B tối ưu suy luận đa nhiệm"
         case .gpt_oss_safeguard_20b: return "Mô hình OpenAI 20B tích hợp bảo vệ an toàn"
         }
@@ -553,7 +549,7 @@ class GeminiAIService {
     // MARK: - Direct Groq Cloud Chat API (Ultra-fast LPU, Free)
     func sendGroqChat(
         messages: [ChatMessage],
-        model: String = "llama-3.3-70b-versatile",
+        model: String = "openai/gpt-oss-120b",
         apiKey: String,
         isWebSearch: Bool = false,
         isDeepReasoning: Bool = false,
@@ -624,7 +620,7 @@ class GeminiAIService {
             "model": effectiveModel,
             "messages": apiMessages,
             "temperature": 0.6,
-            "max_tokens": 4096,
+            "max_tokens": 12288,
             "stream": false
         ]
         
@@ -1084,7 +1080,7 @@ class GeminiAIService {
             ],
             "response_format": ["type": "json_object"],
             "temperature": 0.4,
-            "max_tokens": 4096
+            "max_tokens": 8192
         ]
         
         var request = URLRequest(url: url)

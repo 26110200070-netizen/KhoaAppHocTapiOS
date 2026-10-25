@@ -453,7 +453,7 @@ struct LoginView: View {
             provider: .groq,
             geminiKey: geminiApiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines),
             groqKey: defaultGroqApiKey,
-            groqModel: "llama-3.3-70b-versatile"
+            groqModel: "openai/gpt-oss-120b"
         )
     }
 }

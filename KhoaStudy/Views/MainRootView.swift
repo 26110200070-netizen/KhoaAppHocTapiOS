@@ -2,11 +2,13 @@ import SwiftUI
 
 enum MainTab: Int, CaseIterable {
     case home = 0
-    case account = 1
+    case history = 1
+    case account = 2
     
     var title: String {
         switch self {
         case .home: return "Trang Chủ"
+        case .history: return "Lịch Sử"
         case .account: return "Tài Khoản"
         }
     }
@@ -14,6 +16,7 @@ enum MainTab: Int, CaseIterable {
     var iconName: String {
         switch self {
         case .home: return "house.fill"
+        case .history: return "clock.arrow.circlepath"
         case .account: return "person.crop.circle.fill"
         }
     }
@@ -33,24 +36,33 @@ struct MainRootView: View {
                 // 2. Mandatory Login Screen
                 LoginView()
             } else {
-                // 3. Main Application with 3-item Flat Bottom Bar (Trang Chủ • Shimy • Tài Khoản)
+                // 3. Main Application with 4-item Flat Bottom Bar (Trang Chủ • Lịch Sử • Shimy • Tài Khoản)
                 ZStack(alignment: .bottom) {
                     // Không dùng TabView page-style để cấm kéo vuốt qua lại, bấm chuyển tab mượt mà & giữ nguyên trạng thái không reload
                     ZStack {
                         HomeView(
                             onOpenAIChat: {
                                 showingAIChatFullScreen = true
+                            },
+                            onOpenHistory: {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    currentTab = .history
+                                }
                             }
                         )
                         .opacity(currentTab == .home ? 1 : 0)
                         .allowsHitTesting(currentTab == .home)
+                        
+                        StudyHistoryView()
+                            .opacity(currentTab == .history ? 1 : 0)
+                            .allowsHitTesting(currentTab == .history)
                         
                         AccountView()
                             .opacity(currentTab == .account ? 1 : 0)
                             .allowsHitTesting(currentTab == .account)
                     }
                     
-                    // Full-Width Flat Bottom Bar (Trang Chủ - Shimy - Tài Khoản)
+                    // Full-Width Flat Bottom Bar (Trang Chủ - Lịch Sử - Shimy - Tài Khoản)
                     customFlatTabBar
                 }
                 .ignoresSafeArea(edges: .bottom)
@@ -61,7 +73,7 @@ struct MainRootView: View {
         }
     }
     
-    // MARK: - Full-Width Flat Bottom Bar (Trang Chủ - Shimy - Tài Khoản: Bằng phẳng, không nhô lên)
+    // MARK: - Full-Width Flat Bottom Bar (Bằng phẳng, cân đối 4 nút)
     private var customFlatTabBar: some View {
         VStack(spacing: 0) {
             Divider()
@@ -75,12 +87,30 @@ struct MainRootView: View {
                 }) {
                     VStack(spacing: 4) {
                         Image(systemName: "house.fill")
-                            .font(.system(size: 21, weight: currentTab == .home ? .bold : .medium))
+                            .font(.system(size: 20, weight: currentTab == .home ? .bold : .medium))
                             .foregroundColor(currentTab == .home ? AppTheme.primaryDark : AppTheme.textMuted)
                         
                         Text("Trang Chủ")
                             .font(.system(size: 11, weight: currentTab == .home ? .semibold : .regular))
                             .foregroundColor(currentTab == .home ? AppTheme.primaryDark : AppTheme.textMuted)
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                
+                // Tab 2: Lịch Sử Học Tập (Tab riêng biệt theo yêu cầu)
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        currentTab = .history
+                    }
+                }) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "clock.arrow.circlepath")
+                            .font(.system(size: 20, weight: currentTab == .history ? .bold : .medium))
+                            .foregroundColor(currentTab == .history ? AppTheme.primaryDark : AppTheme.textMuted)
+                        
+                        Text("Lịch Sử")
+                            .font(.system(size: 11, weight: currentTab == .history ? .semibold : .regular))
+                            .foregroundColor(currentTab == .history ? AppTheme.primaryDark : AppTheme.textMuted)
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -102,7 +132,7 @@ struct MainRootView: View {
                                 .frame(width: 36, height: 36)
                             
                             Image(systemName: "sparkles")
-                                .font(.system(size: 17, weight: .bold))
+                                .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                         }
                         
@@ -113,7 +143,7 @@ struct MainRootView: View {
                     .frame(maxWidth: .infinity)
                 }
                 
-                // Tab 2: Tài Khoản
+                // Tab 3: Tài Khoản
                 Button(action: {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         currentTab = .account
@@ -121,7 +151,7 @@ struct MainRootView: View {
                 }) {
                     VStack(spacing: 4) {
                         Image(systemName: "person.crop.circle.fill")
-                            .font(.system(size: 21, weight: currentTab == .account ? .bold : .medium))
+                            .font(.system(size: 20, weight: currentTab == .account ? .bold : .medium))
                             .foregroundColor(currentTab == .account ? AppTheme.primaryDark : AppTheme.textMuted)
                         
                         Text("Tài Khoản")
