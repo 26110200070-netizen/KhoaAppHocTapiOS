@@ -56,43 +56,43 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - Home Dashboard Content (Chuẩn 100% theo Ảnh 2 - Không tràn lề, Không lặp chữ)
+    // MARK: - Home Dashboard Content (Chuẩn 100% theo Ảnh 2 của người dùng)
     private var homeDashboardView: some View {
         ZStack(alignment: .top) {
             // Full-bleed clean background
             Color(hex: "#F8FAF9")
-                .ignoresSafeArea()
+                .ignoresSafeArea(.all)
             
-            // Dreamy pastel sky gradient for top status bar and header (Không dùng ảnh chữ tĩnh để tránh đè chữ)
-            LinearGradient(
-                colors: [
-                    Color(hex: "#CFE6FC"),
-                    Color(hex: "#E5F2FD"),
-                    Color(hex: "#F8FAF9")
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(height: 230)
+            // 1. Realistic blue sky with fluffy 3D white clouds at top
+            VStack(spacing: 0) {
+                Image("HeaderSkyBg")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 210)
+                    .clipped()
+                
+                Spacer()
+            }
             .ignoresSafeArea(edges: .top)
             
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 14) {
-                    // 1. Top Header (✨ Shimy • Lớp 12 | Chào, Anh Khoa Dev 👋 | Mascot Bunny)
+                VStack(spacing: 16) {
+                    // 1. Top Header (✨ Shimy • Lớp 12 | Chào, Anh Khoa Dev 👋 | 🎓 + 🔔)
                     topHeaderSection
-                        .padding(.top, 4)
+                        .padding(.top, 8)
                     
-                    // 2. Hero Banner: Bứt phá điểm số cùng Shimy (3D anime boy with laptop)
-                    heroBannerSection
-                    
-                    // 3. 3-Card Row: Học lí thuyết | Làm bài tập | Treo máy tự học
-                    threeFeatureCardsRow
-                    
-                    // 4. Sơ Đồ Kiến Thức (Node mindmap banner)
+                    // 2. Banner Sơ Đồ Kiến Thức ("Hình dung lộ trình, làm chủ bài học")
                     knowledgeMindmapBanner
                     
-                    // 5. Quote Card: "Kiến thức là chìa khóa mở ra mọi cánh cửa tương lai."
-                    inspirationalQuoteCard
+                    // 3. Khối 3 Thẻ Học Tập: Học Lí Thuyết 9:16 + Luyện Bài Tập & Treo Máy
+                    tammiChibiArtworkCardsSection
+                    
+                    // 4. Banner Lịch Sử Học Tập (Dài ngang như Ảnh 2)
+                    studyHistoryInteractiveBanner
+                    
+                    // 5. Banner Ôn Thi Bứt Phá Điểm Cao (Màu đỏ chuẩn Ảnh 2)
+                    tammiPromoExamBanner
                     
                     // Spacing above bottom tab bar
                     Spacer().frame(height: 110)
@@ -102,67 +102,96 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - 1. Top Header (✨ Shimy • Lớp 12, Chào user, Bunny Avatar)
+    // MARK: - 1. Top Header (Bầu trời nền, Chào user, Nút nón tốt nghiệp 🎓 và chuông thông báo 🔔)
     private var topHeaderSection: some View {
         HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 5) {
                     Image(systemName: "sparkles")
-                        .foregroundColor(Color(hex: "#0284C7"))
-                        .font(.system(size: 11, weight: .bold))
+                        .foregroundColor(Color(hex: "#059669"))
+                        .font(.system(size: 12, weight: .bold))
                     Text("Shimy • Lớp \(appState.currentUser.grade)")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(Color(hex: "#4B5563"))
                 }
                 
                 Text("Chào, \(appState.currentUser.username) 👋")
-                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                    .font(.system(size: 21, weight: .bold, design: .rounded))
                     .foregroundColor(Color(hex: "#111827"))
-                
-                Text("Học hôm nay, vững tương lai!")
-                    .font(.system(size: 13, weight: .medium))
-                    .foregroundColor(Color(hex: "#6B7280"))
             }
             
             Spacer()
             
-            // 3D Mascot Bunny Avatar
-            Button(action: {
-                onOpenAIChat?()
-            }) {
-                Image("MascotBunny")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 44, height: 44)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                    .shadow(color: Color(hex: "#38BDF8").opacity(0.35), radius: 6, x: 0, y: 2)
+            // Top Right Action Buttons: 🎓 (Nón tốt nghiệp) & 🔔 (Chuông)
+            HStack(spacing: 10) {
+                // Graduate Cap Button
+                Button(action: {
+                    showingMindmapSheet = true
+                }) {
+                    ZStack {
+                        Circle()
+                            .fill(Color(hex: "#D1FAE5"))
+                            .frame(width: 44, height: 44)
+                            .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
+                        Image(systemName: "graduationcap.fill")
+                            .font(.system(size: 20))
+                            .foregroundColor(Color(hex: "#059669"))
+                    }
+                }
+                
+                // Bell Notification Button
+                Button(action: {
+                    onOpenAIChat?()
+                }) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.white.opacity(0.85))
+                            .frame(width: 44, height: 44)
+                            .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
+                        Image(systemName: "bell.fill")
+                            .font(.system(size: 18))
+                            .foregroundColor(Color(hex: "#4B5563"))
+                        
+                        // Red notification dot
+                        Circle()
+                            .fill(Color(hex: "#EF4444"))
+                            .frame(width: 8, height: 8)
+                            .offset(x: 8, y: -8)
+                    }
+                }
             }
-            .buttonStyle(.plain)
         }
-        .padding(.horizontal, 4)
+        .padding(.horizontal, 2)
         .padding(.vertical, 4)
     }
     
-    // MARK: - 2. Hero Banner: Bứt phá điểm số cùng Shimy
-    private var heroBannerSection: some View {
+    // MARK: - 2. Banner Sơ Đồ Kiến Thức (Hình dung lộ trình, làm chủ bài học)
+    private var knowledgeMindmapBanner: some View {
         Button(action: {
-            onOpenAIChat?()
+            showingMindmapSheet = true
         }) {
-            Image("HeroBanner")
+            Image("CardMindmap")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity)
-                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
+                .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 3)
         }
         .buttonStyle(.plain)
     }
     
-    // MARK: - 3. Three Feature Cards Row (Học lí thuyết • Làm bài tập • Treo máy)
-    private var threeFeatureCardsRow: some View {
-        HStack(spacing: 8) {
-            // Card 1: Học lí thuyết (Mở bài giảng SGK chuẩn)
+    // MARK: - 3. Khối 3 Thẻ Học Tập (Học lí thuyết SGK 9:16 + Luyện bài tập & Treo máy tự học)
+    private var tammiChibiArtworkCardsSection: some View {
+        let screenW = UIScreen.main.bounds.width
+        let availableW = max(screenW - 32 - 24 - 10, 280) // màn hình - padding(16*2) - container(12*2) - spacing(10)
+        let leftW = availableW * 0.408
+        let rightW = availableW * 0.592
+        let totalH = leftW * (16.0 / 9.0)
+        let topH = (totalH - 10) * 0.565
+        let bottomH = totalH - 10 - topH
+        
+        return HStack(alignment: .top, spacing: 10) {
+            // Left Hero Card: HỌC LÍ THUYẾT SGK (Chuẩn tỉ lệ 9:16)
             Button(action: {
                 if let onNavigateToTheory = onNavigateToTheory {
                     onNavigateToTheory()
@@ -172,71 +201,160 @@ struct HomeView: View {
                     }
                 }
             }) {
-                Image("CardTheory")
+                Image("BannerTheory")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity)
-                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                    .shadow(color: Color.black.opacity(0.03), radius: 5, x: 0, y: 2)
+                    .scaledToFill()
+                    .frame(width: leftW, height: totalH)
+                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
             }
             .buttonStyle(.plain)
             
-            // Card 2: Làm bài tập (Luyện đề, kiểm tra kiến thức)
-            Button(action: {
-                if let onNavigateToPractice = onNavigateToPractice {
-                    onNavigateToPractice()
-                } else {
-                    withAnimation(.easeInOut(duration: 0.25)) {
-                        showingExercise = true
+            // Right 2 Stacked Cards: Luyện bài tập & Treo máy tự học
+            VStack(spacing: 10) {
+                // Card Top Right: LUYỆN BÀI TẬP (Ảnh có sẵn chữ)
+                Button(action: {
+                    if let onNavigateToPractice = onNavigateToPractice {
+                        onNavigateToPractice()
+                    } else {
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            showingExercise = true
+                        }
                     }
+                }) {
+                    Image("BannerPractice")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: rightW, height: topH)
+                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                 }
-            }) {
-                Image("CardPractice")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity)
-                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                    .shadow(color: Color.black.opacity(0.03), radius: 5, x: 0, y: 2)
+                .buttonStyle(.plain)
+                
+                // Card Bottom Right: TREO MÁY TỰ HỌC (Ảnh có sẵn chữ)
+                Button(action: { showingFocusSheet = true }) {
+                    Image("BannerFocus")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: rightW, height: bottomH)
+                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
-            
-            // Card 3: Treo máy tự học (Pomodoro focus timer)
-            Button(action: {
-                showingFocusSheet = true
-            }) {
-                Image("CardFocus")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity)
-                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                    .shadow(color: Color.black.opacity(0.03), radius: 5, x: 0, y: 2)
-            }
-            .buttonStyle(.plain)
+            .frame(width: rightW, height: totalH)
         }
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 3)
+        )
     }
     
-    // MARK: - 4. Sơ Đồ Kiến Thức Banner (Hệ thống hóa toàn bộ kiến thức trực quan)
-    private var knowledgeMindmapBanner: some View {
+    // MARK: - 4. Banner Lịch Sử Học Tập (Chuẩn Ảnh 2)
+    private var studyHistoryInteractiveBanner: some View {
         Button(action: {
-            showingMindmapSheet = true
+            onOpenHistory?()
         }) {
-            Image("CardMindmap")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity)
-                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
+            HStack(spacing: 14) {
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color(hex: "#E0F2FE"), Color(hex: "#BAE6FD")],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 48, height: 48)
+                    
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.system(size: 22, weight: .bold))
+                        .foregroundColor(Color(hex: "#0284C7"))
+                }
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    HStack(spacing: 6) {
+                        Text("Lịch Sử Học Tập")
+                            .font(.system(size: 16, weight: .bold, design: .rounded))
+                            .foregroundColor(Color(hex: "#111827"))
+                        
+                        if !historyStore.historyList.isEmpty {
+                            Text("\(historyStore.historyList.count)")
+                                .font(.system(size: 11, weight: .bold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color(hex: "#0284C7"))
+                                .clipShape(Capsule())
+                        }
+                    }
+                    Text(historyStore.historyList.isEmpty ? "Chưa có bài học nào được lưu gần đây" : "Gần nhất: \(historyStore.historyList.first?.topicItem.title ?? "Xem lại bài giảng")")
+                        .font(.caption)
+                        .foregroundColor(AppTheme.textSecondary)
+                        .lineLimit(1)
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(Color.gray.opacity(0.45))
+            }
+            .padding(14)
+            .background(
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .fill(Color.white)
+                    .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
+            )
         }
         .buttonStyle(.plain)
     }
     
-    // MARK: - 5. Inspirational Quote Card
-    private var inspirationalQuoteCard: some View {
-        Image("CardQuote")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: .infinity)
-            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-            .shadow(color: Color.black.opacity(0.02), radius: 4, x: 0, y: 1)
+    // MARK: - 5. Banner Ôn Thi Bứt Phá Điểm Cao (Màu đỏ chuẩn Ảnh 2)
+    private var tammiPromoExamBanner: some View {
+        ZStack(alignment: .bottomTrailing) {
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(
+                    LinearGradient(
+                        colors: [Color(hex: "#DC2626"), Color(hex: "#991B1B")],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+            
+            HStack(alignment: .center, spacing: 14) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("SHIMY AI 🚀")
+                        .font(.system(size: 10, weight: .heavy))
+                        .foregroundColor(Color(hex: "#FEF08A"))
+                    
+                    Text("Ôn Thi Bứt Phá Điểm Cao...")
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .lineSpacing(2)
+                    
+                    Button(action: { showingExamSheet = true }) {
+                        Text("LÀM ĐỀ THI NGAY")
+                            .font(.system(size: 11, weight: .heavy))
+                            .foregroundColor(Color(hex: "#DC2626"))
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 7)
+                            .background(Capsule().fill(Color.white))
+                    }
+                    .padding(.top, 4)
+                }
+                .padding(18)
+                
+                Spacer()
+                
+                Image("ChibiExamBanner")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 88, height: 88)
+                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                    .padding(.trailing, 16)
+            }
+        }
+        .frame(height: 135)
+        .shadow(color: Color(hex: "#DC2626").opacity(0.25), radius: 10, x: 0, y: 5)
     }
 }
