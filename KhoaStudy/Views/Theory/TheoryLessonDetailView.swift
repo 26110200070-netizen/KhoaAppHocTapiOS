@@ -50,21 +50,46 @@ struct TheoryLessonDetailView: View {
                                     
                                     Spacer()
                                     
-                                    Button(action: {
-                                        if let url = URL(string: "https://www.youtube.com/watch?v=\(lesson.videoId)") {
-                                            UIApplication.shared.open(url)
+                                    HStack(spacing: 6) {
+                                        Button(action: {
+                                            let cleanTopic = topicItem.title.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                                            if let sUrl = URL(string: "https://www.youtube.com/results?search_query=\(topicItem.subject)+\(topicItem.grade)+\(cleanTopic)+sgk+mới") {
+                                                UIApplication.shared.open(sUrl)
+                                            }
+                                        }) {
+                                            HStack(spacing: 4) {
+                                                Image(systemName: "magnifyingglass")
+                                                    .font(.system(size: 10))
+                                                Text("Tìm video bài này")
+                                                    .font(.system(size: 11, weight: .medium))
+                                            }
+                                            .foregroundColor(Color(hex: "#4B5563"))
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 5)
+                                            .background(Capsule().fill(Color(hex: "#F3F4F6")))
                                         }
-                                    }) {
-                                        HStack(spacing: 4) {
-                                            Text("Xem trên YouTube")
-                                                .font(.system(size: 11, weight: .bold))
-                                            Image(systemName: "arrow.up.right")
-                                                .font(.system(size: 10, weight: .bold))
+                                        
+                                        Button(action: {
+                                            if !lesson.videoId.isEmpty, let directUrl = URL(string: "https://www.youtube.com/watch?v=\(lesson.videoId)") {
+                                                UIApplication.shared.open(directUrl)
+                                            } else {
+                                                let cleanTopic = topicItem.title.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                                                if let sUrl = URL(string: "https://www.youtube.com/results?search_query=\(topicItem.subject)+\(topicItem.grade)+\(cleanTopic)+sgk+mới") {
+                                                    UIApplication.shared.open(sUrl)
+                                                }
+                                            }
+                                        }) {
+                                            HStack(spacing: 4) {
+                                                Text("Mở YouTube")
+                                                    .font(.system(size: 11, weight: .bold))
+                                                Image(systemName: "arrow.up.right")
+                                                    .font(.system(size: 10, weight: .bold))
+                                            }
+                                            .foregroundColor(Color(hex: "#DC2626"))
+                                            .padding(.horizontal, 10)
+                                            .padding(.vertical, 5)
+                                            .background(Capsule().fill(Color(hex: "#FEE2E2")))
                                         }
-                                        .foregroundColor(Color(hex: "#DC2626"))
-                                        .padding(.horizontal, 10)
-                                        .padding(.vertical, 5)
-                                        .background(Capsule().fill(Color(hex: "#FEE2E2")))
                                     }
                                 }
                                 .padding(.horizontal, 2)
@@ -227,6 +252,8 @@ struct TheoryLessonDetailView: View {
             subject: topicItem.subject,
             grade: topicItem.grade,
             semester: topicItem.semester,
+            preferredVideoId: topicItem.videoId,
+            preferredChannelName: topicItem.channelName,
             geminiApiKey: appState.geminiApiKey,
             groqApiKey: appState.groqApiKey,
             groqModel: appState.selectedGroqModel,

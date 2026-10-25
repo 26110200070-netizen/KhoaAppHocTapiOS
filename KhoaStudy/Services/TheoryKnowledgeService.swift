@@ -60,6 +60,8 @@ class TheoryKnowledgeService {
         subject: String,
         grade: Int,
         semester: Int,
+        preferredVideoId: String = "",
+        preferredChannelName: String = "",
         geminiApiKey: String,
         groqApiKey: String,
         groqModel: String,
@@ -68,8 +70,8 @@ class TheoryKnowledgeService {
         appToken: String,
         completion: @escaping (DetailedTheoryLesson) -> Void
     ) {
-        let videoId = getYouTubeVideoIdForQuery(subject: subject, grade: grade, topic: topic)
-        let channelName = getChannelNameForSubject(subject)
+        let videoId = preferredVideoId.isEmpty ? getYouTubeVideoIdForQuery(subject: subject, grade: grade, topic: topic) : preferredVideoId
+        let channelName = preferredChannelName.isEmpty ? getChannelNameForSubject(subject) : preferredChannelName
         
         // 1. Thực hiện tra cứu Web Search thời gian thực
         WebKnowledgeService.shared.searchLatest2026Curriculum(

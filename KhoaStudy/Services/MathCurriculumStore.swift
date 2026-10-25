@@ -106,41 +106,19 @@ struct MathCurriculumStore {
             return [
                 TheoryTopicItem(
                     id: "math_g7_s1_1",
-                    title: "Tập hợp và Số tự nhiên",
-                    summary: "Tập hợp và phần tử: Ký hiệu thuộc ($\\in$) và không thuộc ($\\notin$). Cách viết một tập hợp bằng cách liệt kê phần tử hoặc chỉ ra tính chất đặc trưng.; Tập hợ...",
+                    title: "Số hữu tỉ",
+                    summary: "Tập hợp số hữu tỉ ($\\mathbb{Q}$): Định nghĩa số hữu tỉ là số viết được dưới dạng phân số $\\frac{a}{b}$ với $a, b \\in \\mathbb{Z}, b \\neq 0$. Biểu diễn số hữu ...",
                     subject: "Toán",
                     grade: 7,
                     semester: 1,
                     videoId: "IGp-J96BbTU",
                     channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
-                    estimatedTime: "33 phút"
+                    estimatedTime: "35 phút"
                 ),
                 TheoryTopicItem(
                     id: "math_g7_s1_2",
-                    title: "Tính chất chia hết trong tập hợp số tự nhiên",
-                    summary: "Quan hệ chia hết: Khái niệm ước và bội. Cách tìm tập hợp các ước Ư($a$) và tập hợp các bội B($a$).; Tính chất chia hết của một tổng: Nếu tất cả các số hạng đ...",
-                    subject: "Toán",
-                    grade: 7,
-                    semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
-                    estimatedTime: "27 phút"
-                ),
-                TheoryTopicItem(
-                    id: "math_g7_s1_3",
-                    title: "Số nguyên",
-                    summary: "Tập hợp số nguyên ($\\mathbb{Z}$): Trục số nguyên, số đối của một số nguyên. Khái niệm số nguyên âm, số nguyên dương và số 0. So sánh hai số nguyên.; Các phép...",
-                    subject: "Toán",
-                    grade: 7,
-                    semester: 1,
-                    videoId: "IGp-J96BbTU",
-                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
-                    estimatedTime: "29 phút"
-                ),
-                TheoryTopicItem(
-                    id: "math_g7_s1_4",
-                    title: "Hình học trực quan (Hình học phẳng cơ bản)",
-                    summary: "Tam giác đều, Hình vuông, Hình lục giác đều: Nhận biết các đặc điểm cơ bản về cạnh, góc, đường chéo và cách vẽ bằng dụng cụ học tập.; Hình chữ nhật, Hình tho...",
+                    title: "Số thực",
+                    summary: "Số thập phân hữu hạn và số thập phân vô hạn tuần hoàn: Cách nhận biết và viết một phân số dưới dạng số thập phân.; Số vô tỉ: Định nghĩa số vô tỉ là số viết đ...",
                     subject: "Toán",
                     grade: 7,
                     semester: 1,
@@ -148,13 +126,57 @@ struct MathCurriculumStore {
                     channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
                     estimatedTime: "23 phút"
                 ),
+                TheoryTopicItem(
+                    id: "math_g7_s1_3",
+                    title: "Tỉ lệ thức và Đại lượng tỉ lệ",
+                    summary: "Tỉ lệ thức: Định nghĩa $\\frac{a}{b} = \\frac{c}{d}$. Tính chất cơ bản của tỉ lệ thức ($a \\cdot d = b \\cdot c$).; Tính chất của dãy tỉ số bằng nhau: $\\frac{a}{...",
+                    subject: "Toán",
+                    grade: 7,
+                    semester: 1,
+                    videoId: "IGp-J96BbTU",
+                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    estimatedTime: "23 phút"
+                ),
+                TheoryTopicItem(
+                    id: "math_g7_s1_4",
+                    title: "Hình khối trong thực tiễn",
+                    summary: "Hình lăng trụ đứng tam giác, Hình lăng trụ đứng tứ giác:; Mô tả định dạng, nhận biết đỉnh, cạnh, mặt đáy, mặt bên.; Công thức tính Diện tích xung quanh ($S_{...",
+                    subject: "Toán",
+                    grade: 7,
+                    semester: 1,
+                    videoId: "IGp-J96BbTU",
+                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    estimatedTime: "21 phút"
+                ),
+                TheoryTopicItem(
+                    id: "math_g7_s1_5",
+                    title: "Góc và Đường thẳng song song",
+                    summary: "Góc ở vị trí đặc biệt: Hai góc kề bù (có tổng bằng $180^\\circ$), hai góc đối đỉnh (thì bằng nhau). Tia phân giác của một góc.; Hai đường thẳng song song:; Dấ...",
+                    subject: "Toán",
+                    grade: 7,
+                    semester: 1,
+                    videoId: "IGp-J96BbTU",
+                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    estimatedTime: "25 phút"
+                ),
             ]
         case (7, 2):
             return [
                 TheoryTopicItem(
                     id: "math_g7_s2_1",
-                    title: "Phân số",
-                    summary: "Khái niệm phân số: Mở rộng phân số với tử và mẫu là các số nguyên ($\\frac{a}{b}$ với $a, b \\in \\mathbb{Z}, b \\neq 0$). Hai phân số bằng nhau.; Tính chất cơ b...",
+                    title: "Biểu thức đại số và Đa thức một biến",
+                    summary: "Biểu thức đại số: Khái niệm biểu thức đại số, tính giá trị của một biểu thức đại số tại giá trị cho trước của biến.; Đa thức một biến:; Định nghĩa, thu gọn đ...",
+                    subject: "Toán",
+                    grade: 7,
+                    semester: 2,
+                    videoId: "IGp-J96BbTU",
+                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    estimatedTime: "33 phút"
+                ),
+                TheoryTopicItem(
+                    id: "math_g7_s2_2",
+                    title: "Tam giác và Các trường hợp bằng nhau",
+                    summary: "Tổng các góc trong một tam giác: Bằng $180^\\circ$.; Hai tam giác bằng nhau: Định nghĩa hai tam giác bằng nhau.; Ba trường hợp bằng nhau của tam giác:",
                     subject: "Toán",
                     grade: 7,
                     semester: 2,
@@ -163,9 +185,20 @@ struct MathCurriculumStore {
                     estimatedTime: "31 phút"
                 ),
                 TheoryTopicItem(
-                    id: "math_g7_s2_2",
-                    title: "Số thập phân",
-                    summary: "Khái niệm số thập phân: Số thập phân âm, số thập phân dương. Số đối của số thập phân.; Các phép tính với số thập phân: Cộng, trừ, nhân, chia số thập phân (tu...",
+                    id: "math_g7_s2_3",
+                    title: "Quan hệ giữa các yếu tố trong tam giác",
+                    summary: "Quan hệ giữa góc và cạnh đối diện: Trong một tam giác, góc đối diện với cạnh lớn hơn là góc lớn hơn và ngược lại.; Quan hệ giữa đường vuông góc và đường xiên...",
+                    subject: "Toán",
+                    grade: 7,
+                    semester: 2,
+                    videoId: "IGp-J96BbTU",
+                    channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
+                    estimatedTime: "21 phút"
+                ),
+                TheoryTopicItem(
+                    id: "math_g7_s2_4",
+                    title: "Các đường đồng quy trong tam giác",
+                    summary: "Đường trung tuyến: Ba đường trung tuyến đồng quy tại một điểm gọi là Trọng tâm. Trọng tâm cách mỗi đỉnh một khoảng bằng $\\frac{2}{3}$ độ dài đường trung tuyế...",
                     subject: "Toán",
                     grade: 7,
                     semester: 2,
@@ -174,26 +207,26 @@ struct MathCurriculumStore {
                     estimatedTime: "23 phút"
                 ),
                 TheoryTopicItem(
-                    id: "math_g7_s2_3",
-                    title: "Hình học phẳng (Điểm, Đường thẳng, Góc)",
-                    summary: "Điểm, Đường thẳng: Điểm thuộc đường thẳng, điểm không thuộc đường thẳng. Ba điểm thẳng hàng, ba điểm không thẳng hàng. Hai đường thẳng cắt nhau, hai đường th...",
+                    id: "math_g7_s2_5",
+                    title: "Thu thập, biểu diễn và phân tích dữ liệu",
+                    summary: "Biểu đồ đoạn thẳng: Đọc, phân tích thông tin và vẽ biểu đồ đoạn thẳng biểu diễn xu hướng thay đổi của dữ liệu theo thời gian.; Biểu đồ hình quạt tròn: Đọc, p...",
                     subject: "Toán",
                     grade: 7,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
                     channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
-                    estimatedTime: "29 phút"
+                    estimatedTime: "19 phút"
                 ),
                 TheoryTopicItem(
-                    id: "math_g7_s2_4",
-                    title: "Một số yếu tố Thống kê và Xác suất",
-                    summary: "Thu thập và phân loại dữ liệu: Cách thu thập dữ liệu (quan sát, lập bảng hỏi). Dữ liệu là số (số liệu) và dữ liệu không phải là số.; Biểu diễn dữ liệu:; Bảng...",
+                    id: "math_g7_s2_6",
+                    title: "Biến cố và Xác suất của biến cố",
+                    summary: "Làm quen với biến cố: Khái niệm biến cố chắc chắn, biến cố không thể và biến cố ngẫu nhiên.; Xác suất của biến cố ngẫu nhiên: Tính xác suất của một số biến c...",
                     subject: "Toán",
                     grade: 7,
                     semester: 2,
                     videoId: "IGp-J96BbTU",
                     channelName: "Học Toán Cùng Thầy Kenka - Tiến Sĩ Trần Hoan",
-                    estimatedTime: "29 phút"
+                    estimatedTime: "19 phút"
                 ),
             ]
         case (8, 1):

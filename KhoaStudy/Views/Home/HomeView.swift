@@ -6,12 +6,42 @@ struct HomeView: View {
     var onNavigateToPractice: (() -> Void)? = nil
     var onOpenAIChat: (() -> Void)? = nil
     
-    @State private var showingTheorySheet: Bool = false
-    @State private var showingExerciseSheet: Bool = false
+    @State private var showingTheory: Bool = false
+    @State private var showingExercise: Bool = false
     @State private var showingFocusSheet: Bool = false
     @State private var showingExamSheet: Bool = false
     
     var body: some View {
+        ZStack {
+            if showingTheory {
+                TheoryStudyView(onBackToHome: {
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        showingTheory = false
+                    }
+                })
+                .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing)))
+            } else if showingExercise {
+                ExercisePracticeView(onBackToHome: {
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        showingExercise = false
+                    }
+                })
+                .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing)))
+            } else {
+                homeDashboardView
+                    .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
+            }
+        }
+        .fullScreenCover(isPresented: $showingFocusSheet) {
+            FocusLockView()
+        }
+        .fullScreenCover(isPresented: $showingExamSheet) {
+            ExamListView(curriculum: CurriculumStore.shared.allCurriculums.first)
+        }
+    }
+    
+    // MARK: - Home Dashboard Content
+    private var homeDashboardView: some View {
         ZStack {
             // Full-bleed background color 100% covering battery bar, notch & home indicator
             Color(hex: "#F8FAF9")
@@ -37,18 +67,6 @@ struct HomeView: View {
                 }
                 .padding(.horizontal, 16)
             }
-        }
-        .fullScreenCover(isPresented: $showingTheorySheet) {
-            TheoryStudyView()
-        }
-        .fullScreenCover(isPresented: $showingExerciseSheet) {
-            ExercisePracticeView()
-        }
-        .fullScreenCover(isPresented: $showingFocusSheet) {
-            FocusLockView()
-        }
-        .fullScreenCover(isPresented: $showingExamSheet) {
-            ExamListView(curriculum: CurriculumStore.shared.allCurriculums.first)
         }
     }
     
@@ -92,7 +110,9 @@ struct HomeView: View {
                 if let onNavigateToTheory = onNavigateToTheory {
                     onNavigateToTheory()
                 } else {
-                    showingTheorySheet = true
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        showingTheory = true
+                    }
                 }
             }) {
                 VStack(alignment: .leading, spacing: 8) {
@@ -141,7 +161,9 @@ struct HomeView: View {
                     if let onNavigateToPractice = onNavigateToPractice {
                         onNavigateToPractice()
                     } else {
-                        showingExerciseSheet = true
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            showingExercise = true
+                        }
                     }
                 }) {
                     HStack(alignment: .center, spacing: 8) {

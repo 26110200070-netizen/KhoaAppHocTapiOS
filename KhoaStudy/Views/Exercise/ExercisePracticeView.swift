@@ -44,11 +44,15 @@ struct ExercisePracticeView: View {
         "Toán", "Vật lí", "Hóa học", "Sinh học", "Tiếng Anh", "Lịch sử", "Địa lí"
     ]
     
-    public init() {}
+    var onBackToHome: (() -> Void)? = nil
+    
+    public init(onBackToHome: (() -> Void)? = nil) {
+        self.onBackToHome = onBackToHome
+    }
     
     public var body: some View {
         ZStack {
-            AppTheme.background.ignoresSafeArea()
+            Color.white.ignoresSafeArea()
             
             if isGenerating {
                 generatingAILoadingView
@@ -81,270 +85,267 @@ struct ExercisePracticeView: View {
     // =====================================================================
     private var examSetupView: some View {
         VStack(spacing: 0) {
-            // Custom Top Bar with Back Button
-            HStack {
-                Button(action: { dismiss() }) {
+            // Custom Top Bar with Back to Home Button
+            HStack(alignment: .center) {
+                Button(action: {
+                    if let onBack = onBackToHome {
+                        onBack()
+                    } else {
+                        dismiss()
+                    }
+                }) {
                     HStack(spacing: 6) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 16, weight: .bold))
-                        Text("Quay về")
-                            .font(.system(size: 15, weight: .semibold))
+                            .font(.system(size: 15, weight: .bold))
+                        Text("Trang Chủ")
+                            .font(.system(size: 14, weight: .semibold))
                     }
                     .foregroundColor(AppTheme.primaryDark)
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 12)
-                    .background(Color.white)
-                    .clipShape(Capsule())
-                    .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
                 }
                 
                 Spacer()
                 
-                Text("Luyện Bài Tập AI")
-                    .font(.system(size: 17, weight: .bold, design: .rounded))
-                    .foregroundColor(Color(hex: "#111827"))
+                VStack(spacing: 2) {
+                    Text("Luyện Bài Tập AI")
+                        .font(.system(size: 17, weight: .bold, design: .rounded))
+                        .foregroundColor(Color(hex: "#111827"))
+                    Text("\(selectedSubject) • Lớp \(selectedGrade) (HK\(selectedSemester))")
+                        .font(.caption2)
+                        .foregroundColor(Color(hex: "#6B7280"))
+                }
                 
                 Spacer()
                 
-                // Placeholder to balance title
-                Color.clear.frame(width: 80, height: 36)
+                // Badge đề 2026
+                HStack(spacing: 4) {
+                    Circle()
+                        .fill(Color(hex: "#10B981"))
+                        .frame(width: 6, height: 6)
+                    Text("Đề 2026")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundColor(Color(hex: "#059669"))
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Capsule().fill(Color(hex: "#D1FAE5")))
             }
             .padding(.horizontal, 16)
-            .padding(.top, 14)
-            .padding(.bottom, 10)
+            .padding(.vertical, 10)
+            .background(Color.white)
+            .overlay(Divider(), alignment: .bottom)
             
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 18) {
-                    // Header Banner with Mascot Art & 2026 Web Search Badge
-                    VStack(alignment: .leading, spacing: 10) {
-                        HStack(spacing: 12) {
-                            Image("ChibiPractice")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 72, height: 72)
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Tạo Đề Thi Theo Yêu Cầu")
-                                    .font(.system(size: 17, weight: .bold, design: .rounded))
-                                    .foregroundColor(Color(hex: "#111827"))
-                                Text("Shimy tra cứu dữ liệu mới nhất 2026 của Bộ GD&ĐT để biên soạn đề chuẩn xác, không trùng lặp.")
-                                    .font(.caption)
-                                    .foregroundColor(AppTheme.textSecondary)
-                            }
-                        }
+                VStack(alignment: .leading, spacing: 18) {
+                    // Header Banner with Chibi Practice Mascot (Flat, borderless)
+                    HStack(spacing: 12) {
+                        Image("ChibiPractice")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 64, height: 64)
                         
-                        // 2026 Web Search Grounding Status Pill
-                        HStack(spacing: 6) {
-                            Image(systemName: "globe.asia.australia.fill")
-                                .font(.system(size: 11, weight: .bold))
-                                .foregroundColor(Color(hex: "#059669"))
-                            Text("Web Search 2026: Bám sát đề minh họa & GDPT mới (KNTT, Cánh Diều, CTST)")
-                                .font(.system(size: 11, weight: .semibold))
-                                .foregroundColor(Color(hex: "#065F46"))
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Tạo Đề Thi Theo Yêu Cầu")
+                                .font(.system(size: 16, weight: .bold, design: .rounded))
+                                .foregroundColor(Color(hex: "#111827"))
+                            Text("Shimy tra cứu dữ liệu mới nhất 2026 của Bộ GD&ĐT để biên soạn đề chuẩn xác, không trùng lặp.")
+                                .font(.caption)
+                                .foregroundColor(AppTheme.textSecondary)
                         }
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color(hex: "#D1FAE5"))
-                        )
                     }
-                    .padding(14)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(
-                        RoundedRectangle(cornerRadius: 22, style: .continuous)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
-                    )
+                    .padding(.horizontal, 16)
+                    .padding(.top, 10)
                     
-                    // 1. Grade (Lớp 6 - 12) & Semester
-                    VStack(alignment: .leading, spacing: 10) {
-                        Label("1. Chọn Lớp Học & Học Kỳ", systemImage: "graduationcap.fill")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(Color(hex: "#111827"))
+                    // 1. Grade (Lớp 6 - 12)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("LỚP HỌC")
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundColor(Color(hex: "#9CA3AF"))
+                            .padding(.horizontal, 16)
                         
-                        // Grade Horizontal Picker
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 8) {
                                 ForEach(6...12, id: \.self) { g in
                                     let isSelected = (selectedGrade == g)
-                                    Button(action: { selectedGrade = g }) {
+                                    Button(action: {
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
+                                            selectedGrade = g
+                                        }
+                                    }) {
                                         Text("Lớp \(g)")
                                             .font(.system(size: 13, weight: .bold))
-                                            .foregroundColor(isSelected ? .white : AppTheme.textPrimary)
-                                            .padding(.horizontal, 14)
+                                            .foregroundColor(isSelected ? .white : Color(hex: "#374151"))
+                                            .padding(.horizontal, 16)
                                             .padding(.vertical, 8)
                                             .background(
-                                                RoundedRectangle(cornerRadius: 14)
+                                                Capsule()
                                                     .fill(isSelected ? AppTheme.primaryDark : Color(hex: "#F3F4F6"))
                                             )
                                     }
                                 }
                             }
+                            .padding(.horizontal, 16)
                         }
+                    }
+                    
+                    // 2. Semester & Subject
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("HỌC KỲ & MÔN HỌC")
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundColor(Color(hex: "#9CA3AF"))
+                            .padding(.horizontal, 16)
                         
-                        // Semester Picker (Học kỳ 1 & 2)
-                        HStack(spacing: 10) {
+                        HStack(spacing: 8) {
                             ForEach([1, 2], id: \.self) { sem in
                                 let isSelected = (selectedSemester == sem)
-                                Button(action: { selectedSemester = sem }) {
-                                    HStack {
-                                        Image(systemName: sem == 1 ? "1.circle.fill" : "2.circle.fill")
-                                        Text("Học Kỳ \(sem)")
-                                            .fontWeight(.bold)
+                                Button(action: {
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
+                                        selectedSemester = sem
                                     }
-                                    .font(.system(size: 13))
-                                    .foregroundColor(isSelected ? .white : AppTheme.textPrimary)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 10)
+                                }) {
+                                    HStack(spacing: 4) {
+                                        Image(systemName: sem == 1 ? "1.circle.fill" : "2.circle.fill")
+                                        Text("Học kỳ \(sem)")
+                                    }
+                                    .font(.system(size: 12, weight: .bold))
+                                    .foregroundColor(isSelected ? .white : Color(hex: "#374151"))
+                                    .padding(.horizontal, 14)
+                                    .padding(.vertical, 8)
                                     .background(
-                                        RoundedRectangle(cornerRadius: 14)
+                                        Capsule()
                                             .fill(isSelected ? AppTheme.primaryMint : Color(hex: "#F3F4F6"))
                                     )
                                 }
                             }
                         }
-                    }
-                    .padding(16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 22, style: .continuous)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
-                    )
-                    
-                    // 2. Subject Selection
-                    VStack(alignment: .leading, spacing: 10) {
-                        Label("2. Chọn Môn Học", systemImage: "book.fill")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(Color(hex: "#111827"))
+                        .padding(.horizontal, 16)
                         
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 95), spacing: 8)], spacing: 8) {
-                            ForEach(subjectList, id: \.self) { subj in
-                                let isSelected = (selectedSubject == subj)
-                                Button(action: { selectedSubject = subj }) {
-                                    Text(subj)
-                                        .font(.system(size: 13, weight: .bold))
-                                        .foregroundColor(isSelected ? .white : AppTheme.textPrimary)
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.vertical, 10)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 14)
-                                                .fill(isSelected ? AppTheme.primaryMint : Color(hex: "#F3F4F6"))
-                                        )
+                        // Subject horizontal scroll
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8) {
+                                ForEach(subjectList, id: \.self) { subj in
+                                    let isSelected = (selectedSubject == subj)
+                                    Button(action: {
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
+                                            selectedSubject = subj
+                                        }
+                                    }) {
+                                        Text(subj)
+                                            .font(.system(size: 12, weight: .bold))
+                                            .foregroundColor(isSelected ? .white : Color(hex: "#4B5563"))
+                                            .padding(.horizontal, 14)
+                                            .padding(.vertical, 7)
+                                            .background(
+                                                Capsule()
+                                                    .fill(isSelected ? AppTheme.primaryDark : Color(hex: "#F3F4F6"))
+                                            )
+                                    }
                                 }
                             }
+                            .padding(.horizontal, 16)
                         }
                     }
-                    .padding(16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 22, style: .continuous)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
-                    )
                     
-                    // 3. Focus Topic Input (Người dùng nhập kiến thức cần ôn)
-                    VStack(alignment: .leading, spacing: 10) {
-                        Label("3. Nhập Kiến Thức Bạn Cần Ôn Tập", systemImage: "pencil.and.outline")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(Color(hex: "#111827"))
+                    // 3. Focus Topic Input (Chủ đề cần ôn)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("CHỦ ĐỀ CẦN ÔN TẬP")
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundColor(Color(hex: "#9CA3AF"))
+                            .padding(.horizontal, 16)
                         
-                        Text("AI sẽ tập trung ra câu hỏi bám sát chủ đề bạn yêu cầu:")
-                            .font(.caption2)
-                            .foregroundColor(AppTheme.textSecondary)
-                        
-                        ZStack(alignment: .topLeading) {
-                            if focusTopicInput.isEmpty {
-                                Text("Nhập nội dung bạn muốn ôn (ví dụ: Cực trị hàm số, Dao động điều hòa, Axit-Bazơ, Thì quá khứ hoàn thành, Cuộc kháng chiến chống Pháp...)")
-                                    .font(.system(size: 13))
-                                    .foregroundColor(AppTheme.textMuted)
-                                    .padding(.horizontal, 14)
-                                    .padding(.vertical, 12)
-                            }
+                        HStack(alignment: .top, spacing: 10) {
+                            Image(systemName: "magnifyingglass")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(Color(hex: "#9CA3AF"))
+                                .padding(.top, 4)
                             
-                            TextEditor(text: $focusTopicInput)
-                                .font(.system(size: 14))
-                                .frame(minHeight: 85)
-                                .padding(8)
-                                .background(Color.clear)
+                            ZStack(alignment: .topLeading) {
+                                if focusTopicInput.isEmpty {
+                                    Text("Nhập nội dung cần ôn (ví dụ: Tập hợp và số tự nhiên, Cực trị hàm số, Dao động điều hòa...) hoặc để trống để AI bao quát toàn bộ học kỳ")
+                                        .font(.system(size: 13))
+                                        .foregroundColor(Color(hex: "#9CA3AF"))
+                                }
+                                
+                                TextEditor(text: $focusTopicInput)
+                                    .font(.system(size: 13))
+                                    .frame(minHeight: 56)
+                                    .background(Color.clear)
+                            }
                         }
+                        .padding(12)
                         .background(
-                            RoundedRectangle(cornerRadius: 14)
+                            RoundedRectangle(cornerRadius: 16)
                                 .fill(Color(hex: "#F9FAFB"))
                                 .overlay(
-                                    RoundedRectangle(cornerRadius: 14)
+                                    RoundedRectangle(cornerRadius: 16)
                                         .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
                                 )
                         )
+                        .padding(.horizontal, 16)
                     }
-                    .padding(16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 22, style: .continuous)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
-                    )
                     
-                    // 4. Question Distribution (Min/Max Constraints)
-                    VStack(alignment: .leading, spacing: 14) {
+                    // 4. Cấu trúc đề thi
+                    VStack(alignment: .leading, spacing: 10) {
                         HStack {
-                            Label("4. Cấu Trúc Đề Thi", systemImage: "slider.horizontal.3")
-                                .font(.system(size: 15, weight: .bold))
-                                .foregroundColor(Color(hex: "#111827"))
+                            Text("CẤU TRÚC ĐỀ THI")
+                                .font(.system(size: 11, weight: .bold))
+                                .foregroundColor(Color(hex: "#9CA3AF"))
+                            
                             Spacer()
+                            
                             Text("Tổng: \(mcCount + tfCount + saCount) câu")
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundColor(AppTheme.primaryMint)
+                                .font(.system(size: 12, weight: .bold))
+                                .foregroundColor(AppTheme.primaryDark)
                                 .padding(.horizontal, 10)
-                                .padding(.vertical, 4)
+                                .padding(.vertical, 3)
                                 .background(Capsule().fill(AppTheme.primaryLight))
                         }
+                        .padding(.horizontal, 16)
                         
-                        // Multiple Choice: min 8, max 20
-                        stepperRow(
-                            title: "Trắc nghiệm 4 lựa chọn (A, B, C, D)",
-                            value: $mcCount,
-                            range: 8...20,
-                            desc: "Tối thiểu 8 câu • Tối đa 20 câu"
+                        VStack(spacing: 12) {
+                            stepperRow(
+                                title: "Trắc nghiệm 4 lựa chọn (A, B, C, D)",
+                                value: $mcCount,
+                                range: 8...20,
+                                desc: "Tối thiểu 8 câu • Tối đa 20 câu"
+                            )
+                            
+                            Divider()
+                            
+                            stepperRow(
+                                title: "Câu hỏi Đúng / Sai (4 ý a, b, c, d)",
+                                value: $tfCount,
+                                range: 4...7,
+                                desc: "Tối thiểu 4 câu • Tối đa 7 câu"
+                            )
+                            
+                            Divider()
+                            
+                            stepperRow(
+                                title: "Câu hỏi Trả lời ngắn (Điền số)",
+                                value: $saCount,
+                                range: 2...6,
+                                desc: "Tối thiểu 2 câu • Tối đa 6 câu"
+                            )
+                        }
+                        .padding(14)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color(hex: "#F9FAFB"))
                         )
-                        
-                        Divider()
-                        
-                        // True / False: min 4, max 7
-                        stepperRow(
-                            title: "Câu hỏi Đúng / Sai (Mỗi câu 4 ý a,b,c,d)",
-                            value: $tfCount,
-                            range: 4...7,
-                            desc: "Tối thiểu 4 câu • Tối đa 7 câu"
-                        )
-                        
-                        Divider()
-                        
-                        // Short Answer: min 2, max 6
-                        stepperRow(
-                            title: "Câu hỏi Trả lời ngắn (Điền số)",
-                            value: $saCount,
-                            range: 2...6,
-                            desc: "Tối thiểu 2 câu • Tối đa 6 câu"
-                        )
+                        .padding(.horizontal, 16)
                     }
-                    .padding(16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 22, style: .continuous)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
-                    )
                     
                     // 5. Action Button: TẠO ĐỀ THI
                     Button(action: { startAIGeneration() }) {
                         HStack(spacing: 8) {
                             Image(systemName: "sparkles")
-                                .font(.system(size: 18, weight: .bold))
-                            Text("Tạo Đề Thi Với AI")
+                                .font(.system(size: 17, weight: .bold))
+                            Text("Bắt Đầu Tạo Đề Thi Với AI")
                                 .font(.system(size: 16, weight: .bold))
                         }
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
+                        .padding(.vertical, 15)
                         .background(
                             LinearGradient(
                                 colors: [AppTheme.primaryMint, AppTheme.primaryDark],
@@ -352,13 +353,15 @@ struct ExercisePracticeView: View {
                                 endPoint: .bottomTrailing
                             )
                         )
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .shadow(color: AppTheme.primaryMint.opacity(0.35), radius: 10, x: 0, y: 5)
+                        .clipShape(Capsule())
+                        .shadow(color: AppTheme.primaryMint.opacity(0.35), radius: 8, x: 0, y: 4)
                     }
+                    .padding(.horizontal, 16)
                     .padding(.top, 4)
-                    .padding(.bottom, 30)
+                    
+                    // Khoảng trống dưới cùng tránh bị che bởi thanh tab bar
+                    Spacer().frame(height: 120)
                 }
-                .padding(.horizontal, 16)
             }
         }
     }

@@ -2,15 +2,11 @@ import SwiftUI
 
 enum MainTab: Int, CaseIterable {
     case home = 0
-    case theory = 1
-    case practice = 2
-    case account = 3
+    case account = 1
     
     var title: String {
         switch self {
         case .home: return "Trang Chủ"
-        case .theory: return "Lý Thuyết"
-        case .practice: return "Luyện Tập"
         case .account: return "Tài Khoản"
         }
     }
@@ -18,8 +14,6 @@ enum MainTab: Int, CaseIterable {
     var iconName: String {
         switch self {
         case .home: return "house.fill"
-        case .theory: return "book.fill"
-        case .practice: return "pencil.and.list.clipboard"
         case .account: return "person.crop.circle.fill"
         }
     }
@@ -39,55 +33,33 @@ struct MainRootView: View {
                 // 2. Mandatory Login Screen
                 LoginView()
             } else {
-                // 3. Main Application with Full-Width Bottom Bar + Fullscreen AI Chat
+                // 3. Main Application with 3-item Bottom Bar (Trang Chủ • Shimy • Tài Khoản)
                 ZStack(alignment: .bottom) {
                     TabView(selection: $currentTab) {
                         HomeView(
-                            onNavigateToTheory: {
-                                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                                    currentTab = .theory
-                                }
-                            },
-                            onNavigateToPractice: {
-                                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                                    currentTab = .practice
-                                }
-                            },
                             onOpenAIChat: {
                                 showingAIChatFullScreen = true
                             }
                         )
                         .tag(MainTab.home)
                         
-                        TheoryStudyView(onBackToHome: {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                                currentTab = .home
-                            }
-                        })
-                        .tag(MainTab.theory)
-                        
-                        ExercisePracticeView()
-                            .tag(MainTab.practice)
-                        
                         AccountView()
                             .tag(MainTab.account)
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
-                    // Do NOT ignore top safe area! This preserves top space for battery & clock.
                     
-                    // Full-Width Bottom Bar across horizontal screen
+                    // Full-Width Bottom Bar with Raised Center Dome (Trang Chủ - Shimy - Tài Khoản)
                     customFullWidthTabBar
                 }
                 .ignoresSafeArea(edges: .bottom)
                 .fullScreenCover(isPresented: $showingAIChatFullScreen) {
-                    // Dedicated Fullscreen AI Chat (NO TAB BAR OVERLAP, Back < works!)
                     AIChatView()
                 }
             }
         }
     }
     
-    // MARK: - Full-Width Bottom Bar Menu with Raised Center Dome (Khung trồi tròn chuẩn icon Shimy)
+    // MARK: - Full-Width Bottom Bar (Trang Chủ - Shimy - Tài Khoản)
     private var customFullWidthTabBar: some View {
         ZStack(alignment: .top) {
             // Background with Raised Center Dome Shape
@@ -98,24 +70,39 @@ struct MainRootView: View {
             
             HStack(spacing: 0) {
                 // Tab 1: Trang Chủ
-                tabBarItem(tab: .home)
+                Button(action: {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                        currentTab = .home
+                    }
+                }) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "house.fill")
+                            .font(.system(size: 22, weight: currentTab == .home ? .bold : .medium))
+                            .foregroundColor(currentTab == .home ? AppTheme.primaryDark : AppTheme.textMuted)
+                        
+                        Text("Trang Chủ")
+                            .font(.system(size: 11, weight: currentTab == .home ? .semibold : .regular))
+                            .foregroundColor(currentTab == .home ? AppTheme.primaryDark : AppTheme.textMuted)
+                        
+                        Circle()
+                            .fill(currentTab == .home ? AppTheme.primaryMint : Color.clear)
+                            .frame(width: 4, height: 4)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 30)
+                }
                 
-                // Tab 2: Lý Thuyết
-                tabBarItem(tab: .theory)
-                
-                // Center Button: Shimy (Nằm vừa vặn, bo tròn ôm khít icon Shimy!)
+                // Center Button: Shimy (Nằm vừa vặn trong khung vòm bo tròn)
                 Button(action: {
                     showingAIChatFullScreen = true
                 }) {
                     VStack(spacing: 3) {
                         ZStack {
-                            // Viền trắng bảo vệ ôm tròn
                             Circle()
                                 .fill(Color.white)
                                 .frame(width: 58, height: 58)
                                 .shadow(color: AppTheme.primaryMint.opacity(0.3), radius: 8, x: 0, y: 3)
                             
-                            // Shimy Avatar Circle
                             Circle()
                                 .fill(
                                     LinearGradient(
@@ -126,7 +113,6 @@ struct MainRootView: View {
                                 )
                                 .frame(width: 52, height: 52)
                             
-                            // Sparkles Icon
                             Image(systemName: "sparkles")
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.white)
@@ -137,42 +123,35 @@ struct MainRootView: View {
                             .foregroundColor(AppTheme.primaryDark)
                     }
                     .frame(maxWidth: .infinity)
-                    .offset(y: 4) // Nằm trọn vẹn, cân đối bên trong khung trồi tròn
+                    .offset(y: 4)
                 }
                 
-                // Tab 3: Luyện Tập
-                tabBarItem(tab: .practice)
-                
-                // Tab 4: Tài Khoản
-                tabBarItem(tab: .account)
+                // Tab 2: Tài Khoản
+                Button(action: {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                        currentTab = .account
+                    }
+                }) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "person.crop.circle.fill")
+                            .font(.system(size: 22, weight: currentTab == .account ? .bold : .medium))
+                            .foregroundColor(currentTab == .account ? AppTheme.primaryDark : AppTheme.textMuted)
+                        
+                        Text("Tài Khoản")
+                            .font(.system(size: 11, weight: currentTab == .account ? .semibold : .regular))
+                            .foregroundColor(currentTab == .account ? AppTheme.primaryDark : AppTheme.textMuted)
+                        
+                        Circle()
+                            .fill(currentTab == .account ? AppTheme.primaryMint : Color.clear)
+                            .frame(width: 4, height: 4)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 30)
+                }
             }
-            .padding(.horizontal, 8)
+            .padding(.horizontal, 16)
         }
         .frame(maxWidth: .infinity)
-    }
-    
-    private func tabBarItem(tab: MainTab) -> some View {
-        Button(action: {
-            withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                currentTab = tab
-            }
-        }) {
-            VStack(spacing: 4) {
-                Image(systemName: tab.iconName)
-                    .font(.system(size: 20, weight: currentTab == tab ? .bold : .medium))
-                    .foregroundColor(currentTab == tab ? AppTheme.primaryDark : AppTheme.textMuted)
-                
-                Text(tab.title)
-                    .font(.system(size: 10, weight: currentTab == tab ? .bold : .regular))
-                    .foregroundColor(currentTab == tab ? AppTheme.primaryDark : AppTheme.textMuted)
-                
-                Circle()
-                    .fill(currentTab == tab ? AppTheme.primaryMint : Color.clear)
-                    .frame(width: 4, height: 4)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.top, 28)
-        }
     }
 }
 
