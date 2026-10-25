@@ -179,3 +179,115 @@ struct StudyHistoryView: View {
         }
     }
 }
+
+// MARK: - Swipeable History Row (Vuốt Trái Để Xóa Chuẩn iOS)
+struct SwipeableHistoryRow: View {
+    let item: StudyHistoryItem
+    let onSelect: () -> Void
+    let onDelete: () -> Void
+    
+    @State private var offset: CGFloat = 0
+    @State private var isSwiped: Bool = false
+    
+    private let buttonWidth: CGFloat = 72
+    
+    var body: some View {
+        ZStack(alignment: .trailing) {
+            // Nút Xóa đỏ nằm phía dưới bên phải
+            HStack {
+                Spacer()
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        onDelete()
+                    }
+                }) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "trash.fill")
+                            .font(.system(size: 16, weight: .bold))
+                        Text("Xóa")
+                            .font(.system(size: 11, weight: .semibold))
+                    }
+                    .foregroundColor(.white)
+                    .frame(width: buttonWidth)
+                    .frame(maxHeight: .infinity)
+                    .background(Color(hex: "#EF4444"))
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                }
+            }
+            
+            // Thẻ nội dung chính
+            Button(action: {
+                if isSwiped {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        offset = 0
+                        isSwiped = false
+                    }
+                } else {
+                    onSelect()
+                }
+            }) {
+                HStack(spacing: 12) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(Color(hex: "#ECFDF5"))
+                            .frame(width: 38, height: 38)
+                        Image(systemName: "book.closed.fill")
+                            .font(.system(size: 16))
+                            .foregroundColor(AppTheme.primaryMint)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(item.topicItem.title)
+                            .font(.system(size: 15, weight: .bold, design: .rounded))
+                            .foregroundColor(Color(hex: "#111827"))
+                            .lineLimit(2)
+                            .multilineTextAlignment(.leading)
+                        
+                        Text("Lớp \(item.topicItem.grade) - Học Kì \(item.topicItem.semester) - Môn: \(item.topicItem.subject)")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(AppTheme.textSecondary)
+                    }
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(Color.gray.opacity(0.4))
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .fill(Color.white)
+                        .shadow(color: Color.black.opacity(0.03), radius: 4, x: 0, y: 1)
+                )
+            }
+            .buttonStyle(.plain)
+            .offset(x: offset)
+            .gesture(
+                DragGesture(minimumDistance: 15)
+                    .onChanged { value in
+                        if value.translation.width < 0 {
+                            // Vuốt sang trái
+                            let drag = value.translation.width + (isSwiped ? -buttonWidth : 0)
+                            offset = max(-buttonWidth - 15, drag)
+                        } else if isSwiped && value.translation.width > 0 {
+                            // Kéo ngược lại về phải
+                            offset = min(0, -buttonWidth + value.translation.width)
+                        }
+                    }
+                    .onEnded { value in
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
+                            if value.translation.width < -30 {
+                                offset = -buttonWidth
+                                isSwiped = true
+                            } else {
+                                offset = 0
+                                isSwiped = false
+                            }
+                        }
+                    }
+            )
+        }
+    }
+}
