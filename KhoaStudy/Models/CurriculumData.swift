@@ -35,7 +35,6 @@ enum SubjectCategory: String, CaseIterable, Identifiable, Codable {
     case chemistry = "Hóa Học"
     case biology = "Sinh Học"
     case literature = "Ngữ Văn"
-    case english = "Tiếng Anh"
     case history = "Lịch Sử"
     case geography = "Địa Lý"
     
@@ -48,7 +47,6 @@ enum SubjectCategory: String, CaseIterable, Identifiable, Codable {
         case .chemistry: return "flame.fill"
         case .biology: return "leaf.fill"
         case .literature: return "book.closed.fill"
-        case .english: return "globe.americas.fill"
         case .history: return "hourglass"
         case .geography: return "map.fill"
         }
@@ -61,7 +59,6 @@ enum SubjectCategory: String, CaseIterable, Identifiable, Codable {
         case .chemistry: return "#F97316"
         case .biology: return "#10B981"
         case .literature: return "#EC4899"
-        case .english: return "#8B5CF6"
         case .history: return "#EAB308"
         case .geography: return "#06B6D4"
         }
@@ -364,46 +361,7 @@ class CurriculumStore {
         ]
         list.append(SubjectCurriculum(category: .physics, grade: .g12, chapters: physics12Chapters))
         
-        // 3. Tiếng Anh Lớp 12
-        let english12Chapters = [
-            Chapter(
-                order: 1,
-                title: "Unit 1: Life Stories We Admire",
-                description: "Từ vựng về tiểu sử các danh nhân và thì Quá khứ đơn vs Quá khứ tiếp diễn.",
-                lessons: [
-                    Lesson(
-                        order: 1,
-                        title: "Grammar: Past Simple vs Past Continuous",
-                        summary: "Cách dùng diễn tả hành động đang diễn ra trong quá khứ thì có hành động khác xen vào (When / While).",
-                        videoDuration: "14:10",
-                        formulas: [
-                            FormulaItem(
-                                title: "Cấu trúc với When & While",
-                                formulaText: "While + S + was/were + V-ing, S + V-ed/V2",
-                                notes: "When đi với hành động ngắn xen vào (V-ed).",
-                                badge: "Ngữ Pháp Cơ Bản"
-                            )
-                        ],
-                        examples: [],
-                        questions: [
-                            QuizQuestion(
-                                prompt: "He _______ his homework when the phone rang.",
-                                options: ["was doing", "did", "is doing", "has done"],
-                                correctIndex: 0,
-                                explanation: "Hành động đang xảy ra (was doing) thì hành động khác chen ngang (rang).",
-                                chapterName: "Unit 1: Life Stories",
-                                lessonName: "Grammar Review"
-                            )
-                        ]
-                    )
-                ],
-                midtermReviewQuestions: [],
-                finalReviewQuestions: []
-            )
-        ]
-        list.append(SubjectCurriculum(category: .english, grade: .g12, chapters: english12Chapters))
-        
-        // 4. Các khối lớp khác (Lớp 6 đến Lớp 11)
+        // 3. Các khối lớp khác (Lớp 6 đến Lớp 11)
         for g in SchoolGrade.allCases where g != .g12 {
             let cat = SubjectCategory.math
             let dummyChapters = [

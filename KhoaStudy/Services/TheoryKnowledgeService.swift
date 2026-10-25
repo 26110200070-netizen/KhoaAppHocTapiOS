@@ -14,9 +14,12 @@ class TheoryKnowledgeService {
         customQuery: String = "",
         completion: @escaping ([TheoryTopicItem]) -> Void
     ) {
-        // Lấy danh mục giáo trình chuẩn 2026: Ưu tiên bộ dữ liệu trithuctoan môn Toán do người dùng biên soạn
+        // Lấy danh mục giáo trình chuẩn 2026: Ưu tiên bộ dữ liệu trithucAI (Toán, Vật lí, Hóa học, Sinh học, Lịch sử, Địa lí)
+        let storeTopics = SubjectCurriculumStore.shared.getTopics(subject: subject, grade: grade, semester: semester)
         let standardTopics: [TheoryTopicItem]
-        if subject.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() == "toán" {
+        if !storeTopics.isEmpty {
+            standardTopics = storeTopics
+        } else if subject.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() == "toán" {
             let mathList = MathCurriculumStore.shared.getMathTopics(grade: grade, semester: semester)
             standardTopics = mathList.isEmpty ? getStandardCurriculumTopics(subject: subject, grade: grade, semester: semester) : mathList
         } else {
@@ -372,12 +375,12 @@ class TheoryKnowledgeService {
             return "Bài giảng TV • Thầy Chu Văn Biên"
         } else if s.contains("hóa") {
             return "Học Hóa Official • SGK Mới"
-        } else if s.contains("tiếng anh") {
-            return "Thầy An • Tiếng Anh THPT"
         } else if s.contains("sinh") {
             return "Chuyên Sinh THPT • Thầy Phan Khắc Nghệ"
-        } else if s.contains("lịch sử") || s.contains("địa lí") {
-            return "VietJack THPT Official"
+        } else if s.contains("lịch sử") {
+            return "Lịch Sử Cô Mai Phương • Học Mãi"
+        } else if s.contains("địa lí") || s.contains("địa lý") {
+            return "Địa Lí Cô Lê Huệ • VietJack"
         } else {
             return "Bài Giảng Điện Tử Chuẩn Bộ GD&ĐT"
         }
@@ -826,8 +829,9 @@ class TheoryKnowledgeService {
             """
         }
         
-        // 6. DEFAULT TOÁN HỌC & CÁC CHUYÊN ĐỀ KHÁC: Biên soạn tự động theo đúng khung chuẩn SGK 2026
-        let mathTopics = MathCurriculumStore.shared.getMathTopics(grade: grade, semester: semester)
+        // 6. DEFAULT CÁC MÔN HỌC & CHUYÊN ĐỀ: Biên soạn tự động theo đúng khung chuẩn SGK 2026 từ trithucAI
+        let subjectTopics = SubjectCurriculumStore.shared.getTopics(subject: subject, grade: grade, semester: semester)
+        let mathTopics = subjectTopics.isEmpty ? MathCurriculumStore.shared.getMathTopics(grade: grade, semester: semester) : subjectTopics
         let matchedTopic = mathTopics.first { $0.title.lowercased().contains(t) || t.contains($0.title.lowercased()) }
         let summaryContent = matchedTopic?.summary ?? "Chuyên đề cốt lõi thuộc chương trình \(subject) Lớp \(grade) (Học kỳ \(semester)) theo khung chuẩn SGK mới của Bộ GD&ĐT."
         

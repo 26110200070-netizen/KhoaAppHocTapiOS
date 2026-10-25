@@ -116,7 +116,7 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - 2. Banner Cards (Ảnh mới có sẵn chữ, không đè text thừa)
+    // MARK: - 2. Banner Cards (Bọc khối thống nhất bo tròn, màu trắng xám nhẹ)
     private var tammiChibiArtworkCardsSection: some View {
         HStack(alignment: .top, spacing: 10) {
             // Left Hero Card: HỌC LÍ THUYẾT SGK (Ảnh có sẵn chữ)
@@ -132,8 +132,7 @@ struct HomeView: View {
                 Image("BannerTheory")
                     .resizable()
                     .scaledToFit()
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                    .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 3)
+                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
             }
             .buttonStyle(.plain)
             
@@ -152,8 +151,7 @@ struct HomeView: View {
                     Image("BannerPractice")
                         .resizable()
                         .scaledToFit()
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                        .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 3)
+                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                 }
                 .buttonStyle(.plain)
                 
@@ -162,13 +160,22 @@ struct HomeView: View {
                     Image("BannerFocus")
                         .resizable()
                         .scaledToFit()
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                        .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 3)
+                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                 }
                 .buttonStyle(.plain)
             }
             .frame(maxWidth: .infinity)
         }
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(Color(hex: "#FAFAFC"))
+                .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 3)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+        )
     }
     
     // MARK: - 3. AI Tutor Interactive Banner with 3D Mascot

@@ -21,7 +21,7 @@ struct TheoryStudyView: View {
     @State private var selectedTopicForDetail: TheoryTopicItem? = nil
     
     let subjectList = [
-        "Toán", "Vật lí", "Hóa học", "Sinh học", "Tiếng Anh", "Lịch sử", "Địa lí"
+        "Toán", "Vật lí", "Hóa học", "Sinh học", "Lịch sử", "Địa lí"
     ]
     
     init(onBackToHome: (() -> Void)? = nil) {

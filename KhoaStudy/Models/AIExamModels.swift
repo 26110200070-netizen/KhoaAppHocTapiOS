@@ -379,7 +379,9 @@ public struct CuratedStandardExamProvider {
                 )
             ]
             
-            for i in 1...mcCount {
+            if mcCount > 0 {
+            
+                for i in 1...mcCount {
                 let item = mathMC[(i - 1) % mathMC.count]
                 mcList.append(MultipleChoiceQuestion(
                     id: i,
@@ -388,6 +390,7 @@ public struct CuratedStandardExamProvider {
                     correctIndex: item.ans,
                     explanation: item.exp
                 ))
+                }
             }
             
             let mathTF: [(ctx: String, stmts: [(id: String, s: String, t: Bool, e: String)])] = [
@@ -411,7 +414,9 @@ public struct CuratedStandardExamProvider {
                 )
             ]
             
-            for i in 1...tfCount {
+            if tfCount > 0 {
+            
+                for i in 1...tfCount {
                 let item = mathTF[(i - 1) % mathTF.count]
                 let stmts = item.stmts.map { TrueFalseStatement(id: $0.id, statement: $0.s, isCorrectTrue: $0.t, explanation: $0.e) }
                 tfList.append(TrueFalseQuestion(
@@ -419,6 +424,7 @@ public struct CuratedStandardExamProvider {
                     context: item.ctx,
                     statements: stmts
                 ))
+                }
             }
             
             let mathSA: [(q: String, ans: [String], u: String, exp: String)] = [
@@ -442,7 +448,9 @@ public struct CuratedStandardExamProvider {
                 )
             ]
             
-            for i in 1...saCount {
+            if saCount > 0 {
+            
+                for i in 1...saCount {
                 let item = mathSA[(i - 1) % mathSA.count]
                 saList.append(ShortAnswerQuestion(
                     id: i,
@@ -451,6 +459,7 @@ public struct CuratedStandardExamProvider {
                     unit: item.u.isEmpty ? nil : item.u,
                     explanation: item.exp
                 ))
+                }
             }
             
         case let s where s.contains("vật lí") || s.contains("vật lý"):
@@ -481,7 +490,9 @@ public struct CuratedStandardExamProvider {
                 )
             ]
             
-            for i in 1...mcCount {
+            if mcCount > 0 {
+            
+                for i in 1...mcCount {
                 let item = physMC[(i - 1) % physMC.count]
                 mcList.append(MultipleChoiceQuestion(
                     id: i,
@@ -490,9 +501,12 @@ public struct CuratedStandardExamProvider {
                     correctIndex: item.ans,
                     explanation: item.exp
                 ))
+                }
             }
             
-            for i in 1...tfCount {
+            if tfCount > 0 {
+            
+                for i in 1...tfCount {
                 tfList.append(TrueFalseQuestion(
                     id: i,
                     context: "Một con lắc lò xo gồm vật nặng khối lượng $m = 200$ g và lò xo có độ cứng $k = 50$ N/m dao động điều hòa trên mặt phẳng ngang không ma sát. Lấy $\\pi^2 = 10$.",
@@ -503,9 +517,12 @@ public struct CuratedStandardExamProvider {
                         TrueFalseStatement(id: "d", statement: "Chu kỳ dao động tăng khi tăng biên độ dao động.", isCorrectTrue: false, explanation: "Chu kỳ $T$ chỉ phụ thuộc $m$ và $k$, không phụ thuộc biên độ $A$.")
                     ]
                 ))
+                }
             }
             
-            for i in 1...saCount {
+            if saCount > 0 {
+            
+                for i in 1...saCount {
                 saList.append(ShortAnswerQuestion(
                     id: i,
                     question: "Câu \(i): Một sóng cơ truyền trên mặt nước có tần số $f = 50$ Hz và vận tốc truyền sóng $v = 1.5$ m/s. Bước sóng của sóng bằng bao nhiêu cm?",
@@ -513,6 +530,7 @@ public struct CuratedStandardExamProvider {
                     unit: "cm",
                     explanation: "Bước sóng $\\lambda = \\frac{v}{f} = \\frac{1.5}{50} = 0.03$ m = $3$ cm."
                 ))
+                }
             }
             
         case let s where s.contains("hóa"):
@@ -543,7 +561,9 @@ public struct CuratedStandardExamProvider {
                 )
             ]
             
-            for i in 1...mcCount {
+            if mcCount > 0 {
+            
+                for i in 1...mcCount {
                 let item = chemMC[(i - 1) % chemMC.count]
                 mcList.append(MultipleChoiceQuestion(
                     id: i,
@@ -552,9 +572,12 @@ public struct CuratedStandardExamProvider {
                     correctIndex: item.ans,
                     explanation: item.exp
                 ))
+                }
             }
             
-            for i in 1...tfCount {
+            if tfCount > 0 {
+            
+                for i in 1...tfCount {
                 tfList.append(TrueFalseQuestion(
                     id: i,
                     context: "Tiến hành thí nghiệm tráng bạc: Cho $1$ ml dung dịch $AgNO_3$ 1% vào ống nghiệm sạch, thêm từng giọt dung dịch $NH_3$ đến khi kết tủa tan hết. Sau đó thêm tiếp $1$ ml dung dịch glucozơ 1%, đun nóng nhẹ ống nghiệm.",
@@ -565,9 +588,12 @@ public struct CuratedStandardExamProvider {
                         TrueFalseStatement(id: "d", statement: "Nếu thay glucozơ bằng saccarozơ thì hiện tượng tráng bạc xảy ra tương tự.", isCorrectTrue: false, explanation: "Saccarozơ không có nhóm -CHO tự do nên không tham gia phản ứng tráng bạc.")
                     ]
                 ))
+                }
             }
             
-            for i in 1...saCount {
+            if saCount > 0 {
+            
+                for i in 1...saCount {
                 saList.append(ShortAnswerQuestion(
                     id: i,
                     question: "Câu \(i): Cho 18 gam glucozơ ($C_6H_{12}O_6$, $M = 180$) phản ứng hoàn toàn với dung dịch $AgNO_3/NH_3$ dư. Khối lượng bạc ($Ag$, $M = 108$) tối đa thu được là bao nhiêu gam?",
@@ -575,6 +601,7 @@ public struct CuratedStandardExamProvider {
                     unit: "g",
                     explanation: "$n_{glucozo} = \\frac{18}{180} = 0.1$ mol. Một phân tử glucozơ tráng bạc tạo 2 nguyên tử Ag: $n_{Ag} = 2 \\times 0.1 = 0.2$ mol. Khối lượng $m_{Ag} = 0.2 \\times 108 = 21.6$ gam."
                 ))
+                }
             }
             
         default: // English, Biology, History, Geography, Literature
@@ -592,10 +619,10 @@ public struct CuratedStandardExamProvider {
                     "Bộ nhiễm sắc thể lưỡng bội của loài người là $2n = 46$, gồm 22 cặp NST thường và 1 cặp NST giới tính."
                 ),
                 (
-                    "Chọn câu đúng trong tiếng Anh: 'If I ______ you, I would study harder for the national exam.'",
-                    ["were", "was", "am", "have been"],
+                    "Địa hình nước ta có đặc điểm cơ bản nào sau đây?",
+                    ["Đồi núi chiếm 3/4 diện tích lãnh thổ", "Đồng bằng chiếm 3/4 diện tích lãnh thổ", "Chủ yếu là địa hình cao nguyên hiểm trở", "Không chịu tác động của con người"],
                     0,
-                    "Cấu trúc câu điều kiện loại 2 diễn tả điều không có thật ở hiện tại: If + S + were..."
+                    "Đặc điểm chung của địa hình Việt Nam là đồi núi chiếm 3/4 diện tích lãnh thổ, nhưng chủ yếu là đồi núi thấp."
                 ),
                 (
                     "Cách mạng tháng Tám năm 1945 của Việt Nam thành công đã dẫn tới sự kiện lịch sử trọng đại nào sau đó?",
@@ -605,7 +632,9 @@ public struct CuratedStandardExamProvider {
                 )
             ]
             
-            for i in 1...mcCount {
+            if mcCount > 0 {
+            
+                for i in 1...mcCount {
                 let item = generalMC[(i - 1) % generalMC.count]
                 mcList.append(MultipleChoiceQuestion(
                     id: i,
@@ -614,9 +643,12 @@ public struct CuratedStandardExamProvider {
                     correctIndex: item.ans,
                     explanation: item.exp
                 ))
+                }
             }
             
-            for i in 1...tfCount {
+            if tfCount > 0 {
+            
+                for i in 1...tfCount {
                 tfList.append(TrueFalseQuestion(
                     id: i,
                     context: "Dựa vào chuẩn kiến thức chuyên đề '\(topicDisplay)' môn \(subject) Lớp \(grade):",
@@ -627,9 +659,12 @@ public struct CuratedStandardExamProvider {
                         TrueFalseStatement(id: "d", statement: "Nội dung học tập này được tích hợp xuyên suốt các cấp học.", isCorrectTrue: true, explanation: "Đảm bảo tính liên thông và nâng cao theo chuẩn đổi mới.")
                     ]
                 ))
+                }
             }
             
-            for i in 1...saCount {
+            if saCount > 0 {
+            
+                for i in 1...saCount {
                 saList.append(ShortAnswerQuestion(
                     id: i,
                     question: "Câu \(i): Số lượng nhiễm sắc thể trong bộ lưỡng bội (2n) của người bình thường là bao nhiêu?",
@@ -637,6 +672,7 @@ public struct CuratedStandardExamProvider {
                     unit: "chiếc",
                     explanation: "Bộ NST của người gồm 46 chiếc, tạo thành 23 cặp."
                 ))
+                }
             }
         }
         

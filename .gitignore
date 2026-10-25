@@ -1,6 +1,7 @@
 # Secrets & Personal Tokens
 tokengithub
 *.env
+scratch/
 
 # External Tools & Submodules
 xtool/

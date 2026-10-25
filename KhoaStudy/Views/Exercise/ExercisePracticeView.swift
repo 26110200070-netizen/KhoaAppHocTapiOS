@@ -41,12 +41,39 @@ struct ExercisePracticeView: View {
     @State private var totalSubItems: Int = 0
     
     let subjectList = [
-        "Toán", "Vật lí", "Hóa học", "Sinh học", "Tiếng Anh", "Lịch sử", "Địa lí"
+        "Toán", "Vật lí", "Hóa học", "Sinh học", "Lịch sử", "Địa lí"
     ]
     
+    // Configurable Initializer Parameters
+    private var initialSubject: String?
+    private var initialGrade: Int?
+    private var initialSemester: Int?
+    private var initialTopic: String?
+    private var initialMcCount: Int?
+    private var initialTfCount: Int?
+    private var initialSaCount: Int?
+    private var autoStart: Bool = false
     var onBackToHome: (() -> Void)? = nil
     
-    public init(onBackToHome: (() -> Void)? = nil) {
+    public init(
+        initialSubject: String? = nil,
+        initialGrade: Int? = nil,
+        initialSemester: Int? = nil,
+        initialTopic: String? = nil,
+        initialMcCount: Int? = nil,
+        initialTfCount: Int? = nil,
+        initialSaCount: Int? = nil,
+        autoStart: Bool = false,
+        onBackToHome: (() -> Void)? = nil
+    ) {
+        self.initialSubject = initialSubject
+        self.initialGrade = initialGrade
+        self.initialSemester = initialSemester
+        self.initialTopic = initialTopic
+        self.initialMcCount = initialMcCount
+        self.initialTfCount = initialTfCount
+        self.initialSaCount = initialSaCount
+        self.autoStart = autoStart
         self.onBackToHome = onBackToHome
     }
     
@@ -65,7 +92,32 @@ struct ExercisePracticeView: View {
             }
         }
         .onAppear {
-            selectedGrade = appState.currentUser.grade
+            if let g = initialGrade {
+                selectedGrade = g
+            } else {
+                selectedGrade = appState.currentUser.grade
+            }
+            if let s = initialSemester {
+                selectedSemester = s
+            }
+            if let subj = initialSubject {
+                selectedSubject = subj
+            }
+            if let top = initialTopic {
+                focusTopicInput = top
+            }
+            if let mc = initialMcCount {
+                mcCount = mc
+            }
+            if let tf = initialTfCount {
+                tfCount = tf
+            }
+            if let sa = initialSaCount {
+                saCount = sa
+            }
+            if autoStart && !isExamActive && !isGenerating && activeExam == nil {
+                startAIGeneration()
+            }
         }
         .alert("Thoát Bài Thi?", isPresented: $showingQuitConfirmation) {
             Button("Ở Lại Làm Tiếp", role: .cancel) {}
@@ -534,9 +586,15 @@ struct ExercisePracticeView: View {
             
             // Part Switcher Tabs (Trắc nghiệm / Đúng Sai / Trả lời ngắn)
             HStack(spacing: 8) {
-                tabButton(title: "Trắc Nghiệm (\(activeExam?.multipleChoice.count ?? 0))", partIndex: 0)
-                tabButton(title: "Đúng / Sai (\(activeExam?.trueFalse.count ?? 0))", partIndex: 1)
-                tabButton(title: "Trả Lời Ngắn (\(activeExam?.shortAnswer.count ?? 0))", partIndex: 2)
+                if (activeExam?.multipleChoice.count ?? 0) > 0 {
+                    tabButton(title: "Trắc Nghiệm (\(activeExam?.multipleChoice.count ?? 0))", partIndex: 0)
+                }
+                if (activeExam?.trueFalse.count ?? 0) > 0 {
+                    tabButton(title: "Đúng / Sai (\(activeExam?.trueFalse.count ?? 0))", partIndex: 1)
+                }
+                if (activeExam?.shortAnswer.count ?? 0) > 0 {
+                    tabButton(title: "Trả Lời Ngắn (\(activeExam?.shortAnswer.count ?? 0))", partIndex: 2)
+                }
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 8)
@@ -1183,7 +1241,13 @@ struct ExercisePracticeView: View {
                 self.studentSAAnswers.removeAll()
                 self.isExamActive = true
                 self.isSubmitted = false
-                self.activeExamPart = 0
+                if !(exam.multipleChoice.isEmpty) {
+                    self.activeExamPart = 0
+                } else if !(exam.trueFalse.isEmpty) {
+                    self.activeExamPart = 1
+                } else {
+                    self.activeExamPart = 2
+                }
                 self.timeRemainingSeconds = 45 * 60
                 
                 // Start countdown timer
@@ -1209,6 +1273,13 @@ struct ExercisePracticeView: View {
                 )
                 self.activeExam = fallback
                 self.isExamActive = true
+                if !(fallback.multipleChoice.isEmpty) {
+                    self.activeExamPart = 0
+                } else if !(fallback.trueFalse.isEmpty) {
+                    self.activeExamPart = 1
+                } else {
+                    self.activeExamPart = 2
+                }
             }
         }
     }
