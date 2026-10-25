@@ -1,13 +1,33 @@
 import SwiftUI
 
+struct AvatarOption: Identifiable {
+    let id = UUID()
+    let icon: String
+    let name: String
+    let color: Color
+}
+
 struct AccountView: View {
     @EnvironmentObject var appState: AppState
-    @State private var showingSwitchAccountSheet: Bool = false
+    @State private var showingAvatarPicker: Bool = false
     @State private var showingServerConfigSheet: Bool = false
-    @State private var editServerUrl: String = ""
-    @State private var editApiKey: String = ""
     @State private var serverTestResult: String = ""
     @State private var isTestingServer: Bool = false
+    
+    private let avatarOptions: [AvatarOption] = [
+        AvatarOption(icon: "person.crop.circle.fill", name: "Cá nhân", color: AppTheme.primaryMint),
+        AvatarOption(icon: "graduationcap.fill", name: "Học sinh", color: AppTheme.primary),
+        AvatarOption(icon: "sparkles", name: "Tỏa sáng", color: AppTheme.accentOrange),
+        AvatarOption(icon: "brain.head.profile", name: "Trí tuệ", color: Color.purple),
+        AvatarOption(icon: "book.fill", name: "Chăm học", color: Color.blue),
+        AvatarOption(icon: "star.fill", name: "Ngôi sao", color: Color.yellow),
+        AvatarOption(icon: "flame.fill", name: "Năng nổ", color: Color.red),
+        AvatarOption(icon: "heart.fill", name: "Đam mê", color: Color.pink),
+        AvatarOption(icon: "bolt.fill", name: "Tốc độ", color: Color.orange),
+        AvatarOption(icon: "pencil.and.outline", name: "Sáng tác", color: Color.teal),
+        AvatarOption(icon: "wand.and.stars", name: "Phép màu", color: Color.indigo),
+        AvatarOption(icon: "trophy.fill", name: "Thủ khoa", color: Color.yellow)
+    ]
     
     var body: some View {
         ZStack {
@@ -27,16 +47,13 @@ struct AccountView: View {
                     .padding(.top, 14)
                     .padding(.horizontal, 4)
                     
-                    // 1. User Profile Header Card
+                    // 1. User Profile Header Card (Interactive Avatar)
                     profileHeaderCard
                     
-                    // 2. Study Achievements
-                    studyAchievementsCard
-                    
-                    // 3. Settings & Options
+                    // 2. Settings & Shimy Gateway
                     settingsListCard
                     
-                    // 4. Logout Button
+                    // 3. Logout Button
                     logoutButton
                     
                     // Spacing for full-width bottom bar
@@ -45,8 +62,8 @@ struct AccountView: View {
                 .padding(.horizontal, 16)
             }
         }
-        .sheet(isPresented: $showingSwitchAccountSheet) {
-            switchAccountSheet
+        .sheet(isPresented: $showingAvatarPicker) {
+            avatarPickerSheet
         }
         .sheet(isPresented: $showingServerConfigSheet) {
             GeminiConnectSheet()
@@ -59,43 +76,65 @@ struct AccountView: View {
     // MARK: - 1. Profile Header Card
     private var profileHeaderCard: some View {
         HStack(spacing: 16) {
-            ZStack {
-                Circle()
-                    .fill(LinearGradient(colors: [AppTheme.primaryMint, AppTheme.primaryDark], startPoint: .topLeading, endPoint: .bottomTrailing))
-                    .frame(width: 68, height: 68)
-                    .shadow(color: AppTheme.primaryMint.opacity(0.3), radius: 8, x: 0, y: 4)
-                
-                Image(systemName: appState.currentUser.avatarName)
-                    .font(.system(size: 34))
-                    .foregroundColor(.white)
+            Button(action: { showingAvatarPicker = true }) {
+                ZStack(alignment: .bottomTrailing) {
+                    Circle()
+                        .fill(LinearGradient(colors: [AppTheme.primaryMint, AppTheme.primaryDark], startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .frame(width: 72, height: 72)
+                        .shadow(color: AppTheme.primaryMint.opacity(0.3), radius: 8, x: 0, y: 4)
+                    
+                    Image(systemName: appState.currentUser.avatarName)
+                        .font(.system(size: 34))
+                        .foregroundColor(.white)
+                    
+                    // Edit badge
+                    ZStack {
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 24, height: 24)
+                            .shadow(color: Color.black.opacity(0.12), radius: 3)
+                        
+                        Image(systemName: "pencil")
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundColor(AppTheme.primary)
+                    }
+                    .offset(x: 2, y: 2)
+                }
             }
+            .buttonStyle(PlainButtonStyle())
             
-            VStack(alignment: .leading, spacing: 4) {
-                Text(appState.currentUser.username)
-                    .font(.system(size: 19, weight: .bold, design: .rounded))
-                    .foregroundColor(Color(hex: "#111827"))
+            VStack(alignment: .leading, spacing: 5) {
+                HStack(spacing: 6) {
+                    Text(appState.currentUser.username)
+                        .font(.system(size: 19, weight: .bold, design: .rounded))
+                        .foregroundColor(Color(hex: "#111827"))
+                    
+                    Button(action: { showingAvatarPicker = true }) {
+                        Text("Đổi avatar")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundColor(AppTheme.primaryMint)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Capsule().fill(AppTheme.primaryMint.opacity(0.12)))
+                    }
+                }
+                
                 Text(appState.currentUser.email)
                     .font(.subheadline)
                     .foregroundColor(AppTheme.textSecondary)
                 
                 HStack(spacing: 6) {
-                    Text("Lớp \(appState.currentUser.grade)")
-                        .font(.caption2)
-                        .fontWeight(.bold)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(Capsule().fill(AppTheme.primaryLight))
-                        .foregroundColor(AppTheme.primary)
-                    
-                    Text(appState.isGeminiConnected ? "Shimy Gemini: Đã kết nối" : "Shimy: Chờ kết nối")
+                    Circle()
+                        .fill(appState.isGeminiConnected ? Color.green : Color.orange)
+                        .frame(width: 7, height: 7)
+                    Text(appState.isGeminiConnected ? "Shimy AI: Sẵn sàng" : "Shimy AI: Chờ kết nối")
                         .font(.caption2)
                         .fontWeight(.semibold)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(Capsule().fill(appState.isGeminiConnected ? Color.green.opacity(0.12) : Color.orange.opacity(0.12)))
                         .foregroundColor(appState.isGeminiConnected ? .green : .orange)
                 }
-                .padding(.top, 2)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .background(Capsule().fill(appState.isGeminiConnected ? Color.green.opacity(0.1) : Color.orange.opacity(0.1)))
             }
             
             Spacer()
@@ -108,37 +147,7 @@ struct AccountView: View {
         )
     }
     
-    // MARK: - 2. Study Achievements
-    private var studyAchievementsCard: some View {
-        HStack(spacing: 12) {
-            achievementTile(title: "Tổng Tự Học", value: "\(appState.totalStudyMinutes)p", icon: "clock.fill", color: AppTheme.primary)
-            achievementTile(title: "Phiên Khóa Máy", value: "\(appState.focusSessionCount) lần", icon: "lock.shield.fill", color: AppTheme.primaryMint)
-            achievementTile(title: "Khối Đang Học", value: "\(appState.selectedGrade.displayName)", icon: "book.closed.fill", color: AppTheme.accentOrange)
-        }
-    }
-    
-    private func achievementTile(title: String, value: String, icon: String, color: Color) -> some View {
-        VStack(spacing: 6) {
-            Image(systemName: icon)
-                .foregroundColor(color)
-                .font(.headline)
-            Text(value)
-                .font(.system(size: 15, weight: .bold, design: .rounded))
-                .foregroundColor(Color(hex: "#111827"))
-            Text(title)
-                .font(.system(size: 10))
-                .foregroundColor(AppTheme.textSecondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(14)
-        .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
-        )
-    }
-    
-    // MARK: - 3. Settings List
+    // MARK: - 2. Settings List
     private var settingsListCard: some View {
         VStack(spacing: 0) {
             // Language Option
@@ -180,24 +189,7 @@ struct AccountView: View {
             
             Divider().padding(.horizontal, 16)
             
-            // Switch Account Option
-            Button(action: { showingSwitchAccountSheet = true }) {
-                HStack {
-                    Label("Chuyển đổi tài khoản", systemImage: "person.2.badge.gearshape.fill")
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundColor(Color(hex: "#111827"))
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .font(.caption)
-                        .foregroundColor(AppTheme.textMuted)
-                }
-                .padding(.vertical, 14)
-                .padding(.horizontal, 16)
-            }
-            
-            Divider().padding(.horizontal, 16)
-            
-            // Shimy Server & Gemini Diagnostic
+            // Shimy Server & Gemini Diagnostic (Compact & Clean)
             VStack(alignment: .leading, spacing: 6) {
                 HStack {
                     Label("Shimy Gemini Gateway", systemImage: "network")
@@ -206,8 +198,6 @@ struct AccountView: View {
                     Spacer()
                     
                     Button(action: {
-                        editServerUrl = appState.serverUrl
-                        editApiKey = appState.appAuthToken
                         showingServerConfigSheet = true
                     }) {
                         Text("Cấu hình")
@@ -232,15 +222,15 @@ struct AccountView: View {
                     }
                 }
                 
-                Text(appState.selectedProvider == .groq ? "Groq Cloud LPU (\(GroqModel(rawValue: appState.selectedGroqModel)?.shortName ?? appState.selectedGroqModel))" : (!appState.geminiApiKey.isEmpty ? "Google Cloud Direct (AIza...)" : appState.serverUrl))
-                    .font(.caption2)
-                    .foregroundColor(AppTheme.textSecondary)
-                
-                HStack(spacing: 8) {
-                    Text("Lượt học còn: \(appState.remainingDailyQuota) câu/ngày")
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(appState.isGeminiConnected ? Color.green : Color.orange)
+                        .frame(width: 7, height: 7)
+                    
+                    Text(appState.selectedProvider == .groq ? "Groq Cloud LPU (\(GroqModel(rawValue: appState.selectedGroqModel)?.shortName ?? appState.selectedGroqModel))" : (!appState.geminiApiKey.isEmpty ? "Google Cloud Direct" : appState.serverUrl))
                         .font(.caption2)
-                        .fontWeight(.medium)
-                        .foregroundColor(AppTheme.primary)
+                        .foregroundColor(AppTheme.textSecondary)
+                        .lineLimit(1)
                     
                     if !serverTestResult.isEmpty {
                         Text("•")
@@ -278,7 +268,7 @@ struct AccountView: View {
         )
     }
     
-    // MARK: - 4. Logout Button
+    // MARK: - 3. Logout Button
     private var logoutButton: some View {
         Button(action: {
             withAnimation { appState.logout() }
@@ -298,6 +288,76 @@ struct AccountView: View {
         }
     }
     
+    // MARK: - Avatar Picker Sheet
+    private var avatarPickerSheet: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 20) {
+                    Text("Chọn biểu tượng đại diện phù hợp với bạn")
+                        .font(.subheadline)
+                        .foregroundColor(AppTheme.textSecondary)
+                        .padding(.top, 14)
+                    
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                        ForEach(avatarOptions) { opt in
+                            let isSelected = appState.currentUser.avatarName == opt.icon
+                            Button(action: {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                    appState.updateAvatar(opt.icon)
+                                }
+                            }) {
+                                VStack(spacing: 8) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(opt.color.opacity(isSelected ? 0.25 : 0.12))
+                                            .frame(width: 64, height: 64)
+                                        
+                                        Image(systemName: opt.icon)
+                                            .font(.system(size: 30))
+                                            .foregroundColor(opt.color)
+                                        
+                                        if isSelected {
+                                            Circle()
+                                                .strokeBorder(opt.color, lineWidth: 3)
+                                                .frame(width: 68, height: 68)
+                                        }
+                                    }
+                                    
+                                    Text(opt.name)
+                                        .font(.caption)
+                                        .fontWeight(isSelected ? .bold : .medium)
+                                        .foregroundColor(Color(hex: "#111827"))
+                                }
+                                .padding(.vertical, 8)
+                                .frame(maxWidth: .infinity)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .fill(isSelected ? opt.color.opacity(0.08) : Color.white)
+                                        .shadow(color: Color.black.opacity(0.03), radius: 4, x: 0, y: 2)
+                                )
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                }
+                .padding(.bottom, 30)
+            }
+            .background(Color(hex: "#F8FAF9").ignoresSafeArea())
+            .navigationTitle("Đổi Avatar")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Xong") {
+                        showingAvatarPicker = false
+                    }
+                    .font(.body.weight(.bold))
+                    .foregroundColor(AppTheme.primaryMint)
+                }
+            }
+        }
+    }
+    
     private func testServer() {
         isTestingServer = true
         GeminiAIService.shared.checkConnection(
@@ -310,100 +370,6 @@ struct AccountView: View {
             isTestingServer = false
             appState.isAIConnected = online
             serverTestResult = msg
-        }
-    }
-    
-    private var switchAccountSheet: some View {
-        NavigationStack {
-            List {
-                Section(header: Text("Tài khoản đã lưu")) {
-                    ForEach(appState.savedAccounts) { user in
-                        Button(action: {
-                            appState.switchAccount(to: user)
-                            showingSwitchAccountSheet = false
-                        }) {
-                            HStack(spacing: 12) {
-                                Image(systemName: user.avatarName)
-                                    .font(.title2)
-                                    .foregroundColor(AppTheme.primary)
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(user.username)
-                                        .font(.headline)
-                                        .foregroundColor(Color(hex: "#111827"))
-                                    Text(user.email)
-                                        .font(.caption)
-                                        .foregroundColor(AppTheme.textSecondary)
-                                }
-                                Spacer()
-                                if appState.currentUser.id == user.id {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(AppTheme.primaryMint)
-                                }
-                            }
-                            .padding(.vertical, 4)
-                        }
-                    }
-                }
-            }
-            .navigationTitle("Chuyển Tài Khoản")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Đóng") { showingSwitchAccountSheet = false }
-                }
-            }
-        }
-    }
-    
-    private var serverConfigSheet: some View {
-        NavigationStack {
-            Form {
-                Section(header: Text("Chế độ 1: Máy chủ Backend Shimy (Gemini Web Gateway)")) {
-                    TextField("http://192.168.2.16:8000/v1", text: $editServerUrl)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled(true)
-                        .font(.system(size: 14, design: .monospaced))
-                    
-                    Text("💡 Mở file `run_gemini_server.bat` trên máy tính cùng Wi-Fi.")
-                        .font(.caption2)
-                        .foregroundColor(AppTheme.textSecondary)
-                }
-                
-                Section(header: Text("Token xác thực của App (Bearer Token)")) {
-                    SecureField("shimy_xxxxxxxxxxxxxxxx", text: $editApiKey)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled(true)
-                        .font(.system(size: 14, design: .monospaced))
-                    
-                    Text("💡 Nhận tự động khi đăng nhập hoặc do quản trị viên cấp để bảo vệ hạn mức.")
-                        .font(.caption2)
-                        .foregroundColor(AppTheme.textSecondary)
-                }
-                
-                Section {
-                    Button(action: {
-                        appState.serverUrl = editServerUrl.trimmingCharacters(in: .whitespacesAndNewlines)
-                        appState.appAuthToken = editApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
-                        testServer()
-                        showingServerConfigSheet = false
-                    }) {
-                        HStack {
-                            Spacer()
-                            Text("Lưu Cấu Hình & Kiểm Tra")
-                                .fontWeight(.bold)
-                                .foregroundColor(AppTheme.primaryMint)
-                            Spacer()
-                        }
-                    }
-                }
-            }
-            .navigationTitle("Cấu Hình Shimy")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Hủy") { showingServerConfigSheet = false }
-                }
-            }
         }
     }
 }

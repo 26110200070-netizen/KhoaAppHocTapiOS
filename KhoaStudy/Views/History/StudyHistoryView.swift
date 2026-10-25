@@ -5,6 +5,7 @@ struct StudyHistoryView: View {
     @ObservedObject private var historyStore = StudyHistoryStore.shared
     @State private var selectedTopic: TheoryTopicItem? = nil
     @State private var showingClearAlert: Bool = false
+    var onClose: (() -> Void)? = nil
     
     var body: some View {
         ZStack {
@@ -29,7 +30,6 @@ struct StudyHistoryView: View {
                         historyContentList
                     }
                 }
-                .padding(.bottom, 74)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
             }
         }
@@ -52,6 +52,21 @@ struct StudyHistoryView: View {
     private var topNavBar: some View {
         VStack(spacing: 0) {
             HStack(alignment: .center) {
+                if let onClose = onClose {
+                    Button(action: {
+                        onClose()
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 16, weight: .bold))
+                            Text("Trang Chủ")
+                                .font(.system(size: 15, weight: .semibold))
+                        }
+                        .foregroundColor(AppTheme.primaryDark)
+                    }
+                    .padding(.trailing, 8)
+                }
+                
                 VStack(alignment: .leading, spacing: 3) {
                     Text("Lịch Sử Học Tập")
                         .font(.system(size: 22, weight: .bold, design: .rounded))

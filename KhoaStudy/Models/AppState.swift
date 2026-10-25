@@ -79,6 +79,9 @@ class AppState: ObservableObject {
             avatarName: "person.crop.circle.fill"
         )
         self.currentUser = defaultUser
+        if let savedAvatar = UserDefaults.standard.string(forKey: "shimy_avatar_name"), !savedAvatar.isEmpty {
+            self.currentUser.avatarName = savedAvatar
+        }
         self.savedAccounts = [
             defaultUser,
             UserProfile(username: "Học Sinh THPT", email: "student.thpt@study.vn", grade: 12, avatarName: "graduationcap.circle.fill"),
@@ -141,6 +144,11 @@ class AppState: ObservableObject {
             self.selectedGrade = g
             self.selectedLevel = g.level
         }
+    }
+    
+    func updateAvatar(_ newAvatar: String) {
+        self.currentUser.avatarName = newAvatar
+        UserDefaults.standard.set(newAvatar, forKey: "shimy_avatar_name")
     }
     
     func logout() {
