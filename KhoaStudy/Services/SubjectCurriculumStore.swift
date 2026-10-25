@@ -1,11 +1,11 @@
 import Foundation
 
 /// Kho dữ liệu chương trình học chuẩn hóa cho 6 môn học (Toán, Vật lí, Hóa học, Sinh học, Lịch sử, Địa lí) từ tài liệu trithucAI
-public struct SubjectCurriculumStore {
-    public static let shared = SubjectCurriculumStore()
+struct SubjectCurriculumStore {
+    static let shared = SubjectCurriculumStore()
     private init() {}
 
-    public func getTopics(subject: String, grade: Int, semester: Int) -> [TheoryTopicItem] {
+    func getTopics(subject: String, grade: Int, semester: Int) -> [TheoryTopicItem] {
         let s = subject.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         switch (s, grade, semester) {
         case ("toán", 6, 1):
