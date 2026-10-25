@@ -56,50 +56,49 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - Home Dashboard Content (Chuẩn 100% theo Ảnh 2 của người dùng)
+    // MARK: - Home Dashboard Content
     private var homeDashboardView: some View {
-        ZStack(alignment: .top) {
-            // Full-bleed clean background
-            Color(hex: "#F8FAF9")
-                .ignoresSafeArea(.all)
-            
-            // 1. Realistic blue sky with fluffy 3D white clouds at top
-            VStack(spacing: 0) {
+        GeometryReader { geo in
+            let topSafeArea = geo.safeAreaInsets.top
+            ZStack(alignment: .top) {
+                // Background
+                Color(hex: "#F0F7F4")
+                    .ignoresSafeArea()
+                
+                // Sky Header - full bleed từ top
                 Image("HeaderSkyBg")
                     .resizable()
                     .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 210)
+                    .frame(width: geo.size.width, height: topSafeArea + 170)
                     .clipped()
+                    .frame(maxWidth: .infinity, alignment: .top)
+                    .ignoresSafeArea(edges: .top)
                 
-                Spacer()
-            }
-            .ignoresSafeArea(edges: .top)
-            
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 16) {
-                    // 1. Top Header (✨ Shimy • Lớp 12 | Chào, Anh Khoa Dev 👋 | 🎓 + 🔔)
-                    topHeaderSection
-                        .padding(.top, 8)
-                    
-                    // 2. Banner Sơ Đồ Kiến Thức ("Hình dung lộ trình, làm chủ bài học")
-                    knowledgeMindmapBanner
-                    
-                    // 3. Khối 3 Thẻ Học Tập: Học Lí Thuyết 9:16 + Luyện Bài Tập & Treo Máy
-                    tammiChibiArtworkCardsSection
-                    
-                    // 4. Banner Lịch Sử Học Tập (Dài ngang như Ảnh 2)
-                    studyHistoryInteractiveBanner
-                    
-                    // 5. Banner Ôn Thi Bứt Phá Điểm Cao (Màu đỏ chuẩn Ảnh 2)
-                    tammiPromoExamBanner
-                    
-                    // Spacing above bottom tab bar
-                    Spacer().frame(height: 110)
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 14) {
+                        // 1. Top Header
+                        topHeaderSection
+                        
+                        // 2. Banner Sơ Đồ Kiến Thức
+                        knowledgeMindmapBanner
+                        
+                        // 3. Khối 3 Thẻ: BannerTheory + BannerPractice + BannerFocus
+                        tammiChibiArtworkCardsSection
+                        
+                        // 4. Lịch Sử Học Tập
+                        studyHistoryInteractiveBanner
+                        
+                        // 5. Ôn Thi Bứt Phá Điểm Cao
+                        tammiPromoExamBanner
+                        
+                        Spacer().frame(height: 100)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, topSafeArea + 8)
                 }
-                .padding(.horizontal, 16)
             }
         }
+        .ignoresSafeArea(edges: .top)
     }
     
     // MARK: - 1. Top Header (Bầu trời nền, Chào user, Nút nón tốt nghiệp 🎓 và chuông thông báo 🔔)
