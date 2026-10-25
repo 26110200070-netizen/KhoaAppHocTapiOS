@@ -58,47 +58,53 @@ struct HomeView: View {
     
     // MARK: - Home Dashboard Content
     private var homeDashboardView: some View {
-        GeometryReader { geo in
-            let topSafeArea = geo.safeAreaInsets.top
-            ZStack(alignment: .top) {
-                // Background
-                Color(hex: "#F0F7F4")
-                    .ignoresSafeArea()
-                
-                // Sky Header - full bleed từ top
+        ZStack(alignment: .top) {
+            // Full-bleed clean background
+            Color(hex: "#F8FAF9")
+                .ignoresSafeArea(.all)
+            
+            // 1. Realistic blue sky with fluffy clouds at top
+            // Width strictly locked to UIScreen.main.bounds.width with .clipped() to eliminate horizontal overflow
+            VStack(spacing: 0) {
                 Image("HeaderSkyBg")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: geo.size.width, height: topSafeArea + 170)
+                    .frame(width: UIScreen.main.bounds.width, height: 210)
                     .clipped()
-                    .frame(maxWidth: .infinity, alignment: .top)
-                    .ignoresSafeArea(edges: .top)
                 
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 14) {
-                        // 1. Top Header
-                        topHeaderSection
-                        
-                        // 2. Banner Sơ Đồ Kiến Thức
-                        knowledgeMindmapBanner
-                        
-                        // 3. Khối 3 Thẻ: BannerTheory + BannerPractice + BannerFocus
-                        tammiChibiArtworkCardsSection
-                        
-                        // 4. Lịch Sử Học Tập
-                        studyHistoryInteractiveBanner
-                        
-                        // 5. Ôn Thi Bứt Phá Điểm Cao
-                        tammiPromoExamBanner
-                        
-                        Spacer().frame(height: 100)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.top, topSafeArea + 8)
-                }
+                Spacer()
             }
+            .frame(width: UIScreen.main.bounds.width, alignment: .top)
+            .clipped()
+            .ignoresSafeArea(edges: .top)
+            
+            // 2. Scrollable dashboard content
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 16) {
+                    // 1. Top Header (✨ Shimy • Lớp 12 | Chào, Anh Khoa Dev 👋 | 🎓 + 🔔)
+                    topHeaderSection
+                        .padding(.top, 6)
+                    
+                    // 2. Banner Sơ Đồ Kiến Thức ("Hình dung lộ trình, làm chủ bài học")
+                    knowledgeMindmapBanner
+                    
+                    // 3. Khối 3 Thẻ Học Tập: Học Lí Thuyết 9:16 + Luyện Bài Tập & Treo Máy
+                    tammiChibiArtworkCardsSection
+                    
+                    // 4. Banner Lịch Sử Học Tập (Dài ngang)
+                    studyHistoryInteractiveBanner
+                    
+                    // 5. Banner Ôn Thi Bứt Phá Điểm Cao (Màu đỏ)
+                    tammiPromoExamBanner
+                    
+                    // Spacing above bottom tab bar
+                    Spacer().frame(height: 110)
+                }
+                .padding(.horizontal, 16)
+            }
+            .frame(width: UIScreen.main.bounds.width)
         }
-        .ignoresSafeArea(edges: .top)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     // MARK: - 1. Top Header (Bầu trời nền, Chào user, Nút nón tốt nghiệp 🎓 và chuông thông báo 🔔)
