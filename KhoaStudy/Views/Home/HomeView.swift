@@ -56,28 +56,31 @@ struct HomeView: View {
         }
     }
     
-    // MARK: - Home Dashboard Content (Chuẩn 100% theo newUI.png)
+    // MARK: - Home Dashboard Content (Chuẩn 100% theo Ảnh 2 - Không tràn lề, Không lặp chữ)
     private var homeDashboardView: some View {
         ZStack(alignment: .top) {
-            // Dreamy Sky Background behind status bar and header
-            Image("HeaderSkyBg")
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity, maxHeight: 180)
-                .clipped()
-                .opacity(0.85)
-                .ignoresSafeArea(edges: .top)
-            
             // Full-bleed clean background
             Color(hex: "#F8FAF9")
-                .opacity(0.35)
-                .ignoresSafeArea(.all)
+                .ignoresSafeArea()
+            
+            // Dreamy pastel sky gradient for top status bar and header (Không dùng ảnh chữ tĩnh để tránh đè chữ)
+            LinearGradient(
+                colors: [
+                    Color(hex: "#CFE6FC"),
+                    Color(hex: "#E5F2FD"),
+                    Color(hex: "#F8FAF9")
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(height: 230)
+            .ignoresSafeArea(edges: .top)
             
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 16) {
+                VStack(spacing: 14) {
                     // 1. Top Header (✨ Shimy • Lớp 12 | Chào, Anh Khoa Dev 👋 | Mascot Bunny)
                     topHeaderSection
-                        .padding(.top, 10)
+                        .padding(.top, 4)
                     
                     // 2. Hero Banner: Bứt phá điểm số cùng Shimy (3D anime boy with laptop)
                     heroBannerSection
@@ -92,7 +95,7 @@ struct HomeView: View {
                     inspirationalQuoteCard
                     
                     // Spacing above bottom tab bar
-                    Spacer().frame(height: 100)
+                    Spacer().frame(height: 110)
                 }
                 .padding(.horizontal, 16)
             }
@@ -129,14 +132,15 @@ struct HomeView: View {
             }) {
                 Image("MascotBunny")
                     .resizable()
-                    .scaledToFill()
-                    .frame(width: 48, height: 48)
+                    .scaledToFit()
+                    .frame(width: 44, height: 44)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
                     .shadow(color: Color(hex: "#38BDF8").opacity(0.35), radius: 6, x: 0, y: 2)
             }
             .buttonStyle(.plain)
         }
+        .padding(.horizontal, 4)
         .padding(.vertical, 4)
     }
     
@@ -147,16 +151,17 @@ struct HomeView: View {
         }) {
             Image("HeroBanner")
                 .resizable()
-                .scaledToFit()
-                .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-                .shadow(color: Color.black.opacity(0.06), radius: 10, x: 0, y: 4)
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity)
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
         }
         .buttonStyle(.plain)
     }
     
     // MARK: - 3. Three Feature Cards Row (Học lí thuyết • Làm bài tập • Treo máy)
     private var threeFeatureCardsRow: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 8) {
             // Card 1: Học lí thuyết (Mở bài giảng SGK chuẩn)
             Button(action: {
                 if let onNavigateToTheory = onNavigateToTheory {
@@ -169,9 +174,10 @@ struct HomeView: View {
             }) {
                 Image("CardTheory")
                     .resizable()
-                    .scaledToFit()
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                    .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .shadow(color: Color.black.opacity(0.03), radius: 5, x: 0, y: 2)
             }
             .buttonStyle(.plain)
             
@@ -187,9 +193,10 @@ struct HomeView: View {
             }) {
                 Image("CardPractice")
                     .resizable()
-                    .scaledToFit()
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                    .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .shadow(color: Color.black.opacity(0.03), radius: 5, x: 0, y: 2)
             }
             .buttonStyle(.plain)
             
@@ -199,9 +206,10 @@ struct HomeView: View {
             }) {
                 Image("CardFocus")
                     .resizable()
-                    .scaledToFit()
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                    .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .shadow(color: Color.black.opacity(0.03), radius: 5, x: 0, y: 2)
             }
             .buttonStyle(.plain)
         }
@@ -214,9 +222,10 @@ struct HomeView: View {
         }) {
             Image("CardMindmap")
                 .resizable()
-                .scaledToFit()
-                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 3)
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity)
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
         }
         .buttonStyle(.plain)
     }
@@ -225,8 +234,9 @@ struct HomeView: View {
     private var inspirationalQuoteCard: some View {
         Image("CardQuote")
             .resizable()
-            .scaledToFit()
-            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-            .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
+            .aspectRatio(contentMode: .fit)
+            .frame(maxWidth: .infinity)
+            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .shadow(color: Color.black.opacity(0.02), radius: 4, x: 0, y: 1)
     }
 }
