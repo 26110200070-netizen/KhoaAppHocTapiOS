@@ -6,6 +6,7 @@ struct HomeView: View {
     var onNavigateToPractice: (() -> Void)? = nil
     var onOpenAIChat: (() -> Void)? = nil
     var onOpenHistory: (() -> Void)? = nil
+    var onNavigateToEnglish: (() -> Void)? = nil
     
     @ObservedObject private var historyStore = StudyHistoryStore.shared
     @ObservedObject private var examStore = ExamHistoryStore.shared
@@ -96,7 +97,10 @@ struct HomeView: View {
                     // 3. Khối 3 Thẻ Học Tập: Học Lí Thuyết 9:16 + Luyện Bài Tập & Treo Máy
                     tammiChibiArtworkCardsSection
                     
-                    // 4. Banner Sơ Đồ Thống Kê Học Tập (MỚI)
+                    // 4. Banner Học Tiếng Anh (Chuyển tab Tiếng Anh)
+                    englishLearningBanner
+                    
+                    // 5. Banner Sơ Đồ Thống Kê Học Tập (MỚI)
                     studyStatisticsInteractiveBanner
                     
                     // 5. Banner Lịch Sử Học Tập (Dài ngang)
@@ -275,6 +279,75 @@ struct HomeView: View {
                 .fill(Color.white)
                 .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 3)
         )
+    }
+    
+    // MARK: - 3b. Banner Học Tiếng Anh (Chuyển tab Tiếng Anh với BannerEnglish)
+    private var englishLearningBanner: some View {
+        Button(action: {
+            onNavigateToEnglish?()
+        }) {
+            ZStack(alignment: .bottomLeading) {
+                // Background Banner Image
+                Image("BannerEnglish")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 140)
+                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                
+                // Subtle darkening gradient for elite contrast
+                LinearGradient(
+                    colors: [Color.black.opacity(0.15), Color.black.opacity(0.72)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                
+                // Content overlay
+                HStack(alignment: .bottom) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack(spacing: 5) {
+                            Image(systemName: "sparkles")
+                                .font(.system(size: 10, weight: .bold))
+                                .foregroundColor(Color(hex: "#34D399"))
+                            
+                            Text("CHUYÊN ĐỀ NGOẠI NGỮ")
+                                .font(.system(size: 10, weight: .heavy))
+                                .foregroundColor(Color(hex: "#34D399"))
+                                .kerning(0.8)
+                        }
+                        
+                        Text("Học Tiếng Anh Thông Minh")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.white)
+                        
+                        Text("Tra từ vựng CEFR A1–C2 & Dịch câu AI tức thì")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(Color.white.opacity(0.88))
+                            .lineLimit(1)
+                    }
+                    
+                    Spacer()
+                    
+                    HStack(spacing: 4) {
+                        Text("Vào học")
+                            .font(.system(size: 12, weight: .bold))
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 11, weight: .bold))
+                    }
+                    .foregroundColor(Color(hex: "#065F46"))
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 7)
+                    .background(Color.white)
+                    .clipShape(Capsule())
+                    .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+                }
+                .padding(16)
+            }
+            .frame(height: 140)
+            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .shadow(color: Color.black.opacity(0.08), radius: 10, x: 0, y: 4)
+        }
+        .buttonStyle(.plain)
     }
     
     // MARK: - 4. Banner Sơ Đồ Thống Kê Học Tập (Phẳng, hiện đại, KHÔNG khung lồng khung)
