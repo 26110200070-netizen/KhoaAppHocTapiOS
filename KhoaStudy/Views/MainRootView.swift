@@ -2,13 +2,11 @@ import SwiftUI
 
 enum MainTab: Int, CaseIterable {
     case home = 0
-    case english = 1
-    case account = 2
+    case account = 1
     
     var title: String {
         switch self {
         case .home: return "Trang Chủ"
-        case .english: return "Tiếng Anh"
         case .account: return "Tài Khoản"
         }
     }
@@ -16,7 +14,6 @@ enum MainTab: Int, CaseIterable {
     var iconName: String {
         switch self {
         case .home: return "house.fill"
-        case .english: return "character.book.closed.fill"
         case .account: return "person.crop.circle.fill"
         }
     }
@@ -111,26 +108,17 @@ struct MainRootView: View {
                             },
                             onOpenHistory: {
                                 showingHistoryFullScreen = true
-                            },
-                            onNavigateToEnglish: {
-                                withAnimation(.easeInOut(duration: 0.2)) {
-                                    currentTab = .english
-                                }
                             }
                         )
                         .opacity(currentTab == .home ? 1 : 0)
                         .allowsHitTesting(currentTab == .home)
-                        
-                        EnglishLearningView()
-                            .opacity(currentTab == .english ? 1 : 0)
-                            .allowsHitTesting(currentTab == .english)
                         
                         AccountView()
                             .opacity(currentTab == .account ? 1 : 0)
                             .allowsHitTesting(currentTab == .account)
                     }
                     
-                    // Floating Curved Bottom Bar (Trang Chủ • Tiếng Anh • Shimy • Tài Khoản)
+                    // Floating Curved Bottom Bar (Trang Chủ • Shimy • Tài Khoản)
                     customCurvedTabBar
                 }
                 .ignoresSafeArea(edges: .bottom)
@@ -159,24 +147,51 @@ struct MainRootView: View {
                 )
                 .frame(height: 68)
             
-            // 2. Nội dung các nút: Trang Chủ + Tiếng Anh (Trái) - Shimy (Giữa) - Tài Khoản (Phải)
+            // 2. Nội dung 2 nút: Trang Chủ (Trái) - Shimy (Giữa) - Tài Khoản (Phải)
             HStack(spacing: 0) {
-                // Nhóm Trái: Trang Chủ & Tiếng Anh
-                HStack(spacing: 4) {
-                    tabBarButton(tab: .home, title: "Trang Chủ", icon: "house.fill")
-                    tabBarButton(tab: .english, title: "Tiếng Anh", icon: "character.book.closed.fill")
+                // Tab 1: Trang Chủ
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        currentTab = .home
+                    }
+                }) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "house.fill")
+                            .font(.system(size: 21, weight: currentTab == .home ? .bold : .medium))
+                            .foregroundColor(currentTab == .home ? Color(hex: "#0F3E36") : Color(hex: "#9CA3AF"))
+                        
+                        Text("Trang Chủ")
+                            .font(.system(size: 11, weight: currentTab == .home ? .bold : .medium))
+                            .foregroundColor(currentTab == .home ? Color(hex: "#0F3E36") : Color(hex: "#9CA3AF"))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 10)
                 }
-                .frame(maxWidth: .infinity)
+                .buttonStyle(.plain)
                 
                 // Khoảng trống ở giữa cho nút tròn Shimy
                 Spacer()
-                    .frame(width: 80)
+                    .frame(width: 88)
                 
-                // Nhóm Phải: Tài Khoản
-                HStack(spacing: 4) {
-                    tabBarButton(tab: .account, title: "Tài Khoản", icon: "person.crop.circle.fill")
+                // Tab 2: Tài Khoản
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        currentTab = .account
+                    }
+                }) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "person.crop.circle.fill")
+                            .font(.system(size: 21, weight: currentTab == .account ? .bold : .medium))
+                            .foregroundColor(currentTab == .account ? Color(hex: "#0F3E36") : Color(hex: "#9CA3AF"))
+                        
+                        Text("Tài Khoản")
+                            .font(.system(size: 11, weight: currentTab == .account ? .bold : .medium))
+                            .foregroundColor(currentTab == .account ? Color(hex: "#0F3E36") : Color(hex: "#9CA3AF"))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 10)
                 }
-                .frame(maxWidth: .infinity)
+                .buttonStyle(.plain)
             }
             .frame(height: 68)
             
@@ -212,28 +227,5 @@ struct MainRootView: View {
         }
         .padding(.horizontal, 16)
         .padding(.bottom, 16)
-    }
-    
-    // MARK: - Reusable Tab Bar Button Helper
-    private func tabBarButton(tab: MainTab, title: String, icon: String) -> some View {
-        Button(action: {
-            withAnimation(.easeInOut(duration: 0.2)) {
-                currentTab = tab
-            }
-        }) {
-            VStack(spacing: 3) {
-                Image(systemName: icon)
-                    .font(.system(size: 19, weight: currentTab == tab ? .bold : .medium))
-                    .foregroundColor(currentTab == tab ? Color(hex: "#0F3E36") : Color(hex: "#9CA3AF"))
-                
-                Text(title)
-                    .font(.system(size: 10, weight: currentTab == tab ? .bold : .medium))
-                    .foregroundColor(currentTab == tab ? Color(hex: "#0F3E36") : Color(hex: "#9CA3AF"))
-                    .lineLimit(1)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.top, 10)
-        }
-        .buttonStyle(.plain)
     }
 }

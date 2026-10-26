@@ -6,7 +6,6 @@ struct HomeView: View {
     var onNavigateToPractice: (() -> Void)? = nil
     var onOpenAIChat: (() -> Void)? = nil
     var onOpenHistory: (() -> Void)? = nil
-    var onNavigateToEnglish: (() -> Void)? = nil
     
     @ObservedObject private var historyStore = StudyHistoryStore.shared
     @ObservedObject private var examStore = ExamHistoryStore.shared
@@ -16,6 +15,7 @@ struct HomeView: View {
     @State private var showingExamSheet: Bool = false
     @State private var showingMindmapSheet: Bool = false
     @State private var showingStatisticsSheet: Bool = false
+    @State private var showingDictionarySheet: Bool = false
     @State private var selectedHistoryTopic: TheoryTopicItem? = nil
     
     var body: some View {
@@ -60,6 +60,9 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $showingStatisticsSheet) {
             StudyStatisticsView()
         }
+        .fullScreenCover(isPresented: $showingDictionarySheet) {
+            FreeDictionaryView()
+        }
     }
     
     // MARK: - Home Dashboard Content
@@ -97,8 +100,8 @@ struct HomeView: View {
                     // 3. Khối 3 Thẻ Học Tập: Học Lí Thuyết 9:16 + Luyện Bài Tập & Treo Máy
                     tammiChibiArtworkCardsSection
                     
-                    // 4. Banner Học Tiếng Anh (Chuyển tab Tiếng Anh)
-                    englishLearningBanner
+                    // 4. Banner Tra Cứu Từ Điển Free Dictionary
+                    freeDictionaryBanner
                     
                     // 5. Banner Sơ Đồ Thống Kê Học Tập (MỚI)
                     studyStatisticsInteractiveBanner
@@ -281,10 +284,10 @@ struct HomeView: View {
         )
     }
     
-    // MARK: - 3b. Banner Học Tiếng Anh (Chuyển tab Tiếng Anh với BannerEnglish)
-    private var englishLearningBanner: some View {
+    // MARK: - 3b. Banner Từ Điển Free Dictionary API (Mở Từ Điển Anh - Việt)
+    private var freeDictionaryBanner: some View {
         Button(action: {
-            onNavigateToEnglish?()
+            showingDictionarySheet = true
         }) {
             ZStack(alignment: .bottomLeading) {
                 // Background Banner Image
@@ -306,21 +309,21 @@ struct HomeView: View {
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 4) {
                         HStack(spacing: 5) {
-                            Image(systemName: "sparkles")
+                            Image(systemName: "character.book.closed.fill")
                                 .font(.system(size: 10, weight: .bold))
                                 .foregroundColor(Color(hex: "#34D399"))
                             
-                            Text("CHUYÊN ĐỀ NGOẠI NGỮ")
+                            Text("FREE DICTIONARY • WIKTIONARY")
                                 .font(.system(size: 10, weight: .heavy))
                                 .foregroundColor(Color(hex: "#34D399"))
                                 .kerning(0.8)
                         }
                         
-                        Text("Học Tiếng Anh Thông Minh")
+                        Text("Từ Điển Anh - Việt")
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
                         
-                        Text("Tra từ vựng CEFR A1–C2 & Dịch câu AI tức thì")
+                        Text("Tra cứu 8.5M+ từ, phát âm chuẩn & giải nghĩa tiếng Việt")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(Color.white.opacity(0.88))
                             .lineLimit(1)
@@ -329,9 +332,9 @@ struct HomeView: View {
                     Spacer()
                     
                     HStack(spacing: 4) {
-                        Text("Vào học")
+                        Text("Tra từ")
                             .font(.system(size: 12, weight: .bold))
-                        Image(systemName: "arrow.right")
+                        Image(systemName: "magnifyingglass")
                             .font(.system(size: 11, weight: .bold))
                     }
                     .foregroundColor(Color(hex: "#065F46"))
