@@ -84,64 +84,38 @@ struct AccountView: View {
         }
     }
     
-    // MARK: - 1. Thẻ Hồ Sơ Học Sinh (Flat 1-layer, không email rác, hỗ trợ đổi tên)
+    // MARK: - 1. Thẻ Hồ Sơ Học Sinh (Flat 1-layer, typographic, NO nested capsules)
     private var profileSectionCard: some View {
-        HStack(spacing: 16) {
-            // Avatar người dùng có nút chỉnh sửa
+        HStack(spacing: 14) {
+            // Avatar người dùng
             Button(action: { showingAvatarPicker = true }) {
-                ZStack(alignment: .bottomTrailing) {
+                ZStack {
                     Circle()
                         .fill(
                             LinearGradient(
-                                colors: [Color(hex: "#10B981"), Color(hex: "#047857")],
+                                colors: [Color(hex: "#059669"), Color(hex: "#047857")],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
                         )
-                        .frame(width: 64, height: 64)
-                        .shadow(color: Color(hex: "#10B981").opacity(0.25), radius: 6, x: 0, y: 3)
+                        .frame(width: 54, height: 54)
                     
                     Image(systemName: appState.currentUser.avatarName)
-                        .font(.system(size: 30))
+                        .font(.system(size: 26))
                         .foregroundColor(.white)
-                    
-                    // Huy hiệu cây bút đổi ảnh
-                    ZStack {
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 22, height: 22)
-                            .shadow(color: Color.black.opacity(0.12), radius: 2)
-                        
-                        Image(systemName: "pencil")
-                            .font(.system(size: 10, weight: .bold))
-                            .foregroundColor(Color(hex: "#047857"))
-                    }
-                    .offset(x: 2, y: 2)
                 }
             }
             .buttonStyle(.plain)
             
             // Thông tin tên & khối lớp
-            VStack(alignment: .leading, spacing: 4) {
-                HStack(spacing: 8) {
-                    Text(appState.currentUser.username.isEmpty ? "Chưa nhập tên" : appState.currentUser.username)
-                        .font(.system(size: 18, weight: .bold, design: .rounded))
-                        .foregroundColor(appState.currentUser.username.isEmpty ? Color(hex: "#9CA3AF") : Color(hex: "#111827"))
-                        .lineLimit(1)
-                    
-                    Button(action: {
-                        editNameInput = appState.currentUser.username
-                        editGradeSelection = appState.currentUser.grade
-                        showingEditProfileSheet = true
-                    }) {
-                        Image(systemName: "pencil.circle.fill")
-                            .font(.system(size: 16))
-                            .foregroundColor(Color(hex: "#10B981"))
-                    }
-                }
+            VStack(alignment: .leading, spacing: 3) {
+                Text(appState.currentUser.username.isEmpty ? "Chưa nhập tên" : appState.currentUser.username)
+                    .font(.system(size: 17, weight: .bold, design: .rounded))
+                    .foregroundColor(appState.currentUser.username.isEmpty ? Color(hex: "#9CA3AF") : Color(hex: "#111827"))
+                    .lineLimit(1)
                 
                 Text("Học sinh • Lớp \(appState.currentUser.grade)")
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.system(size: 13, weight: .regular))
                     .foregroundColor(Color(hex: "#6B7280"))
                 
                 HStack(spacing: 5) {
@@ -149,54 +123,53 @@ struct AccountView: View {
                         .fill(appState.isGeminiConnected ? Color(hex: "#10B981") : Color(hex: "#F59E0B"))
                         .frame(width: 6, height: 6)
                     Text(appState.isGeminiConnected ? "Shimy AI: Sẵn sàng" : "Shimy AI: Chờ kết nối")
-                        .font(.system(size: 11, weight: .semibold))
+                        .font(.system(size: 11, weight: .medium))
                         .foregroundColor(appState.isGeminiConnected ? Color(hex: "#059669") : Color(hex: "#D97706"))
                 }
-                .padding(.horizontal, 8)
-                .padding(.vertical, 3)
-                .background(
-                    Capsule()
-                        .fill(appState.isGeminiConnected ? Color(hex: "#ECFDF5") : Color(hex: "#FFFBEB"))
-                )
-                .padding(.top, 2)
+                .padding(.top, 1)
             }
             
             Spacer()
             
-            // Nút sửa thông tin
+            // Nút sửa thông tin (Clean action button)
             Button(action: {
                 editNameInput = appState.currentUser.username
                 editGradeSelection = appState.currentUser.grade
                 showingEditProfileSheet = true
             }) {
-                Text("Đổi tên")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(Color(hex: "#047857"))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color(hex: "#ECFDF5"))
-                    .clipShape(Capsule())
+                HStack(spacing: 4) {
+                    Image(systemName: "pencil")
+                        .font(.system(size: 11, weight: .semibold))
+                    Text("Đổi tên")
+                        .font(.system(size: 12.5, weight: .semibold))
+                }
+                .foregroundColor(Color(hex: "#047857"))
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .background(Color(hex: "#F3F4F6"))
+                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
             }
+            .buttonStyle(.plain)
         }
-        .padding(16)
+        .padding(14)
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
                 .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
         )
     }
     
-    // MARK: - 2. Thẻ Cài Đặt Học Tập & Kết Nối AI
+    // MARK: - 2. Thẻ Cài Đặt Học Tập & Kết Nối AI (Apple Inset Grouped, NO capsule pills)
     private var settingsSectionCard: some View {
         VStack(spacing: 0) {
             // Mục 1: Khối lớp học
             HStack {
                 HStack(spacing: 12) {
                     Image(systemName: "graduationcap.fill")
-                        .font(.system(size: 16))
+                        .font(.system(size: 15))
                         .foregroundColor(Color(hex: "#6366F1"))
-                        .frame(width: 24)
+                        .frame(width: 22)
                     
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Khối Lớp Đang Học")
@@ -226,31 +199,27 @@ struct AccountView: View {
                 } label: {
                     HStack(spacing: 4) {
                         Text("Lớp \(appState.currentUser.grade)")
-                            .font(.system(size: 13, weight: .bold))
-                            .foregroundColor(Color(hex: "#047857"))
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(Color(hex: "#111827"))
                         Image(systemName: "chevron.up.chevron.down")
-                            .font(.system(size: 10, weight: .bold))
-                            .foregroundColor(Color(hex: "#047857"))
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundColor(Color(hex: "#9CA3AF"))
                     }
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color(hex: "#ECFDF5"))
-                    .clipShape(Capsule())
                 }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 14)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
             
             Divider()
-                .padding(.leading, 52)
+                .padding(.leading, 48)
             
             // Mục 2: Trợ lý AI Shimy (Groq / Gemini)
             HStack {
                 HStack(spacing: 12) {
                     Image(systemName: "sparkles")
-                        .font(.system(size: 16))
+                        .font(.system(size: 15))
                         .foregroundColor(Color(hex: "#10B981"))
-                        .frame(width: 24)
+                        .frame(width: 22)
                     
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Dịch Vụ AI Shimy")
@@ -267,28 +236,30 @@ struct AccountView: View {
                 Button(action: {
                     showingServerConfigSheet = true
                 }) {
-                    Text("Cấu hình")
-                        .font(.system(size: 12, weight: .bold))
-                        .foregroundColor(Color(hex: "#10B981"))
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
-                        .background(Color(hex: "#ECFDF5"))
-                        .clipShape(Capsule())
+                    HStack(spacing: 4) {
+                        Text("Cấu hình")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(Color(hex: "#059669"))
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundColor(Color(hex: "#9CA3AF"))
+                    }
                 }
+                .buttonStyle(.plain)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 14)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
             
             Divider()
-                .padding(.leading, 52)
+                .padding(.leading, 48)
             
             // Mục 3: Ngôn ngữ hiển thị
             HStack {
                 HStack(spacing: 12) {
                     Image(systemName: "globe")
-                        .font(.system(size: 16))
+                        .font(.system(size: 15))
                         .foregroundColor(Color(hex: "#3B82F6"))
-                        .frame(width: 24)
+                        .frame(width: 22)
                     
                     Text("Ngôn Ngữ")
                         .font(.system(size: 14, weight: .medium))
@@ -314,30 +285,26 @@ struct AccountView: View {
                     HStack(spacing: 4) {
                         Text(appState.currentLanguage.rawValue)
                             .font(.system(size: 13, weight: .medium))
-                            .foregroundColor(Color(hex: "#374151"))
+                            .foregroundColor(Color(hex: "#111827"))
                         Image(systemName: "chevron.up.chevron.down")
                             .font(.system(size: 10))
                             .foregroundColor(Color(hex: "#9CA3AF"))
                     }
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color(hex: "#F3F4F6"))
-                    .clipShape(Capsule())
                 }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 14)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
             
             Divider()
-                .padding(.leading, 52)
+                .padding(.leading, 48)
             
             // Mục 4: Kiểm tra trạng thái AI
             HStack {
                 HStack(spacing: 12) {
                     Image(systemName: "antenna.radiowaves.left.and.right")
-                        .font(.system(size: 15))
+                        .font(.system(size: 14))
                         .foregroundColor(Color(hex: "#14B8A6"))
-                        .frame(width: 24)
+                        .frame(width: 22)
                     
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Trạng Thái Mạng AI")
@@ -360,35 +327,32 @@ struct AccountView: View {
                             .scaleEffect(0.7)
                     } else {
                         Text("Kiểm tra")
-                            .font(.system(size: 12, weight: .bold))
-                            .foregroundColor(Color(hex: "#047857"))
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color(hex: "#F3F4F6"))
-                            .clipShape(Capsule())
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(Color(hex: "#059669"))
                     }
                 }
+                .buttonStyle(.plain)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 14)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
         }
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
                 .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
         )
     }
     
-    // MARK: - 3. Thẻ Thông Tin Ứng Dụng
+    // MARK: - 3. Thẻ Thông Tin Ứng Dụng (Clean Inset Grouped)
     private var aboutSectionCard: some View {
         VStack(spacing: 0) {
             HStack {
                 HStack(spacing: 12) {
                     Image(systemName: "info.circle.fill")
-                        .font(.system(size: 16))
+                        .font(.system(size: 15))
                         .foregroundColor(Color(hex: "#9CA3AF"))
-                        .frame(width: 24)
+                        .frame(width: 22)
                     
                     Text("Phiên Bản")
                         .font(.system(size: 14, weight: .medium))
@@ -398,21 +362,21 @@ struct AccountView: View {
                 Spacer()
                 
                 Text("Shimy v1.2.0 (Build 59)")
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: 13, weight: .medium, design: .monospaced))
                     .foregroundColor(Color(hex: "#6B7280"))
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 14)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
             
             Divider()
-                .padding(.leading, 52)
+                .padding(.leading, 48)
             
             HStack {
                 HStack(spacing: 12) {
                     Image(systemName: "checkmark.seal.fill")
-                        .font(.system(size: 16))
+                        .font(.system(size: 15))
                         .foregroundColor(Color(hex: "#10B981"))
-                        .frame(width: 24)
+                        .frame(width: 22)
                     
                     Text("Chương Trình Giáo Dục")
                         .font(.system(size: 14, weight: .medium))
@@ -422,41 +386,42 @@ struct AccountView: View {
                 Spacer()
                 
                 Text("GDPT Mới 2026")
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: 13, weight: .medium))
                     .foregroundColor(Color(hex: "#059669"))
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 14)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
         }
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
                 .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
         )
     }
     
-    // MARK: - 4. Nút Đăng Xuất
+    // MARK: - 4. Nút Đăng Xuất (Flat, calm, 1-layer surface)
     private var logoutButton: some View {
         Button(action: {
             withAnimation { appState.logout() }
         }) {
             HStack(spacing: 8) {
                 Image(systemName: "rectangle.portrait.and.arrow.right")
-                    .font(.system(size: 15, weight: .bold))
+                    .font(.system(size: 14, weight: .semibold))
                 Text("Đăng Xuất Tài Khoản")
-                    .font(.system(size: 14, weight: .bold))
+                    .font(.system(size: 14, weight: .semibold))
             }
             .foregroundColor(Color(hex: "#DC2626"))
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 14)
+            .padding(.vertical, 12)
             .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .overlay(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .stroke(Color(hex: "#FCA5A5").opacity(0.6), lineWidth: 1)
             )
         }
+        .buttonStyle(.plain)
     }
     
     // MARK: - Sheet Đổi Tên Học Sinh & Khối Lớp

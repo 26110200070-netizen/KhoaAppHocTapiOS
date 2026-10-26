@@ -110,141 +110,121 @@ struct ExamListView: View {
         }
     }
     
-    // MARK: - 1. Header Hero Section (Màu đỏ tươi bứt phá điểm cao, chuẩn phong cách)
+    // MARK: - 1. Header Hero Section (Quiet, typography-driven, no nested boxes)
     private var headerHeroSection: some View {
-        ZStack(alignment: .bottomTrailing) {
-            RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        colors: [Color(hex: "#DC2626"), Color(hex: "#B91C1C")],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-            
-            HStack(alignment: .center, spacing: 14) {
-                VStack(alignment: .leading, spacing: 6) {
-                    HStack(spacing: 6) {
-                        Text("LUYỆN ĐỀ CHUẨN BỘ GD&ĐT")
-                            .font(.system(size: 10, weight: .heavy))
-                            .foregroundColor(Color(hex: "#FEF08A"))
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 3)
-                            .background(Capsule().fill(Color.black.opacity(0.18)))
-                    }
-                    
-                    Text("Ôn Thi Bứt Phá Điểm Cao")
-                        .font(.system(size: 18, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                    
-                    Text("Ngân hàng đề thi phân loại theo Lớp, Môn và Học kì giúp bạn làm chủ bài kiểm tra")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(Color.white.opacity(0.85))
-                        .lineLimit(2)
-                }
-                .padding(18)
-                
-                Spacer()
-                
-                Image("ChibiExamBanner")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 80, height: 80)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                    .padding(.trailing, 16)
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Circle()
+                    .fill(Color(hex: "#DC2626"))
+                    .frame(width: 6, height: 6)
+                Text("LUYỆN ĐỀ CHUẨN BỘ GD&ĐT")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundColor(Color(hex: "#DC2626"))
+                    .tracking(0.6)
             }
+            
+            Text("Ôn Thi Bứt Phá Điểm Cao")
+                .font(.system(size: 22, weight: .bold, design: .rounded))
+                .foregroundColor(Color(hex: "#111827"))
+            
+            Text("Ngân hàng đề thi phân loại theo Lớp, Môn và Học kì bám sát ma trận trithucAI giúp bạn làm chủ bài kiểm tra.")
+                .font(.system(size: 13, weight: .regular))
+                .foregroundColor(Color(hex: "#6B7280"))
+                .fixedSize(horizontal: false, vertical: true)
         }
-        .frame(height: 125)
-        .shadow(color: Color(hex: "#DC2626").opacity(0.25), radius: 10, x: 0, y: 5)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 6)
     }
     
-    // MARK: - 2. Selection Bar: Lớp • Môn • Học kì (Flat, clean, NO nested frames)
+    // MARK: - 2. Selection Bar: Lớp • Môn • Học kì (Flat, single-layer, NO nested capsules)
     private var selectionBarSection: some View {
         VStack(alignment: .leading, spacing: 14) {
-            // A. Chọn Khối Lớp (Scrollable for Grades 6 to 12)
+            // A. Chọn Khối Lớp (Lớp 6 đến Lớp 12)
             VStack(alignment: .leading, spacing: 8) {
-                Text("1. Chọn Khối Lớp")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(Color(hex: "#374151"))
+                Text("KHỐI LỚP")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundColor(Color(hex: "#6B7280"))
+                    .tracking(0.5)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(gradeList, id: \.self) { grade in
                             let isSelected = (selectedGrade == grade)
                             Button(action: {
-                                withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
+                                withAnimation(.spring(response: 0.25, dampingFraction: 0.75)) {
                                     selectedGrade = grade
                                     activeExamGrade = grade
                                 }
                             }) {
-                                HStack(spacing: 4) {
-                                    Image(systemName: "graduationcap.fill")
-                                        .font(.system(size: 11))
-                                    Text("Lớp \(grade)")
-                                        .font(.system(size: 13, weight: isSelected ? .bold : .medium))
-                                }
-                                .padding(.horizontal, 14)
-                                .padding(.vertical, 8)
-                                .background(
-                                    Capsule()
-                                        .fill(isSelected ? Color(hex: "#0A3E39") : Color.white)
-                                )
-                                .foregroundColor(isSelected ? .white : Color(hex: "#4B5563"))
-                                .shadow(color: Color.black.opacity(isSelected ? 0.08 : 0.03), radius: 5, x: 0, y: 2)
+                                Text("Lớp \(grade)")
+                                    .font(.system(size: 13, weight: isSelected ? .bold : .medium))
+                                    .padding(.horizontal, 14)
+                                    .padding(.vertical, 7)
+                                    .background(isSelected ? Color(hex: "#111827") : Color.white)
+                                    .foregroundColor(isSelected ? .white : Color(hex: "#374151"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                            .stroke(Color(hex: isSelected ? "#111827" : "#E5E7EB"), lineWidth: 1)
+                                    )
                             }
+                            .buttonStyle(.plain)
                         }
                     }
-                    .padding(.vertical, 2)
                 }
             }
             
             // B. Chọn Môn Học
             VStack(alignment: .leading, spacing: 8) {
-                Text("2. Chọn Môn Học")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(Color(hex: "#374151"))
+                Text("MÔN HỌC")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundColor(Color(hex: "#6B7280"))
+                    .tracking(0.5)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(subjectList, id: \.name) { sub in
                             let isSelected = (selectedSubject == sub.name)
                             Button(action: {
-                                withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
+                                withAnimation(.spring(response: 0.25, dampingFraction: 0.75)) {
                                     selectedSubject = sub.name
                                 }
                             }) {
-                                HStack(spacing: 5) {
+                                HStack(spacing: 6) {
                                     Image(systemName: sub.icon)
                                         .font(.system(size: 12))
                                         .foregroundColor(isSelected ? .white : sub.color)
                                     Text(sub.name)
                                         .font(.system(size: 13, weight: isSelected ? .bold : .medium))
                                 }
-                                .padding(.horizontal, 14)
-                                .padding(.vertical, 8)
-                                .background(
-                                    Capsule()
-                                        .fill(isSelected ? sub.color : Color.white)
-                                )
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 7)
+                                .background(isSelected ? sub.color : Color.white)
                                 .foregroundColor(isSelected ? .white : Color(hex: "#374151"))
-                                .shadow(color: Color.black.opacity(isSelected ? 0.08 : 0.03), radius: 5, x: 0, y: 2)
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                        .stroke(Color(hex: isSelected ? "#00000000" : "#E5E7EB"), lineWidth: 1)
+                                )
                             }
+                            .buttonStyle(.plain)
                         }
                     }
-                    .padding(.vertical, 2)
                 }
             }
             
             // C. Chọn Học Kì
             VStack(alignment: .leading, spacing: 8) {
-                Text("3. Chọn Học Kì")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(Color(hex: "#374151"))
+                Text("HỌC KÌ")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundColor(Color(hex: "#6B7280"))
+                    .tracking(0.5)
                 
-                HStack(spacing: 10) {
+                HStack(spacing: 8) {
                     semesterButton(title: "Học Kì 1", semesterIndex: 1)
                     semesterButton(title: "Học Kì 2", semesterIndex: 2)
-                    semesterButton(title: "Cả Năm / Tổng Hợp", semesterIndex: 0)
+                    semesterButton(title: "Cả Năm", semesterIndex: 0)
+                    Spacer()
                 }
             }
         }
@@ -253,54 +233,57 @@ struct ExamListView: View {
     private func semesterButton(title: String, semesterIndex: Int) -> some View {
         let isSelected = (selectedSemester == semesterIndex)
         return Button(action: {
-            withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
+            withAnimation(.spring(response: 0.25, dampingFraction: 0.75)) {
                 selectedSemester = semesterIndex
                 activeExamSemester = semesterIndex == 0 ? 1 : semesterIndex
             }
         }) {
             Text(title)
-                .font(.system(size: 12, weight: isSelected ? .bold : .medium))
+                .font(.system(size: 13, weight: isSelected ? .bold : .medium))
                 .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(
-                    Capsule()
-                        .fill(isSelected ? Color(hex: "#059669") : Color.white)
+                .padding(.vertical, 7)
+                .background(isSelected ? Color(hex: "#059669") : Color.white)
+                .foregroundColor(isSelected ? .white : Color(hex: "#374151"))
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .stroke(Color(hex: isSelected ? "#059669" : "#E5E7EB"), lineWidth: 1)
                 )
-                .foregroundColor(isSelected ? .white : Color(hex: "#4B5563"))
-                .shadow(color: Color.black.opacity(isSelected ? 0.08 : 0.03), radius: 5, x: 0, y: 2)
         }
+        .buttonStyle(.plain)
     }
     
     // MARK: - 3. Exam Category Switcher (Giữa kỳ, Cuối kỳ, Ôn tập chương, Thi thử)
     private var examCategorySwitcher: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
+            HStack(spacing: 8) {
                 ForEach(0..<examCategories.count, id: \.self) { idx in
                     let cat = examCategories[idx]
                     let isSelected = (selectedExamCategory == idx)
                     Button(action: {
-                        withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
+                        withAnimation(.spring(response: 0.25, dampingFraction: 0.75)) {
                             selectedExamCategory = idx
                         }
                     }) {
                         HStack(spacing: 6) {
                             Image(systemName: cat.1)
-                                .font(.system(size: 13, weight: .bold))
+                                .font(.system(size: 12, weight: .semibold))
                             Text(cat.0)
-                                .font(.system(size: 13, weight: isSelected ? .bold : .semibold))
+                                .font(.system(size: 13, weight: isSelected ? .bold : .medium))
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 10)
-                        .background(
-                            Capsule()
-                                .fill(isSelected ? Color(hex: "#DC2626") : Color.white)
-                        )
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 8)
+                        .background(isSelected ? Color(hex: "#DC2626") : Color.white)
                         .foregroundColor(isSelected ? .white : Color(hex: "#4B5563"))
-                        .shadow(color: Color.black.opacity(isSelected ? 0.12 : 0.03), radius: 6, x: 0, y: 2)
+                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                .stroke(Color(hex: isSelected ? "#DC2626" : "#E5E7EB"), lineWidth: 1)
+                        )
                     }
+                    .buttonStyle(.plain)
                 }
             }
-            .padding(.vertical, 2)
         }
     }
     
@@ -308,18 +291,20 @@ struct ExamListView: View {
     private var examListSection: some View {
         let exams = generateCuratedExams()
         
-        return VStack(spacing: 14) {
+        return VStack(spacing: 12) {
             HStack {
-                Text("Danh Sách Đề Thi (\(exams.count) Đề)")
-                    .font(.system(size: 15, weight: .bold, design: .rounded))
-                    .foregroundColor(Color(hex: "#111827"))
+                Text("DANH SÁCH ĐỀ THI")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundColor(Color(hex: "#6B7280"))
+                    .tracking(0.5)
                 
                 Spacer()
                 
-                Text("\(selectedSubject) • Lớp \(selectedGrade)")
+                Text("\(exams.count) đề • \(selectedSubject) Lớp \(selectedGrade)")
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(Color(hex: "#059669"))
             }
+            .padding(.top, 4)
             
             ForEach(exams) { exam in
                 examCard(exam: exam)
@@ -327,124 +312,87 @@ struct ExamListView: View {
         }
     }
     
-    // MARK: - Single Exam Card (Flat, modern, single-layer, NO nested boxes)
+    // MARK: - Single Exam Card (Flat, single-layer, typography-driven, NO nested boxes)
     private func examCard(exam: CuratedExamItem) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            // Header Row: Title & Badges
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 6) {
-                        Text(exam.categoryBadge)
-                            .font(.system(size: 10, weight: .heavy))
-                            .foregroundColor(Color(hex: "#DC2626"))
-                            .padding(.horizontal, 7)
-                            .padding(.vertical, 2)
-                            .background(Capsule().fill(Color(hex: "#FEE2E2")))
-                        
-                        if exam.isHot {
-                            Text("HOT")
-                                .font(.system(size: 9, weight: .heavy))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Capsule().fill(Color(hex: "#EF4444")))
-                        }
+        HStack(spacing: 0) {
+            // Subtle left accent bar
+            Rectangle()
+                .fill(Color(hex: "#DC2626"))
+                .frame(width: 3.5)
+            
+            VStack(alignment: .leading, spacing: 10) {
+                // Typographic breadcrumb header: NO nested capsule pill
+                HStack(spacing: 6) {
+                    Text("\(exam.categoryBadge) • \(exam.durationMinutes) PHÚT • \(exam.questionCount) CÂU")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundColor(Color(hex: "#DC2626"))
+                        .tracking(0.5)
+                    
+                    if exam.isHot {
+                        Text("• HOT")
+                            .font(.system(size: 11, weight: .heavy))
+                            .foregroundColor(Color(hex: "#EF4444"))
                     }
                     
-                    Text(exam.title)
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                        .foregroundColor(Color(hex: "#111827"))
-                        .lineLimit(2)
+                    Spacer()
                 }
                 
-                Spacer()
-            }
-            
-            // Metadata: Thời gian • Số câu • Cấu trúc
-            HStack(spacing: 14) {
-                HStack(spacing: 5) {
-                    Image(systemName: "clock.fill")
-                        .foregroundColor(Color(hex: "#6B7280"))
-                        .font(.system(size: 11))
-                    Text("\(exam.durationMinutes) Phút")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(Color(hex: "#4B5563"))
-                }
+                // Title
+                Text(exam.title)
+                    .font(.system(size: 15, weight: .bold, design: .rounded))
+                    .foregroundColor(Color(hex: "#111827"))
+                    .fixedSize(horizontal: false, vertical: true)
                 
-                Text("•").foregroundColor(Color.gray.opacity(0.4))
+                // Description of topic coverage
+                Text(exam.description)
+                    .font(.system(size: 12.5))
+                    .foregroundColor(Color(hex: "#4B5563"))
+                    .lineLimit(2)
                 
-                HStack(spacing: 5) {
-                    Image(systemName: "doc.text.fill")
-                        .foregroundColor(Color(hex: "#6B7280"))
-                        .font(.system(size: 11))
-                    Text("\(exam.questionCount) Câu hỏi")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(Color(hex: "#4B5563"))
-                }
+                Divider()
                 
-                Text("•").foregroundColor(Color.gray.opacity(0.4))
-                
-                Text(exam.difficulty)
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(Color(hex: "#059669"))
-            }
-            
-            // Description of topic coverage
-            Text(exam.description)
-                .font(.system(size: 12))
-                .foregroundColor(AppTheme.textSecondary)
-                .lineLimit(2)
-            
-            Divider()
-            
-            // Action Row: Cấu trúc & Nút Làm Đề Ngay
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Ma trận đề chuẩn BGD")
-                        .font(.caption2)
-                        .foregroundColor(AppTheme.textMuted)
-                    Text("Trắc nghiệm + Đúng/Sai + Điền ngắn")
-                        .font(.system(size: 10, weight: .medium))
-                        .foregroundColor(Color(hex: "#6B7280"))
-                }
-                
-                Spacer()
-                
-                Button(action: {
-                    activeExamTopic = exam.topicQuery
-                    activeExamSubject = selectedSubject
-                    activeExamGrade = selectedGrade
-                    activeExamSemester = selectedSemester == 0 ? 1 : selectedSemester
-                    showingExamPractice = true
-                }) {
+                // Bottom row: Difficulty info & Action button
+                HStack(alignment: .center) {
                     HStack(spacing: 5) {
-                        Image(systemName: "play.fill")
-                            .font(.system(size: 11, weight: .bold))
-                        Text("LÀM ĐỀ NGAY")
-                            .font(.system(size: 12, weight: .heavy, design: .rounded))
+                        Circle()
+                            .fill(Color(hex: "#059669"))
+                            .frame(width: 6, height: 6)
+                        Text(exam.difficulty)
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(Color(hex: "#374151"))
                     }
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 18)
-                    .padding(.vertical, 9)
-                    .background(
-                        Capsule()
-                            .fill(
-                                LinearGradient(
-                                    colors: [Color(hex: "#DC2626"), Color(hex: "#B91C1C")],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                    )
-                    .shadow(color: Color(hex: "#DC2626").opacity(0.3), radius: 6, x: 0, y: 3)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        activeExamTopic = exam.topicQuery
+                        activeExamSubject = selectedSubject
+                        activeExamGrade = selectedGrade
+                        activeExamSemester = selectedSemester == 0 ? 1 : selectedSemester
+                        showingExamPractice = true
+                    }) {
+                        HStack(spacing: 5) {
+                            Text("Bắt đầu làm")
+                                .font(.system(size: 12.5, weight: .bold))
+                            Image(systemName: "arrow.right")
+                                .font(.system(size: 11, weight: .bold))
+                        }
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 8)
+                        .background(Color(hex: "#DC2626"))
+                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    }
+                    .buttonStyle(.plain)
                 }
             }
+            .padding(14)
         }
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 3)
+        .background(Color.white)
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
         )
     }
     

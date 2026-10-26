@@ -283,15 +283,15 @@ struct KnowledgeMindmapView: View {
                                 .font(.system(size: 12, weight: isSelected ? .bold : .medium))
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
-                                .background(
-                                    Capsule()
-                                        .fill(isSelected ? Color(hex: "#111827") : Color.white)
-                                )
+                                .background(isSelected ? Color(hex: "#111827") : Color.white)
                                 .foregroundColor(isSelected ? .white : Color(hex: "#4B5563"))
+                                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                                 .overlay(
-                                    Capsule().stroke(Color(hex: isSelected ? "#111827" : "#E5E7EB"), lineWidth: 1)
+                                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                        .stroke(Color(hex: isSelected ? "#111827" : "#E5E7EB"), lineWidth: 1)
                                 )
                         }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal, 16)
@@ -307,7 +307,7 @@ struct KnowledgeMindmapView: View {
             }
             .padding(.horizontal, 16)
             
-            // Row B: Subject Scroll
+            // Row C: Subject Scroll
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 6) {
                     ForEach(subjects, id: \.self) { sub in
@@ -320,17 +320,17 @@ struct KnowledgeMindmapView: View {
                         }) {
                             Text(sub)
                                 .font(.system(size: 12, weight: isSelected ? .bold : .medium))
-                                .padding(.horizontal, 13)
+                                .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
-                                .background(
-                                    Capsule()
-                                        .fill(isSelected ? Color(hex: "#059669") : Color.white)
-                                )
+                                .background(isSelected ? Color(hex: "#059669") : Color.white)
                                 .foregroundColor(isSelected ? .white : Color(hex: "#374151"))
+                                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                                 .overlay(
-                                    Capsule().stroke(Color(hex: isSelected ? "#059669" : "#E5E7EB"), lineWidth: 1)
+                                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                        .stroke(Color(hex: isSelected ? "#059669" : "#E5E7EB"), lineWidth: 1)
                                 )
                         }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal, 16)
@@ -354,15 +354,15 @@ struct KnowledgeMindmapView: View {
                 .font(.system(size: 11, weight: isSelected ? .bold : .medium))
                 .padding(.horizontal, 10)
                 .padding(.vertical, 6)
-                .background(
-                    Capsule()
-                        .fill(isSelected ? Color(hex: "#0284C7") : Color.white)
-                )
+                .background(isSelected ? Color(hex: "#0284C7") : Color.white)
                 .foregroundColor(isSelected ? .white : Color(hex: "#4B5563"))
+                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                 .overlay(
-                    Capsule().stroke(Color(hex: isSelected ? "#0284C7" : "#E5E7EB"), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        .stroke(Color(hex: isSelected ? "#0284C7" : "#E5E7EB"), lineWidth: 1)
                 )
         }
+        .buttonStyle(.plain)
     }
     
     // MARK: - 3. Mode Switcher (Sơ đồ tròn • Biểu đồ cột • Cây chi tiết)
@@ -906,16 +906,14 @@ struct KnowledgeMindmapView: View {
     }
     
     private func importanceMiniTag(importance: NodeImportance) -> some View {
-        HStack(spacing: 3) {
-            Image(systemName: importance.icon)
-                .font(.system(size: 7, weight: .bold))
+        HStack(spacing: 4) {
+            Circle()
+                .fill(Color(hex: importance.colorHex))
+                .frame(width: 5, height: 5)
             Text(importance.rawValue)
-                .font(.system(size: 8.5, weight: .heavy))
+                .font(.system(size: 9.5, weight: .bold))
+                .foregroundColor(Color(hex: importance.colorHex))
         }
-        .foregroundColor(Color(hex: importance.colorHex))
-        .padding(.horizontal, 5)
-        .padding(.vertical, 2)
-        .background(Capsule().fill(Color(hex: importance.colorHex).opacity(0.12)))
     }
     
     // MARK: - Node Detail Sheet

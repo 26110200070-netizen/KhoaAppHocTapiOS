@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Màn hình Lịch Sử Học Tập: Tab riêng biệt quản lý tất cả các bài lý thuyết đã mở học và ôn tập
+/// Màn hình Lịch Sử Học Tập: Thiết kế tối giản, kỹ thuật cao, không khung lồng chữ
 struct StudyHistoryView: View {
     @ObservedObject private var historyStore = StudyHistoryStore.shared
     @State private var selectedTopic: TheoryTopicItem? = nil
@@ -21,7 +21,6 @@ struct StudyHistoryView: View {
                 .zIndex(2)
             } else {
                 VStack(spacing: 0) {
-                    // Top Navigation Bar
                     topNavBar
                     
                     if historyStore.historyList.isEmpty {
@@ -48,54 +47,48 @@ struct StudyHistoryView: View {
         }
     }
     
-    // MARK: - Top Navigation Bar
+    // MARK: - Top Navigation Bar (Flat, clean, quiet)
     private var topNavBar: some View {
         VStack(spacing: 0) {
             HStack(alignment: .center) {
                 if let onClose = onClose {
-                    Button(action: {
-                        onClose()
-                    }) {
+                    Button(action: { onClose() }) {
                         HStack(spacing: 4) {
                             Image(systemName: "chevron.left")
-                                .font(.system(size: 16, weight: .bold))
+                                .font(.system(size: 15, weight: .bold))
                             Text("Trang Chủ")
-                                .font(.system(size: 15, weight: .semibold))
+                                .font(.system(size: 14, weight: .semibold))
                         }
                         .foregroundColor(AppTheme.primaryDark)
                     }
                     .padding(.trailing, 8)
                 }
                 
-                VStack(alignment: .leading, spacing: 3) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text("Lịch Sử Học Tập")
-                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                        .font(.system(size: 20, weight: .bold, design: .rounded))
                         .foregroundColor(Color(hex: "#111827"))
                     
-                    Text("\(historyStore.historyList.count) bài học lý thuyết đã lưu")
-                        .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(AppTheme.textSecondary)
+                    Text("\(historyStore.historyList.count) bài học lý thuyết đã mở")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(Color(hex: "#6B7280"))
                 }
                 
                 Spacer()
                 
                 if !historyStore.historyList.isEmpty {
-                    Button(action: {
-                        showingClearAlert = true
-                    }) {
-                        HStack(spacing: 5) {
-                            Image(systemName: "trash")
-                                .font(.system(size: 14))
-                            Text("Xóa hết")
-                                .font(.system(size: 14, weight: .medium))
-                        }
-                        .foregroundColor(Color(hex: "#EF4444"))
+                    Button(action: { showingClearAlert = true }) {
+                        Text("Xóa hết")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(Color(hex: "#EF4444"))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 5)
                     }
                 }
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 14)
-            .padding(.bottom, 14)
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+            .padding(.bottom, 12)
             .background(Color.white)
             
             Divider()
@@ -104,56 +97,49 @@ struct StudyHistoryView: View {
     
     // MARK: - Empty State View
     private var emptyStateView: some View {
-        VStack(spacing: 18) {
+        VStack(spacing: 16) {
             Spacer()
             
-            ZStack {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [Color(hex: "#E0F2FE"), Color(hex: "#BAE6FD")],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 90, height: 90)
+            Circle()
+                .fill(Color(hex: "#F3F4F6"))
+                .frame(width: 72, height: 72)
+                .overlay(
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.system(size: 32, weight: .semibold))
+                        .foregroundColor(Color(hex: "#6B7280"))
+                )
+            
+            VStack(spacing: 6) {
+                Text("Chưa có lịch sử học tập")
+                    .font(.system(size: 17, weight: .bold, design: .rounded))
+                    .foregroundColor(Color(hex: "#111827"))
                 
-                Image(systemName: "clock.arrow.circlepath")
-                    .font(.system(size: 42, weight: .bold))
-                    .foregroundColor(Color(hex: "#0284C7"))
+                Text("Các bài học lý thuyết bạn đã mở sẽ tự động lưu trữ tại đây để ôn tập nhanh chóng bất kỳ lúc nào.")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundColor(Color(hex: "#6B7280"))
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(4)
+                    .padding(.horizontal, 36)
             }
-            
-            Text("Chưa có lịch sử học tập")
-                .font(.system(size: 19, weight: .bold, design: .rounded))
-                .foregroundColor(Color(hex: "#111827"))
-            
-            Text("Khi bạn mở bài học lý thuyết chuẩn SGK, hệ thống sẽ tự động ghi nhớ tại đây để bạn có thể xem lại và ôn tập bất cứ lúc nào.")
-                .font(.system(size: 14))
-                .foregroundColor(AppTheme.textSecondary)
-                .multilineTextAlignment(.center)
-                .lineSpacing(4)
-                .padding(.horizontal, 40)
             
             Spacer()
             Spacer()
         }
     }
     
-    // MARK: - History Content List
+    // MARK: - Grouped History Content List (Single-surface grouped card, no nested box)
     private var historyContentList: some View {
         ScrollView(showsIndicators: false) {
-            LazyVStack(spacing: 16) {
+            LazyVStack(spacing: 18) {
                 ForEach(historyStore.groupedSections, id: \.sectionTitle) { group in
-                    VStack(alignment: .leading, spacing: 8) {
-                        // Section Header: -- HÔM NAY --, -- HÔM QUA --
-                        Text("-- \(group.sectionTitle.uppercased()) --")
-                            .font(.system(size: 12, weight: .bold, design: .rounded))
-                            .foregroundColor(AppTheme.textSecondary)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.top, 6)
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(group.sectionTitle.uppercased())
+                            .font(.system(size: 11, weight: .bold, design: .rounded))
+                            .foregroundColor(Color(hex: "#6B7280"))
+                            .padding(.leading, 8)
                         
-                        VStack(spacing: 8) {
-                            ForEach(group.items) { item in
+                        VStack(spacing: 0) {
+                            ForEach(Array(group.items.enumerated()), id: \.element.id) { index, item in
                                 SwipeableHistoryRow(
                                     item: item,
                                     onSelect: {
@@ -167,20 +153,31 @@ struct StudyHistoryView: View {
                                         }
                                     }
                                 )
+                                
+                                if index < group.items.count - 1 {
+                                    Divider()
+                                        .padding(.leading, 20)
+                                }
                             }
                         }
+                        .background(Color.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+                        )
                     }
                 }
                 
-                Spacer().frame(height: 140)
+                Spacer().frame(height: 120)
             }
             .padding(.horizontal, 16)
-            .padding(.top, 12)
+            .padding(.top, 14)
         }
     }
 }
 
-// MARK: - Swipeable History Row (Vuốt Trái Để Xóa Chuẩn iOS)
+// MARK: - Clean Single-Layer Row
 struct SwipeableHistoryRow: View {
     let item: StudyHistoryItem
     let onSelect: () -> Void
@@ -189,11 +186,10 @@ struct SwipeableHistoryRow: View {
     @State private var offset: CGFloat = 0
     @State private var isSwiped: Bool = false
     
-    private let buttonWidth: CGFloat = 72
+    private let buttonWidth: CGFloat = 68
     
     var body: some View {
         ZStack(alignment: .trailing) {
-            // Nút Xóa đỏ nằm phía dưới bên phải
             HStack {
                 Spacer()
                 Button(action: {
@@ -202,8 +198,8 @@ struct SwipeableHistoryRow: View {
                     }
                 }) {
                     VStack(spacing: 4) {
-                        Image(systemName: "trash.fill")
-                            .font(.system(size: 16, weight: .bold))
+                        Image(systemName: "trash")
+                            .font(.system(size: 15, weight: .bold))
                         Text("Xóa")
                             .font(.system(size: 11, weight: .semibold))
                     }
@@ -211,11 +207,9 @@ struct SwipeableHistoryRow: View {
                     .frame(width: buttonWidth)
                     .frame(maxHeight: .infinity)
                     .background(Color(hex: "#EF4444"))
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 }
             }
             
-            // Thẻ nội dung chính
             Button(action: {
                 if isSwiped {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
@@ -227,40 +221,33 @@ struct SwipeableHistoryRow: View {
                 }
             }) {
                 HStack(spacing: 12) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color(hex: "#ECFDF5"))
-                            .frame(width: 38, height: 38)
-                        Image(systemName: "book.closed.fill")
-                            .font(.system(size: 16))
-                            .foregroundColor(AppTheme.primaryMint)
-                    }
+                    // Vertical subject accent strip
+                    RoundedRectangle(cornerRadius: 2, style: .continuous)
+                        .fill(subjectColor(for: item.topicItem.subject))
+                        .frame(width: 3.5, height: 42)
                     
                     VStack(alignment: .leading, spacing: 4) {
+                        // Clean metadata typography breadcrumb
+                        Text("\(item.topicItem.subject.uppercased()) • LỚP \(item.topicItem.grade) • HỌC KỲ \(item.topicItem.semester)")
+                            .font(.system(size: 10, weight: .bold, design: .monospaced))
+                            .foregroundColor(subjectColor(for: item.topicItem.subject))
+                        
                         Text(item.topicItem.title)
                             .font(.system(size: 15, weight: .bold, design: .rounded))
                             .foregroundColor(Color(hex: "#111827"))
                             .lineLimit(2)
                             .multilineTextAlignment(.leading)
-                        
-                        Text("Lớp \(item.topicItem.grade) - Học Kì \(item.topicItem.semester) - Môn: \(item.topicItem.subject)")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(AppTheme.textSecondary)
                     }
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(Color.gray.opacity(0.4))
+                        .foregroundColor(Color(hex: "#9CA3AF"))
                 }
                 .padding(.horizontal, 14)
-                .padding(.vertical, 12)
-                .background(
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .fill(Color.white)
-                        .shadow(color: Color.black.opacity(0.03), radius: 4, x: 0, y: 1)
-                )
+                .padding(.vertical, 14)
+                .background(Color.white)
             }
             .buttonStyle(.plain)
             .offset(x: offset)
@@ -268,17 +255,14 @@ struct SwipeableHistoryRow: View {
                 DragGesture(minimumDistance: 15)
                     .onChanged { value in
                         if value.translation.width < 0 {
-                            // Vuốt sang trái
-                            let drag = value.translation.width + (isSwiped ? -buttonWidth : 0)
-                            offset = max(-buttonWidth - 15, drag)
+                            offset = max(-buttonWidth - 10, value.translation.width + (isSwiped ? -buttonWidth : 0))
                         } else if isSwiped && value.translation.width > 0 {
-                            // Kéo ngược lại về phải
                             offset = min(0, -buttonWidth + value.translation.width)
                         }
                     }
                     .onEnded { value in
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
-                            if value.translation.width < -30 {
+                            if value.translation.width < -25 {
                                 offset = -buttonWidth
                                 isSwiped = true
                             } else {
@@ -288,6 +272,19 @@ struct SwipeableHistoryRow: View {
                         }
                     }
             )
+        }
+        .clipped()
+    }
+    
+    private func subjectColor(for subject: String) -> Color {
+        switch subject.lowercased() {
+        case "toán": return Color(hex: "#059669")
+        case "vật lí", "vật lý": return Color(hex: "#7C3AED")
+        case "hóa học": return Color(hex: "#EA580C")
+        case "sinh học": return Color(hex: "#10B981")
+        case "lịch sử": return Color(hex: "#DC2626")
+        case "địa lí", "địa lý": return Color(hex: "#0D9488")
+        default: return Color(hex: "#2563EB")
         }
     }
 }

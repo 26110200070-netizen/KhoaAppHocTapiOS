@@ -40,58 +40,94 @@ struct LoginView: View {
                 VStack(spacing: 20) {
                     Spacer(minLength: 20)
                     
-                    // App Logo & Header
+                    // App Logo & Header (Crisp, engineering-grade)
                     VStack(spacing: 8) {
                         ZStack {
                             Circle()
-                                .fill(LinearGradient(colors: [AppTheme.primaryMint, AppTheme.primaryDark], startPoint: .topLeading, endPoint: .bottomTrailing))
-                                .frame(width: 76, height: 76)
-                                .shadow(color: AppTheme.primaryMint.opacity(0.35), radius: 12, x: 0, y: 6)
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color(hex: "#059669"), Color(hex: "#047857")],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 58, height: 58)
                             
                             Image(systemName: "sparkles")
-                                .font(.system(size: 34))
+                                .font(.system(size: 26))
                                 .foregroundColor(.white)
                         }
                         
                         Text("Shimy")
-                            .font(.system(size: 30, weight: .bold, design: .rounded))
-                            .foregroundColor(AppTheme.primaryDark)
+                            .font(.system(size: 26, weight: .bold, design: .rounded))
+                            .foregroundColor(Color(hex: "#111827"))
                         
                         Text("Gia sư AI học tập thông minh & Luyện thi K-12")
-                            .font(.subheadline)
-                            .foregroundColor(AppTheme.textSecondary)
+                            .font(.system(size: 13))
+                            .foregroundColor(Color(hex: "#6B7280"))
                     }
+                    .padding(.top, 6)
                     
-                    // Main Modern Login Card (Phẳng, gọn gàng, KHÔNG khung lồng khung)
+                    // Main Modern Login Surface (Single-layer, 1px border, NO nested boxes)
                     VStack(alignment: .leading, spacing: 16) {
-                        // 1. Tên Học Sinh (BẮT BUỘC)
+                        // Section Header
+                        HStack(spacing: 6) {
+                            Circle()
+                                .fill(Color(hex: "#059669"))
+                                .frame(width: 6, height: 6)
+                            Text("ĐĂNG NHẬP HỆ THỐNG")
+                                .font(.system(size: 11, weight: .bold))
+                                .foregroundColor(Color(hex: "#059669"))
+                                .tracking(0.6)
+                        }
+                        
+                        // 1. Tên Học Sinh
                         VStack(alignment: .leading, spacing: 6) {
-                            HStack(spacing: 4) {
-                                Image(systemName: "person.fill")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(AppTheme.primaryMint)
-                                Text("Tên Học Sinh (Bắt buộc)")
-                                    .font(.system(size: 13, weight: .bold))
-                                    .foregroundColor(Color(hex: "#1F2937"))
-                            }
+                            Text("Tên Học Sinh")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundColor(Color(hex: "#111827"))
                             
                             TextField("Nhập họ và tên của bạn...", text: $studentNameInput)
                                 .font(.system(size: 14))
-                                .padding(.horizontal, 14)
-                                .padding(.vertical, 12)
-                                .background(Color(hex: "#F9FAFB"))
-                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 10)
+                                .background(Color.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                        .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+                                )
                         }
                         
-                        // 2. AI Provider Selection Tabs
+                        // 2. Chọn Nhà Cung Cấp AI (Segmented Flat Switcher)
                         VStack(alignment: .leading, spacing: 6) {
-                            Text("DỊCH VỤ AI:")
-                                .font(.system(size: 11, weight: .bold))
-                                .foregroundColor(AppTheme.textSecondary)
+                            HStack {
+                                Text("Dịch Vụ AI")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(Color(hex: "#111827"))
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    safariTargetUrl = (selectedProvider == .groq) ?
+                                        URL(string: "https://console.groq.com/keys")! :
+                                        URL(string: "https://aistudio.google.com/app/apikey")!
+                                    showingSafari = true
+                                }) {
+                                    HStack(spacing: 3) {
+                                        Text("Lấy API key")
+                                        Image(systemName: "arrow.up.right")
+                                            .font(.system(size: 9, weight: .bold))
+                                    }
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .foregroundColor(Color(hex: "#059669"))
+                                }
+                                .buttonStyle(.plain)
+                            }
                             
                             HStack(spacing: 8) {
                                 Button(action: {
-                                    withAnimation(.spring(response: 0.3)) {
+                                    withAnimation(.spring(response: 0.25, dampingFraction: 0.75)) {
                                         selectedProvider = .groq
                                         connectionMessage = ""
                                         isConnectionSuccess = nil
@@ -99,23 +135,24 @@ struct LoginView: View {
                                 }) {
                                     HStack(spacing: 6) {
                                         Image(systemName: "bolt.fill")
-                                            .font(.system(size: 12))
-                                        Text("Groq Cloud")
-                                            .font(.system(size: 13, weight: .bold))
+                                            .font(.system(size: 11))
+                                        Text("Groq Cloud (Siêu Tốc)")
+                                            .font(.system(size: 12.5, weight: selectedProvider == .groq ? .bold : .medium))
                                     }
                                     .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 10)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                            .fill(selectedProvider == .groq ?
-                                                  LinearGradient(colors: [Color(hex: "#F97316"), Color(hex: "#EA580C")], startPoint: .leading, endPoint: .trailing) :
-                                                  LinearGradient(colors: [Color(hex: "#F3F4F6"), Color(hex: "#F3F4F6")], startPoint: .leading, endPoint: .trailing))
-                                    )
+                                    .padding(.vertical, 8)
+                                    .background(selectedProvider == .groq ? Color(hex: "#111827") : Color.white)
                                     .foregroundColor(selectedProvider == .groq ? .white : Color(hex: "#4B5563"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                            .stroke(Color(hex: selectedProvider == .groq ? "#111827" : "#E5E7EB"), lineWidth: 1)
+                                    )
                                 }
+                                .buttonStyle(.plain)
                                 
                                 Button(action: {
-                                    withAnimation(.spring(response: 0.3)) {
+                                    withAnimation(.spring(response: 0.25, dampingFraction: 0.75)) {
                                         selectedProvider = .gemini
                                         connectionMessage = ""
                                         isConnectionSuccess = nil
@@ -123,54 +160,30 @@ struct LoginView: View {
                                 }) {
                                     HStack(spacing: 6) {
                                         Image(systemName: "sparkles")
-                                            .font(.system(size: 12))
+                                            .font(.system(size: 11))
                                         Text("Google Gemini")
-                                            .font(.system(size: 13, weight: .bold))
+                                            .font(.system(size: 12.5, weight: selectedProvider == .gemini ? .bold : .medium))
                                     }
                                     .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 10)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                            .fill(selectedProvider == .gemini ?
-                                                  LinearGradient(colors: [Color(hex: "#2563EB"), Color(hex: "#1D4ED8")], startPoint: .leading, endPoint: .trailing) :
-                                                  LinearGradient(colors: [Color(hex: "#F3F4F6"), Color(hex: "#F3F4F6")], startPoint: .leading, endPoint: .trailing))
-                                    )
+                                    .padding(.vertical, 8)
+                                    .background(selectedProvider == .gemini ? Color(hex: "#111827") : Color.white)
                                     .foregroundColor(selectedProvider == .gemini ? .white : Color(hex: "#4B5563"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                            .stroke(Color(hex: selectedProvider == .gemini ? "#111827" : "#E5E7EB"), lineWidth: 1)
+                                    )
                                 }
+                                .buttonStyle(.plain)
                             }
                         }
                         
-                        // 3. Nút Lấy Key Miễn Phí (Đơn giản, đúng yêu cầu)
-                        Button(action: {
-                            safariTargetUrl = (selectedProvider == .groq) ?
-                                URL(string: "https://console.groq.com/keys")! :
-                                URL(string: "https://aistudio.google.com/app/apikey")!
-                            showingSafari = true
-                        }) {
-                            HStack(spacing: 8) {
-                                Image(systemName: "key.fill")
-                                    .font(.system(size: 12))
-                                Text("Lấy key miễn phí Groq / Gemini")
-                                    .font(.system(size: 13, weight: .bold))
-                                Image(systemName: "arrow.up.right")
-                                    .font(.system(size: 10, weight: .bold))
-                            }
-                            .foregroundColor(selectedProvider == .groq ? Color(hex: "#EA580C") : Color(hex: "#2563EB"))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 11)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                    .fill(selectedProvider == .groq ? Color(hex: "#FFF7ED") : Color(hex: "#EFF6FF"))
-                            )
-                        }
-                        
-                        // 4. Model selection (cho Groq)
+                        // 3. Model selection (cho Groq)
                         if selectedProvider == .groq {
                             VStack(alignment: .leading, spacing: 6) {
-                                Text("Model Groq:")
-                                    .font(.caption)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(AppTheme.textSecondary)
+                                Text("Model AI")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(Color(hex: "#111827"))
                                 
                                 Menu {
                                     ForEach(GroqModel.allCases) { model in
@@ -188,29 +201,33 @@ struct LoginView: View {
                                 } label: {
                                     HStack {
                                         Image(systemName: "cpu")
-                                            .foregroundColor(Color(hex: "#EA580C"))
+                                            .font(.system(size: 12))
+                                            .foregroundColor(Color(hex: "#059669"))
                                         Text(GroqModel(rawValue: selectedGroqModel)?.displayName ?? selectedGroqModel)
-                                            .font(.system(size: 13, weight: .semibold))
+                                            .font(.system(size: 13, weight: .medium))
                                             .foregroundColor(Color(hex: "#111827"))
                                         Spacer()
                                         Image(systemName: "chevron.up.chevron.down")
-                                            .font(.caption)
-                                            .foregroundColor(AppTheme.textSecondary)
+                                            .font(.system(size: 10))
+                                            .foregroundColor(Color(hex: "#9CA3AF"))
                                     }
-                                    .padding(.horizontal, 14)
-                                    .padding(.vertical, 11)
-                                    .background(Color(hex: "#F9FAFB"))
-                                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 10)
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                            .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+                                    )
                                 }
                             }
                         }
                         
-                        // 5. Input API Key
+                        // 4. Input API Key (Clean single border, no inner capsule)
                         VStack(alignment: .leading, spacing: 6) {
-                            Text("Dán API Key:")
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundColor(AppTheme.textSecondary)
+                            Text("API Key")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundColor(Color(hex: "#111827"))
                             
                             HStack(spacing: 8) {
                                 Image(systemName: "lock.fill")
@@ -218,12 +235,12 @@ struct LoginView: View {
                                     .font(.system(size: 12))
                                 
                                 if selectedProvider == .groq {
-                                    TextField("Dán Key bắt đầu bằng gsk_...", text: $groqApiKeyInput)
+                                    TextField("gsk_...", text: $groqApiKeyInput)
                                         .font(.system(size: 13, design: .monospaced))
                                         .textInputAutocapitalization(.never)
                                         .autocorrectionDisabled(true)
                                 } else {
-                                    TextField("Dán Key bắt đầu bằng AIzaSy...", text: $geminiApiKeyInput)
+                                    TextField("AIzaSy...", text: $geminiApiKeyInput)
                                         .font(.system(size: 13, design: .monospaced))
                                         .textInputAutocapitalization(.never)
                                         .autocorrectionDisabled(true)
@@ -240,34 +257,40 @@ struct LoginView: View {
                                     }
                                 }) {
                                     Text("Dán")
-                                        .font(.caption2)
-                                        .fontWeight(.bold)
-                                        .padding(.horizontal, 10)
-                                        .padding(.vertical, 6)
-                                        .background(Capsule().fill(Color(hex: "#E5E7EB")))
-                                        .foregroundColor(Color(hex: "#1F2937"))
+                                        .font(.system(size: 12, weight: .bold))
+                                        .foregroundColor(Color(hex: "#059669"))
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 4)
                                 }
+                                .buttonStyle(.plain)
                             }
-                            .padding(.horizontal, 14)
-                            .padding(.vertical, 11)
-                            .background(Color(hex: "#F9FAFB"))
-                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 10)
+                            .background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                    .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
+                            )
                         }
                         
                         // Status Message
                         if !connectionMessage.isEmpty {
                             HStack(spacing: 8) {
                                 Image(systemName: (isConnectionSuccess == true) ? "checkmark.circle.fill" : "exclamationmark.circle.fill")
-                                    .foregroundColor((isConnectionSuccess == true) ? .green : .orange)
+                                    .foregroundColor((isConnectionSuccess == true) ? Color(hex: "#059669") : Color(hex: "#D97706"))
+                                    .font(.system(size: 13))
                                 Text(connectionMessage)
-                                    .font(.caption)
-                                    .foregroundColor(AppTheme.textPrimary)
+                                    .font(.system(size: 12))
+                                    .foregroundColor(Color(hex: "#111827"))
                             }
                             .padding(10)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                    .fill((isConnectionSuccess == true) ? Color.green.opacity(0.1) : Color.orange.opacity(0.1))
+                            .background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                    .stroke((isConnectionSuccess == true) ? Color(hex: "#10B981").opacity(0.4) : Color(hex: "#F59E0B").opacity(0.4), lineWidth: 1)
                             )
                         }
                         
@@ -275,84 +298,85 @@ struct LoginView: View {
                         Button(action: {
                             performLogin()
                         }) {
-                            HStack {
+                            HStack(spacing: 6) {
                                 Spacer()
                                 if isConnecting {
                                     ProgressView().tint(.white)
                                 } else {
-                                    Image(systemName: "arrow.right.circle.fill")
                                     Text(selectedProvider == .groq ? "Đăng Nhập Với Groq" : "Đăng Nhập Với Gemini")
-                                        .font(.system(size: 15, weight: .bold, design: .rounded))
+                                        .font(.system(size: 14, weight: .bold))
+                                    Image(systemName: "arrow.right")
+                                        .font(.system(size: 12, weight: .bold))
                                 }
                                 Spacer()
                             }
                             .foregroundColor(.white)
-                            .padding(.vertical, 14)
-                            .background(
-                                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                    .fill(selectedProvider == .groq ?
-                                          LinearGradient(colors: [Color(hex: "#F97316"), Color(hex: "#EA580C")], startPoint: .leading, endPoint: .trailing) :
-                                          LinearGradient(colors: [AppTheme.primaryMint, AppTheme.primary], startPoint: .leading, endPoint: .trailing))
-                            )
-                            .shadow(color: (selectedProvider == .groq ? Color(hex: "#F97316") : AppTheme.primaryMint).opacity(0.3), radius: 6, x: 0, y: 3)
+                            .frame(height: 44)
+                            .background(Color(hex: "#059669"))
+                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                         }
                         .disabled(isLoginDisabled || isConnecting)
-                        .opacity(isLoginDisabled ? 0.6 : 1.0)
+                        .opacity(isLoginDisabled ? 0.5 : 1.0)
+                        .buttonStyle(.plain)
                         
                         // Secondary Guest Button: Dùng thử ngay với API mặc định Groq tích hợp sẵn
                         Button(action: {
                             enterGuestMode()
                         }) {
                             HStack(spacing: 6) {
+                                Spacer()
                                 Image(systemName: "bolt.badge.clock.fill")
-                                    .foregroundColor(Color(hex: "#EA580C"))
-                                    .font(.system(size: 13))
-                                Text("Dùng thử ngay (API Groq tích hợp sẵn)")
+                                    .font(.system(size: 12))
+                                Text("Dùng thử nhanh không cần API key")
                                     .font(.system(size: 13, weight: .semibold))
-                                    .foregroundColor(Color(hex: "#EA580C"))
+                                Spacer()
                             }
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                    .fill(Color(hex: "#FFF7ED"))
-                            )
+                            .foregroundColor(Color(hex: "#4B5563"))
+                            .frame(height: 38)
+                            .background(Color(hex: "#F3F4F6"))
+                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                         }
+                        .buttonStyle(.plain)
                     }
-                    .padding(20)
-                    .background(
-                        RoundedRectangle(cornerRadius: 24, style: .continuous)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 3)
+                    .padding(18)
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .stroke(Color(hex: "#E5E7EB"), lineWidth: 1)
                     )
                     
-                    // Language Switcher Pills
+                    // Language Switcher (Flat segmented tabs)
                     HStack(spacing: 8) {
                         ForEach(AppLanguage.allCases, id: \.self) { lang in
+                            let isSelected = (appState.currentLanguage == lang)
                             Button(action: {
                                 withAnimation { appState.currentLanguage = lang }
                             }) {
-                                HStack(spacing: 6) {
+                                HStack(spacing: 4) {
                                     Text(lang.flag)
+                                        .font(.system(size: 11, weight: .bold, design: .monospaced))
                                     Text(lang.rawValue)
-                                        .font(.caption)
-                                        .fontWeight(appState.currentLanguage == lang ? .bold : .regular)
+                                        .font(.system(size: 12, weight: isSelected ? .bold : .medium))
                                 }
-                                .padding(.horizontal, 14)
-                                .padding(.vertical, 8)
-                                .background(
-                                    Capsule()
-                                        .fill(appState.currentLanguage == lang ? AppTheme.primaryDark : Color.white)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(isSelected ? Color(hex: "#111827") : Color.white)
+                                .foregroundColor(isSelected ? .white : Color(hex: "#4B5563"))
+                                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                        .stroke(Color(hex: isSelected ? "#111827" : "#E5E7EB"), lineWidth: 1)
                                 )
-                                .foregroundColor(appState.currentLanguage == lang ? .white : AppTheme.textPrimary)
-                                .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
                             }
+                            .buttonStyle(.plain)
                         }
                     }
+                    .padding(.top, 4)
                     
                     Spacer()
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 16)
             }
         }
         .sheet(isPresented: $showingSafari) {
