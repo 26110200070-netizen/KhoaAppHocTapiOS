@@ -215,7 +215,7 @@ struct FreeDictionaryView: View {
     }
     
     // MARK: - 4. Error State View
-    private var errorStateView(message: String) -> some View {
+    private func errorStateView(message: String) -> some View {
         VStack(spacing: 12) {
             Image(systemName: "questionmark.circle.fill")
                 .font(.system(size: 44))
