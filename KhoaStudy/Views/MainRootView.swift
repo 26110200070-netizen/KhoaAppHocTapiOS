@@ -119,9 +119,16 @@ struct MainRootView: View {
                     }
                     
                     // Floating Curved Bottom Bar (Trang Chủ • Shimy • Tài Khoản)
-                    customCurvedTabBar
+                    if !appState.isTabBarHidden {
+                        customCurvedTabBar
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .bottom).combined(with: .opacity),
+                                removal: .move(edge: .bottom).combined(with: .opacity)
+                            ))
+                    }
                 }
                 .ignoresSafeArea(edges: .bottom)
+                .animation(.easeInOut(duration: 0.25), value: appState.isTabBarHidden)
                 .fullScreenCover(isPresented: $showingAIChatFullScreen) {
                     AIChatView()
                 }

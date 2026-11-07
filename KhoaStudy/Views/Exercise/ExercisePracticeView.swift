@@ -105,6 +105,7 @@ struct ExercisePracticeView: View {
             }
         }
         .onAppear {
+            appState.isTabBarHidden = true
             if let g = initialGrade {
                 selectedGrade = g
             } else {
@@ -142,6 +143,9 @@ struct ExercisePracticeView: View {
             }
         } message: {
             Text("Nếu thoát ngay bây giờ, tiến trình làm bài của bạn sẽ không được lưu.")
+        }
+        .onDisappear {
+            appState.isTabBarHidden = false
         }
     }
     
@@ -679,9 +683,10 @@ struct ExercisePracticeView: View {
                     }
                 }
                 .padding(.horizontal, 16)
+                .padding(.top, 4)
                 .padding(.bottom, 14)
             }
-            .background(Color.white)
+            .background(Color.white.shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: -2))
         }
     }
     

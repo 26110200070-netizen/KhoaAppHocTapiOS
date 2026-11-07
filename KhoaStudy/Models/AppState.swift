@@ -44,6 +44,7 @@ class AppState: ObservableObject {
     @Published var totalStudyMinutes: Int = 135
     @Published var focusSessionCount: Int = 4
     @Published var isFocusLockActive: Bool = false
+    @Published var isTabBarHidden: Bool = false
     
     // AI Provider Configuration (Groq Cloud & Google Gemini)
     @Published var selectedProvider: AIProvider = .groq

@@ -34,13 +34,7 @@ struct HomeView: View {
                     }
                 })
                 .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing)))
-            } else if showingExercise {
-                ExercisePracticeView(onBackToHome: {
-                    withAnimation(.easeInOut(duration: 0.25)) {
-                        showingExercise = false
-                    }
-                })
-                .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing)))
+
             } else {
                 homeDashboardView
                     .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
@@ -62,6 +56,22 @@ struct HomeView: View {
         }
         .fullScreenCover(isPresented: $showingDictionarySheet) {
             FreeDictionaryView()
+        }
+        .fullScreenCover(isPresented: $showingExercise) {
+            ExercisePracticeView(onBackToHome: {
+                showingExercise = false
+            })
+            .environmentObject(appState)
+        }
+        .onChange(of: showingTheory) { isShowing in
+            withAnimation(.easeInOut(duration: 0.2)) {
+                appState.isTabBarHidden = isShowing || (selectedHistoryTopic != nil)
+            }
+        }
+        .onChange(of: selectedHistoryTopic) { topic in
+            withAnimation(.easeInOut(duration: 0.2)) {
+                appState.isTabBarHidden = (topic != nil) || showingTheory
+            }
         }
     }
     

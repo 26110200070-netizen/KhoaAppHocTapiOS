@@ -1,7 +1,7 @@
 # NHẬT KÝ QUY TRÌNH PHÁT TRIỂN & TÀI LIỆU KỸ THUẬT DỰ ÁN SHIMY iOS
 > **Dự án:** Ứng dụng hỗ trợ tự học toàn diện cho học sinh THCS & THPT (Lớp 6 - 12)  
 > **Nền tảng:** iOS 16.0+ (SwiftUI, WebKit, AVFoundation)  
-> **Tác giả:** Anh Khoa Dev  
+> **Tác giả:** Duy Nguyễn  
 > **Thời gian thực hiện:** Tháng 09/2026 – Tháng 10/2026  
 
 ---
